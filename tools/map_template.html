@@ -1,0 +1,16 @@
+<!doctype html><meta charset="utf-8">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>html,body,#map{height:100%;margin:0;background:#0b0e1d}</style>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(async ()=>{
+  const r = await fetch("../assets/maps/pins.json"); const pins = await r.json();
+  const map = L.map("map",{zoomControl:false, dragging:false}).setView([25.7398,-80.2974], 15);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(map);
+  const icon = e=>L.divIcon({className:"", html:`<div style="font-size:22px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.6))">${e}</div>`});
+  const latlngs=[];
+  for(const p of pins){ latlngs.push([p.lat,p.lon]); L.marker([p.lat,p.lon],{icon:icon(p.icon)}).addTo(map); }
+  if(latlngs.length){ map.fitBounds(L.latLngBounds(latlngs),{padding:[40,40]}); }
+})();
+</script>

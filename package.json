@@ -1,5 +1,25 @@
 {
   "dependencies": {
     "puppeteer": "^24.23.0"
-  }
+  },
+  "name": "redbird-parallax-site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pdarleyjr/redbird-parallax-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/pdarleyjr/redbird-parallax-site/issues"
+  },
+  "homepage": "https://github.com/pdarleyjr/redbird-parallax-site#readme"
 }
