@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Red Bird Trick-or-Treat Trail</title>
 <link rel="icon" href="assets/img/favicon.png">
-<link rel="preload" as="image" href="assets/video/hero_poster.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/hero-2025.png" fetchpriority="high">
 <link rel="stylesheet" href="css/styles.css" />
 <script defer src="vendor/gsap.min.js"></script>
 <script defer src="vendor/ScrollTrigger.min.js"></script>
@@ -19,25 +19,36 @@
   <a href="#" class="brand">Red Bird Trail</a>
   <nav>
     <a href="#about">Event</a>
-    <a href="#signup">How to sign up</a>
-    <a href="#map">Trail Map</a>
+    <a href="#how">How to sign up</a>
+    <a href="#trail-map">Trail Map</a>
     <a href="#faq">FAQ</a>
   </nav>
 </header>
 
-<!-- SECTION 1 — HERO (IMAGE BG) -->
-<section class="panel hero" id="top">
-  <div class="hero-bg" role="img" aria-label="Red Bird Trick-or-Treat Trail night scene"></div>
+<!-- HERO PANEL -->
+<section class="panel hero" id="home" aria-label="Red Bird Trick-or-Treat Trail">
+  <div class="media contain">
+    <img
+      src="assets/img/hero-2025.png"
+      alt="Welcome to Red Bird Trick-or-Treat Trail"
+      decoding="async"
+      fetchpriority="high"
+      loading="eager" />
+  </div>
+
   <div class="hero-content">
     <h1>Red Bird Trick-or-Treat Trail</h1>
-    <a class="cta ghost" href="#map">View the Trail Map</a>
+    <a class="cta" href="#trail-map">View the Trail Map</a>
   </div>
 </section>
 
-<!-- SECTION 2 — FLYER (IMAGE BG) -->
-<section id="about" class="panel flyer" data-pin>
-  <div class="image-bg" role="img" aria-label="Red Bird event flyer"></div>
-  <div class="content about-grid" data-parallax>
+<!-- SECTION 2 — About the Night -->
+<section class="panel night" id="about">
+  <div class="media contain">
+    <img src="assets/img/flyer.png" alt="Red Bird event flyer" loading="lazy" decoding="async" />
+  </div>
+
+  <div class="content">
     <div class="card media">
       <video class="inline-vid" autoplay muted loop playsinline
              poster="assets/video/section3_poster.jpg">
@@ -51,40 +62,51 @@
   </div>
 </section>
 
-<!-- SECTION 3 — HOW TO SIGN UP YOUR HOUSE -->
-<section id="signup" class="section content-wrap">
-  <h2><a href="https://www.jotform.com/252478605926063" target="_blank" rel="noopener">How to sign up your house</a></h2>
-
+<!-- SECTION 3 — How to sign up your house -->
+<section class="panel steps" id="how">
+  <h2>How to sign up your house</h2>
   <div class="steps-grid">
-    <a class="step" href="https://www.jotform.com/252478605926063" target="_blank" rel="noopener" aria-label="Sign up your house">
+    <a class="step card" href="https://www.jotform.com/252478605926063" target="_blank" rel="noopener">
       <div class="icon">📱</div>
       <h3>Scan to Sign up</h3>
     </a>
 
-    <div class="step"><div class="icon">🏠</div><h3>Add your address &amp; fun house name</h3></div>
-    <div class="step"><div class="icon">🗺️</div><h3>Get the final Red Bird Trail Map &amp; Share!</h3></div>
-  </div>
+    <div class="step card">
+      <div class="icon">🏠</div>
+      <h3>Add your address &amp; fun house name</h3>
+    </div>
 
+    <div class="step card">
+      <div class="icon">🗺️</div>
+      <h3>Get the final Red Bird Trail Map &amp; Share!</h3>
+    </div>
+  </div>
   <p class="deadline">Sign up by <strong>October 15, 2025</strong></p>
 </section>
 
-<!-- SECTION 4 — GOOGLE MY MAP EMBED -->
-<section class="panel map" id="map">
+<!-- SECTION 4 — Map card with Google My Map embed -->
+<section class="panel map" id="trail-map" aria-label="Red Bird Trail Map">
   <h2>Red Bird Trail Map</h2>
 
   <div class="card map-card">
-    <div class="embed">
+    <div class="embed-wrap">
       <iframe
+        class="my-map"
         src="https://www.google.com/maps/d/u/0/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1"
-        loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
-        title="Red Bird Trail — Google My Map"></iframe>
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+        aria-label="Interactive map of Red Bird Trick-or-Treat Trail">
+      </iframe>
     </div>
   </div>
 
-  <div class="btn-row">
-    <a class="cta" href="https://www.google.com/maps/d/u/0/edit?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&usp=sharing"
-       target="_blank" rel="noopener">Open in Google My Maps</a>
-  </div>
+  <p class="map-note">
+    Pins use theme icons from each house's name. For a bigger view, open the map:
+  </p>
+  <p>
+    <a class="cta alt" href="https://www.google.com/maps/d/u/0/view?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s" target="_blank" rel="noopener">Open in Google My Maps</a>
+  </p>
 </section>
 
 <!-- SECTION 5 — FAQ -->

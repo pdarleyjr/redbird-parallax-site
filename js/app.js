@@ -1,64 +1,148 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Smooth scrolling
-  if (window.Lenis) {
-    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
-    requestAnimationFrame(function raf(t){ lenis.raf(t); requestAnimationFrame(raf); });
+  // Conditional Rellax initialization
+  // Skip on small screens or if user prefers reduced motion
+  const shouldUseParallax = () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isSmallScreen = window.innerWidth <= 768;
+    return !prefersReducedMotion && !isSmallScreen;
+  };
+
+  if (shouldUseParallax() && typeof Rellax !== 'undefined') {
+    try {
+      const rellax = new Rellax('.rellax', {
+        speed: -2,
+        center: true,
+        wrapper: null,
+        round: true,
+        vertical: true,
+        horizontal: false
+      });
+      
+      // Update on resize
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          if (!shouldUseParallax()) {
+            rellax.destroy();
+          }
+        }, 250);
+      });
+    } catch (e) {
+      console.log('Rellax initialization skipped:', e);
+    }
   }
 
-  // Parallax with Rellax
-  try { 
-    new Rellax('.rellax'); 
-  } catch(e) {}
-
-  // GSAP animations
-  if (window.gsap && window.ScrollTrigger) {
+  // GSAP ScrollTrigger animations
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
     
-    // Hero content animation
-    gsap.from('.hero .hero-content', {
-      y: 40, opacity: 0, duration: 1,
-      scrollTrigger: { trigger: '.hero', start: 'top 70%' }
+    // Hero content fade in
+    gsap.from('.hero-content', {
+      y: 40,
+      opacity: 0,
+      duration: 1.2,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.hero',
+        start: 'top 80%',
+        once: true
+      }
     });
-
-    // Pin panels that have data-pin attribute
-    document.querySelectorAll('.panel[data-pin]').forEach(sec => {
-      const inner = sec.querySelector('.content');
-      if (!inner) return;
-      gsap.to(inner, {
-        yPercent: -12, ease:'none',
-        scrollTrigger: { trigger: sec, start:'top top', end:'bottom top', scrub:0.3, pin:true }
-      });
-    });
-  }
-
-  // Pause off-screen videos (battery/data saver) - Enhanced
-  const vids = Array.from(document.querySelectorAll('video'));
-  if ('IntersectionObserver' in window && vids.length > 0) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { 
-          e.target.play().catch(() => {}); 
-        } else { 
-          e.target.pause(); 
-        }
-      });
-    }, { threshold: 0.25 });
     
-    vids.forEach(v => io.observe(v));
+    // Steps animation
+    gsap.from('.steps-grid .card', {
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.steps-grid',
+        start: 'top 80%',
+        once: true
+      }
+    });
+    
+    // Night section animation
+    gsap.from('.night .content > *', {
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.night',
+        start: 'top 70%',
+        once: true
+      }
+    });
+    
+    // Map card animation
+    gsap.from('.map-card', {
+      scale: 0.95,
+      opacity: 0,
+      duration: 1,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.map-card',
+        start: 'top 80%',
+        once: true
+      }
+    });
   }
 
-  // Specifically handle inline video
-  const inlineVid = document.querySelector('.inline-vid');
-  if ('IntersectionObserver' in window && inlineVid) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { 
-          inlineVid.play().catch(() => {}); 
-        } else { 
-          inlineVid.pause(); 
+  // IntersectionObserver for video pause/play (battery efficient)
+  const videos = document.querySelectorAll('video.inline-vid');
+  
+  if ('IntersectionObserver' in window && videos.length > 0) {
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const video = entry.target;
+        if (entry.isIntersecting) {
+          // Play when visible
+          video.play().catch(err => {
+            console.log('Video autoplay prevented:', err);
+          });
+        } else {
+          // Pause when not visible
+          video.pause();
         }
       });
-    }, { threshold: 0.25 });
-    io.observe(inlineVid);
+    }, {
+      threshold: 0.25,
+      rootMargin: '0px'
+    });
+    
+    videos.forEach(video => {
+      videoObserver.observe(video);
+      
+      // Ensure video has required attributes for mobile
+      video.setAttribute('muted', '');
+      video.setAttribute('playsinline', '');
+      video.muted = true;
+    });
   }
+  
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href === '#') return;
+      
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+  
+  // Add loading state management
+  window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+  });
 });
