@@ -1,0 +1,12 @@
+The filename, directory name, or volume label syntax is incorrect.
+Error occurred while processing: https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js.
+A subdirectory or file Invoke-WebRequest already exists.
+Error occurred while processing: Invoke-WebRequest.
+A subdirectory or file -Uri already exists.
+Error occurred while processing: -Uri.
+The filename, directory name, or volume label syntax is incorrect.
+Error occurred while processing: https://unpkg.com/rellax@1.12.1/rellax.min.js.
+A subdirectory or file -OutFile already exists.
+Error occurred while processing: -OutFile.
+A subdirectory or file vendor/ already exists.
+Error occurred while processing: vendor/.
