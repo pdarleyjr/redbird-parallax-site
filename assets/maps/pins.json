@@ -1,0 +1,56 @@
+[
+  {
+    "address": "3624 SW 58th Ave, Miami, FL 33155",
+    "label": "🎃 Carter-Goldberg Family",
+    "lat": 25.7369711,
+    "lon": -80.2893689
+  },
+  {
+    "address": "3831 SW 60th Ave, Miami, FL 33155",
+    "label": "🎃 Grape Family",
+    "lat": 25.7354624,
+    "lon": -80.2912491
+  },
+  {
+    "address": "3703 SW 58th Ave, Miami, FL 33155",
+    "label": "🎃 The Mena Family",
+    "lat": 25.7369315,
+    "lon": -80.2888794
+  },
+  {
+    "address": "5825 SW 35th Street, Miami, FL 33155",
+    "label": "🎃 Fisher Family",
+    "lat": 25.7381836,
+    "lon": -80.289618
+  },
+  {
+    "address": "3710 SW 59th Ave, Miami, FL 33155",
+    "label": "🎃 Cachonegrete",
+    "lat": 25.7365999,
+    "lon": -80.2909654
+  },
+  {
+    "address": "3930 SW 60th Avenue, Miami, FL 33155",
+    "label": "🎃 Caamano-Gonzalez",
+    "lat": 25.7348209,
+    "lon": -80.2916934
+  },
+  {
+    "address": "3611 sw 60th ct., Miami, Fl",
+    "label": "🎃 Permuy Family",
+    "lat": 25.737076,
+    "lon": -80.2921462
+  },
+  {
+    "address": "3610 SW 60th Ave, Miami, FL 33155",
+    "label": "🎃 The Alexander’s",
+    "lat": 25.7370729,
+    "lon": -80.2918159
+  },
+  {
+    "address": "3801 SW 60th Ave, Miami FL 33155",
+    "label": "🎃 The Wood family",
+    "lat": 25.7358983,
+    "lon": -80.291269
+  }
+]
