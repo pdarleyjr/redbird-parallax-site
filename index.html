@@ -31,37 +31,40 @@
     <!-- pick source in JS based on viewport; default to 1080 -->
     <source src="assets/video/hero_1080.mp4" type="video/mp4">
   </video>
-  <div class="content" data-parallax>
-    <h1>Welcome to Red Bird Trick-or-Treat Trail</h1>
-    <p>Kid-friendly neighborhood trick-or-treating in Red Bird — candy, cute scares, and music!</p>
-    <a class="cta" href="#map">View the Trail Map</a>
+  <div class="content hero-ui" data-parallax>
+    <!-- Keep for SEO/AT only -->
+    <div class="visually-hidden">
+      <h1>Welcome to Red Bird Trick-or-Treat Trail</h1>
+      <p>Kid-friendly neighborhood trick-or-treating in Red Bird — candy, cute scares, and music!</p>
+    </div>
+    <a class="cta hero-cta" href="#map">View the Trail Map</a>
   </div>
 </section>
 
 <!-- SECTION 2 — FLYER (IMAGE BG) -->
 <section id="about" class="panel flyer" data-pin>
   <div class="image-bg" role="img" aria-label="Red Bird event flyer"></div>
-  <div class="content" data-parallax>
-    <h2>About the Night</h2>
-    <p>Stroll the Red Bird neighborhood and visit participating homes on the Trail. Perfect for families.</p>
+  <div class="content about-grid" data-parallax>
+    <article class="card media xl">
+      <video autoplay muted playsinline loop preload="metadata" poster="assets/video/section3_poster.jpg">
+        <source src="assets/video/section3_720.mp4" type="video/mp4">
+      </video>
+      <div class="caption">Night vibes from past years</div>
+    </article>
+    <div class="about-copy">
+      <h2>About the Night</h2>
+      <p>Stroll the Red Bird neighborhood and visit participating homes on the Trail. Perfect for families.</p>
+    </div>
   </div>
 </section>
 
-<!-- SECTION 3 — HOW IT WORKS (cards + inline looping video card) -->
+<!-- SECTION 3 — HOW IT WORKS (cards only, no video) -->
 <section id="how" class="section content-wrap">
   <h2>How it works</h2>
   <div class="cards">
     <article class="card"><div class="icon">📱</div><h3>Scan to Sign up</h3></article>
     <article class="card"><div class="icon">🏠</div><h3>Add your address & fun house name</h3></article>
     <article class="card"><div class="icon">🗺️</div><h3>Get the final Red Bird Trail Map & Share!</h3></article>
-
-    <!-- Medium video card, looped with no controls -->
-    <article class="card media">
-      <video autoplay muted playsinline loop preload="metadata" poster="assets/video/section3_poster.jpg">
-        <source src="assets/video/section3_720.mp4" type="video/mp4">
-      </video>
-      <div class="caption">Night vibes from past years</div>
-    </article>
   </div>
   <p class="cta-row"><a class="cta alt" href="#map">See the Map</a> <span class="deadline">Sign up by October 15, 2025</span></p>
 </section>
