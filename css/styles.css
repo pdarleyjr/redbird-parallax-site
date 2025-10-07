@@ -9,11 +9,39 @@ img{max-width:100%;height:auto;display:block}
 .topnav a{color:#fff;text-decoration:none;font-weight:700}
 .topnav nav a{opacity:.85;margin-left:16px}
 
-.panel{position:relative;min-height:clamp(70svh,90svh,900px);display:grid;place-items:center;overflow:hidden}
+/* Reduce scroll marathon feel */
+.panel{position:relative;min-height:clamp(68svh,90svh,820px);display:grid;place-items:center;overflow:hidden}
 .panel .content{position:relative;z-index:2;text-align:center;padding:var(--pad);max-width:var(--max)}
 .panel .bg,.panel .image-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
 .panel .image-bg{background:url("../assets/img/flyer.png") center/cover no-repeat}
-.hero h1{font-size:clamp(2rem,6vw,4rem);margin:0 0 .5rem}
+
+/* Visually hidden for SEO/accessibility */
+.visually-hidden{
+  position:absolute!important; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+
+/* Hero CTA placement */
+.hero .hero-ui{position:relative; width:100%; height:100%}
+.hero .hero-cta{
+  position:absolute; right:clamp(16px,3vw,36px); bottom:clamp(16px,3vw,36px);
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+@media (max-width:720px){
+  .hero .hero-cta{left:50%; right:auto; transform:translateX(-50%)}
+}
+
+/* About grid layout */
+.about-grid{
+  display:grid; gap:clamp(14px,2.2vw,22px);
+  grid-template-columns: minmax(0,1.2fr) minmax(0,1fr);
+  align-items:center;
+}
+.card.media.xl video{aspect-ratio:16/9; width:100%; height:auto; display:block}
+.about-copy h2{margin-top:0}
+@media (max-width:900px){ .about-grid{grid-template-columns:1fr} }
+
+h1{font-size:clamp(2rem,6vw,4rem);margin:0 0 .5rem}
 h2{font-size:clamp(1.5rem,4vw,2.4rem);margin:.2rem 0 1rem}
 .cta{display:inline-block;background:var(--accent);color:#111;padding:.8rem 1.2rem;border-radius:999px;font-weight:800;text-decoration:none}
 .cta.alt{background:var(--accent2)}
@@ -25,6 +53,7 @@ h2{font-size:clamp(1.5rem,4vw,2.4rem);margin:.2rem 0 1rem}
 .card .icon{font-size:30px;margin-bottom:6px}
 .card.media{padding:0;overflow:hidden}
 .card.media video{display:block;width:100%;height:auto;aspect-ratio:16/9}
+.card.media .caption{padding:12px 16px;font-size:14px;color:var(--muted)}
 
 .trailmap{display:block;border-radius:14px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.25);margin:10px 0 18px}
 
