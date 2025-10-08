@@ -1,106 +1,106 @@
 [
   {
-    "address": "3624 SW 58th Ave, Miami, FL 33155",
+    "address": "3624 SW 58th Ave",
+    "label": "Carter-Goldberg Family",
     "lat": 25.7369711,
     "lon": -80.2893689,
-    "household": "Carter-Goldberg Family",
-    "houseName": "Carter-Goldberg Family",
-    "themeIcon": "🎃"
+    "notes": "We will have a teal pumpkin option. \n\nThank you for organizing",
+    "reverse": "3624 Southwest 58th Avenue, Miami"
   },
   {
-    "address": "3831 SW 60th Ave, Miami, FL 33155",
+    "address": "3831 SW 60th Ave",
+    "label": "Grape Family",
     "lat": 25.7354624,
     "lon": -80.2912491,
-    "household": "Grape Family",
-    "houseName": "Grape Family",
-    "themeIcon": "🎃"
+    "notes": "",
+    "reverse": "3831 Southwest 60th Avenue, Miami"
   },
   {
-    "address": "3703 SW 58th Ave, Miami, FL 33155",
+    "address": "3703 SW 58th Ave",
+    "label": "The Mena Family",
     "lat": 25.7369315,
     "lon": -80.2888794,
-    "household": "The Mena Family",
-    "houseName": "The haunted White House",
-    "themeIcon": "👻"
+    "notes": "We will have candy + baby/toddler friendly treats, iced soda, juice and more!",
+    "reverse": "3703 Southwest 58th Avenue, Miami"
   },
   {
-    "address": "5825 SW 35th Street, Miami, FL 33155",
-    "lat": 25.7381836,
-    "lon": -80.289618,
-    "household": "Fisher Family",
-    "houseName": "Haunted House",
-    "themeIcon": "👻"
-  },
-  {
-    "address": "3710 SW 59th Ave, Miami, FL 33155",
-    "lat": 25.7365999,
-    "lon": -80.2909654,
-    "household": "Cachonegrete",
-    "houseName": "Sweet & Spooky Stop",
-    "themeIcon": "🍬"
-  },
-  {
-    "address": "3930 SW 60th Avenue, Miami, FL 33155",
-    "lat": 25.7348209,
-    "lon": -80.2916934,
-    "household": "Caamano-Gonzalez",
-    "houseName": "Casa Sandsnake",
-    "themeIcon": "🐍"
-  },
-  {
-    "address": "3611 sw 60th ct., Miami, Fl",
-    "lat": 25.737076,
-    "lon": -80.2921462,
-    "household": "Permuy Family",
-    "houseName": "Blues Boooooo House",
-    "themeIcon": "💙"
-  },
-  {
-    "address": "3610 SW 60th Ave, Miami, FL 33155",
-    "lat": 25.7370729,
-    "lon": -80.2918159,
-    "household": "The Alexander’s",
-    "houseName": "The Alexander’s",
-    "themeIcon": "🎃"
-  },
-  {
-    "address": "3801 SW 60th Ave, Miami FL 33155",
-    "lat": 25.7358983,
-    "lon": -80.291269,
-    "household": "The Wood family",
-    "houseName": "Cabin in the Woods",
-    "themeIcon": "🏚️"
-  },
-  {
-    "address": "5935 SW 35 St, Miami, FL 33155",
-    "lat": 25.7376,
-    "lon": -80.2924,
-    "household": "The Rojo Villamañan Family",
-    "houseName": "The monster house",
-    "themeIcon": "👹"
+    "address": "5935 SW 35 St",
+    "label": "The Rojo Villamañan Family",
+    "lat": 29.1543745,
+    "lon": -82.3989742,
+    "notes": "Happy Halloween!!!",
+    "reverse": "16750 Southwest 35 Street, "
   },
   {
     "address": "3715 sw 58 ct Miami Fl 33155",
-    "lat": 25.7366,
-    "lon": -80.2895,
-    "household": "Campoamor Family",
-    "houseName": "The Spooky-Rizzlers",
-    "themeIcon": "💀"
+    "label": "Campoamor Family",
+    "lat": null,
+    "lon": null,
+    "notes": "",
+    "reverse": ""
   },
   {
-    "address": "3601 SW 58 Ave, Miami, FL 33155",
-    "lat": 25.7371,
-    "lon": -80.289,
-    "household": "Illueca",
-    "houseName": "Spiderweb Cottage",
-    "themeIcon": "🕷️"
+    "address": "3601 SW 58 Ave",
+    "label": "Illueca",
+    "lat": 53.2839319,
+    "lon": -110.0289227,
+    "notes": "Awesome idea!",
+    "reverse": "5004 58 Avenue, City of Lloydminster"
   },
   {
-    "address": "3715 SW 59 Ave, Miami, FL 33155",
-    "lat": 25.7365,
-    "lon": -80.2902,
-    "household": "Carballosa Family",
-    "houseName": "Carballosa Candy Critters",
-    "themeIcon": "🍬"
+    "address": "5825 SW 35th Street",
+    "label": "Fisher Family",
+    "lat": 25.7381836,
+    "lon": -80.289618,
+    "notes": "",
+    "reverse": "5825 Southwest 35th Street, Miami"
+  },
+  {
+    "address": "3710 SW 59th Ave",
+    "label": "Cachonegrete",
+    "lat": 25.7365999,
+    "lon": -80.2909654,
+    "notes": "",
+    "reverse": "3710 Southwest 59th Avenue, Miami"
+  },
+  {
+    "address": "3930 SW 60th Avenue, Miami, FL 33155",
+    "label": "Caamano-Gonzalez",
+    "lat": 25.7348209,
+    "lon": -80.2916934,
+    "notes": "We love Halloween so please come by that evening. We’ll have candy available even if we’re out trick or treating.",
+    "reverse": "3930 Southwest 60th Avenue, Miami"
+  },
+  {
+    "address": "3611 sw 60th ct., Miami, Fl",
+    "label": "Permuy Family",
+    "lat": 25.737076,
+    "lon": -80.2921462,
+    "notes": "House will be open for trick or treaters til 10pm sharp .",
+    "reverse": "3611 Southwest 60th Court, Miami"
+  },
+  {
+    "address": "3715 SW 59 Ave",
+    "label": "Carballosa Family",
+    "lat": 29.599382,
+    "lon": -82.5156244,
+    "notes": "",
+    "reverse": "16202 Southwest 59 Avenue, "
+  },
+  {
+    "address": "3610 SW 60th Ave",
+    "label": "The Alexander’s",
+    "lat": 25.7370729,
+    "lon": -80.2918159,
+    "notes": "",
+    "reverse": "3610 Southwest 60th Avenue, Miami"
+  },
+  {
+    "address": "3801 SW 60th Ave, Miami FL 33155",
+    "label": "The Wood family",
+    "lat": 25.7358983,
+    "lon": -80.291269,
+    "notes": "",
+    "reverse": "3801 Southwest 60th Avenue, Miami"
   }
 ]

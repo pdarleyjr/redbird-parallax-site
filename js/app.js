@@ -1,3 +1,41 @@
+﻿document.addEventListener('DOMContentLoaded', () => {
+  // Guard Rellax initialization
+  const parallaxEls = document.querySelectorAll('.rellax');
+  let rellax;
+  if (parallaxEls.length) {
+    rellax = new Rellax('.rellax', { speed: -2, center: true });
+  }
+
+  // Guard GSAP animations
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Only animate if elements exist
+    if (document.querySelector('.about .about-copy')) {
+      gsap.to('.about .about-copy', {
+        y: -10,
+        opacity: 1,
+        scrollTrigger: { 
+          trigger: '.about', 
+          start: 'top 80%' 
+        }
+      });
+    }
+    
+    if (document.querySelector('.steps-grid')) {
+      gsap.from('.steps-grid .card', {
+        y: 30,
+        opacity: 0,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: '.steps-grid',
+          start: 'top 75%'
+        }
+      });
+    }
+  }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   // Conditional Rellax initialization
   // Skip on small screens or if user prefers reduced motion
@@ -93,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // IntersectionObserver for video pause/play (battery efficient)
-  const videos = document.querySelectorAll('video.inline-vid');
+  const videos = document.querySelectorAll('video.media');
   
   if ('IntersectionObserver' in window && videos.length > 0) {
     const videoObserver = new IntersectionObserver((entries) => {
