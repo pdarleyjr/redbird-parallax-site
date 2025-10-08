@@ -154,7 +154,7 @@ section #text {
 }
 
 /* Glass effect */
-.glass {
+.large-video-card { width: 100%; max-width: 800px; margin: 2em auto; border-radius: 15px; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); } .large-video-card video { width: 100%; height: auto; display: block; } .glass {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
     border-top: 1px solid rgba(255, 255, 255, 0.5);
     border-left: 1px solid rgba(255, 255, 255, 0.5);
@@ -166,10 +166,10 @@ section #text {
 }
 
 /* Content section */
-.sec {
+.sec { background-image: url('images/about-redbird-center.png'); background-size: contain; background-position: center; background-repeat: no-repeat;
     position: relative;
     padding: 10%;
-    background: #0b0e1d;
+    background: #0b0e1d; background-image: url('images/about-redbird-center.png'); background-size: contain; background-position: center; background-repeat: no-repeat;
     padding-bottom: 15%;
     z-index: 50;
     overflow: hidden;
@@ -367,7 +367,7 @@ details div {
         max-width: 300px;
     }
 
-    .glass {
+    .large-video-card { width: 100%; max-width: 800px; margin: 2em auto; border-radius: 15px; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); } .large-video-card video { width: 100%; height: auto; display: block; } .glass {
         backdrop-filter: blur(1px);
     }
 
