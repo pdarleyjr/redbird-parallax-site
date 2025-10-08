@@ -1,61 +1,43 @@
-// Initialize Rellax parallax
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Rellax for parallax elements
-    if (typeof Rellax !== 'undefined') {
-        const rellax = new Rellax('.rellax', {
-            speed: -2,
-            center: false,
-            wrapper: null,
-            round: true,
-            vertical: true,
-            horizontal: false
-        });
+// Select elements for parallax
+let text = document.getElementById('text');
+let explore = document.getElementById('explore');
+
+// Parallax scroll handler
+window.addEventListener('scroll', function() {
+    let value = window.scrollY;
+
+    // Move text slightly
+    if (text) {
+        text.style.marginTop = value * 0.5 + 'px';
     }
 
-    // IntersectionObserver for reveal animations
-    const revealElements = document.querySelectorAll('.reveal');
-    if (revealElements.length > 0 && 'IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-in');
-                }
+    // Move explore button
+    if (explore) {
+        explore.style.marginTop = value * 1.5 + 'px';
+    }
+});
+
+// Smooth scroll for navigation
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth'
             });
-        }, { threshold: 0.1 });
-        
-        revealElements.forEach(el => observer.observe(el));
-    }
-
-    // Smooth scroll for navigation
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
+        }
     });
 });
 
-// Handle mobile parallax disable
-function checkScreenSize() {
-    if (window.innerWidth <= 768) {
-        document.querySelectorAll('.rellax').forEach(el => {
-            el.style.transform = 'none';
-        });
-    }
+// Handle mobile adjustments
+if (screen.width < 400) {
+    // Mobile adjustments if needed
+    console.log('Mobile view detected');
 }
-
-window.addEventListener('resize', checkScreenSize);
-checkScreenSize();
 
 // Respect reduced motion
 if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('.rellax').forEach(el => {
-        el.style.transform = 'none';
-    });
+    // Disable parallax animations
+    window.removeEventListener('scroll', window);
 }
