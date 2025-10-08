@@ -5,12 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Red Bird Trick-or-Treat Trail</title>
 <link rel="icon" href="assets/img/favicon.png">
-<link rel="preload" as="image" href="assets/img/hero-2025.png" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/hero_kids_map.jpg" fetchpriority="high">
 <link rel="stylesheet" href="css/styles.css" />
 <script defer src="vendor/gsap.min.js"></script>
 <script defer src="vendor/ScrollTrigger.min.js"></script>
 <script defer src="vendor/rellax.min.js"></script>
-<script defer src="vendor/lenis.min.js"></script>
 <script defer src="js/app.js"></script>
 </head>
 <body>
@@ -26,36 +25,25 @@
 </header>
 
 <!-- HERO PANEL -->
-<section class="panel hero" id="home" aria-label="Red Bird Trick-or-Treat Trail">
-  <div class="media contain">
-    <img
-      src="assets/img/hero-2025.png"
-      alt="Welcome to Red Bird Trick-or-Treat Trail"
-      decoding="async"
-      fetchpriority="high"
-      loading="eager" />
-  </div>
-
+<section class="panel hero" aria-label="Red Bird Trick-or-Treat Trail opening scene">
   <div class="hero-content">
-    <h1>Red Bird Trick-or-Treat Trail</h1>
-    <a class="cta" href="#trail-map">View the Trail Map</a>
+    <!-- REMOVED the big H1 overlay here -->
+    <!-- Keep CTA only -->
+    <a class="cta cta--trail" href="#trail-map">View the Trail Map</a>
   </div>
 </section>
 
 <!-- SECTION 2 — About the Night -->
-<section class="panel night" id="about">
-  <div class="media contain">
-    <img src="assets/img/flyer.png" alt="Red Bird event flyer" loading="lazy" decoding="async" />
-  </div>
-
-  <div class="content">
-    <div class="card media">
-      <video class="inline-vid" autoplay muted loop playsinline
-             poster="assets/video/section3_poster.jpg">
+<section class="panel about">
+  <div class="about-inner">
+    <figure class="media-card">
+      <!-- Using the existing video for ambience -->
+      <video class="media" autoplay muted playsinline loop poster="assets/video/section3_poster.jpg">
         <source src="assets/video/section3_720.mp4" type="video/mp4">
       </video>
-    </div>
-    <div class="copy">
+      <!-- No overlay text inside the figure -->
+    </figure>
+    <div class="about-copy">
       <h2>About the Night</h2>
       <p>Stroll the Red Bird neighborhood and visit participating homes on the Trail. Perfect for families.</p>
     </div>
@@ -85,28 +73,24 @@
 </section>
 
 <!-- SECTION 4 — Map card with Google My Map embed -->
-<section class="panel map" id="trail-map" aria-label="Red Bird Trail Map">
+<section id="trail-map" class="panel map">
   <h2>Red Bird Trail Map</h2>
-
-  <div class="card map-card">
-    <div class="embed-wrap">
+  <div class="map-card">
+    <div class="map-frame">
+      <!-- KEEP THIS IFRAME SRC AS-IS (working integration) -->
       <iframe
-        class="my-map"
+        class="map-embed"
         src="https://www.google.com/maps/d/u/0/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        allowfullscreen
-        aria-label="Interactive map of Red Bird Trick-or-Treat Trail">
+        width="640" height="480" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        aria-label="Red Bird Trick-or-Treat Trail Map">
       </iframe>
     </div>
+    <p class="map-note">Pins use theme icons taken from each home's name. For a bigger view, open the map:</p>
+    <a class="cta cta--map" target="_blank" rel="noopener"
+       href="https://www.google.com/maps/d/u/0/edit?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&usp=sharing">
+       Open in Google My Maps
+    </a>
   </div>
-
-  <p class="map-note">
-    Pins use theme icons from each house's name. For a bigger view, open the map:
-  </p>
-  <p>
-    <a class="cta alt" href="https://www.google.com/maps/d/u/0/view?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s" target="_blank" rel="noopener">Open in Google My Maps</a>
-  </p>
 </section>
 
 <!-- SECTION 5 — FAQ -->

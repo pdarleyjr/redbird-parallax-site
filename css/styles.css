@@ -2,363 +2,172 @@
   --bg:#0b0e1d; --ink:#fff; --muted:#a8b0c0; --accent:#ff7a1a; --accent2:#ffb54d;
   --pad:clamp(16px,2.5vw,28px); --max:1100px;
 }
-*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Inter}
+*{box-sizing:border-box} 
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Inter}
 img{max-width:100%;height:auto;display:block}
+
+/* Prevent unexpected scroll chaining on mobile (less jank) */
+html, body { overscroll-behavior: none; }
+/* If there is a sticky nav, give anchors breathing room when jumped to */
+[id] { scroll-margin-top: clamp(60px, 10vh, 120px); }
 
 .topnav{position:sticky;top:0;z-index:50;display:flex;gap:16px;align-items:center;justify-content:space-between;padding:10px var(--pad);background:linear-gradient(180deg,rgba(0,0,0,.65),transparent)}
 .topnav a{color:#fff;text-decoration:none;font-weight:700}
 .topnav nav a{opacity:.85;margin-left:16px}
 
-/* Reduce scroll marathon feel */
-.panel{position:relative;min-height:clamp(68svh,90svh,820px);display:grid;place-items:center;overflow:hidden}
-.panel .content{position:relative;z-index:2;text-align:center;padding:var(--pad);max-width:var(--max)}
-.panel .bg,.panel .image-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
-.panel .image-bg{background:url("../assets/img/flyer.png") center/cover no-repeat}
-
-/* Visually hidden for SEO/accessibility */
-.visually-hidden{
-  position:absolute!important; width:1px; height:1px; padding:0; margin:-1px;
-  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+/* Use dynamic viewport height so mobile address bar changes don't squish sections */
+.panel {
+  position: relative;
+  min-height: 100dvh; /* research-backed: dvh follows dynamic viewport on mobile */
+  display: grid;
+  align-items: center;
+  isolation: isolate;    /* contain z-index stacking per section */
+  overflow: clip;        /* prevent background bleed w/o scrollbars */
+  padding-block: clamp(40px, 6dvh, 96px); /* internal breathing room */
 }
 
-/* Hero CTA placement */
-.hero .hero-ui{position:relative; width:100%; height:100%}
-.hero .hero-cta{
-  position:absolute; right:clamp(16px,3vw,36px); bottom:clamp(16px,3vw,36px);
-  box-shadow:0 8px 24px rgba(0,0,0,.35);
-}
-@media (max-width:720px){
-  .hero .hero-cta{left:50%; right:auto; transform:translateX(-50%)}
+/* Add a subtle separator between panels on large screens, but keep mobile tight */
+.panel + .panel { margin-top: clamp(12px, 2dvh, 24px); }
+
+/* Optional smoother scroll when navigating to anchors below a sticky nav */
+:root { scroll-behavior: smooth; }
+
+/* Hero background as a CSS background layer */
+.hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image: url("../assets/img/hero_kids_map.jpg");
+  background-repeat:no-repeat;
+  background-position:center; /* keep focal point centered */
+  background-size: cover;      /* fill section; we'll add a "contain" fallback class below */
+  z-index:-1;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
-/* About grid layout */
-.about-grid{
-  display:grid; gap:clamp(14px,2.2vw,22px);
-  grid-template-columns: minmax(0,1.2fr) minmax(0,1fr);
+/* If the client wants the entire image visible (no cropping at all), toggle this helper class on .hero */
+.hero--contain::before { background-size: contain; background-color: #0a0c18; }
+
+/* CTA positioning in hero (bottom-right on the smoke) */
+.cta--trail{
+  position:absolute;
+  right: clamp(12px, 3vw, 28px);
+  bottom: clamp(14px, 3vw, 32px);
+}
+
+/* Second section media card (fixed shape, rounded, no text overlap) */
+.about-inner{
+  display:grid;
+  gap: clamp(16px, 3vw, 32px);
+  grid-template-columns: minmax(0,1fr) minmax(0,1.1fr); /* media | copy */
   align-items:center;
+  max-width: min(1200px, 92vw);
+  margin-inline:auto;
+  padding-inline: clamp(16px, 3vw, 24px);
 }
-.card.media.xl video{aspect-ratio:16/9; width:100%; height:auto; display:block}
-.about-copy h2{margin-top:0}
-@media (max-width:900px){ .about-grid{grid-template-columns:1fr} }
+
+.media-card{
+  border-radius: 20px;
+  overflow: hidden;               /* clip rounded corners */
+  box-shadow: 0 15px 50px rgba(0,0,0,.35);
+  background: #0b0e1d;            /* fallback while media loads */
+  aspect-ratio: 16 / 9;           /* clean, responsive frame */
+}
+
+.media-card .media{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;              /* fill frame nicely */
+}
+
+/* About copy column */
+.about-copy h2{ margin: 0 0 .5rem; font-size: clamp(1.6rem, 3vw, 2.4rem); }
+.about-copy p{ margin: 0; opacity: .9; }
+
+/* Stack on small screens */
+@media (max-width: 900px){
+  .about-inner{ grid-template-columns: 1fr; }
+}
+
+/* Trail Map card (keep working embed; just make the card responsive) */
+.map-card{
+  max-width: min(1200px, 95vw);
+  margin: 0 auto;
+  padding: clamp(16px, 3vw, 24px);
+  background: #121630;
+  border-radius: 20px;
+  box-shadow: 0 15px 50px rgba(0,0,0,.35);
+}
+
+.map-frame{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;           /* responsive container for the iframe */
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.map-embed{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+.map-note{ margin: 10px 0 14px; opacity:.8; font-size:.95rem; }
+
+/* Small polish/guards */
 
 h1{font-size:clamp(2rem,6vw,4rem);margin:0 0 .5rem}
 h2{font-size:clamp(1.5rem,4vw,2.4rem);margin:.2rem 0 1rem}
 .cta{display:inline-block;background:var(--accent);color:#111;padding:.8rem 1.2rem;border-radius:999px;font-weight:800;text-decoration:none}
 .cta.alt{background:var(--accent2)}
-.deadline{margin-left:12px;color:var(--muted)}
+.cta--map{ margin-top: 1rem; }
 
 .section.content-wrap{padding:48px var(--pad);max-width:var(--max);margin-inline:auto}
-.cards{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
-.card{background:rgba(255,255,255,.06);border-radius:18px;padding:18px;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.25)}
-.card .icon{font-size:30px;margin-bottom:6px}
-.card.media{padding:0;overflow:hidden}
-.card.media video{display:block;width:100%;height:auto;aspect-ratio:16/9}
-.card.media .caption{padding:12px 16px;font-size:14px;color:var(--muted)}
 
-.trailmap{display:block;border-radius:14px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.25);margin:10px 0 18px}
-
-.footer{padding:28px var(--pad);color:var(--muted);text-align:center}
-
-@media (max-width:900px){
-  .cards{grid-template-columns:1fr}
-}
-
-@media (prefers-reduced-motion: reduce){
-  .panel{min-height:auto}
-}  
-/* HERO uses a CSS background image instead of video */ 
-/* HERO uses a CSS background image instead of <video> */
-.hero .hero-bg {
-  position: absolute; 
-  inset: 0;
-  background: url("../assets/img/hero-night_1920.jpg") center/cover no-repeat;
-  /* Fallback to PNG if JPG not generated */
-  background-image: image-set(url("../assets/img/hero-night_1920.jpg") 1x, url("../assets/img/hero-night.png") 1x);
-  filter: saturate(1.02) contrast(1.02);
-  z-index: 1;
-}
-
-.hero .hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  padding: var(--pad);
-  max-width: var(--max);
-  width: 100%;
-  height: 100%;
-  display: grid;
-  place-items: center;
-}
-
-.hero h1 {
-  font-size: clamp(2.5rem, 7vw, 5rem);
-  margin: 0 0 1rem;
-  text-shadow: 0 4px 12px rgba(0,0,0,0.6);
-}
-
-.cta.ghost {
-  background: rgba(255, 122, 26, 0.15);
-  border: 2px solid var(--accent);
-  color: #fff;
-  backdrop-filter: blur(8px);
-}
-
-.cta.ghost:hover {
-  background: var(--accent);
-  color: #111;
-}
-
-/* Updated deadline styling */
-.deadline {
-  margin-top: 12px;
-  font-weight: 600;
-  opacity: .9;
-  font-size: 1.05em;
-}
-
-.deadline strong {
-  font-size: 1.05em;
-  color: var(--accent);
-}
-
-/* About video card: larger, rounded, elevated */
-.about .about-grid {
-  display: grid;
-  gap: clamp(16px, 3vw, 32px);
-  grid-template-columns: 1.2fr 1fr;
-  align-items: center;
-}
-
-.card.media {
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 12px 40px rgba(0,0,0,.35);
-  padding: 0;
-}
-
-.inline-vid {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  border-radius: 20px;
-}
-
-.copy h2 {
-  margin-top: 0;
-}
-
-/* Map embed card */
-.map {
-  padding: 48px var(--pad);
-  text-align: center;
-}
-
-.map h2 {
-  margin-bottom: 2rem;
-}
-
-.map .map-card {
-  max-width: 1100px;
-  margin: 0 auto 2rem;
-  border-radius: 20px;
-  box-shadow: 0 12px 40px rgba(0,0,0,.35);
-  background: #121630;
-  overflow: hidden;
-}
-
-.embed {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.embed iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.btn-row {
-  text-align: center;
-  margin-top: 2rem;
-}
-
-/* Steps grid with clickable cards */
-.steps-grid {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: stretch;
-  margin: 2rem 0;
-}
-
-.step {
-  background: rgba(255,255,255,.06);
-  border-radius: 18px;
-  padding: 18px;
-  text-align: center;
-  box-shadow: 0 12px 30px rgba(0,0,0,.25);
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-a.step:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0,0,0,.35);
-  background: rgba(255,255,255,.09);
-}
-
-.step .icon {
-  font-size: 30px;
-  margin-bottom: 6px;
-}
-
-/* Section title link style */
-h2 a {
-  color: inherit;
-  text-decoration: none;
-}
-
-h2 a:hover {
-  color: var(--accent);
-}
-
-/* Mobile responsive tweaks */
-@media (max-width: 900px) {
-  .about .about-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .steps-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .hero h1 {
-    font-size: clamp(2rem, 8vw, 3.5rem);
-  }
-}
-
-@media (max-width: 640px) {
-  .embed {
-    aspect-ratio: 16 / 10;
-  }
-}
-
-/* Panels: mobile-first, clean separation, avoid overlap */
-.panel {
-  position: relative;
-  min-height: 100svh;              /* dynamic viewport for mobile toolbars */
-  display: grid;
-  align-items: center;
-  justify-items: center;
-  padding-block: clamp(56px, 10svh, 120px); /* breathing room top/bottom */
-  overflow: clip;                   /* contain parallax layers */
-}
-
-/* Media wrappers: support image or video */
-.media {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-}
-.media img,
-.media video {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-/* Show the ENTIRE asset (no cropping) */
-.media.contain img,
-.media.contain video {
-  object-fit: contain;              /* show full art without clipping */
-  object-position: center center;   /* keep centered */
-  background: #090d1a;              /* letterbox color behind */
-}
-
-/* If a later section should crop to edge-to-edge, flip to cover:
-.media.cover img, .media.cover video { object-fit: cover; }
-*/
-
-/* Content blocks sitting over media */
-.hero .hero-content,
-.night .content { 
-  max-width: min(100%, 1100px);
-  padding-inline: clamp(16px, 4vw, 40px);
-  text-align: center;
-  z-index: 2;
-  position: relative;
-}
-
-/* Hero content specific */
-.hero-content h1 {
-  font-size: clamp(2.5rem, 7vw, 5rem);
-  margin: 0 0 1rem;
-  text-shadow: 0 4px 12px rgba(0,0,0,0.6);
-}
-
-/* Steps row */
-.steps-grid {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  max-width: 1100px;
-  margin: 2rem auto;
-}
-@media (max-width: 900px){
-  .steps-grid { grid-template-columns: 1fr; }
-}
-
-/* Steps panel specific */
+/* Steps section */
 .panel.steps {
   text-align: center;
   padding-inline: clamp(16px, 4vw, 40px);
 }
 
-/* Action cards */
-.card {
-  background: rgba(20,22,40,.85);
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.35);
-  padding: 20px;
+.steps-grid{
+  display:grid;
+  gap:16px;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:stretch;
+  max-width: 1100px;
+  margin: 2rem auto;
+}
+@media (max-width:900px){
+  .steps-grid{grid-template-columns:1fr}
 }
 
-a.step.card {
+.card{background:rgba(255,255,255,.06);border-radius:18px;padding:18px;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.card .icon{font-size:30px;margin-bottom:6px}
+
+a.step.card{
   text-decoration: none;
   color: inherit;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-a.step.card:hover {
+a.step.card:hover{
   transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0,0,0,.45);
+  box-shadow: 0 16px 40px rgba(0,0,0,.35);
+  background: rgba(255,255,255,.09);
 }
 
-/* Map card: responsive iframe using aspect-ratio (modern) */
-.map-card { 
-  width: min(1200px, 95vw); 
-  margin: 0 auto;
-  padding: 0;
-  overflow: hidden;
+/* Deadline styling */
+.deadline{
+  margin-top: 2rem;
+  font-size: 1.1em;
+  opacity: 0.95;
 }
-.embed-wrap {
-  aspect-ratio: 4 / 3;             /* responsive height */
-  width: 100%;
-  border-radius: 16px;
-  overflow: hidden;
-}
-.embed-wrap iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
+
+.deadline strong{
+  color: var(--accent);
+  font-size: 1.05em;
 }
 
 /* Map panel specific */
@@ -367,86 +176,14 @@ a.step.card:hover {
   padding-inline: clamp(16px, 4vw, 40px);
 }
 
-.map-note {
-  margin-top: 2rem;
-  opacity: 0.9;
+.footer{padding:28px var(--pad);color:var(--muted);text-align:center}
+
+@media (prefers-reduced-motion: reduce){
+  .panel{min-height:auto}
 }
 
-/* Parallax (Rellax) performance hints; disable on small screens */
-.rellax { will-change: transform; }
-@media (max-width: 768px), (prefers-reduced-motion: reduce){
-  .rellax { transform: none !important; }
-}
-
-/* Anchor targets don't hide under the sticky nav, if any */
-:target { scroll-margin-top: 72px; }
-
-/* Update existing hero styles to work with new structure */
-.hero-bg {
-  display: none; /* Remove old background approach */
-}
-
-/* Night/About section content grid */
-.night .content {
-  display: grid;
-  gap: clamp(16px, 3vw, 32px);
-  grid-template-columns: 1.2fr 1fr;
-  align-items: center;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.night .content .card.media {
-  padding: 0;
-  overflow: hidden;
-}
-
-.night .content video {
-  border-radius: 20px;
-}
-
-@media (max-width: 900px) {
-  .night .content {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Deadline styling */
-.deadline {
-  margin-top: 2rem;
-  font-size: 1.1em;
-  opacity: 0.95;
-}
-
-.deadline strong {
-  color: var(--accent);
-  font-size: 1.05em;
-}
-
-/* Update CTA buttons */
-.cta {
-  display: inline-block;
-  background: var(--accent);
-  color: #111;
-  padding: 0.8rem 1.5rem;
-  border-radius: 999px;
-  font-weight: 800;
-  text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.cta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 122, 26, 0.3);
-}
-
-.cta.alt {
-  background: var(--accent2);
-}
-
-/* Fix for section content-wrap */
-.section.content-wrap {
-  padding: 48px clamp(16px, 4vw, 40px);
-  max-width: 1100px;
-  margin-inline: auto;
-}
+/* Remove old unused styles */
+.hero-bg { display: none; }
+.panel .bg, .panel .image-bg { display: none; }
+.media.contain { display: none; }
+.hero-content h1 { display: none; }
