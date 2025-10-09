@@ -16,37 +16,26 @@
 </head>
 
 <body>
-<header class="hero">
-  <div class="hero__media">
-    <img src="assets/img/hero_kids_map.jpg" alt="" loading="eager" fetchpriority="high">
-    <!-- floating sprites (hero-only) -->
-    <img class="sprite rellax bat bat-1" data-rellax-speed="-2" alt="" src="assets/img/bat-1.png">
-    <img class="sprite rellax bat bat-2" data-rellax-speed="-1.2" alt="" src="assets/img/bat-2.png">
-  </div>
-  <div class="hero__content">
+<section class="section section--hero">
+  <img class="rellax bat" data-rellax-speed="-4" src="assets/img/bat-1.png" alt="">
+  <img class="rellax bat" data-rellax-speed="-3" src="assets/img/bat-2.png" alt="">
+  <div class="content">
     <a class="btn" href="#map">View the Trail Map</a>
   </div>
-</header>
+</section>
 
-<section class="panel about" id="about">
-  <div class="about__bg">
-    <!-- use an IMG so we can control with object-fit/object-position precisely -->
-    <img src="assets/img/redbird-center-night.jpg" alt="" class="about-bg-img">
-    <img src="assets/img/palms.png" alt="" class="rellax palms" data-rellax-speed="-1.6">
-  </div>
-
-  <div class="about__inner">
-    <!-- ACTION CARD 1: video + link -->
+<section class="section section--about">
+  <img class="rellax palm" data-rellax-speed="-2" src="assets/img/palms.png" alt="">
+  <div class="content">
     <article class="card reveal">
       <figure class="media-card">
-        <video class="inline-vid" src="assets/video/third_video_background.mp4"
+        <video class="media" src="assets/video/third_video_background.mp4"
                muted playsinline autoplay loop preload="metadata"
                poster="assets/img/video-poster.jpg"></video>
       </figure>
-      <a class="btn btn--primary" href="https://form.jotform.com/252478605926063" target="_blank" rel="noopener">Sign up on Jotform</a>
+      <a class="btn btn--primary" href="https://www.jotform.com/252478605926063" target="_blank" rel="noopener">Sign up on Jotform</a>
     </article>
 
-    <!-- ACTION CARD 2: copy -->
     <article class="card reveal">
       <h2>About the Night</h2>
       <p>Stroll the Red Bird neighborhood and visit participating homes on the Trail. Perfect for families.</p>
@@ -54,15 +43,32 @@
   </div>
 </section>
 
-<section class="panel map" id="map">
-  <h2>Red Bird Trail Map</h2>
-  <div class="map-card reveal">
-    <img class="map-pin rellax" data-rellax-speed="-1.2" alt="Map pin" src="assets/img/google-maps-pin.png">
-    <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-      src="https://www.google.com/maps/d/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1&ll=25.736620696859703%2C-80.29095007890548&z=16"></iframe>
+<section class="section section--map">
+  <img class="rellax pin" data-rellax-speed="-1.5" src="assets/img/google-maps-pin.png" alt="">
+  <div class="content">
+    <h2>Red Bird Trail Map</h2>
+    <div class="map-card reveal">
+      <script>
+        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",
+        m=document,b=window;b=c in b?b[c]:b[c]={};var d=document.createElement("script");
+        d.src=https://maps.googleapis.com/maps/api/js?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dO4H8r8X7h4v8&loading=async&callback=;
+        b[q]=()=>{delete b[q];h=google.maps.importLibrary("maps").then(() => {
+          return google.maps.importLibrary("marker");
+        }).then(() => {
+          const map = new google.maps.Map(document.getElementById("map"), { center: {lat:25.736620696859703,lng:-80.29095007890548}, zoom: 16 });
+          new google.maps.marker.AdvancedMarkerElement({ map, position: {lat:25.736620696859703,lng:-80.29095007890548} });
+        })};
+        d.defer = true; m.head.appendChild(d);
+        })(window);
+      </script>
+      <div id="map"></div>
+    </div>
   </div>
 </section>
 
-<script type="module" defer src="js/main.js"></script>
+<script src="vendor/gsap.min.js" defer></script>
+<script src="vendor/ScrollTrigger.min.js" defer></script>
+<script src="vendor/rellax.min.js" defer></script>
+<script src="js/main.js" type="module" defer></script>
 </body>
 </html>

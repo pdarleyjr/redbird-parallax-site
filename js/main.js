@@ -1,44 +1,40 @@
-// main.js (load with <script type="module" defer src="js/main.js"></script>)
-import Rellax from "../vendor/rellax.min.js";
-import gsap from "../vendor/gsap.min.js";
-import ScrollTrigger from "../vendor/ScrollTrigger.min.js";
-gsap.registerPlugin(ScrollTrigger);
+// main.js
+document.addEventListener('DOMContentLoaded', () => {
+  // Only register plugins if GSAP exists
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+  }
 
-// Wait for DOM
-document.addEventListener("DOMContentLoaded", () => {
-  // Rellax only if we actually have targets
-  const parallaxEls = document.querySelectorAll(".rellax");
-  if (parallaxEls.length) new Rellax(".rellax", { center:false });
+  // 1) Rellax guard
+  const parallaxEls = document.querySelectorAll('.rellax');
+  if (parallaxEls.length && window.Rellax) new Rellax('.rellax', { speed: -3 });
 
-  // Reveal-on-view (no heavy scroll handlers)
-  const io = new IntersectionObserver((entries) =>
-    entries.forEach(e => e.isIntersecting && e.target.classList.add("is-in")),
-    { threshold: 0.15 }
-  );
-  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
-
-  // Section parallax with GSAP (guard selectors!)
-  const aboutBg = document.querySelector(".about-bg-img");
-  if (aboutBg) {
-    gsap.to(aboutBg, {
-      yPercent: -12, ease: "none",
-      scrollTrigger: { trigger: ".about", start: "top bottom", end: "bottom top", scrub: true }
+  // 2) Section animations (only if they exist)
+  const about = document.querySelector('.section--about');
+  if (about && window.gsap) {
+    gsap.from(about.querySelectorAll('.content > *'), {
+      opacity: 0, y: 30, stagger: 0.08, duration: 0.6,
+      scrollTrigger: { trigger: about, start: 'top 70%' }
     });
   }
 
-  // Autoplay video when visible (mobile friendly)
-  document.querySelectorAll("video.inline-vid").forEach(v => {
-    // make sure iOS allows it
-    v.muted = true; v.playsInline = true;
-  });
-  const vio = new IntersectionObserver((entries) => {
-    entries.forEach(({isIntersecting, target}) => {
-      if (isIntersecting) { target.play().catch(()=>{}); }
-      else { target.pause(); }
+  const map = document.querySelector('.section--map');
+  if (map && window.gsap) {
+    gsap.from(map.querySelectorAll('.content > *'), {
+      opacity: 0, y: 30, stagger: 0.08, duration: 0.6,
+      scrollTrigger: { trigger: map, start: 'top 70%' }
     });
-  }, { threshold: 0.25 });
-  document.querySelectorAll("video.inline-vid").forEach(v => vio.observe(v));
+  }
 
-  // After images load, refresh ScrollTrigger so positions are correct
-  window.addEventListener("load", () => ScrollTrigger.refresh());
+  // Autoplay video when visible
+  const vids = document.querySelectorAll('video.media');
+  if ('IntersectionObserver' in window && vids.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.play().catch(() => {});
+        else e.target.pause();
+      });
+    }, { threshold: 0.25 });
+    vids.forEach(v => io.observe(v));
+  }
 });
