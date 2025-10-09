@@ -32,7 +32,7 @@ body{
   background:linear-gradient(135deg, #1a1f3a, #0b0e1d);
 }
 .map{
-  background:radial-gradient(140% 120% at 50% 0%,#535af2 0%,#8f4cf3 42%,#0b0e1d 100%);
+  background:url("assets/img/halloween-night-map-bg.png") center/cover no-repeat;
 }
 
 /* Hero specific */
@@ -237,3 +237,4 @@ body{
     height:400px;
   }
 }
+
