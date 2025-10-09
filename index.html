@@ -8,7 +8,6 @@
     <link rel="icon" type="image/png" href="images/logo.png">
     <title>Red Bird Trick-or-Treat Trail</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="animation.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <meta property="og:title" content="Red Bird Trick-or-Treat Trail">
     <meta property="og:description" content="Join the Red Bird neighborhood for a family-friendly Halloween trick-or-treat trail.">
@@ -17,109 +16,53 @@
 </head>
 
 <body>
-    <!-- Navigation -->
-    <header id="header">
-        <a href="#" class="logo">Red Bird Trail
-        <ul>
-            <li><a href="#sec" class="active">About</li>
-            <li><a href="#steps">Sign Up</li>
-            <li><a href="#map">Map</li>
-            <li><a href="#faq">FAQ</li>
-        </ul>
-    </header>
+<header class="hero">
+  <div class="hero__media">
+    <img src="assets/img/hero_kids_map.jpg" alt="" loading="eager" fetchpriority="high">
+    <!-- floating sprites (hero-only) -->
+    <img class="sprite rellax bat bat-1" data-rellax-speed="-2" alt="" src="assets/img/bat-1.png">
+    <img class="sprite rellax bat bat-2" data-rellax-speed="-1.2" alt="" src="assets/img/bat-2.png">
+  </div>
+  <div class="hero__content">
+    <a class="btn" href="#map">View the Trail Map</a>
+  </div>
+</header>
 
-    <!-- Hero Parallax Section -->
-    <section>
-        <img src="images/hero_kids_map.jpg" id="sky" class="wallpaper">
-        <img src="images/bat-1.png" id="bat1">
-        <img src="images/bat-2.png" id="bat2">
-        <h2 id="text"><span>Red Bird Trick-or-Treat Trail</span><br>Halloween Night 2025</h2>
-        <a href="#sec" id="explore">View the Trail Map
-    </section>
+<section class="panel about" id="about">
+  <div class="about__bg">
+    <!-- use an IMG so we can control with object-fit/object-position precisely -->
+    <img src="assets/img/redbird-center-night.jpg" alt="" class="about-bg-img">
+    <img src="assets/img/palms.png" alt="" class="rellax palms" data-rellax-speed="-1.6">
+  </div>
 
-    <!-- Content Section -->
-    <div class="sec" id="sec">
-        <!-- About Section -->
-        <h2>About the Night</h2><div class="large-video-card"><video autoplay muted playsinline loop><source src="images/third_video_background.mp4" type="video/mp4"></video></div>
-        <div id="name">Red Bird Neighborhood, Miami FL
+  <div class="about__inner">
+    <!-- ACTION CARD 1: video + link -->
+    <article class="card reveal">
+      <figure class="media-card">
+        <video class="inline-vid" src="assets/video/third_video_background.mp4"
+               muted playsinline autoplay loop preload="metadata"
+               poster="assets/img/video-poster.jpg"></video>
+      </figure>
+      <a class="btn btn--primary" href="https://form.jotform.com/252478605926063" target="_blank" rel="noopener">Sign up on Jotform</a>
+    </article>
 
-        <br>
+    <!-- ACTION CARD 2: copy -->
+    <article class="card reveal">
+      <h2>About the Night</h2>
+      <p>Stroll the Red Bird neighborhood and visit participating homes on the Trail. Perfect for families.</p>
+    </article>
+  </div>
+</section>
 
-        <div class="glass">
-            <h3>What is the Red Bird Trick-or-Treat Trail?</h3>
-            <p>
-                Stroll the Red Bird neighborhood and visit participating homes on the Trail. Perfect for families with children celebrating Halloween safely in our community.
-            </p>
-        
+<section class="panel map" id="map">
+  <h2>Red Bird Trail Map</h2>
+  <div class="map-card reveal">
+    <img class="map-pin rellax" data-rellax-speed="-1.2" alt="Map pin" src="assets/img/google-maps-pin.png">
+    <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      src="https://www.google.com/maps/d/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1&ll=25.736620696859703%2C-80.29095007890548&z=16"></iframe>
+  </div>
+</section>
 
-        <br>
-
-        <!-- Sign Up Steps -->
-        <div class="glass" id="steps">
-            <h3>How to Participate</h3>
-            <div class="steps-grid">
-                <a class="step" href="https://www.jotform.com/252478605926063" target="_blank" rel="noopener">
-                    <div class="icon">📱
-                    <h4>Scan to sign up</h4>
-                    <p>Use the QR code to register</p>
-                
-                <a class="step" href="https://www.jotform.com/252478605926063" target="_blank" rel="noopener">
-                    <div class="icon">🏠
-                    <h4>Add your address</h4>
-                    <p>Provide your location details</p>
-                
-                <a class="step" href="https://www.jotform.com/252478605926063" target="_blank" rel="noopener">
-                    <div class="icon">🗺️
-                    <h4>Get the map & share</h4>
-                    <p>Receive trail map and share with families</p>
-                
-            
-            <p class="deadline">Sign up by <strong>October 15, 2025</strong></p>
-        
-
-        <br>
-
-        <!-- Map Section -->
-        <div class="glass" id="map">
-            <h3>Trail Map</h3>
-            <p>View the interactive Google My Maps with all participating homes and their themed decorations.</p>
-            <iframe src="https://www.google.com/maps/d/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1&ll=25.736620696859703%2C-80.29095007890548&z=16" width="640" height="480" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        
-
-        <br>
-
-        <!-- FAQ Section -->
-        <div class="glass" id="faq">
-            <h3>FAQ</h3>
-            <details>
-                <summary>What is Red Bird Trick-or-Treat Trail?</summary>
-                <div>It's a neighborhood Halloween event where families can visit participating homes for trick-or-treat.
-            </details>
-            <details>
-                <summary>When is the deadline?</summary>
-                <div>Sign up by October 15, 2025.
-            </details>
-            <details>
-                <summary>Is it free?</summary>
-                <div>Yes, participation is free for homeowners.
-            </details>
-        
-    
-
-    <!-- Footer -->
-    <div class="footer" id="footer">
-        Red Bird Trick-or-Treat Trail 2025
-        <div class="wrapper">
-            <div class="social-media">
-                <div class="icon"><i class="fas fa-home"></i>
-                <span>Red Bird, Miami</span>
-            
-        
-        <span>Happy Halloween! 🎃</span>
-    
-
-    <!-- Scroll to top -->
-    <a id="top" href="#"> <i class="fas fa-arrow-up"></i> 
-
-    <script src="action.js"></script>
+<script type="module" defer src="js/main.js"></script>
+</body>
 </html>
