@@ -1,127 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Red Bird Trick-or-Treat Trail 2024</title>
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">`n  <link rel="stylesheet" href="css/featured-houses.css">`n  <link rel="stylesheet" href="css/featured-houses-unified.css">
-    
-    <!-- Preload critical images -->
-    <link rel="preload" as="image" href="assets/img/hero_kids_map.jpg">
-</head>
-<body>
-    <!-- Hero Section -->
-    <section class="panel hero">
-        <div class="hero-content">
-            <h1>Welcome to<br>Red Bird<br>Trick-or-Treat Trail</h1>
-            <p>Join your neighbors for a safe, fun Halloween experience</p>
-            <a href="#map" class="btn btn-primary">View the Trail Map</a>
-        </div>
-    </section>
-
-    <!-- About Section with Halloween Video -->
-    <section class="panel about">
-        <div class="content">
-            <h2>About the Red Bird Trail</h2>
-            
-            <!-- Video Card - Using the Halloween video -->
-            <figure class="media-card">
-                <video class="media" muted playsinline loop preload="metadata">
-                    <source src="images/halloween_video.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </figure>
-            
-            <!-- Info Cards Grid -->
-            <div class="steps-grid">
-                <div class="card">
-                    <div class="card-icon">🎃</div>
-                    <h3>Safe Trick-or-Treating</h3>
-                    <p>Join your neighbors for a safe, fun Halloween experience throughout the neighborhood.</p>
-                </div>
-                
-                <div class="card">
-                    <div class="card-icon">🍬</div>
-                    <h3>Community Event</h3>
-                    <p>Organized by Red Bird residents for our community. Participating houses appear on the map with their <strong>custom Halloween pins</strong>.</p>
-                </div>
-                
-                <div class="card">
-                    <div class="card-icon">📍</div>
-                    <h3>October 31st, 6-9 PM</h3>
-                    <p>Mark your calendars! The Red Bird Trail runs from 6:00 PM to 9:00 PM on Halloween night. Rain or shine!</p>
-                    <a href="https://www.jotform.com/252478605926063" target="_blank" class="btn btn-primary">Sign Up Your House</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section class="panel steps">
-        <div class="content">
-            <h2>How It Works</h2>
-            <div class="steps-grid">
-                <div class="card">
-                    <div class="step-number">1</div>
-                    <h3>Check the Map</h3>
-                    <p>See participating houses marked with <strong>custom Halloween pins</strong> and plan your route.</p>
-                </div>
-                
-                <div class="card">
-                    <div class="step-number">2</div>
-                    <h3>Spot the Decor</h3>
-                    <p>Look for porch lights and Halloween decorations — many homes go all-out.</p>
-                </div>
-                
-                <div class="card">
-                    <div class="step-number">3</div>
-                    <h3>Stay Safe</h3>
-                    <p>Use sidewalks, bring flashlights, and keep an eye on little ones.</p>
-                </div>
-            
-            
-            <!-- Featured Houses Section -->
-            <div class="featured-houses">
-                <h3>Featured Houses</h3>
-                <div id="houses-unified-container"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Map Section -->
-    <section id="map" class="panel map">
-        <div class="content">
-            <h2>Trick-or-Treat Map</h2>
-            <p class="map-subtitle">Find participating houses in the Red Bird neighborhood</p>
-            
-            <!-- Map Container with Google My Maps embed -->
-            <div class="map-frame">
-                <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1" width="640" height="480"></iframe>
-            </div>
-            
-            <!-- Call to Action -->
-            <div class="cta-section">
-                <h3>Want to participate?</h3>
-                <p>Register your house to be part of the Red Bird Trick-or-Treat Trail!</p>
-                <a href="https://www.jotform.com/252478605926063" target="_blank" class="btn btn-accent">Sign Up Now</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="js/houses.js" defer></script>
-    <script src="js/main.js" defer></script>
-</body>
-</html>
-
-
-
-
-
-
-
-
+<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Red Bird Trick-or-Treat Trail 2024</title>        <!-- Styles -->    <link rel="stylesheet" href="style.css">  <link rel="stylesheet" href="css/featured-houses.css">  <link rel="stylesheet" href="css/featured-houses-unified.css">        <!-- Preload critical images -->    <link rel="preload" as="image" href="assets/img/hero_kids_map.jpg"></head><body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="#hero">Home</a>
+        <a href="#about">About</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#map">Trail Map</a>
+        <a href="https://www.jotform.com/252478605926063" target="_blank">Sign Up</a>
+    </nav>    <!-- Hero Section -->    <section id="hero" class="panel hero">        <div class="hero-content">            <h1>Welcome to<br>Red Bird<br>Trick-or-Treat Trail</h1>            <p>Join your neighbors for a safe, fun Halloween experience</p>            <a href="#map" class="btn btn-primary">View the Trail Map</a>        </div>    </section>    <!-- About Section with Halloween Video -->    <section id="about" class="panel about">        <div class="content">            <h2>About the Red Bird Trail</h2>                        <!-- Video Card - Using the Halloween video -->            <figure class="media-card">                <video class="media" muted playsinline loop preload="metadata">                    <source src="images/halloween_video.mp4" type="video/mp4">                    Your browser does not support the video tag.                </video>            </figure>                        <!-- Info Cards Grid -->            <div class="steps-grid">                <div class="card">                    <div class="card-icon">🎃</div>                    <h3>Safe Trick-or-Treating</h3>                    <p>Join your neighbors for a safe, fun Halloween experience throughout the neighborhood.</p>                </div>                                <div class="card">                    <div class="card-icon">🍬</div>                    <h3>Community Event</h3>                    <p>Organized by Red Bird residents for our community. Participating houses appear on the map with their <strong>custom Halloween pins</strong>.</p>                </div>                                <div class="card">                    <div class="card-icon">📍</div>                    <h3>October 31st, 6-9 PM</h3>                    <p>Mark your calendars! The Red Bird Trail runs from 6:00 PM to 9:00 PM on Halloween night. Rain or shine!</p>                    <a href="https://www.jotform.com/252478605926063" target="_blank" class="btn btn-primary">Sign Up Your House</a>                </div>            </div>        </div>    </section>    <!-- How It Works Section -->    <section id="how-it-works" class="panel steps">        <div class="content">            <h2>How It Works</h2>            <div class="steps-grid">                <div class="card">                    <div class="step-number">1</div>                    <h3>Check the Map</h3>                    <p>See participating houses marked with <strong>custom Halloween pins</strong> and plan your route.</p>                </div>                                <div class="card">                    <div class="step-number">2</div>                    <h3>Spot the Decor</h3>                    <p>Look for porch lights and Halloween decorations — many homes go all-out.</p>                </div>                                <div class="card">                    <div class="step-number">3</div>                    <h3>Stay Safe</h3>                    <p>Use sidewalks, bring flashlights, and keep an eye on little ones.</p>                </div>                                    <!-- Featured Houses Section -->            <div class="featured-houses">                <h3>Featured Houses</h3>                <div id="houses-unified-container" aria-live="polite"></div>            </div>        </div>    </section>    <!-- Map Section -->    <section id="map" class="panel map">        <div class="content">            <h2>Trick-or-Treat Map</h2>            <p class="map-subtitle">Find participating houses in the Red Bird neighborhood</p>                        <!-- Map Container with Google My Maps embed -->            <div class="map-frame">                <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1" width="640" height="480"></iframe>            </div>                        <!-- Call to Action -->            <div class="cta-section">                <h3>Want to participate?</h3>                <p>Register your house to be part of the Red Bird Trick-or-Treat Trail!</p>                <a href="https://www.jotform.com/252478605926063" target="_blank" class="btn btn-accent">Sign Up Now</a>            </div>        </div>    </section>    <!-- Scripts -->    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>    <script src="js/houses-final.js" defer></script>    <script src="js/main.js" defer></script></body></html>
