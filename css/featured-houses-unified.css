@@ -1,22 +1,36 @@
-/* Featured Houses Section - Single Unified Action Card */
-.featured-houses { 
-  margin: 3rem auto; 
-  padding: 0;
+/* Featured Houses Section - Full Width Multi-Column Responsive Grid */
+
+/* Make the section span across any parent grid (if parent uses CSS Grid) */
+.featured-houses-section {
+  grid-column: 1 / -1; /* span all columns of the parent grid */
   width: 100%;
-  max-width: 1400px;
+  margin: 3rem 0;
+  padding: 0;
 }
-.featured-houses h3 { 
-  margin: 0 0 1.5rem; 
-  color: #fff; 
+
+.featured-houses-section h3 {
+  margin: 0 0 2rem;
+  color: #fff;
   font-size: clamp(1.8rem, 3.5vw, 2.5rem);
   text-align: center;
   text-shadow: 2px 2px 12px rgba(0,0,0,.7);
 }
-/* Single Unified Container for All Houses - Wider and Centered */
+
+/* Full-width card container with safe responsive bounds */
+#featured-card,
+.featured-card {
+  width: 100%;
+  max-width: clamp(960px, 92vw, 1400px); /* widen aggressively */
+  margin-inline: auto;
+  padding: clamp(16px, 2vw, 28px);
+  /* remove any legacy width clamps from earlier theme */
+}
+
 #houses-unified-container {
   width: 100%;
   margin: 0 auto;
 }
+
 .houses-container {
   background: rgba(20,24,40,0.85);
   border-radius: 24px;
@@ -25,150 +39,9 @@
   border: 1px solid rgba(255,122,26,0.2);
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   width: 100%;
   margin: 0 auto;
-}
-/* Grid for house items - Optimized for width */
-.house-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-/* Individual house items with enhanced hover glow */
-.house-item {
-  display: flex !important;
-  align-items: center;
-  gap: 12px;
-  padding: 14px;
-  background: rgba(255,255,255,0.03);
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.05);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: visible !important;
-}
-/* Individual item glow effect on hover */
-.house-item::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,122,26,0.3) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: 0;
-}
-.house-item:hover::before {
-  opacity: 1;
-}
-.house-item:hover {
-  background: rgba(255,122,26,0.15);
-  border-color: rgba(255,122,26,0.4);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255,122,26,0.25);
-}
-/* House icon */
-.house-icon,
-.house-item img {
-  flex: 0 0 48px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: linear-gradient(135deg, #ff7a1a, #ff5a00);
-  padding: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease;
-  position: relative;
-  z-index: 2;
-}
-.house-item:hover .house-icon,
-.house-item:hover img {
-  transform: scale(1.1);
-}
-
-/* House details - FORCEFULLY ENSURE VISIBILITY */
-.house-details {
-  flex: 1 !important;
-  min-width: 0 !important;
-  position: relative !important;
-  z-index: 2 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 2px !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-/* House name - MAXIMUM VISIBILITY */
-.house-item .house-details .house-name,
-.house-item .house-details h5,
-.house-name {
-  margin: 0 !important;
-  color: #ffffff !important;
-  font-size: 1rem !important;
-  font-weight: 600 !important;
-  line-height: 1.3 !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: relative !important;
-  z-index: 10 !important;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
-}
-
-/* House subtitle - MAXIMUM VISIBILITY */
-.house-item .house-details .house-subtitle,
-.house-item .house-details p,
-.house-subtitle {
-  margin: 2px 0 4px !important;
-  color: #ffb54d !important;
-  font-size: 0.8rem !important;
-  line-height: 1.3 !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: relative !important;
-  z-index: 10 !important;
-  font-weight: 500 !important;
-}
-
-/* House address - MAXIMUM VISIBILITY */
-.house-item .house-details .house-address,
-.house-item .house-details address,
-.house-address {
-  margin: 0 !important;
-  color: #a8b0c0 !important;
-  font-size: 0.75rem !important;
-  font-style: normal !important;
-  line-height: 1.3 !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: relative !important;
-  z-index: 10 !important;
-}
-
-/* Force all text elements to be visible */
-.house-item * {
-  visibility: visible !important;
-  opacity: 1 !important;
 }
 
 /* Container header decoration */
@@ -178,6 +51,7 @@
   padding-bottom: 1rem;
   border-bottom: 2px solid rgba(255,122,26,0.3);
 }
+
 .container-header h4 {
   margin: 0;
   color: #ff7a1a !important;
@@ -187,6 +61,7 @@
   display: block !important;
   visibility: visible !important;
 }
+
 .container-header p {
   margin: 0.5rem 0 0;
   color: #a8b0c0 !important;
@@ -195,52 +70,185 @@
   visibility: visible !important;
 }
 
+/* The grid itself: expand to many columns as width allows */
+#house-grid,
+.house-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
+  gap: clamp(10px, 2vw, 16px);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+/* Individual item tiles */
+.house-item {
+  display: grid !important;
+  grid-template-columns: 64px 1fr;
+  align-items: center;
+  justify-items: start;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: visible !important;
+}
+
+/* Hover effect */
+.house-item:hover {
+  background: rgba(255,122,26,0.15);
+  border-color: rgba(255,122,26,0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255,122,26,0.25);
+}
+
+/* Icon */
+.house-icon,
+.house-item img {
+  width: 64px !important;
+  height: 64px !important;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+  display: block !important;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff7a1a, #ff5a00);
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+  grid-column: 1;
+}
+
+.house-item:hover .house-icon,
+.house-item:hover img {
+  transform: scale(1.1);
+}
+
+/* House details container */
+.house-details {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  grid-column: 2;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Text — force visible and readable */
+.house-name,
+.house-item h5 {
+  display: block !important;
+  visibility: visible !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  margin: 0 !important;
+  color: #ffffff !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  opacity: 1 !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+.house-subtitle,
+.house-item p {
+  display: block !important;
+  visibility: visible !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  margin: 4px 0 !important;
+  color: #ffb54d !important;
+  font-size: 0.9rem !important;
+  line-height: 1.3 !important;
+  opacity: 0.9 !important;
+  font-weight: 500 !important;
+}
+
+.house-address,
+.house-item address {
+  display: block !important;
+  visibility: visible !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  margin: 0 !important;
+  color: #a8b0c0 !important;
+  font-size: 0.85rem !important;
+  font-style: normal !important;
+  line-height: 1.3 !important;
+  opacity: 0.8 !important;
+}
+
+/* Force all text elements to be visible */
+.house-item * {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
 /* Desktop Large - Show 4 columns */
 @media (min-width: 1400px) {
   .house-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
   }
 }
-/* Desktop - Show 3 columns */
-@media (min-width: 1024px) and (max-width: 1399px) {
-  .house-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
+
 /* Tablet - Show 2 columns */
 @media (min-width: 768px) and (max-width: 1023px) {
   .house-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
   }
 }
-/* Mobile - Single column */
+
+/* Small screens: slightly smaller tiles */
 @media (max-width: 767px) {
   .houses-container {
     padding: 1.5rem 1rem;
   }
+  
   .house-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
     gap: 0.75rem;
   }
+  
   .house-item {
+    grid-template-columns: 56px 1fr;
     padding: 12px;
   }
+  
   .house-icon,
   .house-item img {
-    width: 40px;
-    height: 40px;
-    flex: 0 0 40px;
+    width: 56px !important;
+    height: 56px !important;
   }
   
-  /* Mobile text visibility */
-  .house-item .house-details .house-name {
-    font-size: 0.95rem !important;
+  .house-name {
+    font-size: 1rem !important;
   }
   
-  .house-item .house-details .house-subtitle {
-    white-space: normal !important;
-    line-height: 1.2 !important;
+  .house-subtitle {
+    font-size: 0.85rem !important;
   }
+  
+  .house-address {
+    font-size: 0.8rem !important;
+  }
+}
+
+/* Nuke legacy narrow constraints from old card styles, just in case */
+.card--narrow, 
+.featured-card--narrow, 
+.action-card--narrow,
+.featured-houses.featured-houses {
+  max-width: none !important;
+  width: 100% !important;
 }
 
 /* Animation */
@@ -254,15 +262,22 @@
     transform: scale(1);
   }
 }
+
 .houses-container {
   animation: fadeInScale 0.6s ease-out;
 }
+
 /* Ensure proper centering in the section */
 .steps .content {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.steps .featured-houses {
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.steps .featured-houses-section {
+  width: 100%;
+  max-width: 100%;
 }
