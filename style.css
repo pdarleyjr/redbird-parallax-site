@@ -1,39 +1,82 @@
 :root{
-  --ink:#fff; --muted:#a8b0c0; --accent:#ff7a1a; --panel-pad:clamp(16px,2.5vw,28px);
+  --ink:#fff; 
+  --muted:#a8b0c0; 
+  --accent:#ff7a1a; 
+  --panel-pad:clamp(16px,2.5vw,28px);
 }
+
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;padding:0;}
-body{background:#0b0e1d;color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Inter}
-
-.panel{position:relative;min-height:100vh;padding:80px 0;overflow:visible;}
-/* Put background art behind content */
-.panel::before{
-  content:"";
-  position:absolute; inset:0;
-  background-position:center; background-size:cover; background-repeat:no-repeat;
-  z-index:0;
-  transform:translateZ(0); will-change:transform;
+body{
+  background:#0b0e1d;
+  color:var(--ink);
+  font:16px/1.6 system-ui,Segoe UI,Inter;
 }
-/* Ensure real content is above the overlay */
-.panel > *{position:relative; z-index:1}
 
-/* Specific backgrounds */
-.hero{display:flex;align-items:center;justify-content:center;padding:4rem 20px;}
-.hero::before{ background-image:url("assets/img/hero_kids_map.jpg"); filter:brightness(0.7); }
-.about::before{ background-image:url("assets/img/redbird-center-night.jpg"); filter:brightness(0.6); }
-.steps::before{ background:linear-gradient(135deg, #1a1f3a, #0b0e1d); }
-.map::before{ background:radial-gradient(140% 120% at 50% 0%,#535af2 0%,#8f4cf3 42%,#0b0e1d 100%); }
+/* Panels without blocking overlays */
+.panel{
+  position:relative;
+  min-height:100vh;
+  padding:80px 0;
+  overflow:visible;
+}
+
+/* Background images - optimized loading */
+.hero{
+  background:url("assets/img/hero_kids_map.jpg") center/cover no-repeat fixed;
+}
+.about{
+  background:url("assets/img/redbird-center-night.jpg") center/cover no-repeat;
+}
+.steps{
+  background:linear-gradient(135deg, #1a1f3a, #0b0e1d);
+}
+.map{
+  background:radial-gradient(140% 120% at 50% 0%,#535af2 0%,#8f4cf3 42%,#0b0e1d 100%);
+}
 
 /* Hero specific */
-.hero-content{text-align:center;max-width:800px;padding:2rem;}
-.hero-content h1{font-size:clamp(2rem,5vw,4rem);margin:0 0 1rem;text-shadow:2px 2px 8px rgba(0,0,0,.7);}
-.hero-content p{font-size:1.25rem;margin-bottom:2rem;opacity:0.9;}
+.hero{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:4rem 20px;
+}
+.hero-content{
+  text-align:center;
+  max-width:800px;
+  padding:2rem;
+  background:rgba(0,0,0,0.5);
+  border-radius:20px;
+  backdrop-filter:blur(10px);
+}
+.hero-content h1{
+  font-size:clamp(2rem,5vw,4rem);
+  margin:0 0 1rem;
+  text-shadow:2px 2px 8px rgba(0,0,0,.7);
+}
+.hero-content p{
+  font-size:1.25rem;
+  margin-bottom:2rem;
+  opacity:0.9;
+}
 
 /* Content wrapper */
-.content{width:100%;max-width:1200px;margin:0 auto;padding:0 20px;}
-.content h2{font-size:2.5rem;text-align:center;margin-bottom:3rem;text-shadow:2px 2px 8px rgba(0,0,0,.5);color:#fff;}
+.content{
+  width:100%;
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 20px;
+}
+.content h2{
+  font-size:2.5rem;
+  text-align:center;
+  margin-bottom:3rem;
+  text-shadow:2px 2px 8px rgba(0,0,0,.5);
+  color:#fff;
+}
 
-/* Media card / video */
+/* Media card / video - improved */
 .media-card{ 
   border-radius:18px; 
   box-shadow:0 12px 40px rgb(0 0 0 / .45); 
@@ -51,7 +94,7 @@ body{background:#0b0e1d;color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Inter}
   object-position:center; 
 }
 
-/* Steps cards - Make them always visible */
+/* Cards - ensure visibility */
 .steps-grid{ 
   display:grid; 
   gap:30px; 
@@ -59,11 +102,6 @@ body{background:#0b0e1d;color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Inter}
   max-width:1100px; 
   margin:3rem auto; 
   padding:0 20px;
-}
-@media (max-width:900px){ 
-  .steps-grid{ 
-    grid-template-columns:1fr; 
-  } 
 }
 .card{ 
   background:rgba(20,24,40,0.95); 
@@ -74,11 +112,9 @@ body{background:#0b0e1d;color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Inter}
   box-shadow:0 8px 30px rgb(0 0 0 / .5); 
   transition:transform .2s, box-shadow .2s;
   backdrop-filter: blur(10px);
-  opacity:1 !important;
-  transform:translateY(0) !important;
 }
 .card:hover{ 
-  transform:translateY(-4px) !important; 
+  transform:translateY(-4px); 
   box-shadow:0 16px 50px rgb(0 0 0 / .6); 
 }
 .card h3{
@@ -141,7 +177,7 @@ body{background:#0b0e1d;color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Inter}
   transform:translateY(-2px);
 }
 
-/* Map aspect-ratio wrapper */
+/* Map - improved loading */
 .map-frame{ 
   position:relative; 
   width:100%; 
@@ -150,11 +186,7 @@ body{background:#0b0e1d;color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Inter}
   background:#fff; 
   border-radius:18px; 
   padding:1rem;
-}
-.map-frame::before{ 
-  content:""; 
-  display:block; 
-  padding-top:56.25%; 
+  aspect-ratio:16/9;
 }
 .map-embed{ 
   position:absolute; 
@@ -192,24 +224,20 @@ body{background:#0b0e1d;color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Inter}
   margin-bottom:1rem;
 }
 
-/* Remove reveal animations for now - make everything visible */
-.reveal{
-  opacity:1 !important;
-  transform:translateY(0) !important;
-}
+/* Remove parallax styles */
+.rellax{display:none !important;}
 
-/* Parallax elements */
-.rellax{
-  position:fixed;
-  pointer-events:none;
-  z-index:1;
-  will-change:transform;
-  opacity:0.7;
-}
-
-/* Accessibility */
+/* Performance optimizations */
 @media (prefers-reduced-motion: reduce){
-  .rellax{transform:none !important;}
-  .reveal{transition:none;}
-  *{animation:none !important;}
+  *{animation:none !important;transition:none !important;}
+}
+
+/* Mobile responsive */
+@media (max-width:900px){ 
+  .steps-grid{ 
+    grid-template-columns:1fr; 
+  }
+  .hero-content h1{
+    font-size:2rem;
+  }
 }

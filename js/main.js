@@ -1,65 +1,97 @@
-// main.js
-document.addEventListener("DOMContentLoaded", () => {
-  // 1) Register plugin and guard for missing selectors
-  if (window.gsap && window.ScrollTrigger) {
-    gsap.registerPlugin(ScrollTrigger); // required
-
-    const heroContent = document.querySelector(".hero .hero-content");
-    if (heroContent) {
-      gsap.from(heroContent, {
-        y: 40, opacity: 0, duration: 1.0, ease: "power2.out",
-        scrollTrigger: { trigger: ".hero", start: "top 80%", once: true }
-      });
+// GSAP Animations with proper ScrollTrigger
+document.addEventListener("DOMContentLoaded", function() {
+    // Register ScrollTrigger plugin
+    if (window.gsap && window.ScrollTrigger) {
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Animate hero content on load
+        gsap.from(".hero-content", {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: "power2.out"
+        });
+        
+        // Animate cards on scroll with stagger
+        gsap.from(".card", {
+            y: 40,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: ".steps-grid",
+                start: "top 80%",
+                toggleActions: "play none none none"
+            }
+        });
+        
+        // Animate section headers
+        gsap.utils.toArray("h2").forEach(header => {
+            gsap.from(header, {
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: header,
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                }
+            });
+        });
+        
+        // Animate media card
+        gsap.from(".media-card", {
+            scale: 0.95,
+            opacity: 0,
+            duration: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: ".media-card",
+                start: "top 75%",
+                toggleActions: "play none none none"
+            }
+        });
+        
+        // Animate map frame
+        gsap.from(".map-frame", {
+            y: 40,
+            opacity: 0,
+            duration: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: ".map-frame",
+                start: "top 80%",
+                toggleActions: "play none none none"
+            }
+        });
     }
-
-    const cards = gsap.utils.toArray(".steps-grid .card");
-    if (cards.length) {
-      gsap.from(cards, {
-        y: 30, opacity: 0, duration: 0.6, stagger: 0.15, ease: "power2.out",
-        scrollTrigger: { trigger: ".steps-grid", start: "top 85%", once: true }
-      });
-    }
-
-    const mapCard = document.querySelector(".map-frame");
-    if (mapCard) {
-      gsap.from(mapCard, {
-        scale: 0.96, opacity: 0, duration: 0.8, ease: "power2.out",
-        scrollTrigger: { trigger: ".map-frame", start: "top 90%", once: true }
-      });
-    }
-  }
-
-  // 2) Initialize Rellax only if you actually have parallax elements
-  if (window.Rellax && document.querySelector(".rellax")) {
-    new Rellax(".rellax", { center: true, vertical: true, horizontal: false });
-  }
-
-  // 3) Reveal animations with IntersectionObserver
-  const reveals = document.querySelectorAll(".reveal");
-  if (reveals.length) {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-        }
-      });
-    }, { threshold: 0.1 });
     
-    reveals.forEach(el => revealObserver.observe(el));
-  }
-
-  // 4) Autoplay video when visible
-  const vids = document.querySelectorAll("video.media");
-  if ("IntersectionObserver" in window && vids.length) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.play().catch(() => {});
-        } else {
-          e.target.pause();
-        }
-      });
-    }, { threshold: 0.25 });
-    vids.forEach(v => io.observe(v));
-  }
+    // Smooth scroll for anchor links
+    document.querySelectorAll("a[href^=\"#\"]").forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute("href"));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }
+        });
+    });
+    
+    // Lazy load video
+    const video = document.querySelector("video");
+    if (video) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    video.play().catch(e => console.log("Video play failed:", e));
+                }
+            });
+        }, { threshold: 0.5 });
+        observer.observe(video);
+    }
 });
