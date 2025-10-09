@@ -7,32 +7,32 @@
     // Exact mappings for each house
     switch(name) {
       case 'the three witch house':
-        return 'assets/img/icons/three-witch-house.png';
+        return '/assets/img/icons/three-witch-house.png';
       case 'the haunted white house':
-        return 'assets/img/icons/white-house.png';
+        return '/assets/img/icons/white-house.png';
       case 'the monster house':
-        return 'assets/img/icons/monster-house.png';
+        return '/assets/img/icons/monster-house.png';
       case 'the spooky-rizzlers':
-        return 'assets/img/icons/spooky-rizzlers.png';
+        return '/assets/img/icons/spooky-rizzlers.png';
       case 'spiderweb cottage':
-        return 'assets/img/icons/spiderweb-cottage.png';
+        return '/assets/img/icons/spiderweb-cottage.png';
       case 'sweet & spooky stop':
-        return 'assets/img/icons/sweet-spooky.png';
+        return '/assets/img/icons/sweet-spooky.png';
       case 'casa sandsnake':
-        return 'assets/img/icons/sandsnake.png';
+        return '/assets/img/icons/sandsnake.png';
       case 'blues boooooo house':
-        return 'assets/img/icons/blues-house.png';
+        return '/assets/img/icons/blues-house.png';
       case 'caballosa candy critters':
-        return 'assets/img/icons/candy-critters.png';
+        return '/assets/img/icons/candy-critters.png';
       case 'the not-so-scary house!':
-        return 'assets/img/icons/not-so-scary.png';
+        return '/assets/img/icons/not-so-scary.png';
       case 'cabin in the woods':
-        return 'assets/img/icons/cabin-woods.png';
+        return '/assets/img/icons/cabin-woods.png';
       case 'red bird restless graveyard':
-        return 'assets/img/icons/tombstone-graveyard.png';
+        return '/assets/img/icons/tombstone-graveyard.png';
       case 'haunted house':
       default:
-        return 'assets/img/icons/haunted-generic.png';
+        return '/assets/img/icons/haunted-generic.png';
     }
   };
 
@@ -99,7 +99,7 @@
         title: 'Red Bird Restless Graveyard',
         subtitle: 'Fog and friendly frights await',
         address: '3821 SW 60th Ave, Miami, FL 33155',
-        icon: 'assets/img/icons/tombstone-graveyard.png'
+        icon: '/assets/img/icons/tombstone-graveyard.png'
       });
 
       // Build the HTML
