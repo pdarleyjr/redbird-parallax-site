@@ -82,16 +82,31 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
     
-    // Lazy load video
+    // Optimized lazy load video - only load source when in view
     const video = document.querySelector("video");
     if (video) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    video.play().catch(e => console.log("Video play failed:", e));
-                }
-            });
-        }, { threshold: 0.5 });
-        observer.observe(video);
+        // Store the source for lazy loading
+        const videoSource = video.querySelector("source");
+        const originalSrc = videoSource ? videoSource.getAttribute("src") : null;
+        
+        if (originalSrc) {
+            // Remove src initially to prevent loading
+            videoSource.removeAttribute("src");
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Load and play video when in view
+                        if (!videoSource.src) {
+                            videoSource.src = originalSrc;
+                            video.load();
+                            video.play().catch(e => console.log("Video autoplay may be blocked:", e));
+                        }
+                        observer.unobserve(video);
+                    }
+                });
+            }, { threshold: 0.25 });
+            observer.observe(video);
+        }
     }
 });
