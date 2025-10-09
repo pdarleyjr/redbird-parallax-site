@@ -1,0 +1,213 @@
+/* Featured Houses Section - Single Unified Action Card */
+.featured-houses { 
+  margin-top: 3rem; 
+  padding: 0;
+}
+
+.featured-houses h3 { 
+  margin: 0 0 1.5rem; 
+  color: #fff; 
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  text-align: center;
+  text-shadow: 2px 2px 12px rgba(0,0,0,.7);
+}
+
+/* Single Unified Container for All Houses */
+.houses-container {
+  background: rgba(20,24,40,0.85);
+  border-radius: 24px;
+  padding: 2rem;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,122,26,0.2);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5),
+              0 0 80px rgba(255,122,26,0.1) inset;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Glow effect on hover */
+.houses-container::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ff7a1a, #ff5a00, #ff7a1a);
+  border-radius: 24px;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.houses-container:hover::before {
+  opacity: 0.3;
+}
+
+.houses-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 25px 70px rgba(0,0,0,0.6),
+              0 0 100px rgba(255,122,26,0.2) inset;
+}
+
+/* Grid for house items inside the container */
+.house-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual house items (compact) */
+.house-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: all 0.2s ease;
+}
+
+.house-item:hover {
+  background: rgba(255,122,26,0.1);
+  border-color: rgba(255,122,26,0.3);
+  transform: translateX(4px);
+}
+
+/* House icon */
+.house-icon {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: linear-gradient(135deg, #ff7a1a, #ff5a00);
+  padding: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* House details */
+.house-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.house-name {
+  margin: 0;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.house-subtitle {
+  margin: 2px 0 4px;
+  color: #ffb54d;
+  font-size: 0.75rem;
+  opacity: 0.9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.house-address {
+  margin: 0;
+  color: #a8b0c0;
+  font-size: 0.7rem;
+  font-style: normal;
+  opacity: 0.8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Container header/footer decoration */
+.container-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(255,122,26,0.3);
+}
+
+.container-header h4 {
+  margin: 0;
+  color: #ff7a1a;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.container-header p {
+  margin: 0.5rem 0 0;
+  color: #a8b0c0;
+  font-size: 0.9rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .houses-container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .house-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .house-item {
+    padding: 10px;
+  }
+  
+  .house-icon {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+  }
+  
+  .house-name {
+    font-size: 0.9rem;
+  }
+  
+  .house-subtitle {
+    white-space: normal;
+    line-height: 1.2;
+  }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .house-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1400px) {
+  .house-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Animation */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.houses-container {
+  animation: fadeInScale 0.6s ease-out;
+}
