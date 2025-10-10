@@ -196,3 +196,20 @@ img, video {
     page-break-inside: avoid;
   }
 }
+/* Panel layout fixes */
+.panel{position:relative;isolation:isolate}
+.parallax-decor{position:absolute;inset:0;z-index:0;pointer-events:none}
+.panel>.content{position:relative;z-index:1}
+.steps-grid{position:static;margin:0}
+
+/* Base state visible - progressive enhancement */
+.section-title,.content p,.media-card,.map-frame{opacity:1;transform:none}
+
+/* Enhance only when JS adds .reveal */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* Motion safety */
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1 !important;transform:none !important;transition:none !important}
+}

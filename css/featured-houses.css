@@ -190,3 +190,11 @@
 .house-card:nth-child(13) { animation-delay: 0.65s; }
 .house-card:nth-child(14) { animation-delay: 0.7s; }
 .house-card:nth-child(15) { animation-delay: 0.75s; }
+/* Guaranteed visible icon layout */
+.houses-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width: 768px){.houses-grid{grid-template-columns:1fr}}
+.house-card{display:flex;gap:12px;align-items:flex-start;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px}
+.house-card__icon{width:40px;height:40px;flex:0 0 40px;border-radius:50%;overflow:hidden}
+.house-card__icon img{width:100%;height:100%;object-fit:contain;display:block}
+.house-meta h4{margin:0 0 2px}
+.house-sub{opacity:.8;margin:0 0 4px}

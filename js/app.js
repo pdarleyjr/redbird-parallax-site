@@ -1,24 +1,23 @@
-// Modern Parallax Site App - Mobile Optimized
+﻿// Modern Parallax Site App - Mobile Optimized
 document.addEventListener('DOMContentLoaded', () => {
   // === Motion Preference Check ===
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   
   // === IntersectionObserver for Reveal Animations ===
-  if (!prefersReducedMotion) {
-    const io = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
+  if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries, obs) => {
+      for (const e of entries) if (e.isIntersecting) { 
+        e.target.classList.add('visible'); 
+        obs.unobserve(e.target); 
+      }
     }, { threshold: 0.35 });
-    
-    // Add reveal class to elements
-    document.querySelectorAll('h2, .media-card, .map-frame').forEach(el => {
-      el.classList.add('reveal');
-      io.observe(el);
-    });
+
+    // Target specific elements only - not all h2s/cards
+    document.querySelectorAll('h2.section-title, #map .map-frame, #about .media-card, .copy.reveal')
+      .forEach(el => { 
+        el.classList.add('reveal'); 
+        io.observe(el); 
+      });
   }
   
   // === Lenis Smooth Scroll (Progressive Enhancement) ===
@@ -295,3 +294,4 @@ document.addEventListener('DOMContentLoaded', () => {
   
   console.log('Mobile optimizations and modern features loaded successfully');
 });
+
