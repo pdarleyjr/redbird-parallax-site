@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // Mobile animations (simplified)
-    mm.add("(max-width: 767px)", () => {
+    mm.add("(max-width: 1023px)", () => {
       // Simple fade-in for mobile
       const allCards = document.querySelectorAll(".card");
       allCards.forEach((card, index) => {
