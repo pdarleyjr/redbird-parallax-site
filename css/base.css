@@ -1,0 +1,198 @@
+/* === Base CSS with Mobile Optimization & Modern Features === */
+
+/* === Viewport/Media utilities === */
+img, video { 
+  max-width: 100%; 
+  height: auto; 
+  display: block; 
+}
+
+.cover-media { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  object-position: center; 
+}
+
+.ratio-16x9 { 
+  aspect-ratio: 16/9; 
+  overflow: hidden; 
+}
+
+.ratio-1x1 { 
+  aspect-ratio: 1/1; 
+  overflow: hidden; 
+}
+
+/* Dynamic viewport height fix for mobile */
+.fullscreen, .hero, .panel {
+  min-height: 100vh; /* legacy fallback */
+  min-height: 100dvh; /* modern: dynamic viewport height */
+  min-height: -webkit-fill-available; /* older iOS fallback */
+  padding-bottom: env(safe-area-inset-bottom); /* iOS inset safety */
+}
+
+/* Parallax background safety - disable fixed on mobile */
+.parallax-bg { 
+  background-repeat: no-repeat; 
+  background-position: center; 
+  background-size: cover; 
+  background-attachment: fixed; 
+}
+
+/* Touch devices: disable fixed attachment (iOS+Android) */
+@media (hover: none) and (pointer: coarse) { 
+  .parallax-bg { 
+    background-attachment: scroll !important; 
+  }
+  
+  /* Also fix for hero section specifically */
+  .hero {
+    background-attachment: scroll !important;
+  }
+}
+
+/* Motion preference - respect user settings */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { 
+    animation: none !important; 
+    transition: none !important; 
+    scroll-behavior: auto !important; 
+  }
+}
+
+/* Simple reveal helper for Intersection Observer */
+.reveal { 
+  opacity: 0; 
+  transform: translateY(16px); 
+  transition: opacity .6s ease, transform .6s ease; 
+}
+
+.reveal.visible { 
+  opacity: 1; 
+  transform: none; 
+}
+
+/* Optional Scroll Snap for sections */
+@supports (scroll-snap-type: y proximity) {
+  html, body { 
+    scroll-snap-type: y proximity; 
+  }
+  
+  section.snap { 
+    scroll-snap-align: start; 
+  }
+}
+
+/* CSS Scroll-Driven Animations (Progressive Enhancement) */
+@supports (animation-timeline: scroll()) {
+  @keyframes fadeUp { 
+    from { 
+      opacity: 0; 
+      transform: translateY(20px);
+    } 
+    to { 
+      opacity: 1; 
+      transform: none;
+    }
+  }
+  
+  .section-reveal {
+    animation: fadeUp 1s linear both;
+    animation-timeline: scroll();
+    animation-range: entry 0% cover 80%;
+  }
+  
+  /* Parallax layer for modern browsers */
+  @keyframes parallaxMove {
+    from { transform: translateY(0); }
+    to { transform: translateY(-20%); }
+  }
+  
+  .parallax-layer {
+    animation: parallaxMove linear;
+    animation-timeline: scroll();
+    animation-range: entry 0% exit 100%;
+  }
+}
+
+/* Horizontal carousel with scroll snap */
+.carousel { 
+  display: flex; 
+  overflow-x: auto; 
+  gap: 1rem; 
+  scroll-snap-type: x proximity; 
+  -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+}
+
+.carousel > * { 
+  scroll-snap-align: center; 
+  flex: 0 0 80%; 
+}
+
+/* Performance optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+/* After animations complete */
+.animation-done {
+  will-change: auto;
+}
+
+/* Lazy loading placeholder */
+.lazy-placeholder {
+  background: linear-gradient(135deg, #1a1f3a, #0b0e1d);
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+/* Modern glassmorphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Smooth scroll behavior for the whole page */
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Disable smooth scroll for reduced motion users */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid currentColor;
+  }
+  
+  .btn {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Print styles */
+@media print {
+  .top-nav,
+  .hero,
+  video,
+  .media-card {
+    display: none;
+  }
+  
+  .panel {
+    page-break-inside: avoid;
+  }
+}

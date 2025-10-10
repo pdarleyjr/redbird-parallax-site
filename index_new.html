@@ -2,17 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Red Bird Trick-or-Treat Trail 2024</title>
     
     <!-- Styles -->
-    <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="style.css">
+    <!-- Only load the unified CSS, remove legacy -->
     <link rel="stylesheet" href="css/featured-houses-unified.css">
-    
-    <!-- Preconnect to CDNs -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     
     <!-- Preload critical images -->
     <link rel="preload" as="image" href="assets/img/hero_kids_map.jpg">
@@ -27,8 +23,8 @@
         <a href="https://www.jotform.com/252478605926063" target="_blank">Sign Up</a>
     </nav>
     
-    <!-- Hero Section with optimized background -->
-    <section id="hero" class="panel hero parallax-bg">
+    <!-- Hero Section -->
+    <section id="hero" class="panel hero">
         <div class="hero-content">
             <h1>Welcome to<br>Red Bird<br>Trick-or-Treat Trail</h1>
             <p>Join your neighbors for a safe, fun Halloween experience</p>
@@ -36,14 +32,14 @@
         </div>
     </section>
     
-    <!-- About Section with optimized video -->
-    <section id="about" class="panel about section-reveal">
+    <!-- About Section with Halloween Video -->
+    <section id="about" class="panel about">
         <div class="content">
             <h2>About the Red Bird Trail</h2>
             
-            <!-- Video Card - Optimized for mobile -->
+            <!-- Video Card - Using the Halloween video -->
             <figure class="media-card">
-                <video class="media cover-media" muted playsinline loop preload="metadata" autoplay>
+                <video class="media" muted playsinline loop preload="metadata">
                     <source src="images/halloween_video.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -73,8 +69,8 @@
         </div>
     </section>
     
-    <!-- How It Works Section with scroll snap option -->
-    <section id="how-it-works" class="panel steps snap section-reveal">
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="panel steps">
         <div class="content">
             <h2>How It Works</h2>
             <div class="steps-grid">
@@ -107,23 +103,20 @@
         </div>
     </section>
     
-    <!-- Map Section with lazy loading -->
-    <section id="map" class="panel map snap section-reveal">
+    <!-- Map Section -->
+    <section id="map" class="panel map">
         <div class="content">
             <h2>Trick-or-Treat Map</h2>
             <p class="map-subtitle">Find participating houses in the Red Bird neighborhood</p>
             
-            <!-- Map Container with lazy loading -->
+            <!-- Map Container with Google My Maps embed -->
             <div class="map-frame">
                 <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1" 
-                        width="640" 
-                        height="480" 
-                        loading="lazy"
-                        title="Red Bird Trick-or-Treat Trail Map"></iframe>
+                        width="640" height="480" loading="lazy"></iframe>
             </div>
             
             <!-- Call to Action -->
-            <div class="cta-section glass">
+            <div class="cta-section">
                 <h3>Want to participate?</h3>
                 <p>Register your house to be part of the Red Bird Trick-or-Treat Trail!</p>
                 <a href="https://www.jotform.com/252478605926063" target="_blank" class="btn btn-accent">Sign Up Now</a>
@@ -131,20 +124,10 @@
         </div>
     </section>
     
-    <!-- Scripts - Progressive Enhancement -->
-    <!-- Optional smooth scroll library -->
-    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@latest/bundled/lenis.min.js" defer></script>
-    
-    <!-- GSAP and ScrollTrigger -->
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <!-- Optional Lottie for animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js" defer></script>
-    
-    <!-- Application scripts -->
     <script src="js/houses-final.js" defer></script>
-    <script src="js/app.js" defer></script>
     <script src="js/main.js" defer></script>
 </body>
 </html>

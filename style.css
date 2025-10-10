@@ -13,18 +13,29 @@ body{
   font:16px/1.6 system-ui,Segoe UI,Inter;
 }
 
-/* Panels without blocking overlays */
+/* Panels with dynamic viewport height */
 .panel{
   position:relative;
-  min-height:100vh;
+  min-height:100vh; /* fallback */
+  min-height:100dvh; /* dynamic viewport height */
+  min-height:-webkit-fill-available; /* iOS fallback */
   padding:80px 0;
+  padding-bottom:calc(80px + env(safe-area-inset-bottom));
   overflow:visible;
 }
 
-/* Background images - optimized loading */
+/* Background images - optimized for mobile */
 .hero{
   background:url("assets/img/hero_kids_map.jpg") center/cover no-repeat fixed;
 }
+
+/* Disable fixed attachment on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .hero {
+    background-attachment: scroll !important;
+  }
+}
+
 .about{
   background:url("assets/img/redbird-center-night.jpg") center/cover no-repeat;
 }
@@ -35,12 +46,14 @@ body{
   background:url("assets/img/halloween-night-map-bg.png") center/cover no-repeat;
 }
 
-/* Hero specific */
+/* Hero specific with dynamic height */
 .hero{
   display:flex;
   align-items:center;
   justify-content:center;
   padding:4rem 20px;
+  min-height:100vh; /* fallback */
+  min-height:100dvh; /* dynamic */
 }
 .hero-content{
   text-align:center;
@@ -49,6 +62,7 @@ body{
   background:rgba(0,0,0,0.5);
   border-radius:20px;
   backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
 }
 .hero-content h1{
   font-size:clamp(2rem,5vw,4rem);
@@ -76,7 +90,7 @@ body{
   color:#fff;
 }
 
-/* Media card / video - improved */
+/* Media card / video - improved with aspect ratio */
 .media-card{ 
   border-radius:18px; 
   box-shadow:0 12px 40px rgb(0 0 0 / .45); 
@@ -84,7 +98,8 @@ body{
   margin:0 auto 3rem;
   background:#000;
   max-width:800px;
-  height:400px;
+  aspect-ratio:2/1;
+  height:auto;
 }
 .media-card .media{ 
   width:100%; 
@@ -94,7 +109,7 @@ body{
   object-position:center; 
 }
 
-/* Cards - ensure visibility */
+/* Cards - ensure visibility with glassmorphism */
 .steps-grid{ 
   display:grid; 
   gap:30px; 
@@ -112,6 +127,7 @@ body{
   box-shadow:0 8px 30px rgb(0 0 0 / .5); 
   transition:transform .2s, box-shadow .2s;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 .card:hover{ 
   transform:translateY(-4px); 
@@ -206,6 +222,8 @@ body{
   padding:2rem;
   background:rgba(255,255,255,0.05);
   border-radius:16px;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
 }
 .cta-section h3{
   font-size:1.8rem;
@@ -222,10 +240,14 @@ body{
 
 /* Performance optimizations */
 @media (prefers-reduced-motion: reduce){
-  *{animation:none !important;transition:none !important;}
+  *{
+    animation:none !important;
+    transition:none !important;
+    scroll-behavior:auto !important;
+  }
 }
 
-/* Mobile responsive */
+/* Mobile responsive with better breakpoints */
 @media (max-width:900px){ 
   .steps-grid{ 
     grid-template-columns:1fr; 
@@ -236,9 +258,28 @@ body{
   .map-frame iframe{
     height:400px;
   }
+  .media-card{
+    height:300px;
+  }
 }
 
-
+@media (max-width:600px) {
+  .panel {
+    padding: 60px 0;
+  }
+  .hero {
+    padding: 2rem 15px;
+  }
+  .hero-content {
+    padding: 1.5rem;
+  }
+  .content h2 {
+    font-size: 1.8rem;
+  }
+  .card {
+    padding: 20px;
+  }
+}
 
 /* Featured Houses Section */
 .featured-houses { 
@@ -268,6 +309,7 @@ body{
   border-radius: 16px;
   background: rgba(255,255,255,0.06);
   backdrop-filter: saturate(120%) blur(2px);
+  -webkit-backdrop-filter: saturate(120%) blur(2px);
   border: 1px solid rgba(255,255,255,0.1);
   transition: transform .2s, box-shadow .2s;
 }
@@ -319,6 +361,7 @@ body{
   z-index: 9999;
   background: rgba(11, 14, 29, 0.95);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   padding: 15px 30px;
   display: flex;
   justify-content: center;
