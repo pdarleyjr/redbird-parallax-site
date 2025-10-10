@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.35 });
     
     // Add reveal class to elements
-    document.querySelectorAll('h2, .media-card, .map-frame').forEach(el => {
+    document.querySelectorAll('.card, h2, .media-card, .map-frame').forEach(el => {
       el.classList.add('reveal');
       io.observe(el);
     });
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       // Staggered card animations
-      gsap.from("#how-it-works .card", {
+      gsap.from(".card", {
         y: 40,
         opacity: 0,
         duration: 0.8,
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mobile animations (simplified)
     mm.add("(max-width: 767px)", () => {
       // Simple fade-in for mobile
-      gsap.from("#how-it-works .card", {
+      gsap.from(".card", {
         opacity: 0,
         duration: 0.6,
         stagger: 0.1,
