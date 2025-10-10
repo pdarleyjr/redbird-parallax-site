@@ -173,12 +173,12 @@ img, video {
 }
 
 /* High contrast mode support */
-@media (prefers-contrast: high) {
+@supports (color: color(display-p3 1 1 1)) { @media (prefers-contrast: high) {
   .card {
     border: 2px solid currentColor;
   }
   
-  .btn {
+  } .btn {
     border: 2px solid currentColor;
   }
 }
