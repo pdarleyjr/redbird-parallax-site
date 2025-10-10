@@ -292,3 +292,9 @@ button:focus,
     border: 2px solid currentColor !important;
   }
 }
+
+/* Ensure 'how-it-works' cards are visible by default (progressive enhancement) */
+#how-it-works .card {
+  opacity: 1 !important;
+  transform: none !important;
+}
