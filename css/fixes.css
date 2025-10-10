@@ -1,0 +1,294 @@
+/* === COMPREHENSIVE FIXES FOR REDBIRD PARALLAX SITE === */
+
+/* ========================================
+   1. FEATURED HOUSES ICON FIXES
+   ======================================== */
+
+/* Icon container fix */
+.house-card__icon {
+  width: 40px !important;
+  height: 40px !important;
+  flex: 0 0 40px !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(135deg, #ff7a1a, #ff5a00) !important;
+  padding: 8px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+}
+
+.house-card__icon img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  display: block !important;
+  filter: brightness(0) invert(1); /* Make icon white */
+}
+
+/* Ensure house items are properly sized */
+.house-item {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* ========================================
+   2. SECTION TITLES & COPY VISIBILITY FIXES
+   ======================================== */
+
+/* Force all section titles to be visible */
+h1, h2, h3, h4, h5, h6 {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+/* Base text visibility - remove any hidden defaults */
+.section-title, .copy, p, address {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+/* Reveal animation - make it opt-in only */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ========================================
+   3. ACTION CARDS PLACEMENT FIXES
+   ======================================== */
+
+/* Ensure proper section containment */
+.panel {
+  position: relative;
+  isolation: isolate; /* Create new stacking context */
+  z-index: 1;
+  overflow: visible;
+}
+
+/* Remove any absolute positioning from card grids */
+.steps-grid,
+.cards-grid {
+  position: static !important;
+  display: grid;
+  gap: 1rem;
+  margin-top: 0 !important; /* Remove negative margins */
+  margin-bottom: 0 !important;
+}
+
+/* Parallax decorative layers shouldn't block content */
+.parallax-decor,
+.parallax-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Ensure content is above decorative layers */
+.panel > .container,
+.panel > .content {
+  position: relative;
+  z-index: 1 !important;
+}
+
+/* ========================================
+   4. MOBILE & CROSS-DEVICE HARDENING
+   ======================================== */
+
+/* Dynamic viewport height for all panels */
+.panel,
+.hero,
+.fullscreen {
+  min-height: 100vh; /* Fallback */
+  min-height: 100dvh; /* Dynamic viewport height */
+  min-height: -webkit-fill-available; /* iOS fallback */
+}
+
+/* Fix background-attachment on mobile */
+@media (hover: none) and (pointer: coarse) {
+  .parallax-bg,
+  .hero,
+  .about,
+  .map {
+    background-attachment: scroll !important;
+  }
+}
+
+/* Touch device specific fixes */
+.touch-device .parallax-bg {
+  background-attachment: scroll !important;
+}
+
+/* Ensure images are responsive */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========================================
+   5. FEATURED HOUSES SECTION FIXES
+   ======================================== */
+
+#featured-houses {
+  width: 100%;
+  padding: 3rem 0;
+}
+
+#featured-houses .content {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.featured-card {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* ========================================
+   6. NAVIGATION Z-INDEX FIX
+   ======================================== */
+
+.top-nav {
+  z-index: 10000 !important;
+  pointer-events: auto !important;
+}
+
+/* Ensure overlays don't block navigation */
+.overlay,
+.veil,
+.hero::before,
+.hero::after {
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+/* ========================================
+   7. SCROLL TRIGGER CLEANUP
+   ======================================== */
+
+/* Prevent pinned sections from overlapping */
+.pin-spacer {
+  pointer-events: none !important;
+}
+
+.pin-spacer > * {
+  pointer-events: auto !important;
+}
+
+/* ========================================
+   8. RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+@media (max-width: 768px) {
+  /* Mobile card grid */
+  .steps-grid,
+  .cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem;
+  }
+  
+  /* Mobile house grid */
+  .house-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Smaller icons on mobile */
+  .house-card__icon {
+    width: 36px !important;
+    height: 36px !important;
+    flex: 0 0 36px !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Tablet layout */
+  .steps-grid,
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  /* Desktop layout */
+  .steps-grid,
+  .cards-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+/* ========================================
+   9. PERFORMANCE OPTIMIZATIONS
+   ======================================== */
+
+/* Remove will-change after animation */
+.animation-done {
+  will-change: auto !important;
+}
+
+/* GPU acceleration for transforms */
+.parallax-layer,
+.card {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ========================================
+   10. ACCESSIBILITY IMPROVEMENTS
+   ======================================== */
+
+/* Focus states */
+a:focus,
+button:focus,
+.card:focus-within {
+  outline: 2px solid #ff7a1a;
+  outline-offset: 2px;
+}
+
+/* Skip navigation for screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card,
+  .btn {
+    border: 2px solid currentColor !important;
+  }
+}
