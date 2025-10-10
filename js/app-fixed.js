@@ -74,8 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Responsive animations with matchMedia
     const mm = gsap.matchMedia();
     
-    // Desktop animations (768px+)
-    mm.add("(min-width: 768px)", () => {
+    // Desktop animations (1024px+)
+    mm.add("(min-width: 1024px)", () => {
       // Parallax effect for hero background - safer implementation
       const heroSection = document.querySelector('.hero');
       if (heroSection && !('ontouchstart' in window)) {
