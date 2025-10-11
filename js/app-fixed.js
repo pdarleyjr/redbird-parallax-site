@@ -1,4 +1,4 @@
-// Modern Parallax Site App - Mobile Optimized with Fixes
+﻿// Modern Parallax Site App - Mobile Optimized with Fixes
 document.addEventListener('DOMContentLoaded', () => {
   // === Motion Preference Check ===
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -343,6 +343,3 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Optional: reduced motion disables heavy scroll effects entirely
-mm.add(\(prefers-reduced-motion: reduce)\, () =  ScrollTrigger.getAll().forEach(t =;
-});
