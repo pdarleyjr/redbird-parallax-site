@@ -341,3 +341,8 @@ document.addEventListener('DOMContentLoaded', () => {
   
   console.log('Mobile optimizations and fixes loaded successfully');
 });
+
+
+// Optional: reduced motion disables heavy scroll effects entirely
+mm.add(\(prefers-reduced-motion: reduce)\, () =  ScrollTrigger.getAll().forEach(t =;
+});
