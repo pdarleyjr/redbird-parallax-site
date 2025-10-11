@@ -16,21 +16,20 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     
     <!-- Preload critical images -->
-    <!-- PapaParse for robust CSV parsing -->
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
-    <script src="js/reveals.js" defer></script>`n</head>
+    <link rel="preload" href="/assets/img/hero_kids_map.jpg" as="image" imagesrcset="/assets/img/hero_kids_map.jpg 1600w" imagesizes="100vw">
+
 <body>
     <!-- Top Navigation -->
     <nav class="top-nav">
         <a href="#hero">Home</a>
         <a href="#about">About</a>
-        <a href="#how-it-works">How It Works</a>
+        <a href="#how">How It Works</a>
         <a href="#map">Trail Map</a>
         <a href="https://www.jotform.com/252478605926063" target="_blank">Sign Up</a>
     </nav>
     
     <!-- Hero Section with optimized background -->
-    <section id="hero" class="panel hero parallax-bg">
+    <section id="hero" class="panel hero parallax-bg" data-parallax="0.15">
         <div class="hero-content">
             <h1>Welcome to<br>Red Bird<br>Trick-or-Treat Trail</h1>
             <p>Join your neighbors for a safe, fun Halloween experience</p>
@@ -44,66 +43,67 @@
             <h2 class="section-title">About the Red Bird Trail</h2>
             
             <!-- Video Card - Optimized for mobile -->
-            <figure class="media-card">
-                <video class="media cover-media" muted playsinline loop preload="metadata" autoplay>
-                    <source src="images/halloween_video.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </figure>
+            <div class="media-frame">
+              <video
+                src="/assets/video/about-trail.mp4"
+                autoplay muted loop playsinline
+                preload="metadata" aria-label="About the Red Bird Trail">
+              </video>
+            </div>
         </div>
     </section>
-    
-    <!-- Highlights Section - Properly separated action cards -->
-    <section id="highlights" class="panel">
+    <!-- expect Section - Properly separated action cards -->
+    <section id="what-to-expect" aria-labelledby="expect-title" data-reveal>
         <div class="content">
-            <h2 class="section-title">What to Expect</h2>
+            <h2 id="expect-title">What to Expect</h2>
             <!-- Info Cards Grid -->
-            <div class="steps-grid">
-                <div class="card">
+            <ul class="cards">
+                <li class="card" data-reveal-item>
                     <div class="card-icon">🎃</div>
                     <h3>Safe Trick-or-Treating</h3>
                     <p>Join your neighbors for a safe, fun Halloween experience throughout the neighborhood.</p>
-                </div>
-                
-                <div class="card">
+                </li>
+
+                <li class="card" data-reveal-item>
                     <div class="card-icon">🍬</div>
                     <h3>Community Event</h3>
                     <p>Organized by Red Bird residents for our community. Participating houses appear on the map with their <strong>custom Halloween pins</strong>.</p>
-                </div>
-                
-                <div class="card">
+                </li>
+
+                <li class="card" data-reveal-item>
                     <div class="card-icon">📍</div>
                     <h3>October 31st, 6-9 PM</h3>
                     <p>Mark your calendars! The Red Bird Trail runs from 6:00 PM to 9:00 PM on Halloween night. Rain or shine!</p>
                     <a href="https://www.jotform.com/252478605926063" target="_blank" class="btn btn-primary">Sign Up Your House</a>
-                </div>
-            </div>
+                </li>
+            </ul>
         </div>
+    </section>
     </section>
     
     <!-- How It Works Section with scroll snap option -->
-    <section id="how-it-works" class="panel steps snap section-reveal">
+    <section id="how-it-works" aria-labelledby="how-title" data-reveal>
         <div class="content">
-            <h2 class="section-title">How It Works</h2>
-            <div class="steps-grid">
-                <div class="card">
+            <h2 id="how-title">How It Works</h2>
+            <ul class="cards">
+                <li class="card" data-reveal-item>
                     <div class="step-number">1</div>
                     <h3>Check the Map</h3>
                     <p>See participating houses marked with <strong>custom Halloween pins</strong> and plan your route.</p>
-                </div>
-                
-                <div class="card">
+                </li>
+
+                <li class="card" data-reveal-item>
                     <div class="step-number">2</div>
                     <h3>Spot the Decor</h3>
                     <p>Look for porch lights and Halloween decorations — many homes go all-out.</p>
-                </div>
-                
-                <div class="card">
+                </li>
+
+                <li class="card" data-reveal-item>
                     <div class="step-number">3</div>
                     <h3>Stay Safe</h3>
                     <p>Use sidewalks, bring flashlights, and keep an eye on little ones.</p>
-                </div>
-            </div>
+                </li>
+            </ul>
         </div>
     </section>
     
@@ -142,20 +142,11 @@
     </section>
     
     <!-- Scripts - Progressive Enhancement -->
-    <!-- Optional smooth scroll library -->
-    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@latest/bundled/lenis.min.js" defer></script>
-    
-    <!-- GSAP and ScrollTrigger -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <!-- Optional Lottie for animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js" defer></script>
-    
-    <!-- Application scripts - Only one houses script -->
-    <script src="js/houses-final.js" defer></script>
+    <!-- PapaParse BEFORE houses script -->
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+    <!-- App code (defer all) -->
     <script src="js/app-fixed.js" defer></script>
-    <script src="js/main.js" defer></script>
+    <script src="js/houses-final.js" defer></script>
 </body>
 </html>
 

@@ -21,63 +21,9 @@
 
   const slugify = s => (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
 
-  // RFC 4180 compliant CSV parser
-  function parseCSV(text) {
-    const lines = [];
-    let currentLine = [];
-    let currentField = '';
-    let inQuotes = false;
-    
-    for (let i = 0; i < text.length; i++) {
-      const char = text[i];
-      const nextChar = text[i + 1];
-      
-      if (inQuotes) {
-        if (char === '"') {
-          if (nextChar === '"') {
-            // Escaped quote
-            currentField += '"';
-            i++; // Skip next quote
-          } else {
-            // End of quoted field
-            inQuotes = false;
-          }
-        } else {
-          currentField += char;
-        }
-      } else {
-        if (char === '"') {
-          // Start of quoted field
-          inQuotes = true;
-        } else if (char === ',') {
-          // Field separator
-          currentLine.push(currentField.trim());
-          currentField = '';
-        } else if (char === '\n' || char === '\r') {
-          // Line separator
-          if (currentField || currentLine.length > 0) {
-            currentLine.push(currentField.trim());
-            lines.push(currentLine);
-            currentLine = [];
-            currentField = '';
-          }
-          // Skip \r\n combination
-          if (char === '\r' && nextChar === '\n') {
-            i++;
-          }
-        } else {
-          currentField += char;
-        }
-      }
-    }
-    
-    // Add last field/line if exists
-    if (currentField || currentLine.length > 0) {
-      currentLine.push(currentField.trim());
-      lines.push(currentLine);
-    }
-    
-    return lines.filter(line => line.some(field => field.length > 0));
+  if (!window.Papa) {
+    console.error('PapaParse missing');
+    return;
   }
 
   function resolveIcon(houseName, explicit) {

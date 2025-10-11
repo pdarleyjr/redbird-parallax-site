@@ -1,5 +1,12 @@
 /* === Base CSS with Mobile Optimization & Modern Features === */
 
+:root {
+  --vh: 1vh; /* fallback */
+}
+@supports (height: 100dvh) {
+  :root { --vh: 1dvh; }
+}
+
 /* === Viewport/Media utilities === */
 img, video { 
   max-width: 100%; 
@@ -26,8 +33,7 @@ img, video {
 
 /* Dynamic viewport height fix for mobile */
 .fullscreen, .hero, .panel {
-  min-height: 100vh; /* legacy fallback */
-  min-height: 100dvh; /* modern: dynamic viewport height */
+  min-height: calc(var(--vh) * 100); /* use var for iOS dvh */
   min-height: -webkit-fill-available; /* older iOS fallback */
   padding-bottom: env(safe-area-inset-bottom); /* iOS inset safety */
 }

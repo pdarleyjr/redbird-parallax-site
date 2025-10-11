@@ -75,44 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const mm = gsap.matchMedia();
     
     // Desktop animations (1024px+)
+    // Desktop animations (1024px+)
     mm.add("(min-width: 1024px)", () => {
-      // Parallax effect for hero background - safer implementation
-      const heroSection = document.querySelector('.hero');
-      if (heroSection && !('ontouchstart' in window)) {
-        // Create a parallax layer div only for non-touch devices
-        const existingLayer = heroSection.querySelector('.parallax-layer');
-        if (!existingLayer) {
-          const parallaxLayer = document.createElement('div');
-          parallaxLayer.className = 'parallax-layer';
-          parallaxLayer.style.cssText = `
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 120%;
-            background: inherit;
-            background-attachment: scroll;
-            will-change: transform;
-            z-index: -1;
-            pointer-events: none;
-          `;
-          heroSection.style.position = 'relative';
-          heroSection.style.overflow = 'hidden';
-          heroSection.insertBefore(parallaxLayer, heroSection.firstChild);
-          
-          gsap.to(parallaxLayer, {
-            yPercent: -20,
-            ease: "none",
-            scrollTrigger: {
-              trigger: heroSection,
-              start: "top top",
-              end: "bottom top",
-              scrub: 0.5
-            }
-          });
-        }
-      }
-      
       // Staggered card animations for highlights section
       const highlightsCards = document.querySelectorAll("#highlights .card");
       if (highlightsCards.length > 0) {
@@ -339,6 +303,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
+  // === Simple, stable reveal with IntersectionObserver (no external file) ===
+  (function () {
+    if (!('IntersectionObserver' in window)) return; // progressive enhance
+
+    const groups = document.querySelectorAll('[data-reveal]');
+    groups.forEach((group) => {
+      group.classList.add('reveal-init');
+      const items = group.querySelectorAll('[data-reveal-item]');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('reveal-in');
+            io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -5% 0px', threshold: 0.1 });
+      items.forEach(el => io.observe(el));
+    });
+  })();
+
+  // === Transform-based parallax ===
+  (function(){
+    const layers = document.querySelectorAll('[data-parallax]');
+    if (!layers.length) return;
+
+    let y = 0;
+    const onScroll = () => {
+      const s = window.scrollY || window.pageYOffset;
+      // Each layer has data-parallax="0.15" or similar speed factor
+      layers.forEach(el => {
+        const f = parseFloat(el.getAttribute('data-parallax')) || 0.15;
+        el.style.transform = `translateY(${Math.round(s * f)}px)`;
+      });
+    };
+
+    document.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+
   console.log('Mobile optimizations and fixes loaded successfully');
 });
 

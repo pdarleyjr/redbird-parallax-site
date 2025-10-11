@@ -299,30 +299,28 @@ button:focus,
   transform: none !important;
 }
 
-/* Media frame with aspect-ratio for mobile */
+/* Responsive media frame: maintains 16:9 and centers content */
 .media-frame {
-  width: min(100%, 920px);
-  margin: 24px auto;
+  position: relative;
+  width: min(100%, 960px);
+  margin-inline: auto;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 18px;
-  box-shadow: 0 20px 60px rgb(0 0 0 / .35);
-  background: #0b0f18;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.35);
 }
-
-.media-frame > img,
 .media-frame > video,
-.about-video {
+.media-frame > img,
+.media-frame > iframe {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover;   /* crop to fill */
   object-position: center;
-  display: block;
 }
-
-@media (max-width: 480px) {
-  .media-frame { aspect-ratio: 4 / 3; }
-  [data-reduced=""true""] .media-frame > video { object-fit: contain; }
+@supports not (aspect-ratio: 16/9) {
+  .media-frame { height: 0; padding-bottom: 56.25%; }
 }
 
 /* IO Reveal animations */
@@ -371,6 +369,31 @@ button:focus,
   width:40px; height:40px; border-radius:50%;
   background:#FF7A1A; color:#fff; font-weight:700; margin-bottom:10px;
 }
+
+/* Default-visible reveal pattern */
+[data-reveal] { /* container hook only; no default hiding */ }
+[data-reveal] [data-reveal-item] {
+  opacity: 1;
+  transform: none;
+  transition: opacity .6s ease, transform .6s ease;
+}
+
+/* When JS enhancement is active, it adds .reveal-init to the container: */
+.reveal-init [data-reveal-item] {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.reveal-init .reveal-in view { /* nothing; JS toggles .reveal-in per item */ }
+.reveal-in { opacity: 1 !important; transform: none !important; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] [data-reveal-item],
+  .reveal-init [data-reveal-item] { transition: none !important; transform: none !important; }
+}
+
+/* Transform-based parallax */
+.parallax-layer, [data-parallax] { will-change: transform; transform: translateY(0); }
 
 /* House icons fix */
 .house-icon {
