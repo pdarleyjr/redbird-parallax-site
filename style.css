@@ -26,17 +26,17 @@ body{
 
 /* Background images - optimized for mobile */
 .hero{
-  background:url("/assets/img/hero_kids_map.jpg") center/cover no-repeat scroll;
+  background:url("assets/img/hero_kids_map.jpg") center/cover no-repeat scroll;
 }
 
 .about{
-  background:url("/assets/img/redbird-center-night.jpg") center/cover no-repeat;
+  background:url("assets/img/redbird-center-night.jpg") center/cover no-repeat;
 }
 .steps{
   background:linear-gradient(135deg, #1a1f3a, #0b0e1d);
 }
 .map{
-  background:url("/assets/img/halloween-night-map-bg.png") center/cover no-repeat;
+  background:url("assets/img/halloween-night-map-bg.png") center/cover no-repeat;
 }
 
 /* Hero specific with dynamic height */

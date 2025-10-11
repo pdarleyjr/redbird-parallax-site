@@ -99,8 +99,112 @@
       return;
     }
 
+    // Check if we're running from file:// protocol
+    const isFileProtocol = window.location.protocol === 'file:';
+    
+    // If running locally and we have embedded data, use it
+    if (isFileProtocol && window.HOUSES_DATA) {
+      console.log('Using embedded houses data for local viewing');
+      renderEmbeddedHouses(container);
+      return;
+    }
+
+    // Check if PapaParse is available
+    if (!window.Papa) {
+      console.error('PapaParse not loaded - falling back to manual parsing');
+      renderHousesManual();
+      return;
+    }
+
     try {
       // Fetch the CSV data
+      const response = await fetch('data/Red_Bird_Trick-or-Treat_Trail_2025-10-06_19_26_14.csv');
+      if (!response.ok) throw new Error('Failed to fetch CSV');
+      
+      const text = await response.text();
+      
+      // Parse CSV with PapaParse
+      const result = Papa.parse(text, {
+        header: false,
+        skipEmptyLines: true,
+        dynamicTyping: false
+      });
+      
+      if (result.errors.length > 0) {
+        console.warn('CSV parsing warnings:', result.errors);
+      }
+      
+      const houses = [];
+      // Skip header row, start from index 1
+      for (let i = 1; i < result.data.length; i++) {
+        const row = result.data[i];
+        if (row.length >= 3) {
+          const funName = row[2] || 'Haunted House';
+          const address = row[1] || '';
+          
+          if (address) {
+            const iconPath = resolveIcon(funName);
+            houses.push({
+              title: funName,
+              subtitle: makeSubtitle(funName),
+              address: address,
+              icon: iconPath,
+              slug: slugify(funName)
+            });
+          }
+        }
+      }
+      
+      // Add Graveyard house if not already present
+      if (!houses.some(h => h.title.toLowerCase().includes('graveyard'))) {
+        houses.push({
+          title: 'Red Bird Restless Graveyard',
+          subtitle: 'Fog and friendly frights await',
+          address: '3821 SW 60th Ave, Miami, FL 33155',
+          icon: resolveIcon('Red Bird Restless Graveyard'),
+          slug: 'red-bird-restless-graveyard'
+        });
+      }
+
+      // Render the houses
+      renderHouseHTML(container, houses);
+      
+    } catch (error) {
+      console.error('Error loading houses:', error);
+      // If fetch fails and we have embedded data, use it as fallback
+      if (window.HOUSES_DATA) {
+        console.log('Using embedded data as fallback');
+        renderEmbeddedHouses(container);
+      } else {
+        showError(container, error);
+      }
+    }
+  }
+  
+  // Render houses from embedded data
+  function renderEmbeddedHouses(container) {
+    if (!window.HOUSES_DATA) {
+      showError(container, new Error('No houses data available'));
+      return;
+    }
+    
+    const houses = window.HOUSES_DATA.map(item => ({
+      title: item.funName || 'Haunted House',
+      subtitle: makeSubtitle(item.funName),
+      address: item.address || '',
+      icon: resolveIcon(item.funName),
+      slug: slugify(item.funName)
+    }));
+    
+    renderHouseHTML(container, houses);
+  }
+
+  // Manual CSV parsing fallback
+  async function renderHousesManual() {
+    const container = document.getElementById('houses-unified-container');
+    if (!container) return;
+
+    try {
       const response = await fetch('data/Red_Bird_Trick-or-Treat_Trail_2025-10-06_19_26_14.csv');
       if (!response.ok) throw new Error('Failed to fetch CSV');
       
@@ -111,8 +215,6 @@
         throw new Error('CSV has no data');
       }
 
-      // Parse CSV
-      const headers = lines[0].split(',').map(h => h.trim());
       const houses = [];
       
       for (let i = 1; i < lines.length; i++) {
@@ -141,52 +243,56 @@
         slug: 'red-bird-restless-graveyard'
       });
 
-      // Build the HTML with proper icon structure
-      const html = `
-        <div class="houses-container">
-          <div class="container-header">
-            <h4>🎃 ${houses.length} Participating Houses 🎃</h4>
-            <p>Visit each house for unique Halloween treats!</p>
-          </div>
-          <ul class="house-grid">
-            ${houses.map(house => `
-              <li class="house-item">
-                <div class="house-card__icon">
-                  <img src="${house.icon}" 
-                       alt="${house.title} icon" 
-                       class="house-icon" 
-                       loading="lazy" 
-                       decoding="async"
-                       onerror="this.src='${ICON_BASE}${ICON_FALLBACK}'">
-                </div>
-                <div class="house-details">
-                  <h5 class="house-name">${house.title}</h5>
-                  <p class="house-subtitle">${house.subtitle}</p>
-                  <address class="house-address">${house.address}</address>
-                </div>
-              </li>
-            `).join('')}
-          </ul>
-        </div>
-      `;
-      
-      container.innerHTML = html;
-      console.log(`Successfully rendered ${houses.length} houses with icons`);
-      
-      // Log icon paths for debugging
-      houses.forEach(house => {
-        console.log(`House: "${house.title}" -> Icon: "${house.icon}"`);
-      });
+      renderHouseHTML(container, houses);
       
     } catch (error) {
       console.error('Error loading houses:', error);
-      container.innerHTML = `
-        <div style="text-align: center; padding: 2rem; color: #ff7a1a;">
-          <p>Unable to load houses data. Please refresh the page.</p>
-          <p style="color: #666; font-size: 0.9rem;">Error: ${error.message}</p>
-        </div>
-      `;
+      showError(container, error);
     }
+  }
+
+  // Shared HTML rendering function
+  function renderHouseHTML(container, houses) {
+    const html = `
+      <div class="houses-container">
+        <div class="container-header">
+          <h4>🎃 ${houses.length} Participating Houses 🎃</h4>
+          <p>Visit each house for unique Halloween treats!</p>
+        </div>
+        <ul class="house-grid">
+          ${houses.map(house => `
+            <li class="house-item">
+              <div class="house-card__icon">
+                <img src="${house.icon}"
+                     alt="${house.title} icon"
+                     class="house-icon"
+                     loading="lazy"
+                     decoding="async"
+                     onerror="this.src='${ICON_BASE}${ICON_FALLBACK}'">
+              </div>
+              <div class="house-details">
+                <h5 class="house-name">${house.title}</h5>
+                <p class="house-subtitle">${house.subtitle}</p>
+                <address class="house-address">${house.address}</address>
+              </div>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+    `;
+    
+    container.innerHTML = html;
+    console.log(`Successfully rendered ${houses.length} houses with icons`);
+  }
+
+  // Error display function
+  function showError(container, error) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 2rem; color: #ff7a1a;">
+        <p>Unable to load houses data. Please refresh the page.</p>
+        <p style="color: #666; font-size: 0.9rem;">Error: ${error.message}</p>
+      </div>
+    `;
   }
 
   // Initialize when DOM is ready

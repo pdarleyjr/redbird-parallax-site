@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>`n    <meta charset="UTF-8">`n    <meta name="viewport" content="width=device-width, initial-scale=1">`n    <title>Red Bird Trick-or-Treat Trail 2024</title>`n    `n    <!-- JS-enabled hook for progressive enhancement -->`n    <script>document.documentElement.classList.add('js');</script>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Red Bird Trick-or-Treat Trail 2024</title>
     
+    <!-- JS-enabled hook for progressive enhancement -->
+    <script>document.documentElement.classList.add('js');</script>
+    
     <!-- Styles -->
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="css/featured-houses-unified.css">`n    <link rel="stylesheet" href="css/fixes.css">
-    <link rel="stylesheet" href="css/opus-fixes.css">
+    <link rel="stylesheet" href="css/featured-houses-unified.css">
     
     <!-- Preconnect to CDNs -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     
-    <!-- Preload critical images -->
-    <link rel="preload" href="/assets/img/hero_kids_map.jpg" as="image" imagesrcset="/assets/img/hero_kids_map.jpg 1600w" imagesizes="100vw">
-
+    <!-- Preload critical images with relative paths -->
+    <link rel="preload" href="assets/img/hero_kids_map.jpg" as="image" fetchpriority="high">
+</head>
 <body>
     <!-- Top Navigation -->
     <nav class="top-nav">
         <a href="#hero">Home</a>
         <a href="#about">About</a>
-        <a href="#how">How It Works</a>
+        <a href="#what-to-expect">What to Expect</a>
+        <a href="#how-it-works">How It Works</a>
         <a href="#map">Trail Map</a>
         <a href="https://www.jotform.com/252478605926063" target="_blank">Sign Up</a>
     </nav>
@@ -36,28 +39,41 @@
             <a href="#map" class="btn btn-primary">View the Trail Map</a>
         </div>
     </section>
-    
     <!-- About Section with optimized video -->
     <section id="about" class="panel about section-reveal">
         <div class="content">
-            <h2 class="section-title">About the Red Bird Trail</h2>
+            <h2 class="section-title reveal">About the Red Bird Trail</h2>
             
             <!-- Video Card - Optimized for mobile -->
-            <div class="media-frame">
-              <video
-                src="/assets/video/about-trail.mp4"
-                autoplay muted loop playsinline
-                preload="metadata" aria-label="About the Red Bird Trail">
-              </video>
+            <div class="media-card">
+                <div class="media-frame">
+                  <video
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    controls="false"
+                    preload="metadata"
+                    aria-label="About the Red Bird Trail"
+                    poster="assets/img/redbird-center-night.jpg"
+                    style="width: 100%; height: 100%; object-fit: cover;">
+                    <source src="assets/video/section3_720.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+                <div class="copy reveal">
+                    <p>The Red Bird Trick-or-Treat Trail is a community-organized Halloween event bringing together neighbors for a safe and fun trick-or-treating experience. Families can explore decorated homes throughout the neighborhood, creating lasting memories in a secure environment.</p>
+                </div>
             </div>
         </div>
     </section>
-    <!-- expect Section - Properly separated action cards -->
-    <section id="what-to-expect" aria-labelledby="expect-title" data-reveal>
+    
+    <!-- What to Expect Section -->
+    <section id="what-to-expect" class="panel expect section-reveal">
         <div class="content">
-            <h2 id="expect-title">What to Expect</h2>
+            <h2 class="section-title reveal">What to Expect</h2>
             <!-- Info Cards Grid -->
-            <ul class="cards">
+            <ul class="cards info-grid">
                 <li class="card" data-reveal-item>
                     <div class="card-icon">🎃</div>
                     <h3>Safe Trick-or-Treating</h3>
@@ -79,13 +95,12 @@
             </ul>
         </div>
     </section>
-    </section>
     
-    <!-- How It Works Section with scroll snap option -->
-    <section id="how-it-works" aria-labelledby="how-title" data-reveal>
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="panel how section-reveal">
         <div class="content">
-            <h2 id="how-title">How It Works</h2>
-            <ul class="cards">
+            <h2 class="section-title reveal">How It Works</h2>
+            <ul class="steps-grid">
                 <li class="card" data-reveal-item>
                     <div class="step-number">1</div>
                     <h3>Check the Map</h3>
@@ -107,10 +122,10 @@
         </div>
     </section>
     
-    <!-- Featured Houses Section - Moved to its own section -->
-    <section id="featured-houses" class="panel featured-houses-section">
+    <!-- Featured Houses Section -->
+    <section id="featured-houses" class="panel featured-houses-section section-reveal">
         <div class="content">
-            <h2 class="section-title">Featured Houses</h2>
+            <h2 class="section-title reveal">Featured Houses</h2>
             <div class="featured-card" id="featured-card">
                 <div id="houses-unified-container" aria-live="polite"></div>
             </div>
@@ -118,18 +133,21 @@
     </section>
     
     <!-- Map Section with lazy loading -->
-    <section id="map" class="panel map snap section-reveal">
+    <section id="map" class="panel map section-reveal">
         <div class="content">
-            <h2 class="section-title">Trick-or-Treat Map</h2>
+            <h2 class="section-title reveal">Trick-or-Treat Map</h2>
             <p class="map-subtitle">Find participating houses in the Red Bird neighborhood</p>
             
-            <!-- Map Container with lazy loading -->
+            <!-- Map Container with lazy loading and async -->
             <div class="map-frame">
-                <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1" 
-                        width="640" 
-                        height="480" 
+                <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1"
+                        width="640"
+                        height="480"
                         loading="lazy"
-                        title="Red Bird Trick-or-Treat Trail Map"></iframe>
+                        title="Red Bird Trick-or-Treat Trail Map"
+                        style="border:0"
+                        allowfullscreen=""
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             
             <!-- Call to Action -->
@@ -142,11 +160,20 @@
     </section>
     
     <!-- Scripts - Progressive Enhancement -->
+    <!-- CDN Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js" defer></script>
+    
     <!-- PapaParse BEFORE houses script -->
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    
+    <!-- Houses data for local viewing -->
+    <script src="js/houses-data.js"></script>
+    
     <!-- App code (defer all) -->
-    <script src="js/app-fixed.js" defer></script>
-    <script src="js/houses-final.js" defer></script>
+    <script src="js/app.js" defer></script>
+    <script src="js/houses-fixed.js" defer></script>
 </body>
 </html>
 
