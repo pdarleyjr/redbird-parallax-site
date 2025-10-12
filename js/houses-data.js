@@ -1,9 +1,7 @@
 // Embedded houses data to avoid CORS issues with file:// protocol
+// Updated to match Excel file: Red_Bird_Trick-or-Treat_Trail_2025-10-11_16_47_17.xlsx
+// Total: 21 houses
 window.HOUSES_DATA = [
-  { address: "3715 SW 60th Place", funName: "Cancela's Crypt" },
-  { address: "6212 South Waterway Drive", funName: "Trick or Treat Realty" },
-  { address: "6199 SW 38 Street", funName: "Rivera Haunted Mansion" },
-  { address: "3800 SW 58 Ave", funName: "Merino House" },
   { address: "6275 SW 39th St", funName: "Candyland Carnage" },
   { address: "6078 S Waterway Drive", funName: "The Skeleton House" },
   { address: "3715 SW 62 Ct", funName: "Scary Cat" },
@@ -18,7 +16,7 @@ window.HOUSES_DATA = [
   { address: "5935 SW 35 St", funName: "The Monster House" },
   { address: "3715 SW 58 Ct", funName: "The Spooky-Rizzlers" },
   { address: "3601 SW 58 Ave", funName: "Spiderweb Cottage" },
-  { address: "5825 SW 35th Street", funName: "Fisher Family Haunted House" },
+  { address: "5825 SW 35th Street", funName: "Haunted House" },
   { address: "3710 SW 59th Ave", funName: "Sweet & Spooky Stop" },
   { address: "3930 SW 60th Avenue", funName: "Casa SandSnake" },
   { address: "3611 SW 60th Ct", funName: "Blues Boooooo House" },

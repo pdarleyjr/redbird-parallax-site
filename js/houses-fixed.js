@@ -4,14 +4,8 @@
   const ICON_BASE = "assets/img/icons/";
   const ICON_FALLBACK = "pumpkin.png";
   
-  // Complete icon mappings with all variations
+  // Complete icon mappings with all variations (Updated for 21 houses from Excel)
   const ICON_MAP = {
-    "cancela's crypt": "cancelas-crypt.png",
-    "cancelas crypt": "cancelas-crypt.png",
-    "trick or treat realty": "trick-or-treat-realty.png",
-    "rivera haunted mansion": "rivera-haunted-mansion.png",
-    "merino house": "merino-house.png",
-    "merino": "merino-house.png",
     "the three witch house": "three-witch-house.png",
     "three-witch-house": "three-witch-house.png",
     "the haunted white house": "white-house.png",
@@ -50,7 +44,8 @@
     "grape family haunted house": "haunted-generic.png",
     "fisher family haunted house": "haunted-generic.png",
     "haunted house": "haunted-generic.png",
-    "haunted-generic": "haunted-generic.png"
+    "haunted-generic": "haunted-generic.png",
+    "echeverri haunt": "echeverri-haunt.png"
   };
   
   // Slugify helper for consistent key generation
