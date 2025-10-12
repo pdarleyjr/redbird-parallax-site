@@ -168,12 +168,15 @@
     <!-- PapaParse BEFORE houses script -->
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     
-    <!-- Houses data for local viewing -->
-    <script src="js/houses-data.js"></script>
+    <!-- Houses data and renderer - Only these two files needed -->
+    <!-- Data (21 entries from Excel) -->
+    <script src="./js/houses-data.js?v=20251012"></script>
     
-    <!-- App code (defer all) -->
-    <script src="js/app.js" defer></script>
-    <script src="js/houses-fixed.js" defer></script>
+    <!-- Renderer with icon map + dynamic count -->
+    <script src="./js/houses-fixed.js?v=20251012" defer></script>
+    
+    <!-- App.js commented out to prevent conflicts -->
+    <!-- <script src="js/app.js" defer></script> -->
 </body>
 </html>
 

@@ -280,6 +280,20 @@
 
   // Shared HTML rendering function
   function renderHouseHTML(container, houses) {
+    // Update the main section header count if it exists
+    const countElement = document.getElementById('houses-count');
+    if (countElement) {
+      countElement.textContent = `${houses.length} PARTICIPATING HOUSES`;
+    }
+    
+    // Also update any h3 elements that contain "PARTICIPATING HOUSES"
+    const headings = document.querySelectorAll('h3');
+    headings.forEach(h3 => {
+      if (h3.textContent.includes('PARTICIPATING HOUSES')) {
+        h3.textContent = `${houses.length} PARTICIPATING HOUSES`;
+      }
+    });
+    
     const html = `
       <div class="houses-container">
         <div class="container-header">

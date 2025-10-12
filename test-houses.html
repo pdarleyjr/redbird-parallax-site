@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Houses Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .house-count {
+            background: #333;
+            color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .house-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .house-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .house-card h3 {
+            margin: 0 0 10px 0;
+            color: #ff7a1a;
+        }
+        .house-card p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .icon-status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .icon-ok {
+            background: #4caf50;
+            color: white;
+        }
+        .icon-missing {
+            background: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="house-count">
+        <h1 id="count">Loading...</h1>
+        <p id="status">Checking houses data...</p>
+    </div>
+    <div id="houses" class="house-list"></div>
+
+    <script src="js/houses-data.js"></script>
+    <script>
+        // Icon mappings from houses-fixed.js
+        const ICON_MAP = {
+            "the three witch house": "three-witch-house.png",
+            "haunted house": "haunted-generic.png",
+            "the haunted white house": "white-house.png",
+            "the monster house": "monster-house.png",
+            "the spooky-rizzlers": "spooky-rizzlers.png",
+            "spiderweb cottage": "spiderweb-cottage.png",
+            "sweet & spooky stop": "sweet-spooky.png",
+            "casa sandsnake": "sandsnake.png",
+            "blues boooooo house": "blues-house.png",
+            "carballosa candy critters": "candy-critters.png",
+            "the not-so-scary house!": "not-so-scary.png",
+            "cabin in the woods": "cabin-woods.png",
+            "red bird cemetery": "tombstone-graveyard.png",
+            "candyland carnage": "candyland-carnage.png",
+            "the skeleton house": "skeleton-house.png",
+            "scary cat": "scary-cat.png",
+            "barbie boo": "barbie-boo.png",
+            "the webbed manor": "webbed-manor.png",
+            "echeverri haunt": "echeverri-haunt.png",
+            "carter-goldberg haunted house": "haunted-generic.png",
+            "grape family haunted house": "haunted-generic.png"
+        };
+
+        function checkIcon(funName) {
+            const name = (funName || '').toLowerCase().trim();
+            return ICON_MAP[name] || null;
+        }
+
+        function displayHouses() {
+            const countEl = document.getElementById('count');
+            const statusEl = document.getElementById('status');
+            const housesEl = document.getElementById('houses');
+
+            if (!window.HOUSES_DATA) {
+                countEl.textContent = 'Error: No houses data found!';
+                statusEl.textContent = 'The HOUSES_DATA variable is not defined.';
+                return;
+            }
+
+            const houseCount = window.HOUSES_DATA.length;
+            countEl.textContent = `Total Houses: ${houseCount}`;
+            statusEl.textContent = houseCount === 21 ? 
+                '✓ Correct! All 21 houses from Excel are loaded.' : 
+                `⚠ Warning: Expected 21 houses but found ${houseCount}`;
+
+            // Display each house
+            housesEl.innerHTML = window.HOUSES_DATA.map((house, index) => {
+                const iconFile = checkIcon(house.funName);
+                const iconStatus = iconFile ? 
+                    `<span class="icon-status icon-ok">✓ Icon: ${iconFile}</span>` :
+                    `<span class="icon-status icon-missing">✗ No icon mapping</span>`;
+
+                return `
+                    <div class="house-card">
+                        <h3>${index + 1}. ${house.funName || 'Unnamed'}</h3>
+                        <p><strong>Address:</strong> ${house.address || 'No address'}</p>
+                        ${iconStatus}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Run when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', displayHouses);
+        } else {
+            displayHouses();
+        }
+    </script>
+</body>
+</html>
