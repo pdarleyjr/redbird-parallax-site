@@ -1,0 +1,14 @@
+﻿# Scripts and secrets
+*.ps1
+*.bat
+*.sh
+*token*
+*secret*
+*.key
+*.pem
+final-review-and-push.ps1
+apply-*.ps1
+copy-*.ps1
+update-*.ps1
+verify-*.ps1
+push-*.bat
