@@ -22,14 +22,27 @@
     "sandsnake": "sandsnake.png",
     "blues boooooo house": "blues-house.png",
     "blues-house": "blues-house.png",
-    "caballosa candy critters": "candy-critters.png",
+    "carballosa candy critters": "candy-critters.png",
     "candy-critters": "candy-critters.png",
+    "caballosa candy critters": "candy-critters.png",
     "the not-so-scary house!": "not-so-scary.png",
     "not-so-scary": "not-so-scary.png",
     "cabin in the woods": "cabin-woods.png",
     "cabin-woods": "cabin-woods.png",
+    "red bird cemetery": "tombstone-graveyard.png",
     "red bird restless graveyard": "tombstone-graveyard.png",
     "tombstone-graveyard": "tombstone-graveyard.png",
+    "candyland carnage": "candyland-carnage.png",
+    "the skeleton house": "skeleton-house.png",
+    "skeleton house": "skeleton-house.png",
+    "scary cat": "scary-cat.png",
+    "barbie boo": "barbie-boo.png",
+    "the webbed manor": "webbed-manor.png",
+    "webbed manor": "webbed-manor.png",
+    "echeverri haunt": "echeverri-haunt.png",
+    "carter-goldberg haunted house": "haunted-generic.png",
+    "grape family haunted house": "haunted-generic.png",
+    "fisher family haunted house": "haunted-generic.png",
     "haunted house": "haunted-generic.png",
     "haunted-generic": "haunted-generic.png"
   };
@@ -81,13 +94,22 @@
     if (n.includes('monster')) return 'Cute monsters welcome all ages';
     if (n.includes('rizzler')) return 'Spooky but sweet treats await';
     if (n.includes('spider') || n.includes('web')) return 'Friendly webs and cozy cottage';
-    if (n.includes('sweet') || n.includes('spooky')) return 'Sweet treats with spooky twists';
+    if (n.includes('webbed manor')) return 'Tangled webs and gothic mystery';
+    if (n.includes('sweet') || n.includes('spooky stop')) return 'Sweet treats with spooky twists';
     if (n.includes('sandsnake')) return 'Miami sandsnake guards candy';
     if (n.includes('blues') || n.includes('boooo')) return 'Cool blue spirits and boo vibes';
+    if (n.includes('candyland') && n.includes('carnage')) return 'Sweet chaos in candy paradise';
     if (n.includes('candy') || n.includes('critter')) return 'Candy paradise with cute critters';
+    if (n.includes('skeleton')) return 'Bony friends greet trick-or-treaters';
+    if (n.includes('scary cat')) return 'Black cats and magical mischief';
     if (n.includes('scary')) return 'Not too scary, perfect for kids';
+    if (n.includes('barbie boo')) return 'Pink glamour meets spooky fun';
     if (n.includes('cabin') || n.includes('woods')) return 'Mysterious cabin lights the way';
-    if (n.includes('graveyard')) return 'Fog and friendly frights await';
+    if (n.includes('cemetery') || n.includes('graveyard')) return 'Fog and friendly frights await';
+    if (n.includes('echeverri')) return 'Mysterious haunt with surprises';
+    if (n.includes('carter-goldberg')) return 'Family-friendly haunted fun';
+    if (n.includes('grape')) return 'Vintage scares and fruity treats';
+    if (n.includes('fisher')) return 'Nautical nightmares and sea spirits';
     return 'Halloween fun for all ages';
   }
 
