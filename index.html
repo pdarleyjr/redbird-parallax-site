@@ -24,10 +24,10 @@
     <!-- Top Navigation -->
     <nav class="top-nav">
         <a href="#hero">Home</a>
-        <a href="#about">About</a>
-        <a href="#what-to-expect">What to Expect</a>
         <a href="#how-it-works">How It Works</a>
         <a href="#map">Trail Map</a>
+        <a href="#what-to-expect">What to Expect</a>
+        <a href="#featured-houses">Featured Houses</a>
         <a href="https://www.jotform.com/252478605926063" target="_blank">Sign Up</a>
     </nav>
     
@@ -39,31 +39,52 @@
             <a href="#map" class="btn btn-primary">View the Trail Map</a>
         </div>
     </section>
-    <!-- About Section with optimized video -->
-    <section id="about" class="panel about section-reveal">
+    
+    <!-- How It Works Section (moved to second position with About's background) -->
+    <section id="how-it-works" class="panel about section-reveal">
         <div class="content">
-            <h2 class="section-title reveal">About the Red Bird Trail</h2>
+            <h2 class="section-title reveal">How It Works</h2>
+            <ul class="steps-grid">
+                <li class="card" data-reveal-item>
+                    <div class="step-number">1</div>
+                    <h3>Check the Map</h3>
+                    <p>See participating houses marked with <strong>custom Halloween pins</strong> and plan your route.</p>
+                </li>
+
+                <li class="card" data-reveal-item>
+                    <div class="step-number">2</div>
+                    <h3>Spot the Decor</h3>
+                    <p>Look for porch lights and Halloween decorations — many homes go all-out.</p>
+                </li>
+
+                <li class="card" data-reveal-item>
+                    <div class="step-number">3</div>
+                    <h3>Stay Safe</h3>
+                    <p>Use sidewalks, bring flashlights, and keep an eye on little ones.</p>
+                </li>
+            </ul>
+            <div class="copy reveal" style="text-align: center; margin-top: 2rem;">
+                <p>The Red Bird Trick-or-Treat Trail is a community-organized Halloween event bringing together neighbors for a safe and fun trick-or-treating experience. Families can explore decorated homes throughout the neighborhood, creating lasting memories in a secure environment.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Map Section (moved to third position) -->
+    <section id="map" class="panel map section-reveal">
+        <div class="content">
+            <h2 class="section-title reveal">Trick-or-Treat Map</h2>
+            <p class="map-subtitle">Find participating houses in the Red Bird neighborhood</p>
             
-            <!-- Video Card - Optimized for mobile -->
-            <div class="media-card">
-                <div class="media-frame">
-                  <video
-                    autoplay
-                    muted
-                    loop
-                    playsinline
-                    controls="false"
-                    preload="metadata"
-                    aria-label="About the Red Bird Trail"
-                    poster="assets/img/redbird-center-night.jpg"
-                    style="width: 100%; height: 100%; object-fit: cover;">
-                    <source src="images/halloween_video.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
-                <div class="copy reveal">
-                    <p>The Red Bird Trick-or-Treat Trail is a community-organized Halloween event bringing together neighbors for a safe and fun trick-or-treating experience. Families can explore decorated homes throughout the neighborhood, creating lasting memories in a secure environment.</p>
-                </div>
+            <!-- Map Container with lazy loading and async -->
+            <div class="map-frame">
+                <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1"
+                        width="640"
+                        height="480"
+                        loading="lazy"
+                        title="Red Bird Trick-or-Treat Trail Map"
+                        style="border:0"
+                        allowfullscreen=""
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </section>
@@ -96,62 +117,16 @@
         </div>
     </section>
     
-    <!-- How It Works Section -->
-    <section id="how-it-works" class="panel how section-reveal">
-        <div class="content">
-            <h2 class="section-title reveal">How It Works</h2>
-            <ul class="steps-grid">
-                <li class="card" data-reveal-item>
-                    <div class="step-number">1</div>
-                    <h3>Check the Map</h3>
-                    <p>See participating houses marked with <strong>custom Halloween pins</strong> and plan your route.</p>
-                </li>
-
-                <li class="card" data-reveal-item>
-                    <div class="step-number">2</div>
-                    <h3>Spot the Decor</h3>
-                    <p>Look for porch lights and Halloween decorations — many homes go all-out.</p>
-                </li>
-
-                <li class="card" data-reveal-item>
-                    <div class="step-number">3</div>
-                    <h3>Stay Safe</h3>
-                    <p>Use sidewalks, bring flashlights, and keep an eye on little ones.</p>
-                </li>
-            </ul>
-        </div>
-    </section>
-    
-    <!-- Featured Houses Section -->
+    <!-- Featured Houses Section (moved to end) -->
     <section id="featured-houses" class="panel featured-houses-section section-reveal">
         <div class="content">
             <h2 class="section-title reveal">Featured Houses</h2>
             <div class="featured-card" id="featured-card">
                 <div id="houses-unified-container" aria-live="polite"></div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Map Section with lazy loading -->
-    <section id="map" class="panel map section-reveal">
-        <div class="content">
-            <h2 class="section-title reveal">Trick-or-Treat Map</h2>
-            <p class="map-subtitle">Find participating houses in the Red Bird neighborhood</p>
             
-            <!-- Map Container with lazy loading and async -->
-            <div class="map-frame">
-                <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1"
-                        width="640"
-                        height="480"
-                        loading="lazy"
-                        title="Red Bird Trick-or-Treat Trail Map"
-                        style="border:0"
-                        allowfullscreen=""
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-            
-            <!-- Call to Action -->
-            <div class="cta-section glass">
+            <!-- Call to Action (moved here after Featured Houses) -->
+            <div class="cta-section glass" style="margin-top: 3rem;">
                 <h3>Want to participate?</h3>
                 <p>Register your house to be part of the Red Bird Trick-or-Treat Trail!</p>
                 <a href="https://www.jotform.com/252478605926063" target="_blank" class="btn btn-accent">Sign Up Now</a>
@@ -169,16 +144,13 @@
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     
     <!-- Houses data and renderer - Only these two files needed -->
-    <!-- Data (21 entries from Excel) -->
-    <script src="./js/houses-data.js?v=20251012"></script>
+    <!-- Data (27 entries from new CSV) -->
+    <script src="./js/houses-data.js?v=20251013"></script>
     
     <!-- Renderer with icon map + dynamic count -->
-    <script src="./js/houses-fixed.js?v=20251012" defer></script>
+    <script src="./js/houses-fixed.js?v=20251013" defer></script>
     
-    <!-- App.js commented out to prevent conflicts -->
-    <!-- <script src="js/app.js" defer></script> -->
+    <!-- App.js re-enabled for animations -->
+    <script src="./js/app.js" defer></script>
 </body>
 </html>
-
-
-

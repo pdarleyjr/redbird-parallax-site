@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - 27 Houses Display</title>
+    <link rel="stylesheet" href="css/featured-houses-unified.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        h1 {
+            text-align: center;
+            color: #ff7a1a;
+        }
+        .status {
+            background: #333;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        .success { color: #4caf50; }
+        .error { color: #f44336; }
+        .info { color: #2196f3; }
+    </style>
+</head>
+<body>
+    <h1>Red Bird Trail - 27 Houses Test</h1>
+    
+    <div class="status">
+        <h2>Status Check:</h2>
+        <p id="houses-count-status" class="info">Checking houses count...</p>
+        <p id="icons-status" class="info">Checking icon files...</p>
+        <p id="data-status" class="info">Checking data integrity...</p>
+    </div>
+    
+    <div id="houses-unified-container"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="./js/houses-data.js?v=20251013"></script>
+    <script src="./js/houses-fixed.js?v=20251013"></script>
+    
+    <script>
+        // Additional verification script
+        window.addEventListener('load', function() {
+            // Check houses count
+            const housesData = window.HOUSES_DATA;
+            const countStatus = document.getElementById('houses-count-status');
+            if (housesData && housesData.length === 27) {
+                countStatus.textContent = `✓ Houses count: ${housesData.length} (Expected: 27)`;
+                countStatus.className = 'success';
+            } else {
+                countStatus.textContent = `✗ Houses count: ${housesData ? housesData.length : 0} (Expected: 27)`;
+                countStatus.className = 'error';
+            }
+            
+            // Check icon status
+            const iconStatus = document.getElementById('icons-status');
+            const allIcons = document.querySelectorAll('.house-icon');
+            let brokenIcons = 0;
+            allIcons.forEach(img => {
+                img.onerror = function() {
+                    brokenIcons++;
+                    iconStatus.textContent = `⚠ ${brokenIcons} icons failed to load`;
+                    iconStatus.className = 'error';
+                };
+            });
+            
+            setTimeout(() => {
+                if (brokenIcons === 0 && allIcons.length > 0) {
+                    iconStatus.textContent = `✓ All ${allIcons.length} icons loaded successfully`;
+                    iconStatus.className = 'success';
+                }
+            }, 2000);
+            
+            // Check data integrity
+            const dataStatus = document.getElementById('data-status');
+            const missingData = housesData.filter(h => !h.address || !h.funName);
+            if (missingData.length === 0) {
+                dataStatus.textContent = '✓ All houses have complete data';
+                dataStatus.className = 'success';
+            } else {
+                dataStatus.textContent = `⚠ ${missingData.length} houses have incomplete data`;
+                dataStatus.className = 'error';
+            }
+            
+            // List all houses
+            console.log('All 27 Houses:', housesData);
+        });
+    </script>
+</body>
+</html>

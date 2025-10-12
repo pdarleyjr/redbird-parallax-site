@@ -4,10 +4,19 @@
   const ICON_BASE = "assets/img/icons/";
   const ICON_FALLBACK = "pumpkin.png";
   
-  // Complete icon mappings with all variations (Updated for 21 houses from Excel)
+  // Complete icon mappings with all variations (Updated for 27 houses)
   const ICON_MAP = {
+    "milo's dudgeon of treats": "milos-dudgeon.png",
+    "milos-dudgeon": "milos-dudgeon.png",
+    "halloween corner": "halloween-corner.png",
+    "cancela's crypt": "cancelas-crypt.png",
+    "cancelas-crypt": "cancelas-crypt.png",
+    "trick or treat realty": "trick-or-treat-realty.png",
+    "rivera haunted mansion": "rivera-haunted-mansion.png",
+    "merino house": "merino-house.png",
     "the three witch house": "three-witch-house.png",
     "three-witch-house": "three-witch-house.png",
+    "the three-witch house": "three-witch-house.png",
     "the haunted white house": "white-house.png",
     "haunted-white-house": "white-house.png",
     "white-house": "white-house.png",
@@ -44,8 +53,7 @@
     "grape family haunted house": "haunted-generic.png",
     "fisher family haunted house": "haunted-generic.png",
     "haunted house": "haunted-generic.png",
-    "haunted-generic": "haunted-generic.png",
-    "echeverri haunt": "echeverri-haunt.png"
+    "haunted-generic": "haunted-generic.png"
   };
   
   // Slugify helper for consistent key generation
@@ -90,6 +98,8 @@
   function makeSubtitle(nameRaw) {
     const n = (nameRaw || '').toLowerCase();
     
+    if (n.includes('milo') || n.includes('dudgeon')) return 'Dog-friendly treats await!';
+    if (n.includes('halloween corner')) return 'Where spooky meets sweet';
     if (n.includes('crypt')) return 'Ancient secrets and spooky treasures';
     if (n.includes('realty')) return 'Haunted properties for brave souls';
     if (n.includes('rivera') && n.includes('mansion')) return 'Grand estate with ghostly elegance';
@@ -309,6 +319,7 @@
                      class="house-icon"
                      loading="lazy"
                      decoding="async"
+                     style="max-width: 100%; height: auto; display: block;"
                      onerror="this.src='${ICON_BASE}${ICON_FALLBACK}'">
               </div>
               <div class="house-details">
