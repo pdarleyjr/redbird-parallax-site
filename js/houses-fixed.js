@@ -6,6 +6,12 @@
   
   // Complete icon mappings with all variations
   const ICON_MAP = {
+    "cancela's crypt": "cancelas-crypt.png",
+    "cancelas crypt": "cancelas-crypt.png",
+    "trick or treat realty": "trick-or-treat-realty.png",
+    "rivera haunted mansion": "rivera-haunted-mansion.png",
+    "merino house": "merino-house.png",
+    "merino": "merino-house.png",
     "the three witch house": "three-witch-house.png",
     "three-witch-house": "three-witch-house.png",
     "the haunted white house": "white-house.png",
@@ -89,6 +95,10 @@
   function makeSubtitle(nameRaw) {
     const n = (nameRaw || '').toLowerCase();
     
+    if (n.includes('crypt')) return 'Ancient secrets and spooky treasures';
+    if (n.includes('realty')) return 'Haunted properties for brave souls';
+    if (n.includes('rivera') && n.includes('mansion')) return 'Grand estate with ghostly elegance';
+    if (n.includes('merino')) return 'Mysterious treats and surprises';
     if (n.includes('witch')) return 'Witchy trio casts spooky spells';
     if (n.includes('white house')) return 'Classic haunt with friendly ghosts';
     if (n.includes('monster')) return 'Cute monsters welcome all ages';
