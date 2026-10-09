@@ -12,3 +12,17 @@ copy-*.ps1
 update-*.ps1
 verify-*.ps1
 push-*.bat
+
+# Local dependencies and generated diagnostics
+node_modules/
+.venv/
+venv/
+__pycache__/
+.env
+.env.*
+.playwright-cli/
+test-results/
+playwright-report/
+tmp/
+worktrees/
+*.log

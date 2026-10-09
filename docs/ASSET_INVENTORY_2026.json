@@ -1,0 +1,1343 @@
+{
+  "baseline": "d9189bb0f0e91be0ca0720b037065d69ba06f9de",
+  "method": "75 files inspected by file signatures, pixel/video dimensions, hashes, and visual contact sheets. SVG source inspected. Videos sampled at one second; no claim of exhaustive per-frame text inspection. baseline_reference means an exact path reference in the active HTML/CSS/app/renderer, not a network request measurement. Icons referenced through renderer mappings are listed separately below.",
+  "assets": [
+    {
+      "path": "assets/img/bat-1.png",
+      "bytes": 5508,
+      "git_blob": "16fb9973a174b6743f22f3ef3ff245ecbb024c0a",
+      "sha256": "4eecdd52594dd619d3bbdd8177c946e67c2b9ae5ff4d36483d69034a5ba99366",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        977,
+        430
+      ],
+      "identical_copies": [
+        "images/bat-1.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/bat-2.png",
+      "bytes": 15760,
+      "git_blob": "5b81a325ada9d2614ad7a578b0306569cbdf8621",
+      "sha256": "0cf3d7db49992c5038e76b33139bb4b770a23dd9af129fe7952c6ff7b92ab952",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1280,
+        1010
+      ],
+      "identical_copies": [
+        "assets/img/icons/bat.png",
+        "images/bat-2.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/google-maps-pin.png",
+      "bytes": 0,
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "baseline_reference": false,
+      "type": null,
+      "dimensions": null,
+      "inspection_note": "cannot identify image file 'C:\\\\Users\\\\Peter Darley\\\\Documents\\\\ChatGPT\\\\Halloween\\\\redbird-parallax-site\\\\assets\\\\img\\\\google-maps-pin.png'",
+      "identical_copies": [],
+      "year_specific_text": "Not applicable",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/halloween-night-map-bg.png",
+      "bytes": 2000673,
+      "git_blob": "70df6e0665b744d621c2368f4ab3c843c21bd8d2",
+      "sha256": "4bb0557dbd3fa1856d97d05fb68a20ea203f3fa9de6cb62138550e5e96c836e6",
+      "baseline_reference": true,
+      "type": "PNG",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/hero_kids_map.jpg",
+      "bytes": 2725342,
+      "git_blob": "f641f2cd1033343c96c835ae6392eab57ca3f061",
+      "sha256": "49567e5834c9aa46c9b7a567a695bd8ab1042b637a0014d2bf6ec5f131d563e9",
+      "baseline_reference": true,
+      "type": "PNG",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "identical_copies": [
+        "images/hero-2025.png",
+        "images/hero-night.png",
+        "images/hero_kids_map.jpg"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Preserved master; optimized hero derivatives used",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/barbie-boo.png",
+      "bytes": 1336183,
+      "git_blob": "1856fdb0370d6d3be686969e4c7d40360a8d47ff",
+      "sha256": "237e78ec0478fbaa18c2e5a8559f273e0d9cbf4b867008b9054c9994817b7a06",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/bat.png",
+      "bytes": 15760,
+      "git_blob": "5b81a325ada9d2614ad7a578b0306569cbdf8621",
+      "sha256": "0cf3d7db49992c5038e76b33139bb4b770a23dd9af129fe7952c6ff7b92ab952",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1280,
+        1010
+      ],
+      "identical_copies": [
+        "assets/img/bat-2.png",
+        "images/bat-2.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/blues-house.png",
+      "bytes": 1295862,
+      "git_blob": "51ec2b6f3bea43fe089990690d1b479cd651e6e6",
+      "sha256": "19cd77d8e10e00154be6e0ec15772b2bb6b41388b77b54143a88722e30c22017",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/cabin-woods.png",
+      "bytes": 1600809,
+      "git_blob": "ffb5c1716156f03f380cc6d9f8c754580472bbc1",
+      "sha256": "a6b1fdd0dec27d82a531b18704a48ae6217f6cd63cc9bbcdafbcfaa7727ebc80",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [
+        "images/sprite-1.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/cancelas-crypt.png",
+      "bytes": 885447,
+      "git_blob": "e4864855a10cceeca6ed366eef1f888fbda9fae0",
+      "sha256": "97e8e78d87f8d5aa9c349aa0ad61b12bf527cceb620be026f2f1babedb9f8c30",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/candy-critters.png",
+      "bytes": 1561602,
+      "git_blob": "9636c828d3203cbe018598146d83098865b77d1d",
+      "sha256": "a2636d573c8a7c3a9c7e2967efddd0f72d64e449a3725c2b0eb2e33864b4e798",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/candyland-carnage.png",
+      "bytes": 1476178,
+      "git_blob": "b5968b8a84fb57c0841d707422415e60ca0505ac",
+      "sha256": "d6a701f341e9a6f150cb8b15fc26add726db8296459cee32491be02e17d8adb1",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/echeverri-haunt.png",
+      "bytes": 1162959,
+      "git_blob": "022873c1fb5f8ff38461b5bf55aa808a5909c213",
+      "sha256": "b609313fc21de62e22044839b566321dbafdf41dc2a727d8517612f881634409",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/halloween-corner.png",
+      "bytes": 459861,
+      "git_blob": "fc14020fe5ff3e30b665927dba0bbe685e913efe",
+      "sha256": "e20f2aa6a634f450fbc0edd147264d7aafab49935548e0fd853ff21ec789168f",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/haunted-generic.png",
+      "bytes": 1234243,
+      "git_blob": "4ade6252c532dbecaa484a797acc677a680accc4",
+      "sha256": "c454cef643794be056c60c010714bb0489cf00cc7d6126cd56c0f75f7f322a70",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/haunted-house.svg",
+      "bytes": 345,
+      "git_blob": "7d3a1c68d9f5083105db101a013766a1bcff227b",
+      "sha256": "f3f6568f59b83eb3a7e2a1c3bcb2d64a0405bdeca0def3c2499efc3adf803903",
+      "baseline_reference": false,
+      "type": "SVG",
+      "dimensions": [
+        100,
+        100
+      ],
+      "inspection_note": "XML and original shapes inspected; no raster thumbnail needed",
+      "identical_copies": [],
+      "year_specific_text": "Not applicable",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/merino-house.png",
+      "bytes": 945957,
+      "git_blob": "1bbc14f380395f00e880eb1b35b5ba75746bf3f8",
+      "sha256": "acfad7bf04f40a15d94c55b7257777ea85724db1d67b276f44050d4de04d8082",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/milos-dudgeon.png",
+      "bytes": 625511,
+      "git_blob": "2d9f03acf7d832d83dac1a32ce8c5ec91ae67c53",
+      "sha256": "597f5e8b0cb405bb047a5bf7bed3222a04be6fbdad22605591543b95a77f0483",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/monster-house.png",
+      "bytes": 1680302,
+      "git_blob": "5acfb5794a8a75a84e6fc0c3c336f9bd55b71bbd",
+      "sha256": "ea703a525668735863babbbdca1cb8e99112fe0d52684a890a58ed259ebb5894",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/not-so-scary.png",
+      "bytes": 1471964,
+      "git_blob": "49c4d0a09eb069f1bbd18b2ef6e95fd7e4f033ea",
+      "sha256": "b1cec39d38a66efbe41f9a054a102158a1df52bdaccea64e6c95337545d8ad7d",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/pumpkin.png",
+      "bytes": 1547000,
+      "git_blob": "f2433fe551b9b98294b6ae4584d5aba7a57c833c",
+      "sha256": "0a3e27092386855433f318aca127edcf1bf7eb8b754aa5e2dc024b81b943c73b",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/rivera-haunted-mansion.png",
+      "bytes": 1567360,
+      "git_blob": "727ad9b738c9dff8d3f072efcaf0dacbcfcad463",
+      "sha256": "af91c673dd9d68398d673274aadd5363e6f202571242eb2694db6da950f1ded1",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/sandsnake.png",
+      "bytes": 1780114,
+      "git_blob": "c938f88d1f67268f8372a635a2eb5d9806e3a5d3",
+      "sha256": "3d28f1e8120e5a873c5765fe271e97835cec3d86d907a872a757260677ed09bb",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [
+        "images/sprite-3.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/scary-cat.png",
+      "bytes": 678012,
+      "git_blob": "9e693a5e6e79efb4c10f299752b1f5acea33c55c",
+      "sha256": "c0a7146492cff66845fbfa7c9d16b4d895c606abcd4c69d720a2db781d0c04da",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/skeleton-house.png",
+      "bytes": 1041053,
+      "git_blob": "4193c932c69e69bc54ee59bf9e1df1f614c513ad",
+      "sha256": "e32191904bffd422d7ddecbcaf703ce7521966419d6e6f086590bfe55cbb5a3c",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/spiderweb-cottage.png",
+      "bytes": 1585300,
+      "git_blob": "1c1f9b0c3a06418c3a06b50c76f851f007df3f51",
+      "sha256": "3e15d09f2273cd1038aeada8ea79ac7dc0480103003593f6fd4cbea0f0c12e82",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/spooky-rizzlers.png",
+      "bytes": 1627452,
+      "git_blob": "15fc55c8d8f8f15721655f80ae6800e61867f255",
+      "sha256": "6bff4c7f7a548c0d894b5e898b9b89fbbe48e34fd08d528b4bc7b054e8a2a643",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/sweet-spooky.png",
+      "bytes": 1614855,
+      "git_blob": "784bffe58706beae8e88e8acab4f567844cab1f4",
+      "sha256": "8b1e0299517415ebb5821d0e445e060800f9cb41d96e34c4fe37998d9b720c8e",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/three-witch-house.png",
+      "bytes": 1695668,
+      "git_blob": "8f398d91b2a04e1ea3f11a212dfcc5a730c66956",
+      "sha256": "a2965c841c334c19c974e2b4622e01f4a84a8443c1a4bf9f506b414297e88eb8",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [
+        "images/sprite-2.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/tombstone-graveyard.png",
+      "bytes": 1087128,
+      "git_blob": "0da0dcffe48fe48ad614550aa2232246c6305c31",
+      "sha256": "7695ddae6bbefc58f7b890423e3c9f5c74978372bd637c935d010f30831f225b",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/trick-or-treat-realty.png",
+      "bytes": 763728,
+      "git_blob": "219755d62bb5f3af2f499a29727497c053930ddf",
+      "sha256": "43853973b1a7b51104dd38a4ab854376c7dabd1aae45e913f82d095c8900ebde",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/webbed-manor.png",
+      "bytes": 1328289,
+      "git_blob": "efec45b35d6339f416acd9000594c991d8a6e926",
+      "sha256": "ab81848b0b98f30542ddc92f108b6de3b2be804997a538359ca318f7ad14043f",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/icons/white-house.png",
+      "bytes": 1539761,
+      "git_blob": "bdb431655dcf1e1c5285c3befb8e5b4a3deaf1a2",
+      "sha256": "ce15ee2420a4cab056020b135b2e9565b119bc1c27793536876123b0b0ff6fff",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/palms.png",
+      "bytes": 32020,
+      "git_blob": "7c65e191e238daf0ecadf92992ea58e6cdd9622c",
+      "sha256": "200436c63bfe42493d0a33c3a0c6e3d7d070bf3957972151c2d0bbd56879dd9b",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        512,
+        512
+      ],
+      "identical_copies": [
+        "images/palm-tree.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/img/redbird-center-night.jpg",
+      "bytes": 2035010,
+      "git_blob": "f583017b80690bb8c584541a9f1f002100af8693",
+      "sha256": "ec30dd3d9d9c1410d0560877df21b3ef15a94181d646985d03c850bc0e7eae85",
+      "baseline_reference": true,
+      "type": "PNG",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "identical_copies": [
+        "images/about-background.png",
+        "images/about-redbird-center.png",
+        "images/flyer.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Preserved master; optimized community illustration used",
+      "replacement_needed": false
+    },
+    {
+      "path": "assets/video/section3_720.mp4",
+      "bytes": 788493,
+      "git_blob": "0a4dd5b4017139bbdb24fc28433c594ebfe2d435",
+      "sha256": "3bb938fb70049e3e45f533b37ccae995ae96516e04c2f35b0c1142e47b2a39c1",
+      "baseline_reference": false,
+      "type": "h264",
+      "dimensions": [
+        320,
+        176
+      ],
+      "duration": "10.026667",
+      "identical_copies": [],
+      "year_specific_text": "Sampled frames: no year seen; full video text not approved for reuse",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/about-background.png",
+      "bytes": 2035010,
+      "git_blob": "f583017b80690bb8c584541a9f1f002100af8693",
+      "sha256": "ec30dd3d9d9c1410d0560877df21b3ef15a94181d646985d03c850bc0e7eae85",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "identical_copies": [
+        "assets/img/redbird-center-night.jpg",
+        "images/about-redbird-center.png",
+        "images/flyer.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/about-redbird-center.png",
+      "bytes": 2035010,
+      "git_blob": "f583017b80690bb8c584541a9f1f002100af8693",
+      "sha256": "ec30dd3d9d9c1410d0560877df21b3ef15a94181d646985d03c850bc0e7eae85",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "identical_copies": [
+        "assets/img/redbird-center-night.jpg",
+        "images/about-background.png",
+        "images/flyer.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/bat-1.png",
+      "bytes": 5508,
+      "git_blob": "16fb9973a174b6743f22f3ef3ff245ecbb024c0a",
+      "sha256": "4eecdd52594dd619d3bbdd8177c946e67c2b9ae5ff4d36483d69034a5ba99366",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        977,
+        430
+      ],
+      "identical_copies": [
+        "assets/img/bat-1.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/bat-2.png",
+      "bytes": 15760,
+      "git_blob": "5b81a325ada9d2614ad7a578b0306569cbdf8621",
+      "sha256": "0cf3d7db49992c5038e76b33139bb4b770a23dd9af129fe7952c6ff7b92ab952",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1280,
+        1010
+      ],
+      "identical_copies": [
+        "assets/img/bat-2.png",
+        "assets/img/icons/bat.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/flyer.png",
+      "bytes": 2035010,
+      "git_blob": "f583017b80690bb8c584541a9f1f002100af8693",
+      "sha256": "ec30dd3d9d9c1410d0560877df21b3ef15a94181d646985d03c850bc0e7eae85",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "identical_copies": [
+        "assets/img/redbird-center-night.jpg",
+        "images/about-background.png",
+        "images/about-redbird-center.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/halloween_video.mp4",
+      "bytes": 43154864,
+      "git_blob": "de719c149bc047cba1fb6ad96fc41b30909c02f8",
+      "sha256": "f9a1e8437fa657c92993123b08786ececbab0890b0e2bce3eae2f5537e13dc95",
+      "baseline_reference": false,
+      "type": "h264",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "duration": "30.046009",
+      "identical_copies": [],
+      "year_specific_text": "Sampled frames: no year seen; full video text not approved for reuse",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/hero-2025.png",
+      "bytes": 2725342,
+      "git_blob": "f641f2cd1033343c96c835ae6392eab57ca3f061",
+      "sha256": "49567e5834c9aa46c9b7a567a695bd8ab1042b637a0014d2bf6ec5f131d563e9",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "identical_copies": [
+        "assets/img/hero_kids_map.jpg",
+        "images/hero-night.png",
+        "images/hero_kids_map.jpg"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/hero-flyer.png",
+      "bytes": 1786205,
+      "git_blob": "c981734e91ada934c926b9c558c649624d12abdd",
+      "sha256": "d5df07e53a101e70384d9a4d6e6a2a5d489425181da062acae9cfd947b5b3b36",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1545,
+        2000
+      ],
+      "identical_copies": [],
+      "year_specific_text": "2025 registration deadline",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": true
+    },
+    {
+      "path": "images/hero-night.png",
+      "bytes": 2725342,
+      "git_blob": "f641f2cd1033343c96c835ae6392eab57ca3f061",
+      "sha256": "49567e5834c9aa46c9b7a567a695bd8ab1042b637a0014d2bf6ec5f131d563e9",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "identical_copies": [
+        "assets/img/hero_kids_map.jpg",
+        "images/hero-2025.png",
+        "images/hero_kids_map.jpg"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/hero-night_1920.jpg",
+      "bytes": 534292,
+      "git_blob": "6386f3aa7585ba45f86f21c003ea18d81b65f5d7",
+      "sha256": "897ef37d09d6ff505bd828c13911c7ab1d7fc1af10c65a4375eb3505dfe51a11",
+      "baseline_reference": false,
+      "type": "JPEG",
+      "dimensions": [
+        1920,
+        1280
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/hero_kids_map.jpg",
+      "bytes": 2725342,
+      "git_blob": "f641f2cd1033343c96c835ae6392eab57ca3f061",
+      "sha256": "49567e5834c9aa46c9b7a567a695bd8ab1042b637a0014d2bf6ec5f131d563e9",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "identical_copies": [
+        "assets/img/hero_kids_map.jpg",
+        "images/hero-2025.png",
+        "images/hero-night.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/land/bird1.png",
+      "bytes": 1119,
+      "git_blob": "62c75a4bc729f578f4519f1126fb8d05fac557fb",
+      "sha256": "52148f272d287ba3f67d3e1d2ad8106b0f1906557eec34f73fc76d9952204779",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        2049,
+        1152
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/land/bird2.png",
+      "bytes": 1108,
+      "git_blob": "dfe0704c39e9f9e5b000f901845cf2035cd2dfad",
+      "sha256": "83fb7667d62073f5a8ad401f0a83a10f203f689ffb5b2d870614b07f066e6c63",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        2049,
+        1152
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/land/cloud.png",
+      "bytes": 9043,
+      "git_blob": "6f462b900dcd7428de63280e4b85c12868bd3c71",
+      "sha256": "5707e2bd6e2af0ef9902d745ca7f289ad6fdd344f678f6305de0fee3a8df6fbd",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        2049,
+        1152
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/land/forest.png",
+      "bytes": 333392,
+      "git_blob": "4fb15bf7bcabfe72e2185d042902864074245018",
+      "sha256": "9856602bf242f21730587fb8e6e09c0abf891b8e386b8d061f25314fc806e862",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        2049,
+        1152
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/land/mountains.png",
+      "bytes": 107049,
+      "git_blob": "ff0e2aa1a6b280ed6613e0cb70101eee39e8ef97",
+      "sha256": "8a1ddef23d6d8831eb3a6e99fd6ff7c143c5b87e7f14e0c551aa01178360de2a",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        2049,
+        1152
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/land/rocks.png",
+      "bytes": 136633,
+      "git_blob": "4ec93ce9b88936e7b65fdc5dd46816ba63ce39df",
+      "sha256": "eb84d46fc9496f44c660aa38ff449d0aea5d850751d34bdccc29fae09846b070",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        2049,
+        1155
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/land/sky.png",
+      "bytes": 260402,
+      "git_blob": "1db650f10bdc7d023d0377e8c360e7bff3f21429",
+      "sha256": "99501b89eb59e7a9f70280f8ecc5e36e8d64d877488228bfe1105854ad263b81",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        2049,
+        1152
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/land/splash.png",
+      "bytes": 8004,
+      "git_blob": "d8fcb848181a3e7cc882a2acff0bcd9c0d9b43ea",
+      "sha256": "795793c2489900ae70933f357f137ebded4e14b52b24ff216913acc3d89af66b",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        2049,
+        1152
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/land/sun.png",
+      "bytes": 13059,
+      "git_blob": "a94d48dc17ba784a7de514181039fa130c933c2f",
+      "sha256": "8ae5ecbc54dc85a90449ace8138d8a9b7a219468edae36691212746b7fa5c329",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        2049,
+        1152
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/land/water.png",
+      "bytes": 92019,
+      "git_blob": "91d13ce755af2eb73defe17548bc7f6c22ef6585",
+      "sha256": "9d157ccdd5a4c67e62c058c557f38e20c9fecc4393799e5e4a4ae4967c447a50",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        2049,
+        1152
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/palm-tree.png",
+      "bytes": 32020,
+      "git_blob": "7c65e191e238daf0ecadf92992ea58e6cdd9622c",
+      "sha256": "200436c63bfe42493d0a33c3a0c6e3d7d070bf3957972151c2d0bbd56879dd9b",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        512,
+        512
+      ],
+      "identical_copies": [
+        "assets/img/palms.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sea/bubble.png",
+      "bytes": 1009,
+      "git_blob": "fca6b37c04b0a1c59980eb142e0cee68afaae18b",
+      "sha256": "5ecdf04e70fb712dfd9cee282b14513320ffc2bc1179c227e08bd7656d64af33",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        50,
+        45
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sea/fish1.png",
+      "bytes": 2941,
+      "git_blob": "b2f3654419dbc1d308ffc9bdc2886e9d52de6ce4",
+      "sha256": "5de3a60544511d14ce7175a9c05d270122e811ea84226de2202aee1e8fa0843d",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        200,
+        99
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sea/fish2.png",
+      "bytes": 9513,
+      "git_blob": "db064379379ad87e01b03bd634bea0e28a2d80e4",
+      "sha256": "a72c8480c1cfd8e34690318c50b8f693d6544e986fc57b7273e88aa5834eb431",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        250,
+        150
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sea/fish3.png",
+      "bytes": 11933,
+      "git_blob": "f3612c2b2260252104ae64a496ff6a979cae8a4c",
+      "sha256": "eca81d2ab282f91798bb30b6631d82d2075c0042f66318e76d31b6d8fd5afda6",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        250,
+        140
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sea/fish4.png",
+      "bytes": 10826,
+      "git_blob": "c222a588db96149b79fc60b68d32e340d841d999",
+      "sha256": "c6f35ea415665b261e2753a3fd757b542614f67387e185231de77455413baa92",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        250,
+        138
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sea/oceanbed.png",
+      "bytes": 100239,
+      "git_blob": "4a8613648f582f71b2d996f6bd3c308bed40f708",
+      "sha256": "cff761e636a32ba7077eea76aab213ccaf995d178cc7c77bbd571a0bed8f38e8",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1600,
+        250
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sea/sea1.png",
+      "bytes": 23223,
+      "git_blob": "d0997ef4d0268b0984f06e60bf2366c7b12c40cc",
+      "sha256": "b936406144a71bda842ef81c0ddf89d84ecd60a52244edf0f54a7fbe4a97416e",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        332,
+        410
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sea/sea2.png",
+      "bytes": 22098,
+      "git_blob": "8095f9a1c7fe59fedae09b7835e3f6e9c421cf8e",
+      "sha256": "4109e0877e1f38ca199b65d285d992007ac042284e4df7d6cc6a75f1a4d1b56b",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        246,
+        222
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sea/sea3.png",
+      "bytes": 19969,
+      "git_blob": "39cff1a3a5b297d4ea36d24a32f8491580654747",
+      "sha256": "0678a65d974ce6bcbce2985e7639e0f2c6839e38fb4c4e5f4b1a0646eec20325",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        222,
+        175
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sea/sea4.png",
+      "bytes": 20855,
+      "git_blob": "7a73f736bbe564135850579d57402df3c5761eb0",
+      "sha256": "afd1cfa1e4a35ca24c8d94d957dd72c050fc0b3e37a2f3ec83723318984d8de9",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        260,
+        266
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sea/sea5.png",
+      "bytes": 29640,
+      "git_blob": "c32d8f1e893541c5b8526c91ebf39b2248108bd7",
+      "sha256": "1e0adbaa983329a7fb380a653436c7085a73d3675e835af4ca7aa921f518034f",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        245,
+        219
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sea/sea6.png",
+      "bytes": 12904,
+      "git_blob": "460b11db076858c096ccfbff7c28397c788839f7",
+      "sha256": "14c162c63d78c3f3daa908147549aebf0e8c6d8fecb0c8a8408663d98f7540e1",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        163,
+        291
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sea/sea7.png",
+      "bytes": 15961,
+      "git_blob": "4f9e8af0eb0885cb8487c3311e0b0ead91e40a38",
+      "sha256": "f82e7964e3a7fb2673eba54996ff7e44b92e4d34f65a2a4b36a5aa0d1ada3685",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        261,
+        186
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sea/sea8.png",
+      "bytes": 23529,
+      "git_blob": "25b901fc927aa080c13a7e1374ee2046a9ba7528",
+      "sha256": "2c68a398668e92c7e7037ef708d4531ba510657afa6e09b9c61e98fa73613fe4",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        338,
+        179
+      ],
+      "identical_copies": [],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": false,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sprite-1.png",
+      "bytes": 1600809,
+      "git_blob": "ffb5c1716156f03f380cc6d9f8c754580472bbc1",
+      "sha256": "a6b1fdd0dec27d82a531b18704a48ae6217f6cd63cc9bbcdafbcfaa7727ebc80",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [
+        "assets/img/icons/cabin-woods.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sprite-2.png",
+      "bytes": 1695668,
+      "git_blob": "8f398d91b2a04e1ea3f11a212dfcc5a730c66956",
+      "sha256": "a2965c841c334c19c974e2b4622e01f4a84a8443c1a4bf9f506b414297e88eb8",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [
+        "assets/img/icons/three-witch-house.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    },
+    {
+      "path": "images/sprite-3.png",
+      "bytes": 1780114,
+      "git_blob": "c938f88d1f67268f8372a635a2eb5d9806e3a5d3",
+      "sha256": "3d28f1e8120e5a873c5765fe271e97835cec3d86d907a872a757260677ed09bb",
+      "baseline_reference": false,
+      "type": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "identical_copies": [
+        "assets/img/icons/sandsnake.png"
+      ],
+      "year_specific_text": "No year text visible",
+      "historical_house_content": true,
+      "2026_placement": "Historical source only; no active 2026 placement",
+      "replacement_needed": false
+    }
+  ]
+}

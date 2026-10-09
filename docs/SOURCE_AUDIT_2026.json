@@ -1,0 +1,333 @@
+[
+  {
+    "path": "index.html",
+    "lines": 156,
+    "sha256": "3b5f80c303919a7ebefe6c9c58c5fdb03002062845ba6d864e635efc83d22bc7",
+    "references": [
+      "css/base.css",
+      "style.css",
+      "css/featured-houses-unified.css",
+      "https://cdn.jsdelivr.net",
+      "https://cdnjs.cloudflare.com",
+      "assets/img/hero_kids_map.jpg",
+      "#hero",
+      "#how-it-works",
+      "#map",
+      "#what-to-expect",
+      "#featured-houses",
+      "https://www.jotform.com/252478605926063",
+      "#map",
+      "https://www.google.com/maps/d/u/0/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1",
+      "https://www.jotform.com/252478605926063",
+      "https://www.jotform.com/252478605926063",
+      "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js",
+      "https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js",
+      "https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js",
+      "./js/houses-data.js?v=20251013",
+      "./js/houses-fixed.js?v=20251013",
+      "./js/app.js"
+    ],
+    "unsafe_html": false,
+    "historical_years": [
+      "2024",
+      "2025"
+    ]
+  },
+  {
+    "path": "index_new.html",
+    "lines": 133,
+    "sha256": "a586431810aa51b84fd01a14bf4f417f7efbbdb5fa5fb7a9e4355b3591236d5e",
+    "references": [
+      "style.css",
+      "css/featured-houses-unified.css",
+      "assets/img/hero_kids_map.jpg",
+      "#hero",
+      "#about",
+      "#how-it-works",
+      "#map",
+      "https://www.jotform.com/252478605926063",
+      "#map",
+      "images/halloween_video.mp4",
+      "https://www.jotform.com/252478605926063",
+      "https://www.google.com/maps/d/u/0/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1",
+      "https://www.jotform.com/252478605926063",
+      "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js",
+      "js/houses-final.js",
+      "js/main.js"
+    ],
+    "unsafe_html": false,
+    "historical_years": [
+      "2024"
+    ]
+  },
+  {
+    "path": "index-fixed.html",
+    "lines": 158,
+    "sha256": "2a017661e931d2a0932e52afe299ff5bff22351d41bae9e179779c10f3efdc84",
+    "references": [
+      "css/base.css",
+      "style.css",
+      "css/featured-houses-unified.css",
+      "https://cdn.jsdelivr.net",
+      "https://cdnjs.cloudflare.com",
+      "assets/img/hero_kids_map.jpg",
+      "#hero",
+      "#about",
+      "#how-it-works",
+      "#map",
+      "https://www.jotform.com/252478605926063",
+      "#map",
+      "images/halloween_video.mp4",
+      "https://www.jotform.com/252478605926063",
+      "https://www.google.com/maps/d/u/0/embed?mid=1ExTFwDBAKnengmkfMcVtjvAvi_MTw3s&ehbc=2E312F&noprof=1",
+      "https://www.jotform.com/252478605926063",
+      "https://cdn.jsdelivr.net/npm/@studio-freight/lenis@latest/bundled/lenis.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js",
+      "js/houses-fixed.js",
+      "js/app.js",
+      "js/main.js"
+    ],
+    "unsafe_html": false,
+    "historical_years": [
+      "2024"
+    ]
+  },
+  {
+    "path": "style.css",
+    "lines": 405,
+    "sha256": "2fa93bffa1ff335eb1d4629d67889fea631996009bf311e7805d9ea0e8b36b2e",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "README.md",
+    "lines": 78,
+    "sha256": "5722997c6331aae1f878e98a9eb545c61e60b68131d75783c19f775d453224fe",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "PROJECT_SUMMARY.md",
+    "lines": 394,
+    "sha256": "76a97ec670a5fa04c29427e8874c2372de5e78ba1d580333d781c9ce83c67e4c",
+    "references": [
+      "style.css",
+      "css/featured-houses.css",
+      "css/featured-houses-unified.css",
+      "icon.png",
+      "js/houses-final.js"
+    ],
+    "unsafe_html": true,
+    "historical_years": [
+      "2025"
+    ]
+  },
+  {
+    "path": "DEPLOYMENT_CHECKLIST.md",
+    "lines": 142,
+    "sha256": "46c4a123c556e9a9bc8cc36b5afd11953db4541c6e1d4ac6ab9709346d062ae2",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": [
+      "2025"
+    ]
+  },
+  {
+    "path": ".gitignore",
+    "lines": 14,
+    "sha256": "25cfd8acf47db10024920e279c11367db2e6b1ec48a6bc86d119b612691c0926",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "package-lock.json",
+    "lines": 1115,
+    "sha256": "f1467e34971c70b7f183a5483ce2a2358e1117d87cc4af40177219513419cf4f",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "css/base.css",
+    "lines": 265,
+    "sha256": "e907efbc148523e6ffa71b85d66031e7d6d9a8e8d241a4291988a0056043872b",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "css/featured-houses-unified.css",
+    "lines": 283,
+    "sha256": "01d786fe8cd59a3f21b2f3d4ce69f9db9cfda068f9b60b66e75c73415b011613",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "css/featured-houses.css",
+    "lines": 200,
+    "sha256": "9a57f8025653ef1de6198cbeffa04cd1ba65429359de3cff88b94168bb31bd72",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "css/fixes.css",
+    "lines": 403,
+    "sha256": "7a260a7e1eba8ba2d515dfea9657cab0bdf9df379b8e5bb734e2ce9e99d5726a",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "css/opus-fixes.css",
+    "lines": 166,
+    "sha256": "82d9523ed428b5aa9f72812ad45f4e1fd0c6c0be258b1af95640aaadcb142fb3",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "js/app-backup.js",
+    "lines": 297,
+    "sha256": "ae3c79eb49c434b081aa73ac08d79d8ea8edc32ca3a4b99ca68062d8e3562a21",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "js/app-fixed.js",
+    "lines": 348,
+    "sha256": "3b83ff50203ac3f2d445a105193cffe4f6aacd53f16976072fbc2507928faa1c",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "js/app.js",
+    "lines": 297,
+    "sha256": "ff6698723d43daa5407902dab928567ce2ffb5aa5429f9e08c3d133b6c457c2c",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "js/houses-data.js",
+    "lines": 112,
+    "sha256": "a8a32307cc0617dd74274873d518f8516c9cf5fdb7162cb8c76aa08e97509e62",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "js/houses-final.js",
+    "lines": 183,
+    "sha256": "5221d5793629252e29e2f01875d6829fcc8865e63e776c02b518446c188d27ff",
+    "references": [],
+    "unsafe_html": true,
+    "historical_years": [
+      "2025"
+    ]
+  },
+  {
+    "path": "js/houses-fixed.js",
+    "lines": 356,
+    "sha256": "a64331cfe83b27776ec8cc3e05d6f8d9a6566e83aac8d76a6e54e92082cb44a8",
+    "references": [
+      "${house.icon}",
+      "${ICON_BASE}${ICON_FALLBACK}"
+    ],
+    "unsafe_html": true,
+    "historical_years": [
+      "2025"
+    ]
+  },
+  {
+    "path": "js/houses-unified.js",
+    "lines": 174,
+    "sha256": "2e1ec7d8917d6d9a459568ce0a17be8862449f3ab0872775a8bf4d432cd87322",
+    "references": [
+      "${house.icon}"
+    ],
+    "unsafe_html": true,
+    "historical_years": [
+      "2025"
+    ]
+  },
+  {
+    "path": "js/houses-updated.js",
+    "lines": 141,
+    "sha256": "de9123e870a56506d46943216c9f6a0c926566c32eef58fd5e83c92c348370b0",
+    "references": [
+      "${house.icon}"
+    ],
+    "unsafe_html": true,
+    "historical_years": [
+      "2025"
+    ]
+  },
+  {
+    "path": "js/houses.js",
+    "lines": 141,
+    "sha256": "de9123e870a56506d46943216c9f6a0c926566c32eef58fd5e83c92c348370b0",
+    "references": [
+      "${house.icon}"
+    ],
+    "unsafe_html": true,
+    "historical_years": [
+      "2025"
+    ]
+  },
+  {
+    "path": "js/io-reveals.js",
+    "lines": 22,
+    "sha256": "755609669d1595ecad26380dd0c19062255e557f7b27079bc724da5ab70f4d0d",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "js/main.js",
+    "lines": 112,
+    "sha256": "43a2a42e295d7abbe381a74bf06a03de4d7fe4f21d8710f0c3f2ce31935b34a6",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "scripts/generate_map_images.py",
+    "lines": 241,
+    "sha256": "1f538e0ae6a21a3a8b97d203a1504ec5454f8b644d743ea8f176d700b11ab4a7",
+    "references": [
+      "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+      "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    ],
+    "unsafe_html": false,
+    "historical_years": []
+  },
+  {
+    "path": "scripts/merge_pins_data.py",
+    "lines": 142,
+    "sha256": "d69d6a5e4b3caaf1a8228f2e56c702ed0cfe7cea35587aeaef39a845efa4e047",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": [
+      "2025"
+    ]
+  },
+  {
+    "path": "data/Red_Bird_Trick-or-Treat_Trail_2025-10-06_19_26_14.csv",
+    "lines": 28,
+    "sha256": "6dc70b4db417a05e2fda3c460937b80f7f7e5735b120ff90c8232b23e0b2f7e1",
+    "references": [],
+    "unsafe_html": false,
+    "historical_years": []
+  }
+]

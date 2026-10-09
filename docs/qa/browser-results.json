@@ -1,0 +1,420 @@
+{
+  "date": "2026-10-09T23:00:20.219Z",
+  "url": "http://127.0.0.1:4173/redbird-parallax-site/",
+  "results": [
+    {
+      "name": "Approved public content and historical-content exclusion",
+      "status": "PASS"
+    },
+    {
+      "name": "Chromium responsive 320x740",
+      "status": "PASS",
+      "details": {
+        "overflow": 0,
+        "broken": [],
+        "ids": [
+          "menu-toggle",
+          "site-nav",
+          "menu-close",
+          "main",
+          "hero",
+          "hero-title",
+          "what-to-expect",
+          "how-it-works",
+          "how-title",
+          "map",
+          "map-title",
+          "map-actions",
+          "map-file-notice",
+          "map-preview",
+          "map-unavailable",
+          "featured-houses",
+          "houses-title",
+          "house-status",
+          "house-controls",
+          "house-search",
+          "house-list",
+          "house-empty",
+          "community-title",
+          "event-config"
+        ]
+      }
+    },
+    {
+      "name": "Chromium responsive 375x812",
+      "status": "PASS",
+      "details": {
+        "overflow": 0,
+        "broken": [],
+        "ids": [
+          "menu-toggle",
+          "site-nav",
+          "menu-close",
+          "main",
+          "hero",
+          "hero-title",
+          "what-to-expect",
+          "how-it-works",
+          "how-title",
+          "map",
+          "map-title",
+          "map-actions",
+          "map-file-notice",
+          "map-preview",
+          "map-unavailable",
+          "featured-houses",
+          "houses-title",
+          "house-status",
+          "house-controls",
+          "house-search",
+          "house-list",
+          "house-empty",
+          "community-title",
+          "event-config"
+        ]
+      }
+    },
+    {
+      "name": "Chromium responsive 390x844",
+      "status": "PASS",
+      "details": {
+        "overflow": 0,
+        "broken": [],
+        "ids": [
+          "menu-toggle",
+          "site-nav",
+          "menu-close",
+          "main",
+          "hero",
+          "hero-title",
+          "what-to-expect",
+          "how-it-works",
+          "how-title",
+          "map",
+          "map-title",
+          "map-actions",
+          "map-file-notice",
+          "map-preview",
+          "map-unavailable",
+          "featured-houses",
+          "houses-title",
+          "house-status",
+          "house-controls",
+          "house-search",
+          "house-list",
+          "house-empty",
+          "community-title",
+          "event-config"
+        ]
+      }
+    },
+    {
+      "name": "Chromium responsive 430x932",
+      "status": "PASS",
+      "details": {
+        "overflow": 0,
+        "broken": [],
+        "ids": [
+          "menu-toggle",
+          "site-nav",
+          "menu-close",
+          "main",
+          "hero",
+          "hero-title",
+          "what-to-expect",
+          "how-it-works",
+          "how-title",
+          "map",
+          "map-title",
+          "map-actions",
+          "map-file-notice",
+          "map-preview",
+          "map-unavailable",
+          "featured-houses",
+          "houses-title",
+          "house-status",
+          "house-controls",
+          "house-search",
+          "house-list",
+          "house-empty",
+          "community-title",
+          "event-config"
+        ]
+      }
+    },
+    {
+      "name": "Chromium responsive 768x1024",
+      "status": "PASS",
+      "details": {
+        "overflow": 0,
+        "broken": [],
+        "ids": [
+          "menu-toggle",
+          "site-nav",
+          "menu-close",
+          "main",
+          "hero",
+          "hero-title",
+          "what-to-expect",
+          "how-it-works",
+          "how-title",
+          "map",
+          "map-title",
+          "map-actions",
+          "map-file-notice",
+          "map-preview",
+          "map-unavailable",
+          "featured-houses",
+          "houses-title",
+          "house-status",
+          "house-controls",
+          "house-search",
+          "house-list",
+          "house-empty",
+          "community-title",
+          "event-config"
+        ]
+      }
+    },
+    {
+      "name": "Chromium responsive 1024x768",
+      "status": "PASS",
+      "details": {
+        "overflow": 0,
+        "broken": [],
+        "ids": [
+          "menu-toggle",
+          "site-nav",
+          "menu-close",
+          "main",
+          "hero",
+          "hero-title",
+          "what-to-expect",
+          "how-it-works",
+          "how-title",
+          "map",
+          "map-title",
+          "map-actions",
+          "map-file-notice",
+          "map-preview",
+          "map-unavailable",
+          "featured-houses",
+          "houses-title",
+          "house-status",
+          "house-controls",
+          "house-search",
+          "house-list",
+          "house-empty",
+          "community-title",
+          "event-config"
+        ]
+      }
+    },
+    {
+      "name": "Chromium responsive 1440x1000",
+      "status": "PASS",
+      "details": {
+        "overflow": 0,
+        "broken": [],
+        "ids": [
+          "menu-toggle",
+          "site-nav",
+          "menu-close",
+          "main",
+          "hero",
+          "hero-title",
+          "what-to-expect",
+          "how-it-works",
+          "how-title",
+          "map",
+          "map-title",
+          "map-actions",
+          "map-file-notice",
+          "map-preview",
+          "map-unavailable",
+          "featured-houses",
+          "houses-title",
+          "house-status",
+          "house-controls",
+          "house-search",
+          "house-list",
+          "house-empty",
+          "community-title",
+          "event-config"
+        ]
+      }
+    },
+    {
+      "name": "Chromium responsive 1920x1080",
+      "status": "PASS",
+      "details": {
+        "overflow": 0,
+        "broken": [],
+        "ids": [
+          "menu-toggle",
+          "site-nav",
+          "menu-close",
+          "main",
+          "hero",
+          "hero-title",
+          "what-to-expect",
+          "how-it-works",
+          "how-title",
+          "map",
+          "map-title",
+          "map-actions",
+          "map-file-notice",
+          "map-preview",
+          "map-unavailable",
+          "featured-houses",
+          "houses-title",
+          "house-status",
+          "house-controls",
+          "house-search",
+          "house-list",
+          "house-empty",
+          "community-title",
+          "event-config"
+        ]
+      }
+    },
+    {
+      "name": "Chromium responsive 844x390",
+      "status": "PASS",
+      "details": {
+        "overflow": 0,
+        "broken": [],
+        "ids": [
+          "menu-toggle",
+          "site-nav",
+          "menu-close",
+          "main",
+          "hero",
+          "hero-title",
+          "what-to-expect",
+          "how-it-works",
+          "how-title",
+          "map",
+          "map-title",
+          "map-actions",
+          "map-file-notice",
+          "map-preview",
+          "map-unavailable",
+          "featured-houses",
+          "houses-title",
+          "house-status",
+          "house-controls",
+          "house-search",
+          "house-list",
+          "house-empty",
+          "community-title",
+          "event-config"
+        ]
+      }
+    },
+    {
+      "name": "Mobile menu touch, Escape, close, navigation, focus and resize",
+      "status": "PASS"
+    },
+    {
+      "name": "All section anchors and keyboard skip link",
+      "status": "PASS"
+    },
+    {
+      "name": "Search filters the actual count and handles no matches",
+      "status": "PASS"
+    },
+    {
+      "name": "Map preview and full-resolution image opening",
+      "status": "PASS"
+    },
+    {
+      "name": "PNG download preserves the exact supplied master and filename",
+      "status": "PASS"
+    },
+    {
+      "name": "Printable PDF link requests the correct file and delivers the exact master",
+      "status": "PASS"
+    },
+    {
+      "name": "WCAG 2.2 AA automated accessibility",
+      "status": "PASS",
+      "details": {
+        "passes": 26,
+        "violations": 0
+      }
+    },
+    {
+      "name": "No uncaught exceptions, missing resources, external runtime dependencies",
+      "status": "PASS"
+    },
+    {
+      "name": "Domain-root preview also resolves all assets",
+      "status": "PASS"
+    },
+    {
+      "name": "Local fixture: empty roster",
+      "status": "PASS"
+    },
+    {
+      "name": "Local fixture: one approved house",
+      "status": "PASS"
+    },
+    {
+      "name": "Local fixture: multiple approved houses",
+      "status": "PASS"
+    },
+    {
+      "name": "Local fixture: duplicate house IDs",
+      "status": "PASS"
+    },
+    {
+      "name": "Local fixture: unapproved and malformed addresses",
+      "status": "PASS"
+    },
+    {
+      "name": "Local fixture: missing image",
+      "status": "PASS"
+    },
+    {
+      "name": "Local fixture: long names and HTML special characters",
+      "status": "PASS"
+    },
+    {
+      "name": "Local fixtures: malformed JSON and historical roster are withheld",
+      "status": "PASS"
+    },
+    {
+      "name": "Local fixture: no supplied map or unconfirmed hours",
+      "status": "PASS"
+    },
+    {
+      "name": "Local fixture: failed map image hides downloads",
+      "status": "PASS"
+    },
+    {
+      "name": "Local fixture: missing PDF exposes no broken PDF action",
+      "status": "PASS"
+    },
+    {
+      "name": "JavaScript disabled: date, map and essential navigation remain usable",
+      "status": "PASS"
+    },
+    {
+      "name": "Reduced motion and mobile accessibility",
+      "status": "PASS"
+    },
+    {
+      "name": "WebKit responsive and map/menu 390x844",
+      "status": "PASS"
+    },
+    {
+      "name": "WebKit responsive and map/menu 844x390",
+      "status": "PASS"
+    },
+    {
+      "name": "WebKit responsive and map/menu 1440x1000",
+      "status": "PASS"
+    }
+  ]
+}

@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Red Bird Trick-or-Treat Trail 2026</title>
-  <meta name="description" content="Halloween with your neighbors. Join the Red Bird Trick-or-Treat Trail on Saturday, October 31, 2026. View, save, or print the neighborhood trail map.">
+  <title>{{name}} {{year}}</title>
+  <meta name="description" content="Halloween with your neighbors. Join the Red Bird Trick-or-Treat Trail on {{fullDate}}. View, save, or print the neighborhood trail map.">
   <meta name="theme-color" content="#0b0e1d">
-  <link rel="canonical" href="https://pdarleyjr.github.io/redbird-parallax-site/">
+  <link rel="canonical" href="{{canonical}}">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Red Bird Trick-or-Treat Trail 2026">
-  <meta property="og:description" content="Saturday, October 31, 2026 · 6 PM–9 PM · Red Bird neighborhood, Miami. Find your Halloween stops and save the trail map.">
-  <meta property="og:url" content="https://pdarleyjr.github.io/redbird-parallax-site/">
-  <meta property="og:image" content="https://pdarleyjr.github.io/redbird-parallax-site/assets/img/optimized/hero.jpg">
+  <meta property="og:title" content="{{name}} {{year}}">
+  <meta property="og:description" content="{{fullDate}} · {{hours}} · {{location}}. Find your Halloween stops and save the trail map.">
+  <meta property="og:url" content="{{canonical}}">
+  <meta property="og:image" content="{{canonical}}assets/img/optimized/hero.jpg">
   <meta property="og:image:alt" content="Red Bird children in Halloween costumes with a cardinal and glowing pumpkins.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
@@ -42,10 +42,10 @@
   <main id="main" tabindex="-1">
     <section id="hero" class="hero wrap" aria-labelledby="hero-title" tabindex="-1">
       <div class="hero-copy">
-        <p class="eyebrow">A neighborhood Halloween · 2026</p>
+        <p class="eyebrow">A neighborhood Halloween · {{year}}</p>
         <h1 id="hero-title"><span>Red Bird</span>Trick-or-Treat<br>Trail</h1>
         <p class="hero-intro">A little spooky. A lot of community.<br>Spend Halloween with your neighbors.</p>
-        <p class="event-line"><time datetime="2026-10-31">Saturday, October 31</time><span class="dot" aria-hidden="true">•</span><span>6 PM–9 PM</span></p>
+        <p class="event-line"><time datetime="{{date}}">{{day}}</time><span class="dot" aria-hidden="true">•</span><span>{{hours}}</span></p>
         <div class="actions">
           <a class="button button-primary" href="#map">View trail map <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
           <a class="button button-secondary" href="#what-to-expect">Event details</a>
@@ -61,9 +61,9 @@
     </section>
     <section id="what-to-expect" class="date-band" aria-label="Event information" tabindex="-1">
       <div class="wrap">
-        <div class="detail"><span class="detail-label">Save the date</span><time class="detail-value" datetime="2026-10-31">Saturday, October 31, 2026</time></div>
-        <div class="detail"><span class="detail-label">Halloween evening</span><span class="detail-value">6 PM–9 PM</span><span class="muted">Miami local time</span></div>
-        <div class="detail"><span class="detail-label">Meet your neighbors</span><span class="detail-value">Red Bird neighborhood, Miami</span></div>
+        <div class="detail"><span class="detail-label">Save the date</span><time class="detail-value" datetime="{{date}}">{{fullDate}}</time></div>
+        <div class="detail"><span class="detail-label">Halloween evening</span><span class="detail-value">{{hours}}</span><span class="muted">Miami local time</span></div>
+        <div class="detail"><span class="detail-label">Meet your neighbors</span><span class="detail-value">{{location}}</span></div>
       </div>
     </section>
     <section id="how-it-works" class="section wrap" aria-labelledby="how-title" tabindex="-1">
@@ -84,14 +84,14 @@
           <h2 id="map-title">A trail full<br>of treats.</h2>
           <p>Find the Halloween stops around Red Bird. Open the full map for street names and addresses, or save a copy before you head out.</p>
           <div class="map-tip"><strong>Make the map your own.</strong>On your phone, open the full image and pinch to zoom. Save it to Photos or Files for your walk.</div>
-          <div id="map-actions" class="map-actions"><a class="button button-primary" href="assets/maps/redbird-trail-2026.png" target="_blank" rel="noopener" data-map-file>View full map <span aria-hidden="true">↗</span><span class="sr-only"> (opens a new tab)</span></a><a class="button button-secondary" href="assets/maps/redbird-trail-2026.png" download="redbird-trail-2026.png" data-map-file>Download map (PNG)</a><a class="text-link" href="assets/maps/redbird-trail-2026.pdf" target="_blank" rel="noopener" data-map-file>Open printable PDF <span aria-hidden="true">&nbsp;↗</span><span class="sr-only"> (opens a new tab)</span></a></div>
+          {{mapActions}}
           <p class="map-note" id="map-file-notice" hidden>One or more map downloads are temporarily unavailable. Please try again later.</p>
           <p class="map-note">If a download opens in your browser, use its Save or Share menu. The PDF has a print-friendly layout.</p>
         </div>
-        <div><figure class="map-figure"><a href="assets/maps/redbird-trail-2026.png" target="_blank" rel="noopener" aria-label="Open the full-resolution 2026 trail map in a new tab"><picture><source type="image/webp" srcset="assets/maps/redbird-trail-2026-600.webp 600w, assets/maps/redbird-trail-2026-720.webp 720w, assets/maps/redbird-trail-2026-1000.webp 1000w, assets/maps/redbird-trail-2026-1600.webp 1600w" sizes="(max-width: 699px) calc(100vw - 48px), 560px"><img id="map-preview" src="assets/maps/redbird-trail-2026-1600.webp" alt="Red Bird 2026 Halloween trail map with numbered stops and a house directory. Open the full map to read street labels and addresses." width="6000" height="8300" loading="lazy" decoding="async"></picture></a><figcaption>The organizer’s 2026 map. Tap to open at full resolution.</figcaption></figure>
-          <div id="map-unavailable" class="map-empty" hidden>
+        <div>{{mapFigure}}
+          <div id="map-unavailable" class="map-empty" {{mapEmptyHidden}}>
             <img src="assets/img/trail/candy-pumpkin.webp" alt="" width="100" height="100" loading="lazy">
-            <h3>2026 Trail Map Coming Soon</h3><p>The neighborhood map will appear here when it is ready. Check back before Halloween night.</p>
+            <h3>{{year}} Trail Map Coming Soon</h3><p>The neighborhood map will appear here when it is ready. Check back before Halloween night.</p>
           </div>
         </div>
       </div>
@@ -109,15 +109,15 @@
     </section>
     <section class="community wrap" aria-labelledby="community-title">
       <picture><source type="image/webp" srcset="assets/img/optimized/neighborhood-600.webp 600w, assets/img/optimized/neighborhood-960.webp 960w" sizes="(max-width: 699px) calc(100vw - 48px), 560px"><img src="assets/img/optimized/neighborhood.jpg" alt="An illustrated Halloween evening at Red Bird Center, with palm trees and glowing pumpkins." width="1536" height="1024" loading="lazy" decoding="async"></picture>
-      <div><p class="eyebrow">Made by neighbors, for neighbors</p><h2 id="community-title">That’s the<br>Red Bird spirit.</h2><p>The Red Bird Trick-or-Treat Trail brings our community together for a night of decorated homes, costumes, and Halloween memories.</p><a class="text-link" href="#map">Plan your Halloween walk <span aria-hidden="true">&nbsp;↗</span></a></div>
+      <div><p class="eyebrow">Made by neighbors, for neighbors</p><h2 id="community-title">That’s the<br>Red Bird spirit.</h2><p>The Red Bird Trick-or-Treat Trail brings our community together for a night of decorated homes, costumes, and Halloween memories.</p>{{registrationAction}}<a class="text-link" href="#map">Plan your Halloween walk <span aria-hidden="true">&nbsp;↗</span></a></div>
     </section>
   </main>
   <footer class="site-footer">
     <div class="wrap">
-      <div class="footer-top"><a class="brand" href="#hero"><img src="assets/img/trail/cardinal.webp" alt="" width="46" height="46"><span><span class="brand-name">RED BIRD</span><span class="brand-subtitle">TRICK-OR-TREAT TRAIL · 2026</span></span></a><nav class="footer-nav" aria-label="Footer navigation"><a href="#what-to-expect">Event details</a><a href="#featured-houses">Participating houses</a><a href="assets/maps/redbird-trail-2026.png" target="_blank" rel="noopener" data-direct-map data-map-file>Full trail map<span class="sr-only"> (opens a new tab)</span></a></nav></div>
-      <div class="footer-bottom"><p>A neighborhood Halloween. Saturday, October 31, 2026.</p><p>Map geography: Miami-Dade County GIS. Updated 2026-10-09.</p></div>
+      <div class="footer-top"><a class="brand" href="#hero"><img src="assets/img/trail/cardinal.webp" alt="" width="46" height="46"><span><span class="brand-name">RED BIRD</span><span class="brand-subtitle">TRICK-OR-TREAT TRAIL · {{year}}</span></span></a><nav class="footer-nav" aria-label="Footer navigation"><a href="#what-to-expect">Event details</a><a href="#featured-houses">Participating houses</a>{{footerMap}}</nav></div>
+      <div class="footer-bottom"><p>A neighborhood Halloween. {{fullDate}}.</p><p>Map geography: Miami-Dade County GIS. Updated {{updated}}.</p></div>
     </div>
   </footer>
-  <script id="event-config" type="application/json">{"name":"Red Bird Trick-or-Treat Trail","year":2026,"date":"2026-10-31","timeZone":"America/New_York","hours":{"status":"confirmed","start":"18:00","end":"21:00","source":"Confirmed by the organizer on October 9, 2026"},"location":"Red Bird neighborhood, Miami","registration":{"status":"pending","url":null},"map":{"status":"published","image":"assets/maps/redbird-trail-2026.png","pdf":"assets/maps/redbird-trail-2026.pdf","previews":[{"path":"assets/maps/redbird-trail-2026-600.webp","width":600},{"path":"assets/maps/redbird-trail-2026-720.webp","width":720},{"path":"assets/maps/redbird-trail-2026-1000.webp","width":1000},{"path":"assets/maps/redbird-trail-2026-1600.webp","width":1600}],"width":6000,"height":8300,"source":"Organizer-supplied PNG and PDF, October 9, 2026"},"houses":{"status":"approved","path":"data/houses-2026.json"},"updated":"2026-10-09","canonical":"https://pdarleyjr.github.io/redbird-parallax-site/"}</script>
+  <script id="event-config" type="application/json">{{eventJSON}}</script>
 </body>
 </html>
