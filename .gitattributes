@@ -1,0 +1,16 @@
+# Preserve supplied media bytes and keep review diffs readable.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.webp binary
+*.woff2 binary
+*.txt text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.html text eol=lf
+*.mjs text eol=lf
+*.js text eol=lf
+*.css text eol=lf
+*.yml text eol=lf
+# Generated Lighthouse reports retain their original evidence bytes.
+docs/qa/*.html -diff
