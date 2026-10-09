@@ -1,0 +1,26 @@
+{
+  "name": "redbird-trick-or-treat-trail",
+  "version": "2026.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The Red Bird community Halloween trail. Zero runtime dependencies.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/build.mjs --check",
+    "dev": "node scripts/serve.mjs",
+    "test": "node --test tests/content.test.mjs",
+    "test:browser": "node tests/browser.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "4.14.0",
+    "lighthouse": "13.5.0",
+    "playwright": "1.62.1"
+  },
+  "overrides": {
+    "basic-ftp": "6.2.3",
+    "ip-address": "10.7.3"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

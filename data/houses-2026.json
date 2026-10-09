@@ -1,0 +1,286 @@
+{
+  "year": 2026,
+  "status": "approved",
+  "source": "Owner-supplied 2026 map directory; publication approved October 9, 2026.",
+  "houses": [
+    {
+      "id": "stop-01",
+      "mapNumber": 1,
+      "name": "Skeleton Dog",
+      "address": "3911 SW 60th Court",
+      "image": "assets/img/trail/skeleton-dog.webp",
+      "status": "approved",
+      "order": 1
+    },
+    {
+      "id": "stop-02",
+      "mapNumber": 2,
+      "name": "Mickey & Minnie’s Halloween Party",
+      "address": "3934 SW 58th Court",
+      "image": "assets/img/trail/mouse-pumpkin.webp",
+      "status": "approved",
+      "order": 2
+    },
+    {
+      "id": "stop-03",
+      "mapNumber": 3,
+      "name": "Gilbert’s Bakery",
+      "address": "5777 SW 40th Street",
+      "image": "assets/img/trail/bakery.webp",
+      "status": "approved",
+      "order": 3
+    },
+    {
+      "id": "stop-04",
+      "mapNumber": 4,
+      "name": "Skull Cove",
+      "address": "5790 SW 39th Street",
+      "image": "assets/img/trail/skull.webp",
+      "status": "approved",
+      "order": 4
+    },
+    {
+      "id": "stop-05",
+      "mapNumber": 5,
+      "name": "Halloween Stop",
+      "address": "5792 SW 39th Street",
+      "image": "assets/img/trail/candy-pumpkin.webp",
+      "status": "approved",
+      "order": 5
+    },
+    {
+      "id": "stop-06",
+      "mapNumber": 6,
+      "name": "Lima’s Nightmare on 39th Street",
+      "address": "5785 SW 39th Street",
+      "image": "assets/img/trail/horror-house.webp",
+      "status": "approved",
+      "order": 6
+    },
+    {
+      "id": "stop-07",
+      "mapNumber": 7,
+      "name": "The Coven on 39th ST",
+      "address": "5795 SW 39th Street",
+      "image": "assets/img/trail/witch.webp",
+      "status": "approved",
+      "order": 7
+    },
+    {
+      "id": "stop-08",
+      "mapNumber": 8,
+      "name": "Witches’ Den",
+      "address": "3825 SW 58th Avenue",
+      "image": "assets/img/trail/witch.webp",
+      "status": "approved",
+      "order": 8
+    },
+    {
+      "id": "stop-09",
+      "mapNumber": 9,
+      "name": "Boo Bungalow",
+      "address": "3815 SW 58th Avenue",
+      "image": "assets/img/trail/ghost.webp",
+      "status": "approved",
+      "order": 9
+    },
+    {
+      "id": "stop-10",
+      "mapNumber": 10,
+      "name": "Corner House of Horrors",
+      "address": "3800 SW 58th Avenue",
+      "image": "assets/img/trail/horror-house.webp",
+      "status": "approved",
+      "order": 10
+    },
+    {
+      "id": "stop-11",
+      "mapNumber": 11,
+      "name": "Jurassic House",
+      "address": "3830 SW 58th Court",
+      "image": "assets/img/trail/dinosaur.webp",
+      "status": "approved",
+      "order": 11
+    },
+    {
+      "id": "stop-12",
+      "mapNumber": 12,
+      "name": "Phantasmal Phountain",
+      "address": "3624 SW 58th Avenue",
+      "image": "assets/img/trail/fountain.webp",
+      "status": "approved",
+      "order": 12
+    },
+    {
+      "id": "stop-13",
+      "mapNumber": 13,
+      "name": "The Friendly Ghost House",
+      "address": "3703 SW 58th Avenue",
+      "image": "assets/img/trail/ghost.webp",
+      "status": "approved",
+      "order": 13
+    },
+    {
+      "id": "stop-14",
+      "mapNumber": 14,
+      "name": "Spider Crawl",
+      "address": "3601 SW 58th Avenue",
+      "image": "assets/img/trail/spider.webp",
+      "status": "approved",
+      "order": 14
+    },
+    {
+      "id": "stop-15",
+      "mapNumber": 15,
+      "name": "The Spooky Villa",
+      "address": "5735 SW 35th Street",
+      "image": "assets/img/trail/villa.webp",
+      "status": "approved",
+      "order": 15
+    },
+    {
+      "id": "stop-16",
+      "mapNumber": 16,
+      "name": "House of Horrors",
+      "address": "5825 SW 35th Street",
+      "image": "assets/img/trail/horror-house.webp",
+      "status": "approved",
+      "order": 16
+    },
+    {
+      "id": "stop-17",
+      "mapNumber": 17,
+      "name": "The Wicked House",
+      "address": "5935 SW 35th Street",
+      "image": "assets/img/trail/wicked-house.webp",
+      "status": "approved",
+      "order": 17
+    },
+    {
+      "id": "stop-18",
+      "mapNumber": 18,
+      "name": "House of Trickery",
+      "address": "3601 SW 60th Avenue",
+      "image": "assets/img/trail/jester.webp",
+      "status": "approved",
+      "order": 18
+    },
+    {
+      "id": "stop-19",
+      "mapNumber": 19,
+      "name": "The Fright House!",
+      "address": "3610 SW 60th Avenue",
+      "image": "assets/img/trail/horror-house.webp",
+      "status": "approved",
+      "order": 19
+    },
+    {
+      "id": "stop-20",
+      "mapNumber": 20,
+      "name": "Walking Dead Taco Stop",
+      "address": "3700 SW 60th Avenue",
+      "image": "assets/img/trail/taco.webp",
+      "status": "approved",
+      "order": 20
+    },
+    {
+      "id": "stop-21",
+      "mapNumber": 21,
+      "name": "Milos House of Bones",
+      "address": "3736 SW 60th Avenue",
+      "image": "assets/img/trail/bones.webp",
+      "status": "approved",
+      "order": 21
+    },
+    {
+      "id": "stop-22",
+      "mapNumber": 22,
+      "name": "The Werewolf Den",
+      "address": "3700 SW 60th Place",
+      "image": "assets/img/trail/werewolf.webp",
+      "status": "approved",
+      "order": 22
+    },
+    {
+      "id": "stop-23",
+      "mapNumber": 23,
+      "name": "Ghostly Graveyard",
+      "address": "3720 SW 60th Place",
+      "image": "assets/img/trail/graveyard.webp",
+      "status": "approved",
+      "order": 23
+    },
+    {
+      "id": "stop-24",
+      "mapNumber": 24,
+      "name": "The Skeleton House",
+      "address": "6078 S Waterway Drive",
+      "image": "assets/img/trail/skeleton.webp",
+      "status": "approved",
+      "order": 24
+    },
+    {
+      "id": "stop-25",
+      "mapNumber": 25,
+      "name": "Trick or Treat Realty",
+      "address": "6212 S Waterway Drive",
+      "image": "assets/img/trail/realty.webp",
+      "status": "approved",
+      "order": 25
+    },
+    {
+      "id": "stop-26",
+      "mapNumber": 26,
+      "name": "Knock if you dare!",
+      "address": "3810 SW 61st Avenue",
+      "image": "assets/img/trail/door.webp",
+      "status": "approved",
+      "order": 26
+    },
+    {
+      "id": "stop-27",
+      "mapNumber": 27,
+      "name": "Witch Way to the Candy?",
+      "address": "3825 SW 62nd Avenue",
+      "image": "assets/img/trail/witch.webp",
+      "status": "approved",
+      "order": 27
+    },
+    {
+      "id": "stop-28",
+      "mapNumber": 28,
+      "name": "Haunted Book Nook",
+      "address": "6210 SW 38th Street",
+      "image": "assets/img/trail/book.webp",
+      "status": "approved",
+      "order": 28
+    },
+    {
+      "id": "stop-29",
+      "mapNumber": 29,
+      "name": "The Spider's Den",
+      "address": "6275 SW 39th Street",
+      "image": "assets/img/trail/spider.webp",
+      "status": "approved",
+      "order": 29
+    },
+    {
+      "id": "stop-30",
+      "mapNumber": 30,
+      "name": "The Goalkeeper’s Graveyard",
+      "address": "3821 SW 60th Avenue",
+      "image": "assets/img/trail/goalkeeper.webp",
+      "status": "approved",
+      "order": 30
+    },
+    {
+      "id": "stop-31",
+      "mapNumber": 31,
+      "name": "The Haunted Spider House",
+      "address": "3927 SW 58th Court",
+      "image": "assets/img/trail/spider.webp",
+      "status": "approved",
+      "order": 31
+    }
+  ]
+}
