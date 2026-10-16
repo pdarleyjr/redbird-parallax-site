@@ -20,7 +20,7 @@
 | G3 | 2026-10-16 | Pre-authorized by the owner ("until it is live"); used per milestone only after QA is green. |
 
 | D11 | 2026-10-16 | Miami-Dade GIS address points not used for geocoding | No verified public endpoint with clear terms; US Census (street-checked) then Nominatim are used and every pin stays `approximate` until confirmed. |
-| D12 | 2026-10-16 | Admin auth changed from Cloudflare Access + JWT (jose) to an owner-typed password stored only as a Worker secret, with HMAC-signed `rb_admin` cookie sessions, login rate limiting and CSRF Origin checks | Owner decision. Simpler for the owner (no Zero Trust login), still fail-closed. The Access application created earlier was deleted. |
+| D12 | 2026-10-16 | Admin auth: Cloudflare Access (one-time PIN) plus the Worker's own Access JWT check (issuer, audience, signature, email allowlist). A password + cookie design was built and briefly deployed after an out-of-date instruction, then **reversed** the same day when the owner said 'Zero Trust is fine' and asked for a second admin address | Access supports several allowed emails with no password to store. Password login code, cookie code, secrets and the login_attempts table (migration 0004) were removed. |
 | D13 | 2026-10-16 | Stop #10 icon is the Fluent jack-o-lantern, not the supplied pumpkin PNG | The supplied art showed candy characters, not a pumpkin, and did not match the brand set. |
 | D14 | 2026-10-16 | The 2024 originals are clipped to their circle and placed on the brand badge | The source PNGs carry a baked-in checkerboard/white background. |
 | D15 | 2026-10-16 | Review fixes applied before release: print/API/navigation routing in the service worker, in-place nearest-sheet updates, live snapshot applied to a loading map, import numbering that includes archived numbers, restore realigning map numbers, atomic optimistic-lock guard for edits, dev-server path blocklist on Windows | Findings from the security and code reviews. |
@@ -29,4 +29,5 @@
 | Gate | Date | Status |
 |---|---|---|
 | G2a | 2026-10-16 | **Resolved** by the owner: #36 name as submitted; 2024 icons for #33/#40/#36; boundary approved; manual pins for #03 and #25 (verified, manual-owner); publish all 46. |
-| G1 | 2026-10-16 | Cloudflare access provided as an API token (kept in the process environment only). Workers and D1 deployed. Password to be set by the owner. |
+| G1 | 2026-10-16 | Cloudflare access provided as an API token (kept in the process environment only). Workers, D1 and the Access application deployed. |
+| Admins | 2026-10-16 | Owner asked for a second admin address. Both addresses are in the Access policy and in the ADMIN_EMAILS Worker secret (emails are not stored in this repository). |

@@ -24,10 +24,8 @@
       "d1_databases": [
         { "binding": "DB", "database_name": "redbird-trails", "database_id": "bd3d16ad-1545-466c-853f-a1ade401eed2", "migrations_dir": "migrations" }
       ],
-      // Secrets (never committed), set with `wrangler secret put <NAME> --env admin`:
-      //   ADMIN_PASSWORD  the sign-in password (the owner types it into the prompt)
-      //   SESSION_SECRET  random 32+ character string that signs the session cookie
-      "vars": {}
+      // Secret (never committed): ADMIN_EMAILS, comma-separated, set with `wrangler secret put ADMIN_EMAILS --env admin`.
+      "vars": { "ACCESS_TEAM": "darl.cloudflareaccess.com", "ACCESS_AUD": "75bc46d168bf01339d6fc2d3a6e1aba279d05cfb7256a4eb488b97defde6efda" }
     }
   }
 }

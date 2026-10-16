@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { api, env, publicGet, resetDatabase, startSession } from './helpers.js';
+import { api, env, publicGet, resetDatabase } from './helpers.js';
 
-beforeEach(async () => { await resetDatabase(); await startSession(); });
+beforeEach(resetDatabase);
 
 const goodHouse = (over = {}) => ({ name: 'Fixture Manor', address: '3700 SW 61st Avenue', icon: 'ghost', lat: 25.7365, lng: -80.2925, ...over });
 const snapshotVersion = async () => (await env.DB.prepare('SELECT MAX(version) AS v FROM snapshots WHERE event_id = ?').bind('halloween-2026').first()).v;
@@ -164,7 +164,7 @@ describe('snapshots and events', () => {
   it('records an audit trail', async () => {
     await created();
     const audit = await api('/api/audit?limit=5');
-    expect(audit.body.data[0]).toMatchObject({ action: 'house.create', actor: 'admin' });
+    expect(audit.body.data[0]).toMatchObject({ action: 'house.create', actor: 'admin@example.invalid' });
   });
 });
 
