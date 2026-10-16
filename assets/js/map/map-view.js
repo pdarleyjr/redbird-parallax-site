@@ -1,6 +1,6 @@
 // Interactive map controller. All map assets are same-origin (self-hosted tiles, glyphs and style).
 import { loadMapLibre } from './loader.js';
-import { addHouseLayers, ensureIcons, housesToGeoJSON, setHouseState } from './markers.js';
+import { createPins } from './pins.js';
 import { siteRoot } from '../data.js';
 
 const cssVar = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -29,49 +29,36 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
   map.on('error', e => console.warn('Map warning:', e.error?.message));
   await new Promise((resolve, reject) => { const timer = setTimeout(() => reject(new Error('The map took too long to load.')), 30000); map.once('load', () => { clearTimeout(timer); resolve(); }); });
 
+  // On a phone the whole trail at once is too crowded for 36 px pins: open about one zoom level in, centered on the houses.
+  // "Show whole trail" still fits everything.
+  if (container.clientWidth < 768) {
+    const located = snapshot.houses.filter(h => h.location !== 'none');
+    if (located.length) map.jumpTo({ zoom: map.getZoom() + 1.1, center: [located.reduce((s, h) => s + h.lng, 0) / located.length, located.reduce((s, h) => s + h.lat, 0) / located.length] });
+  }
+
   map.addSource('boundary', { type: 'geojson', data: { type: 'Feature', geometry: snapshot.boundary, properties: {} } });
   map.addLayer({ id: 'boundary-line', type: 'line', source: 'boundary', paint: { 'line-color': cssVar('--rb-neon-orange'), 'line-width': 2, 'line-dasharray': [3, 2], 'line-opacity': .8 } });
-  await addHouseLayers(map, snapshot.houses, root);
 
   map.addSource('user', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
   map.addLayer({ id: 'user-accuracy', type: 'circle', source: 'user', paint: { 'circle-color': cssVar('--rb-you'), 'circle-opacity': .15, 'circle-radius': 0 } });
   map.addLayer({ id: 'user-dot', type: 'circle', source: 'user', paint: { 'circle-color': cssVar('--rb-you'), 'circle-radius': 8, 'circle-stroke-color': cssVar('--rb-cream'), 'circle-stroke-width': 3 } });
 
   let houses = snapshot.houses;
-  let selected = null, nearestId = null, markerEl = null;
-  const byNumber = id => houses.find(h => h.id === id)?.mapNumber;
+  let selected = null;
+  const pins = createPins({ map, maplibre, houses, root, onSelect });
   const move = (center, zoom) => reducedMotion ? map.jumpTo({ center, zoom }) : map.flyTo({ center, zoom, essential: false });
-
-  map.on('click', event => {
-    const r = 22;
-    const found = map.queryRenderedFeatures([[event.point.x - r, event.point.y - r], [event.point.x + r, event.point.y + r]], { layers: ['house-dot'] });
-    const ids = [...new Set(found.map(f => f.properties.id))];
-    if (ids.length === 1) onSelect(ids[0]); else if (ids.length > 1) onChoose(ids);
-  });
-  map.on('mousemove', 'house-dot', () => { map.getCanvas().style.cursor = 'pointer'; });
-  map.on('mouseleave', 'house-dot', () => { map.getCanvas().style.cursor = ''; });
 
   const api = {
     map,
     select(id, { fly = true } = {}) {
-      if (selected) setHouseState(map, byNumber(selected), 'selected', false);
       selected = id;
       const house = houses.find(h => h.id === id);
-      markerEl?.remove?.(); markerEl = null;
+      pins.setSelected(house && house.location !== 'none' ? id : null);
       if (!house || house.location === 'none') return;
-      setHouseState(map, house.mapNumber, 'selected', true);
-      const button = document.createElement('button');
-      button.type = 'button'; button.className = 'marker-focus';
-      button.setAttribute('aria-label', `Stop ${house.mapNumber}: ${house.name}, ${house.address}`);
-      markerEl = new maplibre.Marker({ element: button }).setLngLat([house.lng, house.lat]).addTo(map);
       if (fly) move([house.lng, house.lat], Math.max(map.getZoom(), 17));
     },
-    setNearest(id) {
-      if (nearestId) setHouseState(map, byNumber(nearestId), 'nearest', false);
-      nearestId = id;
-      if (id) setHouseState(map, byNumber(id), 'nearest', true);
-    },
-    setVisited(set) { for (const h of houses) setHouseState(map, h.mapNumber, 'visited', set.has(h.id)); },
+    setNearest(id) { pins.setNearest(id); },
+    setVisited(set) { pins.setVisited(set); },
     setUser(position) {
       if (!position) { map.getSource('user').setData({ type: 'FeatureCollection', features: [] }); return; }
       const { lat, lng, accuracy } = position;
@@ -82,7 +69,8 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
     follow(position, zoom = 17) { move([position.lng, position.lat], Math.max(map.getZoom(), zoom)); },
     fitAll() { reducedMotion ? map.fitBounds(bounds(ring), { padding: 24, duration: 0 }) : map.fitBounds(bounds(ring), { padding: 24 }); },
     zoom(delta) { map.zoomTo(map.getZoom() + delta, reducedMotion ? { duration: 0 } : {}); },
-    async setSnapshot(next) { houses = next.houses; await ensureIcons(map, houses, root); map.getSource('houses').setData(housesToGeoJSON(houses)); },
+    setSnapshot(next) { houses = next.houses; pins.setHouses(houses); pins.setSelected(selected); },
+    pins,
     destroy() { map.remove(); }
   };
   return api;
