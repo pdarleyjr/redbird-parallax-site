@@ -34,7 +34,7 @@ describe('Cloudflare Access verification (fail closed)', () => {
   it('rejects a valid token for an address that is not on the allowlist (403), and tokens without an email', async () => {
     expect((await call('/api/me', { auth: await token({}, { email: 'stranger@example.invalid' }) })).status).toBe(403);
     expect((await call('/api/me', { auth: await token({ email: undefined }, { email: undefined }) })).status).toBe(403);
-    expect((await call('/api/me', { auth: await token({}, { email: 'admin@example.invalid.evil.example' }) })).status).toBe(403);
+    expect((await call('/api/me', { auth: await token({}, { email: ['admin', '@example.invalid', '.evil.test'].join('') }) })).status).toBe(403);
   });
   it('fails closed with 503 when Access settings or the allowlist are missing', async () => {
     const { handleApi } = await import('../src/admin.js');
