@@ -80,3 +80,15 @@
   .action-bar svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2}
 }
 @media(max-width:359px){.hero h1{font-size:2.1rem}.hero .actions{flex-direction:column;align-items:stretch}.step{grid-template-columns:75px 1fr;gap:.75rem}.step img{width:75px;height:100px}}
+
+.printables .print-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.print-card{display:flex;flex-direction:column;background:var(--rb-panel);border:1px solid var(--rb-line);border-radius:1.25rem;overflow:hidden}
+.pc-thumb{display:block;background:var(--rb-paper);aspect-ratio:4/3}
+.pc-thumb img{width:100%;height:100%;object-fit:cover;object-position:top}
+.pc-body{padding:1.1rem 1.25rem 1.3rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.pc-body h3{font-size:1.25rem}
+.pc-body p{max-width:none}
+.pc-body .actions{margin-top:auto;padding-top:.5rem}
+.print-which{margin-top:1.25rem;color:var(--rb-muted);max-width:60ch}
+@media(max-width:699px){.printables .print-cards{grid-template-columns:1fr}}
+.hero-app{margin-top:.9rem;font-size:.95rem}

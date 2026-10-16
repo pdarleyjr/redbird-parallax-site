@@ -1,7 +1,9 @@
 // Homepage: cards come from the build-time registry; when the live events API says Christmas is published, activate its card.
 import { initPwa } from './pwa.js';
+import { initInstallSection } from './install.js';
 
 initPwa();
+initInstallSection();
 
 function activate(card) {
   const link = document.createElement('a');

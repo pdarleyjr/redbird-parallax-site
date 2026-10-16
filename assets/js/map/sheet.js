@@ -109,3 +109,18 @@ export function showLinks({ title, links }) {
   r.append(row);
   r.querySelector('a')?.focus();
 }
+
+/** The "Printable maps" cards (copied from the page so the sheet and the section never drift apart). */
+export function showPrintables({ title, cards }) {
+  const r = frame(title);
+  r.classList.add('sheet-print');
+  r.append(el('h3', null, title));
+  const copy = cards.cloneNode(true);
+  copy.removeAttribute('id');
+  for (const n of copy.querySelectorAll('[id]')) n.removeAttribute('id');
+  for (const a of copy.querySelectorAll('[aria-labelledby]')) a.removeAttribute('aria-labelledby');
+  for (const t of copy.querySelectorAll('.pc-thumb')) t.remove();
+  r.append(copy);
+  r.append(el('p', 'note', 'Flyer: polished handout. Live printout: always has the newest houses.'));
+  r.querySelector('a')?.focus();
+}
