@@ -55,3 +55,17 @@ test('print page has no axe violations', async ({ page }) => {
   await expect(page.locator('#print-ready')).toHaveText('Map ready ✓');
   expect(await axeViolations(page)).toEqual([]);
 });
+
+for (const paper of ['letter-portrait', 'letter-landscape']) {
+  test(`print badges (${paper}) show each house's icon and never overlap`, async ({ page }) => {
+    await page.goto(`halloween/print/?paper=${paper}`);
+    await expect(page.locator('#print-ready')).toHaveText('Map ready ✓');
+    expect(await page.locator('#print-overlay .pm g[data-n] image').count()).toBe(located.length);
+    const heads = await page.locator('#print-overlay .pm g[data-n]').evaluateAll(gs => gs.map(g => ({ x: Number(g.dataset.x), y: Number(g.dataset.y), r: Number(g.querySelector('.pm-head').getAttribute('r')) })));
+    let closest = Infinity;
+    for (let i = 0; i < heads.length; i++) for (let j = i + 1; j < heads.length; j++) closest = Math.min(closest, Math.hypot(heads[i].x - heads[j].x, heads[i].y - heads[j].y) - 2 * heads[i].r);
+    expect(closest, `closest badges are ${closest.toFixed(1)} units apart`).toBeGreaterThanOrEqual(0);
+    await page.locator('#map-block').screenshot({ path: `test-results/print-badges-${paper}.png` });
+    if (process.env.QA_SHOTS) await page.locator('#map-block').screenshot({ path: `${process.env.QA_SHOTS}/print-badges-${paper}.png` });
+  });
+}

@@ -5,7 +5,7 @@
     "a11y": 1,
     "bp": 1,
     "seo": 1,
-    "lcp": 2010,
+    "lcp": 1860,
     "cls": 0.023,
     "tbt": 0,
     "kb": 294,
@@ -19,18 +19,18 @@
       "tbt": 100,
       "kb": 350
     },
-    "ok": false
+    "ok": true
   },
   {
     "page": "halloween",
-    "perf": 0.97,
+    "perf": 0.98,
     "a11y": 1,
     "bp": 1,
     "seo": 1,
-    "lcp": 2345,
+    "lcp": 2183,
     "cls": 0,
     "tbt": 0,
-    "kb": 250,
+    "kb": 254,
     "budget": {
       "name": "halloween",
       "path": "halloween/",

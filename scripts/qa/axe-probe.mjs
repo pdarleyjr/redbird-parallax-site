@@ -11,5 +11,5 @@ await page.locator('#map').scrollIntoViewIfNeeded();
 await page.waitForFunction(() => window.__map?.loaded(), null, { timeout: 30000 }).catch(() => {});
 await page.evaluate(await readFile(require.resolve('axe-core/axe.min.js'), 'utf8'));
 const result = await page.evaluate(() => axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22a', 'wcag22aa'] } }));
-for (const v of result.violations) for (const n of v.nodes) console.log(v.id, n.target.join(' '), '|', n.any.map(a => a.message).join(' / ').slice(0, 300));
+for (const v of result.violations) for (const n of v.nodes) console.log(v.id, n.target.join(' '), '|', n.any.map(a => a.message).join(' / ').slice(0, 300), n.any.flatMap(a => a.relatedNodes.map(r => r.html.slice(0, 90))).join(' ; '));
 await browser.close();

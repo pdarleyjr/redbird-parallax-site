@@ -8,7 +8,7 @@ const here = { latitude: located[0].lat + 0.00005, longitude: located[0].lng + 0
 const mapReady = async page => {
   await page.goto('halloween/?debug');
   await page.evaluate(() => document.querySelector('#map').scrollIntoView());
-  await page.waitForFunction(() => window.__map?.loaded() && window.__map.isSourceLoaded('houses'), null, { timeout: 30000 });
+  await page.waitForFunction(() => window.__map?.loaded() && document.querySelectorAll('.pin-head').length > 0, null, { timeout: 30000 });
 };
 
 test('the map is lazy: MapLibre is not requested on the homepage or before the map is near', async ({ page }) => {
@@ -25,8 +25,13 @@ test('the map is lazy: MapLibre is not requested on the homepage or before the m
 
 test('every located house renders exactly once with the correct number; unlocated houses are list-only', async ({ page }) => {
   await mapReady(page);
-  const numbers = await page.evaluate(() => window.__map.getSource('houses').serialize().data.features.map(f => Number(f.properties.n)));
-  expect([...new Set(numbers)].sort((a, b) => a - b)).toEqual(located.map(h => h.mapNumber));
+  const pins = await page.locator('.pin-head').evaluateAll(els => els.map(e => ({ n: Number(e.querySelector('.pin-num').textContent), src: e.querySelector('img').getAttribute('src'), label: e.getAttribute('aria-label') })));
+  expect(pins.map(p => p.n)).toEqual(located.map(h => h.mapNumber)); // one pin per located house, Tab order = number order
+  for (const h of located) {
+    const pin = pins.find(p => p.n === h.mapNumber);
+    expect(pin.src).toMatch(new RegExp(`assets/img/markers/${h.icon}\\.webp$`));
+    expect(pin.label).toBe(`Stop ${h.mapNumber}, ${h.name}, ${h.address}`);
+  }
   expect(await page.locator('#map-house-list li').count()).toBe(snapshot.houses.length);
   const none = snapshot.houses.filter(h => h.location === 'none');
   for (const h of none) await expect(page.locator(`#map-house-list button[data-id="${h.id}"]`)).toContainText('Map location coming soon');
@@ -72,7 +77,7 @@ test('selecting a house from the accessible list flies to it and announces detai
   const h = located[8];
   await page.locator(`#map-house-list button[data-id="${h.id}"]`).click();
   await expect(page.locator('#house-sheet h3')).toContainText(h.name);
-  await expect(page.locator('.marker-focus')).toHaveAttribute('aria-label', new RegExp(`Stop ${h.mapNumber}: `));
+  await expect(page.locator('.pin.is-selected .pin-head')).toHaveAttribute('aria-label', new RegExp(`^Stop ${h.mapNumber}, `));
 });
 
 test('without WebGL2 the page explains and the list remains', async ({ browser }) => {
@@ -97,4 +102,36 @@ test('the Halloween page with the map loaded has no axe violations', async ({ pa
 test('a house deep link opens that house', async ({ page }) => {
   await page.goto('halloween/?debug#house-stop-12');
   await expect(page.locator('#house-sheet h3')).toContainText('#12');
+});
+
+for (const [name, size] of [['phone 390x844', { width: 390, height: 844 }], ['desktop 1440x1000', { width: 1440, height: 1000 }]]) {
+  test(`themed pins never overlap at the default zoom (${name})`, async ({ browser }) => {
+    const context = await browser.newContext({ baseURL: test.info().project.use.baseURL, viewport: size, deviceScaleFactor: 2 });
+    const page = await context.newPage();
+    await mapReady(page);
+    await page.waitForTimeout(2000);
+    const boxes = await page.locator('.pin-disc').evaluateAll(els => els.map(e => { const r = e.getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2, d: r.width }; }));
+    expect(boxes.length).toBe(located.length);
+    let closest = Infinity;
+    for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) closest = Math.min(closest, Math.hypot(boxes[i].x - boxes[j].x, boxes[i].y - boxes[j].y) - (boxes[i].d + boxes[j].d) / 2);
+    expect(closest, `closest heads are ${closest.toFixed(1)}px apart`).toBeGreaterThanOrEqual(0);
+    const stage = await page.locator('#map-stage').boundingBox();
+    for (const b of boxes) { expect(b.x).toBeGreaterThan(stage.x); expect(b.x).toBeLessThan(stage.x + stage.width); expect(b.y).toBeGreaterThan(stage.y); expect(b.y).toBeLessThan(stage.y + stage.height); }
+    const tap = await page.locator('.pin-head').first().boundingBox();
+    expect(tap.width).toBeGreaterThanOrEqual(36); expect(tap.height).toBeGreaterThanOrEqual(36);
+    await page.locator('#map-stage').screenshot({ path: `test-results/pins-${size.width}.png` });
+    if (process.env.QA_SHOTS) await page.locator('#map-stage').screenshot({ path: `${process.env.QA_SHOTS}/map-pins-${size.width}.png` });
+    await context.close();
+  });
+}
+
+test('visited and nearest states restyle the pins', async ({ page }) => {
+  await mapReady(page);
+  const h = located[3];
+  await page.locator(`#map-house-list button[data-id="${h.id}"]`).click();
+  await page.locator('#house-sheet').getByRole('button', { name: 'Mark visited' }).click();
+  const pin = page.locator('.pin', { has: page.locator(`.pin-head[aria-label^="Stop ${h.mapNumber},"]`) });
+  await expect(pin).toHaveClass(/is-visited/);
+  await expect(pin.locator('.pin-num')).toHaveText('✓');
+  await expect(pin.locator('.pin-head')).toHaveAttribute('aria-label', /visited$/);
 });
