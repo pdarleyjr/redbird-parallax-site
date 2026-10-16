@@ -31,3 +31,7 @@
 | G2a | 2026-10-16 | **Resolved** by the owner: #36 name as submitted; 2024 icons for #33/#40/#36; boundary approved; manual pins for #03 and #25 (verified, manual-owner); publish all 46. |
 | G1 | 2026-10-16 | Cloudflare access provided as an API token (kept in the process environment only). Workers, D1 and the Access application deployed. |
 | Admins | 2026-10-16 | Owner asked for a second admin address. Both addresses are in the Access policy and in the ADMIN_EMAILS Worker secret (emails are not stored in this repository). |
+
+| D16 | 2026-10-16 | App markers use the processed transparent icon set from `tools/flyer-map/icons/` (no extra badge); #40 uses `fluent-spider-web` (the 2024 manor was unreadable at pin size); a test keeps the app's icons identical to the printed flyer's `ICONS` and checks alpha at every icon corner | Owner icon rule (no boxed backgrounds) and one icon per house across app and flyer. |
+| D17 | 2026-10-16 | Pins come from `tools/flyer-map/houses.json` (OSM building centroids, owner GPS for #03/#25 = verified) and the flyer and app share them | Building-accurate; the map and printed flyer agree. |
+| D18 | 2026-10-16 | The site moved to https://redbird.iplcmiami.com/ (G4 approved by the owner): Christmas repo released the domain, this repo took it; `service-worker.js` kill-switch ships at the site root for returning Christmas visitors | One domain, one PWA for every Red Bird event. Times in DELIVERY-REPORT section 10. |
