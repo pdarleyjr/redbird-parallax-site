@@ -62,6 +62,7 @@ test('data-only changes never change the service worker version', async () => {
 
 test('the rollback stub unregisters the worker and clears rbht caches', async ({ page }) => {
   await ready(page);
+  await page.waitForTimeout(2500); // the page re-registers sw.js about 2 s after load; let that settle first
   // Chromium does not route SW script update checks, so install the stub as the worker for the same scope.
   await page.context().route('**/sw-rollback-stub.js', route => route.fulfill({ contentType: 'text/javascript', body: rollbackSource() }));
   await page.evaluate(() => navigator.serviceWorker.register(new URL('sw-rollback-stub.js', document.baseURI), { scope: new URL('./', document.baseURI).href }));

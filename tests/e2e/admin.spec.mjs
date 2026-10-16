@@ -44,6 +44,7 @@ test('signed-out visitors see only a password field (autocomplete=current-passwo
   await page.goto('https://admin.test/');
   const field = page.getByLabel('Admin password');
   await expect(field).toHaveAttribute('autocomplete', 'current-password');
+  if (process.env.QA_SHOTS) await page.screenshot({ path: `${process.env.QA_SHOTS}/admin-login.png` });
   await expect(field).toHaveAttribute('type', 'password');
   await expect(page.locator('#tabs')).toBeHidden();
   expect(state.calls).toEqual(['GET /api/me']);
@@ -61,6 +62,7 @@ test('a wrong password shows a generic error; the right one opens Houses; sign o
   await expect(page.getByRole('heading', { name: 'Manage houses' })).toBeVisible();
   await expect(page.locator('tbody tr')).toHaveCount(2);
   await expect(page.getByText('zip mismatch')).toBeVisible();
+  if (process.env.QA_SHOTS) await page.screenshot({ path: `${process.env.QA_SHOTS}/admin-houses.png` });
   expect(await axeViolations(page)).toEqual([]);
   await page.getByRole('button', { name: 'Sign out' }).click();
   await expect(page.getByLabel('Admin password')).toBeVisible();
@@ -85,4 +87,5 @@ test('the editor opens with the icon picker and a location section', async ({ pa
   expect(await page.locator('#editor input[name=icon]').count()).toBeGreaterThan(30);
   await expect(page.getByRole('button', { name: 'Suggest from address' })).toBeVisible();
   await expect(page.getByLabel('The pin is on the correct house front')).toBeVisible();
+  if (process.env.QA_SHOTS) await page.screenshot({ path: `${process.env.QA_SHOTS}/admin-editor.png` });
 });
