@@ -33,7 +33,7 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
   // "Show whole trail" still fits everything.
   if (container.clientWidth < 768) {
     const located = snapshot.houses.filter(h => h.location !== 'none');
-    if (located.length) map.jumpTo({ zoom: map.getZoom() + 1.1, center: [located.reduce((s, h) => s + h.lng, 0) / located.length, located.reduce((s, h) => s + h.lat, 0) / located.length] });
+    if (located.length) map.jumpTo({ zoom: map.getZoom() + 1.5, center: [located.reduce((s, h) => s + h.lng, 0) / located.length, located.reduce((s, h) => s + h.lat, 0) / located.length] });
   }
 
   map.addSource('boundary', { type: 'geojson', data: { type: 'Feature', geometry: snapshot.boundary, properties: {} } });
@@ -45,7 +45,7 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
 
   let houses = snapshot.houses;
   let selected = null;
-  const pins = createPins({ map, maplibre, houses, root, onSelect });
+  const pins = createPins({ map, maplibre, houses, root, onSelect, reducedMotion });
   const move = (center, zoom) => reducedMotion ? map.jumpTo({ center, zoom }) : map.flyTo({ center, zoom, essential: false });
 
   const api = {

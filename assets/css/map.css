@@ -42,8 +42,9 @@
 .map-flyer{margin-top:.25rem;max-width:none}
 
 /* Themed icon pins (the flyer look). The marker wrapper sits exactly on the house; the head is offset by the layout (--dx, --dy). */
-.pin{position:absolute;width:0;height:0;--d:36px}
-@media(min-width:768px){.pin{--d:40px}}
+.pin{position:absolute;width:0;height:0;--d:40px}
+.pin[hidden]{display:none}
+@media(min-width:768px){.pin{--d:44px}}
 .pin-needle{position:absolute;left:0;top:0;width:2px;height:2px;max-width:none;overflow:visible;pointer-events:none}
 .pin-shadow{fill:var(--rb-sky-deep);opacity:.6}
 .pin-line{stroke:var(--rb-cream);stroke-width:1.1;opacity:.85}
@@ -51,11 +52,16 @@
 .pin-head{position:absolute;left:calc(var(--dx,0px) - var(--d) / 2);top:calc(var(--dy,-46px) - var(--d) / 2);width:var(--d);height:var(--d);padding:0;margin:0;border:0;background:transparent;cursor:pointer;border-radius:50%;min-height:0}
 .pin-head:hover,.pin-head:focus-visible{background:transparent}
 .pin-head:focus-visible{outline:3px solid var(--rb-gold);outline-offset:0}
-.pin-disc{position:relative;display:block;width:var(--d);height:var(--d);border-radius:50%;box-sizing:border-box;border:1.4px solid var(--rb-cream);background:radial-gradient(circle at 35% 30%,var(--rb-pin-hi) 0,var(--rb-panel) 62%,var(--rb-pin-lo) 100%);box-shadow:0 0 0 1.7px var(--rb-cardinal),0 0 9px 2px rgb(var(--glow-cardinal) / .6),1.4px 2.6px 3px rgb(var(--glow-black) / .65);transition:transform .15s,box-shadow .15s}
-.pin-disc img{position:absolute;inset:11%;width:78%;height:78%;object-fit:contain}
-.pin-disc:after{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 22%,color-mix(in srgb,var(--rb-paper) 50%,transparent) 0,transparent 48%)}
-.pin-num{position:absolute;right:2px;bottom:2px;min-width:20px;height:20px;padding:0 3px;border-radius:10px;box-sizing:border-box;background:var(--rb-cream);color:var(--rb-ink);border:1.3px solid var(--rb-cardinal);font:800 11px/17px system-ui,sans-serif;text-align:center}
-.pin.is-approx .pin-disc{border-style:dashed}
+.pin-disc{position:relative;display:block;width:var(--d);height:var(--d);border-radius:50%;box-sizing:border-box;border:1.4px solid var(--rb-cream);background:radial-gradient(circle at 35% 30%,var(--rb-pin-hi) 0,var(--rb-pin-mid) 60%,var(--rb-pin-lo) 100%);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--rb-cream) 35%,transparent),0 0 0 1.7px var(--rb-cardinal),0 0 9px 2px rgb(var(--glow-cardinal) / .6),1.4px 2.6px 3px rgb(var(--glow-black) / .65);transition:transform .15s,box-shadow .15s}
+.pin-disc img{position:absolute;inset:4%;width:92%;height:92%;object-fit:contain}
+.pin-fan img{inset:auto;width:64%;height:64%;top:14%}
+.pin-fan img:nth-child(1){left:2%;transform:rotate(-14deg)}
+.pin-fan img:nth-child(2){left:18%;top:20%;z-index:1}
+.pin-fan img:nth-child(3){left:34%;transform:rotate(14deg)}
+.pin-fan img:only-child{left:18%;top:18%}
+.pin-disc:after{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 22%,color-mix(in srgb,var(--rb-paper) 28%,transparent) 0,transparent 44%)}
+.pin-num{position:absolute;right:-3px;bottom:-3px;min-width:15px;height:15px;padding:0 2px;border-radius:8px;box-sizing:border-box;background:var(--rb-cream);color:var(--rb-ink);border:1.2px solid var(--rb-cardinal);font:800 9px/12px system-ui,sans-serif;text-align:center}
+.pin.is-cluster .pin-num{min-width:22px}
 .pin.is-selected .pin-disc{transform:scale(1.12);box-shadow:0 0 0 2px var(--rb-cardinal),0 0 16px 5px rgb(var(--glow-cardinal) / .9),1.4px 2.6px 3px rgb(var(--glow-black) / .65)}
 .pin.is-nearest .pin-disc{box-shadow:0 0 0 2px var(--rb-gold),0 0 0 5px var(--rb-cardinal),0 0 14px 5px rgb(var(--glow-cardinal) / .8)}
 .pin.is-visited .pin-disc img{filter:grayscale(.85) brightness(.8)}

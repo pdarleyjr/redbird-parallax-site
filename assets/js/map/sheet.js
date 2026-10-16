@@ -81,7 +81,7 @@ export function showHouse({ house, visited, onVisited }) {
   r.append(el('h3', null, `#${house.mapNumber} ${house.name}`));
   r.append(el('p', 'sub', house.address));
   if (house.description) r.append(el('p', null, house.description));
-  if (house.location === 'approximate') r.append(el('p', 'note', 'The pin is approximate.'));
+  if (house.location === 'approximate') r.append(el('p', 'note', 'Location approximate.'));
   const row = el('div', 'row');
   row.append(button(visited ? 'Visited ✓ (undo)' : 'Mark visited', () => onVisited(house.id, !visited), 'main'));
   if (house.location !== 'none') row.append(directionsLink(house));

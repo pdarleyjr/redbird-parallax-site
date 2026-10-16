@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { layoutPins, closestHeads } from '../../shared/pin-layout.mjs';
+import { layoutPins, closestHeads, crossings } from '../../shared/pin-layout.mjs';
 import { mercatorY } from '../../shared/geo.mjs';
 
 const snapshot = JSON.parse(await readFile(new URL('../../data/halloween-2026.public.json', import.meta.url), 'utf8'));
@@ -18,37 +18,55 @@ function project(width, height, padding = 24) {
   return located.map(h => ({ id: h.id, x: width / 2 + (((h.lng - cx) * Math.PI) / 180) * scale, y: height / 2 - (mercatorY(h.lat) - cy) * scale }));
 }
 
-for (const [name, w, h, R] of [['phone 390x640', 390, 640, 18], ['desktop 1200x640', 1200, 640, 20], ['tall phone 390x700', 390, 700, 18]]) {
-  test(`46 pin heads never overlap and stay inside the map (${name})`, () => {
-    const anchors = project(w, h);
-    const pins = layoutPins(anchors, { radius: R, bounds: { width: w, height: h } });
-    assert.equal(pins.length, located.length);
-    assert.ok(closestHeads(pins) >= 2 * R + 1, `closest heads ${closestHeads(pins).toFixed(1)}px < ${2 * R + 1}`);
-    for (const p of pins) {
-      assert.ok(p.hx >= R && p.hx <= w - R && p.hy >= R && p.hy <= h - R, `${p.id} head out of bounds (${p.hx.toFixed(0)}, ${p.hy.toFixed(0)})`);
-      assert.ok(p.hy <= p.ay - 18 * (R / 14) + 0.01 || p.hy <= R + 7, `${p.id} head is not above its anchor`);
+/** Same projection, zoomed in by `zoom` around the houses' centre of gravity (what the phone default view does). */
+function projectZoom(width, height, zoom) {
+  const base = project(width, height);
+  const cx = base.reduce((s, a) => s + a.x, 0) / base.length, cy = base.reduce((s, a) => s + a.y, 0) / base.length;
+  return base.map(a => ({ ...a, x: width / 2 + (a.x - cx) * zoom, y: height / 2 + (a.y - cy) * zoom })).filter(a => a.x > 0 && a.x < width && a.y > 0 && a.y < height);
+}
+
+const CASES = [['phone 390x640 whole trail', 390, 640, 20, 28, 1], ['phone 390x640 zoomed', 390, 640, 20, 28, 2.8], ['phone 390x700 zoomed', 390, 700, 20, 28, 2.8],
+  ['phone 390x640 close', 390, 640, 20, 28, 4], ['desktop 1200x640', 1200, 640, 22, 36, 1], ['desktop 1200x640 zoomed', 1200, 640, 22, 36, 2.5]];
+for (const [name, w, h, R, cap, zoom] of CASES) {
+  test(`pins: no overlap, no crossing, needles within the cap, every house shown once (${name})`, () => {
+    const anchors = projectZoom(w, h, zoom);
+    const units = layoutPins(anchors, { radius: R, maxNeedle: cap, bounds: { width: w, height: h } });
+    assert.deepEqual(units.flatMap(u => u.ids).sort(), anchors.map(a => a.id).sort(), 'each house is in exactly one pin or cluster');
+    assert.ok(closestHeads(units) >= 2 * R + 1, `closest heads ${closestHeads(units).toFixed(1)}px`);
+    assert.equal(crossings(units), 0, 'needles cross');
+    for (const u of units) {
+      assert.ok(u.hx >= R && u.hx <= w - R && u.hy >= R && u.hy <= h - R, `${u.key} head out of bounds`);
+      assert.ok(Math.hypot(u.hx - u.ax, u.hy - u.ay) - R <= cap + 0.01, `${u.key} needle over the cap`);
+      if (u.ids.length === 1) assert.ok(u.hy < u.ay, `${u.key} head is not above its anchor`);
     }
-    for (const a of pins) for (const b of pins) if (a !== b) assert.ok(Math.hypot(a.hx - b.ax, a.hy - b.ay) >= R + 1, `${a.id} head covers the ground dot of ${b.id}`);
+    for (const a of units) for (const b of units) if (a !== b) assert.ok(Math.hypot(a.hx - b.ax, a.hy - b.ay) >= R + 1, `${a.key} head covers the ground dot of ${b.key}`);
   });
 }
 
-test('layout is pure and deterministic and keeps input order', () => {
-  const anchors = project(390, 640);
-  const a = layoutPins(anchors, { radius: 18, bounds: { width: 390, height: 640 }, maxUp: 640 });
-  const b = layoutPins(structuredClone(anchors), { radius: 18, bounds: { width: 390, height: 640 }, maxUp: 640 });
+test('without a cap (print) every house keeps its own badge and needles never cross', () => {
+  const anchors = projectZoom(1000, 800, 1);
+  const units = layoutPins(anchors, { radius: 20, bounds: { width: 1000, height: 800 } });
+  assert.equal(units.length, anchors.length);
+  assert.equal(crossings(units), 0);
+  assert.ok(closestHeads(units) >= 41);
+});
+
+test('layout is pure and deterministic', () => {
+  const anchors = projectZoom(390, 640, 2);
+  const a = layoutPins(anchors, { radius: 20, maxNeedle: 28, bounds: { width: 390, height: 640 } });
+  const b = layoutPins(structuredClone(anchors), { radius: 20, maxNeedle: 28, bounds: { width: 390, height: 640 } });
   assert.deepEqual(a, b);
-  assert.deepEqual(a.map(p => p.id), anchors.map(p => p.id));
-  assert.deepEqual(anchors, project(390, 640), 'input is not mutated');
 });
 
-test('isolated houses keep their preferred spot straight above the anchor with a short needle', () => {
-  const pins = layoutPins([{ id: 'a', x: 200, y: 300 }, { id: 'b', x: 900, y: 300 }], { radius: 14, bounds: { width: 1100, height: 600 } });
-  for (const p of pins) { assert.ok(Math.abs(p.hx - p.ax) < 0.5); assert.ok(Math.abs(p.ay - p.hy - 36) < 0.5); }
+test('isolated houses keep a short straight needle and never cluster', () => {
+  const units = layoutPins([{ id: 'a', x: 200, y: 300 }, { id: 'b', x: 900, y: 300 }], { radius: 14, maxNeedle: 28, bounds: { width: 1100, height: 600 } });
+  assert.equal(units.length, 2);
+  for (const u of units) { assert.ok(Math.abs(u.hx - u.ax) < 0.5); assert.ok(u.ay - u.hy <= 28 + 14 + 0.01); }
 });
 
-test('zoomed in far enough, every needle returns to the preferred length', () => {
-  const near = project(1200, 640).map(a => ({ ...a, x: 600 + (a.x - 600) * 12, y: 320 + (a.y - 320) * 12 })).filter(a => a.x > 40 && a.x < 1160 && a.y > 200 && a.y < 620);
-  const pins = layoutPins(near, { radius: 20, bounds: { width: 1200, height: 640 } });
-  const moved = pins.filter(p => Math.hypot(p.hx - p.ax, p.ay - p.hy - 36 * (20 / 14)) > 6).length;
-  assert.ok(moved <= Math.ceil(pins.length * 0.25), `${moved}/${pins.length} still displaced`);
+test('houses with no room within the needle cap form a cluster', () => {
+  const crowd = Array.from({ length: 12 }, (_, i) => ({ id: 'h' + i, x: 200 + (i % 4) * 6, y: 300 + Math.floor(i / 4) * 6 }));
+  const units = layoutPins(crowd, { radius: 20, maxNeedle: 28, bounds: { width: 400, height: 600 } });
+  assert.ok(units.some(u => u.ids.length > 1));
+  assert.equal(units.flatMap(u => u.ids).length, 12);
 });
