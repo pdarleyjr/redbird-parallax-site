@@ -122,7 +122,8 @@ test('Show whole trail on a phone accounts for every house, in pins or clusters,
   const page = await context.newPage();
   await mapReady(page);
   await page.locator('#show-all').click();
-  await page.waitForTimeout(2000);
+  await page.waitForFunction(() => !window.__map.isMoving() && !window.__map.isZooming(), null, { timeout: 30000 });
+  await page.waitForTimeout(1200);
   const shown = await page.locator('.pin:not([hidden]):not(.is-cluster)').count();
   const grouped = await page.locator('.pin.is-cluster .pin-num').allTextContents();
   expect(shown + grouped.reduce((n, t) => n + Number(t.replace('+', '')), 0)).toBe(located.length);
@@ -137,7 +138,8 @@ test('tapping a cluster zooms in and splits it into more pins', async ({ browser
   const page = await context.newPage();
   await mapReady(page);
   await page.locator('#show-all').click();
-  await page.waitForTimeout(2000);
+  await page.waitForFunction(() => !window.__map.isMoving() && !window.__map.isZooming(), null, { timeout: 30000 });
+  await page.waitForTimeout(1200);
   const before = await page.locator('.pin.is-cluster:not([hidden])').count();
   expect(before).toBeGreaterThan(0);
   const zoom = await page.evaluate(() => window.__map.getZoom());

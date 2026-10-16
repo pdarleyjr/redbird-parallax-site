@@ -16,8 +16,9 @@ for (const [w, h] of VIEWPORTS) {
     await page.evaluate(() => document.querySelector('#map').scrollIntoView());
     await page.waitForFunction(() => window.__map?.loaded() && window.__pins?.metrics(), null, { timeout: 45000 });
     const phone = w < 768;
+    const settle = async () => { await page.waitForFunction(() => !window.__map.isMoving() && !window.__map.isZooming() && !window.__map.isRotating(), null, { timeout: 30000 }); await page.waitForTimeout(900); };
     const measure = async view => {
-      await page.waitForTimeout(1500);
+      await settle();
       const m = await page.evaluate(() => {
         const x = window.__pins.metrics();
         const R = x.radius, flat = x.mode === 'flat';
@@ -62,9 +63,9 @@ for (const [w, h] of VIEWPORTS) {
     if (process.env.QA_SHOTS) {
       await page.locator('#map-stage').screenshot({ path: `${process.env.QA_SHOTS}/map-${w}-zoomed-in.png` });
       await page.evaluate(v => window.__map.jumpTo({ zoom: v.z, center: v.c }), home);
-      await page.waitForTimeout(1800);
+      await settle();
       await page.locator('#map-stage').screenshot({ path: `${process.env.QA_SHOTS}/map-${w}-default.png` });
-      await page.locator('#show-all').click(); await page.waitForTimeout(2200);
+      await page.locator('#show-all').click(); await settle();
       await page.locator('#map-stage').screenshot({ path: `${process.env.QA_SHOTS}/map-${w}-whole.png` });
     }
     await context.close();
