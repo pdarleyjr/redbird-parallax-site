@@ -1,6 +1,8 @@
 // Interactive map controller. All map assets are same-origin (self-hosted tiles, glyphs and style).
 import { loadMapLibre } from './loader.js';
-import { createPins } from './pins.js';
+import { createPins, controlRects } from './pins.js';
+import { crossings, closestHeads } from '../../../shared/pin-layout.mjs';
+import { chooseDefaultView } from '../../../shared/pin-view.mjs';
 import { siteRoot } from '../data.js';
 
 const cssVar = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -29,11 +31,13 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
   map.on('error', e => console.warn('Map warning:', e.error?.message));
   await new Promise((resolve, reject) => { const timer = setTimeout(() => reject(new Error('The map took too long to load.')), 30000); map.once('load', () => { clearTimeout(timer); resolve(); }); });
 
-  // On a phone the whole trail at once is too crowded for 36 px pins: open about one zoom level in, centered on the houses.
-  // "Show whole trail" still fits everything.
-  if (container.clientWidth < 768) {
+  // The map opens framed on the densest block, zoomed in until the pins read cleanly ("Show whole trail" still fits everything).
+  {
     const located = snapshot.houses.filter(h => h.location !== 'none');
-    if (located.length) map.jumpTo({ zoom: map.getZoom() + 1.5, center: [located.reduce((s, h) => s + h.lng, 0) / located.length, located.reduce((s, h) => s + h.lat, 0) / located.length] });
+    if (located.length) {
+      const view = chooseDefaultView(located, { fitZoom: map.getZoom(), width: container.clientWidth, height: container.clientHeight, avoid: controlRects(container), phone: container.clientWidth < 768 });
+      map.jumpTo({ zoom: view.zoom, center: [view.center.lng, view.center.lat] });
+    }
   }
 
   map.addSource('boundary', { type: 'geojson', data: { type: 'Feature', geometry: snapshot.boundary, properties: {} } });
@@ -46,6 +50,7 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
   let houses = snapshot.houses;
   let selected = null;
   const pins = createPins({ map, maplibre, houses, root, onSelect, reducedMotion });
+  if (location.search.includes('debug')) { window.__pins = pins; window.__cross = crossings; window.__close = closestHeads; }
   const move = (center, zoom) => reducedMotion ? map.jumpTo({ center, zoom }) : map.flyTo({ center, zoom, essential: false });
 
   const api = {

@@ -17,21 +17,26 @@ function toast(message, actionLabel, onAction) {
   return el;
 }
 
-function watchForUpdates(registration) {
+// Only visitors who already had the app installed before this page loaded are ever told about an update, and never in the first 10 seconds.
+function watchForUpdates(registration, hadController) {
   let shown = false;
   const offer = worker => {
-    if (shown) return; shown = true;
+    if (shown || !hadController) return; shown = true;
     const show = () => toast('A new version of Red Bird Trails is ready.', 'Refresh', () => {
       navigator.serviceWorker.addEventListener('controllerchange', () => location.reload(), { once: true });
       worker.postMessage({ type: 'SKIP_WAITING' });
     });
-    const wait = () => { if (document.documentElement.dataset.tracking === '1') setTimeout(wait, 15000); else show(); };
+    const wait = () => {
+      if (performance.now() < 10000) setTimeout(wait, 10000 - performance.now());
+      else if (document.documentElement.dataset.tracking === '1') setTimeout(wait, 15000);
+      else show();
+    };
     wait();
   };
-  if (registration.waiting && navigator.serviceWorker.controller) offer(registration.waiting);
+  if (registration.waiting) offer(registration.waiting);
   registration.addEventListener('updatefound', () => {
     const worker = registration.installing;
-    worker?.addEventListener('statechange', () => { if (worker.state === 'installed' && navigator.serviceWorker.controller) offer(worker); });
+    worker?.addEventListener('statechange', () => { if (worker.state === 'installed') offer(worker); });
   });
 }
 
@@ -67,7 +72,8 @@ function saveImagesLater() {
 export function initPwa() {
   initInstall();
   if (!flag || !('serviceWorker' in navigator)) return;
+  const hadController = !!navigator.serviceWorker.controller;   // is this an already-installed visitor? (read before anything registers)
   // Register after the page has finished loading so the worker's downloads never compete with what the visitor is waiting for.
-  const register = () => setTimeout(() => navigator.serviceWorker.register(new URL('sw.js', siteRoot), { scope: siteRoot.href }).then(registration => { watchForUpdates(registration); saveImagesLater(); }).catch(error => console.warn('Offline mode unavailable:', error.message)), 2000);
+  const register = () => setTimeout(() => navigator.serviceWorker.register(new URL('sw.js', siteRoot), { scope: siteRoot.href }).then(registration => { watchForUpdates(registration, hadController); saveImagesLater(); }).catch(error => console.warn('Offline mode unavailable:', error.message)), 2000);
   if (document.readyState === 'complete') register(); else addEventListener('load', register, { once: true });
 }

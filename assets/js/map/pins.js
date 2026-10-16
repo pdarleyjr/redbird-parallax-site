@@ -2,17 +2,15 @@
 // One DOM marker per located house. After the map settles, shared/pin-layout.mjs lifts each head above its house on a short needle;
 // houses that cannot get a head within reach are grouped into one cluster badge (fanned icons and a "+N" tag) that zooms in when tapped.
 // While the map moves the markers simply move with it.
-import { layoutPins } from '../../../shared/pin-layout.mjs';
+import { planPins } from '../../../shared/pin-view.mjs';
 
 const NS = 'http://www.w3.org/2000/svg';
 const svgEl = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, String(v)); return e; };
 
 const wide = () => window.matchMedia('(min-width: 768px)').matches;
-export const badgeRadius = () => (wide() ? 22 : 20);
-export const needleCap = () => (wide() ? 36 : 28);
 
 /** Map controls overlay the canvas; keep pin heads out from under them. */
-function controlRects(el) {
+export function controlRects(el) {
   const box = el.getBoundingClientRect();
   return [...el.parentElement.querySelectorAll('.map-controls button, .maplibregl-ctrl')].map(c => c.getBoundingClientRect())
     .filter(r => r.width && r.height).map(r => ({ x: r.x - box.x, y: r.y - box.y, width: r.width, height: r.height }));
@@ -22,7 +20,8 @@ export function createPins({ map, maplibre, houses, root, onSelect, reducedMotio
   let pins = new Map();           // id -> { house, wrapper, button, tag, line, marker }
   let clusters = new Map();       // key -> { ids, wrapper, button, line, marker }
   let selected = null, nearest = null, visited = new Set();
-  let frame = 0;
+  let frame = 0, plan = null;
+  ensureKeepout();
 
   const iconUrl = house => `${root}assets/img/markers/${house.icon}.webp`;
 
@@ -81,7 +80,7 @@ export function createPins({ map, maplibre, houses, root, onSelect, reducedMotio
     const { wrapper, button, disc, tag, line } = shell('pin is-cluster');
     const members = unit.ids.map(id => pins.get(id).house).sort((a, b) => a.mapNumber - b.mapNumber);
     disc.classList.add('pin-fan');
-    members.slice(0, 3).forEach(h => disc.append(icon(h)));
+    members.slice(0, 3).forEach(h => { const i = icon(h); i.decoding = 'sync'; disc.append(i); });
     tag.textContent = `+${members.length}`;
     button.setAttribute('aria-label', `${members.length} houses close together, stops ${members.map(h => h.mapNumber).join(', ')}. Zoom in to see each house.`);
     const marker = new maplibre.Marker({ element: wrapper, anchor: 'center' }).setLngLat([0, 0]).addTo(map);
@@ -90,24 +89,34 @@ export function createPins({ map, maplibre, houses, root, onSelect, reducedMotio
     return c;
   }
 
+  /** Basemap labels yield to the pins: an invisible symbol layer under the label layers reserves the space each badge covers. */
+  function ensureKeepout() {
+    if (map.getSource('pin-keepout')) return;
+    map.addImage('pin-keepout', { width: 64, height: 64, data: new Uint8Array(64 * 64 * 4) });
+    map.addSource('pin-keepout', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+    const firstLabel = map.getStyle().layers.find(l => l.type === 'symbol')?.id;
+    map.addLayer({ id: 'pin-keepout', type: 'symbol', source: 'pin-keepout', layout: { 'icon-image': 'pin-keepout', 'icon-size': ['get', 'size'], 'icon-allow-overlap': true, 'icon-ignore-placement': false }, paint: { 'icon-opacity': 0 } }, firstLabel);
+  }
+
   /** Re-run the layout for the current view. */
   function layout() {
     frame = 0;
     if (!pins.size) return;
     const el = map.getContainer();
-    const R = badgeRadius();
-    const list = [...pins.values()];
-    const w = el.clientWidth, h = el.clientHeight, top = 2 * R + 4;
+    const w = el.clientWidth, h = el.clientHeight;
     // Houses outside the view (or too close to the top edge for a head to sit above them) are left out; they come back when the map moves.
     const anchors = [];
-    for (const p of list) {
+    for (const p of pins.values()) {
       const pt = map.project([p.house.lng, p.house.lat]);
-      const on = pt.x > -R && pt.x < w + R && pt.y > top && pt.y < h + needleCap() + R;
+      const on = pt.x > -20 && pt.x < w + 20 && pt.y > 44 && pt.y < h + 56;
       p.wrapper.hidden = !on;
       if (on) anchors.push({ id: p.house.id, x: pt.x, y: pt.y });
     }
-    const units = layoutPins(anchors, { radius: R, maxNeedle: needleCap(), bounds: { width: w, height: h }, avoid: controlRects(el) });
-    const keep = new Set();
+    plan = planPins(anchors, { phone: !wide(), width: w, height: h, avoid: controlRects(el) });
+    const { units, radius: R, mode } = plan;
+    el.classList.toggle('pins-flat', mode === 'flat');
+    el.style.setProperty('--pin-d', `${2 * R}px`);
+    const keep = new Set(), spots = [];
     for (const u of units) {
       const dx = u.hx - u.ax, dy = u.hy - u.ay, z = String(Math.round(u.ay) + (u.ids.includes(selected) ? 1000 : 0));
       let target;
@@ -126,10 +135,13 @@ export function createPins({ map, maplibre, houses, root, onSelect, reducedMotio
       target.wrapper.style.setProperty('--dy', `${dy.toFixed(1)}px`);
       target.wrapper.style.zIndex = z;
       target.line.setAttribute('x1', dx.toFixed(1)); target.line.setAttribute('y1', dy.toFixed(1));
+      const head = map.unproject([u.hx, u.hy]);
+      spots.push({ type: 'Feature', properties: { size: (2 * R + 10) / 64 }, geometry: { type: 'Point', coordinates: [head.lng, head.lat] } });
     }
     const grouped = new Set(units.filter(u => u.ids.length > 1).flatMap(u => u.ids));
     for (const id of grouped) pins.get(id).wrapper.hidden = true;
     for (const [key, c] of clusters) if (!keep.has(key)) { c.marker.remove(); clusters.delete(key); }
+    map.getSource('pin-keepout')?.setData({ type: 'FeatureCollection', features: spots });
   }
   const schedule = () => { if (!frame) frame = requestAnimationFrame(layout); };
   map.on('moveend', schedule); map.on('zoomend', schedule); map.on('resize', schedule);
@@ -152,6 +164,8 @@ export function createPins({ map, maplibre, houses, root, onSelect, reducedMotio
   const restyle = () => { for (const p of pins.values()) classes(p); for (const c of clusters.values()) clusterClasses(c); };
   return {
     count: () => pins.size,
+    /** What is on screen right now: mode, badge radius, units (heads and anchors in px) and density stats. */
+    metrics: () => plan && ({ mode: plan.mode, radius: plan.radius, stats: plan.stats, units: plan.units.map(u => ({ ...u })) }),
     clusterCount: () => clusters.size,
     setHouses: set,
     setSelected(id) { selected = id; restyle(); schedule(); },

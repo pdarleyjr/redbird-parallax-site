@@ -18,3 +18,7 @@ Their browsers hold a cache-first worker registered at `/service-worker.js`. The
 
 ## Rollback
 Give the domain back: delete the repo-root `CNAME`, clear the Pages custom domain here, then set it again in the Christmas repo (Settings → Pages) and re-add its `CNAME` file. DNS stays as is.
+
+## Only one hostname (added 2026-10-16)
+
+GitHub Pages serves exactly one custom domain per site: `redbird.iplcmiami.com` (the `CNAME` file). Any other hostname that someone points at the Pages host, for example `redbirdtrail.iplcmiami.com`, returns a GitHub 404 page with a certificate that does not match, even though DNS resolves. That is not a site bug. If an extra address is wanted, do not add another CNAME to the Pages host. Make it a **GoDaddy forward** (Domains > the hostname > Forwarding, 301 permanent, "Forward only") to `https://redbird.iplcmiami.com/`.
