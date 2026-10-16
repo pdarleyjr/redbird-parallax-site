@@ -1,7 +1,7 @@
 // Printable map: pre-rendered base image + SVG overlay computed from the same snapshot as the live map.
 import { loadSnapshots, siteRoot } from '../data.js';
 import { projectToBounds, extentHash, distanceMeters } from '../../../shared/geo.mjs';
-import { layoutMarkers } from '../../../shared/print-layout.mjs';
+import { drawBadges, iconsLoaded } from './badges.js';
 
 const $ = selector => document.querySelector(selector);
 const NS = 'http://www.w3.org/2000/svg';
@@ -21,23 +21,9 @@ function drawOverlay(svg, snapshot, meta, paper) {
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
   svg.setAttribute('preserveAspectRatio', 'none');
   svg.replaceChildren();
-  const diameter = 0.22 / BLOCK_INCHES[paper] * W;
   const ring = snapshot.boundary.coordinates[0].map(([lng, lat]) => projectToBounds({ lat, lng }, entry.bounds, W, H));
   svg.append(svgEl('polygon', { class: 'boundary', points: ring.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ') }));
-  const points = snapshot.houses.filter(h => h.location !== 'none').map(h => ({ id: h.id, mapNumber: h.mapNumber, ...projectToBounds(h, entry.bounds, W, H) }));
-  const placed = layoutMarkers(points, diameter);
-  const group = svgEl('g', { class: 'pm' });
-  for (const m of placed) {
-    if (m.leader) group.append(svgEl('line', { class: 'lead', x1: m.x, y1: m.y, x2: m.cx, y2: m.cy }));
-  }
-  for (const m of placed) {
-    const g = svgEl('g', { 'data-n': m.mapNumber });
-    g.append(svgEl('circle', { cx: m.cx.toFixed(1), cy: m.cy.toFixed(1), r: (diameter / 2).toFixed(1) }));
-    const t = svgEl('text', { x: m.cx.toFixed(1), y: m.cy.toFixed(1), style: `font-size:${(diameter * 0.46).toFixed(1)}px` });
-    t.textContent = String(m.mapNumber);
-    g.append(t); group.append(g);
-  }
-  svg.append(group);
+  const count = drawBadges(svg, snapshot.houses, { bounds: entry.bounds, W, H, radius: 0.15 / BLOCK_INCHES[paper] * W, root: siteRoot.href });
   // North arrow and scale bar
   const [w, s, e, n] = entry.bounds;
   const metersPerUnit = distanceMeters({ lat: (s + n) / 2, lng: w }, { lat: (s + n) / 2, lng: e }) / W;
@@ -50,7 +36,7 @@ function drawOverlay(svg, snapshot, meta, paper) {
   const nt = svgEl('text', { x: 0, y: 34, style: 'font-size:16px;font-weight:700;fill:currentColor' }); nt.textContent = 'N';
   north.append(nt); bar.append(label, north);
   svg.append(bar);
-  return placed.length;
+  return count;
 }
 
 function drawLegend(snapshot, include) {
@@ -59,8 +45,9 @@ function drawLegend(snapshot, include) {
   $('#print-legend').hidden = !include;
   for (const h of snapshot.houses) {
     const li = document.createElement('li');
+    const img = document.createElement('img'); img.src = new URL(`assets/img/markers/${h.icon}.webp`, siteRoot).href; img.alt = ''; img.width = img.height = 18;
     const b = document.createElement('b'); b.textContent = String(h.mapNumber);
-    li.append(b, document.createTextNode(`${h.name}, ${h.address}${h.location === 'none' ? ' (map location coming soon)' : ''}`));
+    li.append(img, b, document.createTextNode(`${h.name}, ${h.address}${h.location === 'none' ? ' (map location coming soon)' : ''}`));
     list.append(li);
   }
 }
@@ -92,6 +79,7 @@ async function main() {
     try { await img.decode(); } catch { await new Promise(resolve => { if (img.complete && img.naturalWidth) resolve(); else { img.addEventListener('load', resolve, { once: true }); img.addEventListener('error', resolve, { once: true }); } }); }
     if (!img.naturalWidth) { message('The print map image could not load. Please try again.'); ready.textContent = 'Print map unavailable'; return; }
     const count = drawOverlay($('#print-overlay'), snapshot, meta, p);
+    await iconsLoaded($('#print-overlay'));
     drawLegend(snapshot, include.checked);
     $('#print-version').textContent = `Data version ${snapshot.version} · updated ${new Date(snapshot.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
     document.body.dataset.markers = String(count);
