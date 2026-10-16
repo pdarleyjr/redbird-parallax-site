@@ -1,4 +1,5 @@
 // House directory: server-rendered in HTML, enhanced here (search, visited, show on map, live refresh).
+import { iconURL } from '../../shared/icon-url.mjs';
 import { getVisited, setVisited, resetVisited, onVisitedChange, prune, storageAvailable } from './visited.js';
 
 const $ = selector => document.querySelector(selector);
@@ -10,7 +11,7 @@ function buildCard(house, root) {
   const art = document.createElement('div'); art.className = 'house-art';
   const img = document.createElement('img');
   img.loading = 'lazy'; img.decoding = 'async'; img.alt = ''; img.width = 80; img.height = 80; // set loading before src, or the image starts fetching immediately
-  img.src = `${root}assets/img/markers/${house.icon}.webp`;
+  img.src = iconURL(house.icon, root, { small: true });
   img.addEventListener('error', () => img.remove(), { once: true });
   const number = document.createElement('span'); number.className = 'stop-number'; number.textContent = house.mapNumber;
   number.setAttribute('aria-label', `Map stop ${house.mapNumber}`);

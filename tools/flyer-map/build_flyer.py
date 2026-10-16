@@ -5,7 +5,7 @@ Geometry: OpenStreetMap (osm.json, Overpass extract) in local metres (equirectan
 House anchors: houses.json (OSM addressed building centroids + owner GPS pins).
 Output: out/flyer.html (rendered to PDF/PNG by render.py).
 """
-import base64, html, json, math, random
+import base64, html, json, math, random, sys
 from pathlib import Path
 
 import segno
@@ -171,6 +171,13 @@ def data_uri(path):
 def ttf_uri(name):
     return "data:font/ttf;base64," + base64.b64encode((W / "fonts" / name).read_bytes()).decode()
 
+
+# --fetch-icons: houses that use an admin-uploaded icon get its picture from the live public API
+if "--fetch-icons" in sys.argv:
+    sys.path.insert(0, str(W))  # python -I does not put the script folder on the path
+    from fetch_icons import DEFAULT_API, fetch_icons
+    api = sys.argv[sys.argv.index("--api") + 1] if "--api" in sys.argv else DEFAULT_API
+    ICONS.update(fetch_icons(W / "icons", api))
 
 # icons are referenced once via <symbol>, so each image is embedded a single time
 icon_keys = sorted(set(ICONS.values()))

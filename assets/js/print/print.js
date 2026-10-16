@@ -2,6 +2,7 @@
 import { loadSnapshots, siteRoot } from '../data.js';
 import { projectToBounds, extentHash, distanceMeters } from '../../../shared/geo.mjs';
 import { drawBadges, iconsLoaded } from './badges.js';
+import { configureIcons, iconURL } from '../../../shared/icon-url.mjs';
 
 const $ = selector => document.querySelector(selector);
 const NS = 'http://www.w3.org/2000/svg';
@@ -45,7 +46,7 @@ function drawLegend(snapshot, include) {
   $('#print-legend').hidden = !include;
   for (const h of snapshot.houses) {
     const li = document.createElement('li');
-    const img = document.createElement('img'); img.src = new URL(`assets/img/markers/${h.icon}.webp`, siteRoot).href; img.alt = ''; img.width = img.height = 18;
+    const img = document.createElement('img'); img.src = iconURL(h.icon, siteRoot.href, { small: true }); img.alt = ''; img.width = img.height = 18;
     const b = document.createElement('b'); b.textContent = String(h.mapNumber);
     li.append(img, b, document.createTextNode(`${h.name}, ${h.address}${h.location === 'none' ? ' (map location coming soon)' : ''}`));
     list.append(li);
@@ -54,6 +55,7 @@ function drawLegend(snapshot, include) {
 
 async function main() {
   const config = JSON.parse($('#event-config').textContent);
+  configureIcons(config.apiBase);
   const message = text => { const el = $('#print-msg'); el.textContent = text; el.hidden = !text; $('#map-block').hidden = !!text; };
   const button = $('#print-button'), ready = $('#print-ready'), select = $('#paper'), include = $('#include-list');
   const params = new URLSearchParams(location.search);

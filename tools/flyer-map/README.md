@@ -33,7 +33,7 @@ Published outputs, committed under `assets/maps/`:
 ## Regenerate after the house list changes
 
 1. Edit `houses.json`: number, name, address, lat/lng, source.
-2. If you add a house, give it an entry in `ICONS` in `build_flyer.py`.
+2. If you add a house, give it an entry in `ICONS` in `build_flyer.py`. Houses that use an icon uploaded in the admin are picked up by adding `--fetch-icons` to the `build_flyer.py` command (it downloads each uploaded picture by key from the public API into `icons/` and uses it for that house).
 3. Run the commands below from this folder. On Windows, use the explicit interpreter; never use bare `python`.
 
 ```powershell

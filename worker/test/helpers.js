@@ -4,15 +4,16 @@ import init from '../migrations/0001_init.sql?raw';
 import seed from '../migrations/0002_seed_2026.sql?raw';
 import audit from '../migrations/0003_password_login.sql?raw';
 import dropLogin from '../migrations/0004_drop_login_attempts.sql?raw';
+import iconsSql from '../migrations/0005_icons.sql?raw';
 import { handleApi } from '../src/admin.js';
 import { handlePublic } from '../src/public.js';
 
 const statements = sql => sql.replace(/^--.*$/gm, '').split(/;\s*\n/).map(s => s.trim()).filter(Boolean);
 
 export async function resetDatabase() {
-  const drop = ['login_attempts', 'import_rows', 'import_batches', 'house_flags', 'houses', 'snapshots', 'audit_log', 'events'];
+  const drop = ['icons', 'login_attempts', 'import_rows', 'import_batches', 'house_flags', 'houses', 'snapshots', 'audit_log', 'events'];
   for (const t of drop) await env.DB.prepare(`DROP TABLE IF EXISTS ${t}`).run();
-  await env.DB.batch([...statements(init), ...statements(seed), ...statements(audit), ...statements(dropLogin)].map(s => env.DB.prepare(s)));
+  await env.DB.batch([...statements(init), ...statements(seed), ...statements(audit), ...statements(dropLogin), ...statements(iconsSql)].map(s => env.DB.prepare(s)));
 }
 
 /** A locally signed Cloudflare Access token. Override claims or the signing key to build bad tokens. */

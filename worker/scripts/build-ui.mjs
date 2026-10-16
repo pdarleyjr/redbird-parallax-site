@@ -14,6 +14,6 @@ await Promise.all([
   copy('assets/css/tokens.css', 'assets/css/tokens.css'), copy('assets/fonts', 'assets/fonts'), copy('assets/img/favicon.png', 'assets/img/favicon.png'),
   copy('assets/img/markers', 'assets/img/markers'), copy('assets/vendor', 'assets/vendor'), copy('data/icons.json', 'assets/icons.json'),
   copy('assets/map/style-night.json', 'assets/map/style-night.json'), copy('assets/map/tiles', 'assets/map/tiles'), copy('assets/map/fonts', 'assets/map/fonts'),
-  copy('shared/csv.mjs', 'shared/csv.mjs')
+  copy('shared/csv.mjs', 'shared/csv.mjs'), copy('shared/icon-check.mjs', 'shared/icon-check.mjs')
 ]);
 console.log('admin-ui/dist ready');

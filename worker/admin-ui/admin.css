@@ -55,3 +55,14 @@ dialog::backdrop{background:rgb(var(--glow-black) / .8)}
 .login{max-width:24rem;margin:3rem auto;padding:1.5rem;background:var(--rb-panel);border:2px solid var(--rb-neon-orange);border-radius:1rem}.login input{margin-bottom:.25rem}#login-msg{min-height:1.5rem;color:var(--rb-coral)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 [hidden]{display:none!important}
+
+.spec{padding:.6rem .9rem;border-radius:.6rem;border:1.5px dashed var(--rb-gold);background:var(--rb-panel-raised);font-weight:700}
+.icon-msg{min-height:1.5rem;color:var(--rb-coral)}
+.icon-previews{display:flex;gap:1.5rem;align-items:flex-end;flex-wrap:wrap;margin-top:.5rem;padding:.8rem;border-radius:.7rem;background:var(--rb-sky-deep);border:1px solid var(--rb-line)}
+.icon-previews figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.icon-previews figcaption{font-size:.75rem;color:var(--rb-muted)}
+.dir-row img{object-fit:contain}
+.pin-preview{position:relative;display:inline-block;width:var(--d);height:var(--d)}
+.pin-preview .pin-disc{position:relative;display:block;width:100%;height:100%;border-radius:50%;box-sizing:border-box;border:1.4px solid var(--rb-cream);background:radial-gradient(circle at 35% 30%,var(--rb-pin-hi) 0,var(--rb-pin-mid) 60%,var(--rb-pin-lo) 100%);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--rb-cream) 35%,transparent),0 0 0 1.7px var(--rb-cardinal),0 0 9px 2px rgb(var(--glow-cardinal) / .6)}
+.pin-preview .pin-disc img{position:absolute;inset:4%;width:92%;height:92%;object-fit:contain}
+.pin-preview .pin-num{position:absolute;right:-3px;bottom:-3px;min-width:15px;height:15px;padding:0 2px;border-radius:8px;box-sizing:border-box;background:var(--rb-cream);color:var(--rb-ink);border:1.2px solid var(--rb-cardinal);font:800 9px/12px system-ui,sans-serif;text-align:center}

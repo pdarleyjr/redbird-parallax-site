@@ -3,6 +3,7 @@ import { initHouses } from './houses.js';
 import { getVisited, setVisited, onVisitedChange } from './visited.js';
 import { webgl2Available } from './map/loader.js';
 import { nearest } from '../../shared/geo.mjs';
+import { configureIcons } from '../../shared/icon-url.mjs';
 import { createLocator } from './map/locate.js';
 import { showNearest, showHouse, showChooser, showPrintables, hideSheet } from './map/sheet.js';
 import { compassSupported, startCompass, stopCompass, currentHeading } from './map/compass.js';
@@ -36,6 +37,7 @@ async function main() {
   const online = () => { banner.hidden = navigator.onLine; banner.textContent = navigator.onLine ? '' : 'You’re offline. Showing houses saved on this device.'; };
   addEventListener('online', online); addEventListener('offline', online); online();
   const config = JSON.parse($('#event-config').textContent);
+  configureIcons(config.apiBase);
   const { bundled, livePromise } = await loadSnapshots({ snapshotPath: config.houses.path, apiBase: config.apiBase, eventId: 'halloween-2026', onLive: live => update(live) });
   let snapshot = bundled;
   let view = null, viewPromise = null, ranking = [], offset = 0, position = null, includeVisited = false, compassOn = false;

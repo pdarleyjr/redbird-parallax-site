@@ -28,6 +28,15 @@ export async function handlePublic(request, env) {
       if (request.headers.get('If-None-Match') === etag) return new Response(null, { status: 304, headers: { ...CORS, ETag: etag, 'Cache-Control': CACHE } });
       return new Response(`{"ok":true,"data":${snap.payload_json},"error":null}`, { headers: { 'Content-Type': 'application/json; charset=utf-8', 'X-Content-Type-Options': 'nosniff', ...CORS, ETag: etag, 'Cache-Control': CACHE } });
     }
+    const icon = url.pathname.match(/^\/v1\/icons\/(?:(128)\/)?(up-[a-z0-9-]{1,57})\.webp$/);
+    if (icon) {
+      // Keys are versioned (they contain a hash of the picture), so a key's file never changes: cache it for a year.
+      const object = env.ICONS && await env.ICONS.get(icon[1] ? `icons/128/${icon[2]}.webp` : `icons/${icon[2]}.webp`);
+      if (!object) return fail(404, 'That icon was not found.', { ...CORS, 'Cache-Control': 'public, max-age=60' });
+      const headers = { 'Content-Type': 'image/webp', 'Cache-Control': 'public, max-age=31536000, immutable', 'X-Content-Type-Options': 'nosniff', ETag: `"${object.etag}"`, ...CORS };
+      if (request.headers.get('If-None-Match') === headers.ETag) return new Response(null, { status: 304, headers });
+      return new Response(request.method === 'HEAD' ? null : object.body, { headers });
+    }
     return fail(404, 'Not found.', CORS);
   } catch (error) {
     log('error', { route: url.pathname, err: String(error?.message || error) });

@@ -3,9 +3,8 @@ import { HttpError, json, readJSON } from '../lib/http.js';
 import { loadState, commit, houseToAdmin, nowISO, versionGuard } from '../lib/db.js';
 import { validateName, validateDescription, validateAddress, validateIcon, validateLocation } from '../lib/validate.js';
 import { idForNumber, nextNumber } from '../../../shared/numbering.mjs';
-import icons from '../../../data/icons.json';
+import { activeIconKeys } from './icons.js';
 
-const KNOWN_ICONS = new Set(icons.icons.map(i => i.key));
 const DEFAULT_EVENT = 'halloween-2026';
 
 function assertNoDuplicate(houses, key, exceptId) {
@@ -57,7 +56,7 @@ export async function createHouse(ctx) {
   assertNoDuplicate(state.houses, address.key);
   const row = newHouseRow(ctx, {
     eventId, number: nextNumber(state.houses.map(h => ({ mapNumber: h.map_number }))), name, address,
-    description: validateDescription(body.description), icon: validateIcon(body.icon || 'candy-pumpkin', KNOWN_ICONS),
+    description: validateDescription(body.description), icon: validateIcon(body.icon || 'candy-pumpkin', await activeIconKeys(ctx.db)),
     location: validateLocation(body, state.boundary.coordinates[0]), status: 'draft'
   });
   await commit(ctx.db, state, {
@@ -82,7 +81,7 @@ export async function patchHouse(ctx, id) {
   const next = { ...row, updated_at: nowISO(), updated_by: ctx.actor, version: row.version + 1 };
   if ('name' in body) next.name = validateName(body.name);
   if ('description' in body) next.description = validateDescription(body.description);
-  if ('icon' in body) next.icon = validateIcon(body.icon, KNOWN_ICONS);
+  if ('icon' in body && body.icon !== row.icon) next.icon = validateIcon(body.icon, await activeIconKeys(ctx.db));
   if ('address' in body) {
     const a = validateAddress(body.address);
     assertNoDuplicate(state.houses, a.key, id);

@@ -113,7 +113,7 @@ async function cacheFirst(event, request, cacheName) {
   const hit = await cache.match(request, { ignoreSearch: true });
   if (hit) return hit;
   const response = await fetch(request);
-  if (response.ok) event.waitUntil(cache.put(request, response.clone()));
+  if (response.ok || response.type === 'opaque') event.waitUntil(cache.put(request, response.clone()));   // opaque: an <img> request to another origin
   return response;
 }
 
@@ -127,7 +127,9 @@ self.addEventListener('fetch', event => {
   const sameOrigin = url.origin === self.location.origin;
   if (!sameOrigin && !(API && url.origin === API)) return;
   const path = sameOrigin ? url.href.slice(scope.length) : '';
-  if (!sameOrigin) {
+  if (!sameOrigin && url.pathname.startsWith('/v1/icons/')) {
+    event.respondWith(cacheFirst(event, request, DATA));   // uploaded house icons: versioned URLs, never change
+  } else if (!sameOrigin) {
     event.respondWith(networkFirst(event, request, DATA, 4000, () => Response.error()));
   } else if (request.mode === 'navigate') {
     event.respondWith((async () => {

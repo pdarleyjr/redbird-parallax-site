@@ -3,6 +3,7 @@
 // houses that cannot get a head within reach are grouped into one cluster badge (fanned icons and a "+N" tag) that zooms in when tapped.
 // While the map moves the markers simply move with it.
 import { planPins } from '../../../shared/pin-view.mjs';
+import { iconURL } from '../../../shared/icon-url.mjs';
 
 const NS = 'http://www.w3.org/2000/svg';
 const svgEl = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, String(v)); return e; };
@@ -23,7 +24,7 @@ export function createPins({ map, maplibre, houses, root, onSelect, reducedMotio
   let frame = 0, plan = null;
   ensureKeepout();
 
-  const iconUrl = house => `${root}assets/img/markers/${house.icon}.webp`;
+  const iconUrl = house => iconURL(house.icon, root);
 
   /** wrapper (0x0, on the house) > needle svg + head button; the layout offsets the head with --dx / --dy */
   function shell(className) {

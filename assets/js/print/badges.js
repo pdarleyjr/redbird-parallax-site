@@ -1,6 +1,7 @@
 // Themed icon badges for the printed map (the flyer look), laid out by the same shared/pin-layout.mjs as the live map.
 import { layoutPins } from '../../../shared/pin-layout.mjs';
 import { projectToBounds } from '../../../shared/geo.mjs';
+import { iconURL } from '../../../shared/icon-url.mjs';
 
 const NS = 'http://www.w3.org/2000/svg';
 const svgEl = (tag, attrs = {}) => { const el = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, String(v)); return el; };
@@ -42,7 +43,7 @@ export function drawBadges(svg, houses, { bounds, W, H, radius: R, root }) {
       svgEl('circle', { class: 'pm-ground', cx: p.ax.toFixed(1), cy: p.ay.toFixed(1), r: (R * .17).toFixed(1) }),
       svgEl('circle', { class: 'pm-glow', cx: p.hx.toFixed(1), cy: p.hy.toFixed(1), r: (R + R * .12).toFixed(1) }),
       svgEl('circle', { class: 'pm-head', cx: p.hx.toFixed(1), cy: p.hy.toFixed(1), r: R.toFixed(1), fill: 'url(#pm-head)' }),
-      svgEl('image', { href: `${root}assets/img/markers/${h.icon}.webp`, x: (p.hx - R * .92).toFixed(1), y: (p.hy - R * .92).toFixed(1), width: (R * 1.84).toFixed(1), height: (R * 1.84).toFixed(1), preserveAspectRatio: 'xMidYMid meet' }),
+      svgEl('image', { href: iconURL(h.icon, root), x: (p.hx - R * .92).toFixed(1), y: (p.hy - R * .92).toFixed(1), width: (R * 1.84).toFixed(1), height: (R * 1.84).toFixed(1), preserveAspectRatio: 'xMidYMid meet' }),
       svgEl('circle', { class: 'pm-ring', cx: p.hx.toFixed(1), cy: p.hy.toFixed(1), r: (R - 1.2).toFixed(1) }),
       svgEl('circle', { class: 'pm-shine', cx: p.hx.toFixed(1), cy: p.hy.toFixed(1), r: R.toFixed(1), fill: 'url(#pm-shine)' }),
       svgEl('circle', { class: 'pm-tag', cx: (p.hx + R * .74).toFixed(1), cy: (p.hy + R * .74).toFixed(1), r: (R * .4).toFixed(1) })

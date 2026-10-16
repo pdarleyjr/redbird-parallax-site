@@ -1,9 +1,10 @@
 import { h, api, notify, guarded } from './lib.js';
 import { renderHouses } from './houses.js';
 import { renderImport } from './import.js';
+import { renderIcons } from './icons.js';
 import { renderVersions, renderEvents, renderActivity } from './misc.js';
 
-const VIEWS = { houses: renderHouses, import: renderImport, versions: renderVersions, events: renderEvents, activity: renderActivity };
+const VIEWS = { houses: renderHouses, import: renderImport, icons: renderIcons, versions: renderVersions, events: renderEvents, activity: renderActivity };
 const view = document.querySelector('#view');
 const tabs = document.querySelector('#tabs');
 const who = document.querySelector('#who');
