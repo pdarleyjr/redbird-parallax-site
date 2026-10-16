@@ -52,3 +52,4 @@ a.event-card:focus-visible{outline:3px solid var(--rb-neon-orange);outline-offse
 .app-list li{line-height:1.6}
 .app-note{color:var(--rb-muted);font-size:.9rem}
 @media(max-width:699px){.app-benefits{grid-template-columns:1fr}}
+.app-list .glyph{display:inline-block;width:1.3em;height:1.3em}
