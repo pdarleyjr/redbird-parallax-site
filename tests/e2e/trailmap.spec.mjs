@@ -31,22 +31,26 @@ test('the PDF button downloads the file', async ({ page, browserName }) => {
 
 test('it is linked from the homepage, the Halloween map section, the menu and the print page', async ({ page }) => {
   await page.goto('./');
-  await expect(page.locator('.card-note a')).toHaveAttribute('href', 'halloween/trail-map/');
+  await expect(page.locator('.card-note a')).toHaveAttribute('href', 'halloween/#printables');
   await page.goto('halloween/');
-  await expect(page.locator('.map-flyer a')).toHaveAttribute('href', /trail-map\/$/);
-  await expect(page.locator('#site-nav a[href$="halloween/trail-map/"]')).toBeAttached();
+  await expect(page.locator('.map-flyer a')).toHaveAttribute('href', '#printables');
+  await expect(page.locator('#site-nav a[href="#printables"]')).toHaveText('Printable maps');
+  await expect(page.locator('#site-nav a[href$="halloween/trail-map/"]')).toHaveCount(0);
+  await expect(page.locator('#printables a[href$="halloween/trail-map/"]').first()).toBeAttached();
   await page.goto('halloween/print/');
   await expect(page.locator('#print-ready')).toHaveText('Map ready ✓');
 });
 
-test('the mobile Print entry opens a sheet with the flyer first, then the live map', async ({ page, isMobile }) => {
+test('the mobile Print entry opens a sheet with the same two printable-map cards', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'action bar is a phone control');
   await page.goto('halloween/');
   await page.locator('#bar-print').click();
+  await expect(page.locator('#house-sheet .print-card')).toHaveCount(2);
   const links = page.locator('#house-sheet a');
-  await expect(links.nth(0)).toHaveText('Trail map flyer (PDF)');
-  await expect(links.nth(1)).toHaveText('Print live map');
-  await expect(links.nth(0)).toHaveAttribute('href', /halloween\/trail-map\/$/);
+  await expect(links.nth(0)).toHaveText('Download PDF');
+  await expect(links.nth(1)).toHaveText('View full screen');
+  await expect(links.nth(2)).toHaveText('Print or save as PDF');
+  await expect(links.nth(1)).toHaveAttribute('href', /halloween\/trail-map\/$/);
 });
 
 test('a hint appears when the live list has houses the flyer lacks, here and on the print page', async ({ page }) => {

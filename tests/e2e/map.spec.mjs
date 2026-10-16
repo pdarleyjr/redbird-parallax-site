@@ -104,32 +104,7 @@ test('a house deep link opens that house', async ({ page }) => {
   await expect(page.locator('#house-sheet h3')).toContainText('#12');
 });
 
-for (const [name, size] of [['phone 390x844', { width: 390, height: 844 }], ['desktop 1440x1000', { width: 1440, height: 1000 }]]) {
-  test(`themed pins never overlap at the default zoom (${name})`, async ({ browser }) => {
-    const context = await browser.newContext({ baseURL: test.info().project.use.baseURL, viewport: size, deviceScaleFactor: 2 });
-    const page = await context.newPage();
-    await mapReady(page);
-    await page.waitForTimeout(2000);
-    const boxes = await page.locator('.pin:not([hidden]) .pin-disc').evaluateAll(els => els.map(e => { const r = e.getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2, d: r.width }; }));
-    const shown = await page.locator('.pin:not([hidden]):not(.is-cluster)').count();
-    const grouped = await page.locator('.pin.is-cluster .pin-num').allTextContents();
-    const total = shown + grouped.reduce((n, t) => n + Number(t.replace('+', '')), 0);
-    if (size.width >= 768) expect(total, 'every house is a pin or inside a cluster').toBe(located.length); else expect(total, 'the phone opens framed on the densest area').toBeGreaterThanOrEqual(20);
-    const cap = size.width >= 768 ? 36 : 28;
-    const needles = await page.locator('.pin:not([hidden]) .pin-line').evaluateAll(ls => ls.map(l => Math.hypot(Number(l.getAttribute('x1')), Number(l.getAttribute('y1')))));
-    for (const n of needles) expect(n - (size.width >= 768 ? 22 : 20), 'needle length').toBeLessThanOrEqual(cap + 1);
-    let closest = Infinity;
-    for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) closest = Math.min(closest, Math.hypot(boxes[i].x - boxes[j].x, boxes[i].y - boxes[j].y) - (boxes[i].d + boxes[j].d) / 2);
-    expect(closest, `closest heads are ${closest.toFixed(1)}px apart`).toBeGreaterThanOrEqual(0);
-    const stage = await page.locator('#map-stage').boundingBox();
-    for (const b of boxes) { expect(b.x).toBeGreaterThan(stage.x); expect(b.x).toBeLessThan(stage.x + stage.width); expect(b.y).toBeGreaterThan(stage.y); expect(b.y).toBeLessThan(stage.y + stage.height); }
-    const tap = await page.locator('.pin:not([hidden]) .pin-head').first().boundingBox();
-    expect(tap.width).toBeGreaterThanOrEqual(36); expect(tap.height).toBeGreaterThanOrEqual(36);
-    await page.locator('#map-stage').screenshot({ path: `test-results/pins-${size.width}.png` });
-    if (process.env.QA_SHOTS) await page.locator('#map-stage').screenshot({ path: `${process.env.QA_SHOTS}/map-pins-${size.width}.png` });
-    await context.close();
-  });
-}
+// Pin overlap, needle length, crossings and clusters at every viewport are measured in map-quality.spec.mjs.
 
 test('visited and nearest states restyle the pins', async ({ page }) => {
   await mapReady(page);

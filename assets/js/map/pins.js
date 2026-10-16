@@ -2,7 +2,7 @@
 // One DOM marker per located house. After the map settles, shared/pin-layout.mjs lifts each head above its house on a short needle;
 // houses that cannot get a head within reach are grouped into one cluster badge (fanned icons and a "+N" tag) that zooms in when tapped.
 // While the map moves the markers simply move with it.
-import { planPins } from '../../../shared/pin-view.mjs';
+import { planPins, planFlat } from '../../../shared/pin-view.mjs';
 import { iconURL } from '../../../shared/icon-url.mjs';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -106,14 +106,18 @@ export function createPins({ map, maplibre, houses, root, onSelect, reducedMotio
     const el = map.getContainer();
     const w = el.clientWidth, h = el.clientHeight;
     // Houses outside the view (or too close to the top edge for a head to sit above them) are left out; they come back when the map moves.
-    const anchors = [];
+    // Flat badges sit on the house itself, so they only need the house to be on screen.
+    const anchors = [], onScreen = [];
     for (const p of pins.values()) {
       const pt = map.project([p.house.lng, p.house.lat]);
-      const on = pt.x > -20 && pt.x < w + 20 && pt.y > 44 && pt.y < h + 56;
-      p.wrapper.hidden = !on;
-      if (on) anchors.push({ id: p.house.id, x: pt.x, y: pt.y });
+      p.wrapper.hidden = true;
+      if (pt.x > 10 && pt.x < w - 10 && pt.y > 10 && pt.y < h - 8) onScreen.push({ id: p.house.id, x: pt.x, y: pt.y });
+      if (pt.x > 8 && pt.x < w - 8 && pt.y > 44 && pt.y < h - 8) anchors.push({ id: p.house.id, x: pt.x, y: pt.y });
     }
     plan = planPins(anchors, { phone: !wide(), width: w, height: h, avoid: controlRects(el) });
+    if (plan.mode === 'flat') plan = planFlat(onScreen, { phone: !wide() });
+    const shown = new Set(plan.units.flatMap(u => u.ids));
+    for (const id of shown) pins.get(id).wrapper.hidden = false;
     const { units, radius: R, mode } = plan;
     el.classList.toggle('pins-flat', mode === 'flat');
     el.style.setProperty('--pin-d', `${2 * R}px`);

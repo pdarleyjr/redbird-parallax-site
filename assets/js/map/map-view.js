@@ -24,7 +24,7 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
   const ring = snapshot.boundary.coordinates[0];
   const map = new maplibre.Map({
     container, style, attributionControl: { compact: true, customAttribution: '© OpenStreetMap contributors · Protomaps' },
-    maxBounds: bounds(ring, 800), minZoom: 14, maxZoom: 19, cooperativeGestures: window.matchMedia('(min-width: 960px)').matches,
+    maxBounds: bounds(ring, 1200), minZoom: 13, maxZoom: 19, cooperativeGestures: window.matchMedia('(min-width: 960px)').matches,
     bounds: bounds(ring), fitBoundsOptions: { padding: 24 }, canvasContextAttributes: { antialias: true }
   });
   if (location.search.includes('debug')) window.__map = map;
@@ -72,7 +72,12 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
       map.setPaintProperty('user-accuracy', 'circle-radius', ['interpolate', ['exponential', 2], ['zoom'], 0, r20 / 2 ** 20, 20, r20]);
     },
     follow(position, zoom = 17) { move([position.lng, position.lat], Math.max(map.getZoom(), zoom)); },
-    fitAll() { reducedMotion ? map.fitBounds(bounds(ring), { padding: 24, duration: 0 }) : map.fitBounds(bounds(ring), { padding: 24 }); },
+    fitAll() {
+      // the boundary and every house (a few stops sit just outside the boundary line)
+      const all = [...ring, ...houses.filter(h => h.location !== 'none').map(h => [h.lng, h.lat])];
+      const options = { padding: { top: 56, bottom: 28, left: 28, right: 28 }, ...(reducedMotion ? { duration: 0 } : {}) };
+      map.fitBounds(bounds(all), options);
+    },
     zoom(delta) { map.zoomTo(map.getZoom() + delta, reducedMotion ? { duration: 0 } : {}); },
     setSnapshot(next) { houses = next.houses; pins.setHouses(houses); pins.setSelected(selected); },
     pins,

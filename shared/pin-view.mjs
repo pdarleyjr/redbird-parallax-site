@@ -28,6 +28,14 @@ export function planPins(anchors, { phone, width, height, avoid = [], margin = 0
 }
 
 
+/** The flat (needle-free) plan for a set of anchors, in the same shape as planPins(). */
+export function planFlat(anchors, { phone }) {
+  const { radius } = (phone ? LADDER.phone : LADDER.desktop).find(s => !s.needle);
+  const units = layoutFlat(anchors, { radius });
+  const clusters = units.filter(u => u.ids.length > 1).length;
+  return { mode: 'flat', radius, units, stats: { total: anchors.length, clusters, singles: units.length - clusters, maxNeedle: 0 } };
+}
+
 /** Web-mercator screen position (MapLibre: 512 px tiles) of lng/lat for a camera. */
 export function project({ lng, lat }, center, zoom, width, height) {
   const ws = 512 * 2 ** zoom, my = l => Math.log(Math.tan(Math.PI / 4 + (l * Math.PI) / 360));
