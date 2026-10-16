@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Red Bird Neighborhood Holiday Trails",
-  "short_name": "Red Bird Trails",
+  "name": "Red Bird Events",
+  "short_name": "Red Bird Events",
   "description": "Neighborhood trick-or-treat trail map, nearest house and printable map for Red Bird, Miami.",
   "start_url": "./?source=pwa",
   "scope": "./",

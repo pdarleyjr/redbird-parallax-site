@@ -18,7 +18,7 @@ test('Printable maps: a section after the map with two cards, a which-to-use lin
   await expect(section.getByText('Always includes the newest houses')).toBeVisible();
   await expect(section.getByRole('link', { name: 'Print or save as PDF' })).toHaveAttribute('href', /halloween\/print\/$/);
   await expect(section.getByText('Which should I use?')).toBeVisible();
-  await expect(page.locator('.archive summary')).toContainText('Out of date');
+  await expect(page.locator('.archive')).toHaveCount(0);
   const navLabels = await page.locator('#site-nav a').allTextContents();
   expect(navLabels.filter(t => /print|flyer|trail map/i.test(t))).toEqual(['Printable maps']);
   expect(await page.evaluate(() => [...document.querySelectorAll('#printables img')].every(i => i.getAttribute('width') && i.getAttribute('height')))).toBe(true);

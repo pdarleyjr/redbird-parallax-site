@@ -96,18 +96,12 @@ test('visited marks persist across reloads and update the count', async ({ page 
   await expect(page.locator('#visited-count')).toHaveText(`0 of ${snapshot.houses.length} visited`);
 });
 
-test('original map is an out-of-date archive with working files', async ({ page, request }) => {
+test('the old organizer map is gone from the page: no section, no links to its files', async ({ page }) => {
   await loaded(page);
-  const summary = page.locator('details.archive summary');
-  await expect(summary).toContainText('Out of date');
-  await summary.click();
-  const pdfURL = await page.locator('details.archive a[href$=".pdf"]').getAttribute('href');
-  const pdf = await request.get(new URL(pdfURL, page.url()).href);
-  expect(pdf.status()).toBe(200);
-  expect((await pdf.body()).subarray(0, 5).toString()).toBe('%PDF-');
-  expect(await pdf.body()).toEqual(await readFile(new URL('../../assets/maps/redbird-trail-2026.pdf', import.meta.url)));
-  const size = await page.evaluate(async url => Number((await fetch(url, { method: 'HEAD' })).headers.get('content-length')), new URL('../assets/maps/redbird-trail-2026.png', page.url()).href);
-  expect(size).toBe((await readFile(new URL('../../assets/maps/redbird-trail-2026.png', import.meta.url))).length);
+  await expect(page.locator('details.archive')).toHaveCount(0);
+  await expect(page.getByText('Original October 9 map')).toHaveCount(0);
+  const hrefs = await page.locator('a[href], img[src], source[srcset]').evaluateAll(els => els.map(e => e.getAttribute('href') || e.getAttribute('src') || e.getAttribute('srcset')));
+  expect(hrefs.filter(h => /redbird-trail-2026[.-]/.test(h))).toEqual([]);
 });
 
 test('WCAG 2.2 AA automated accessibility (axe) has zero violations', async ({ page }) => {

@@ -58,17 +58,10 @@ test('invalid dates and confirmed hours fail the build', () => {
   for (const date of ['2025-10-31', '2026-02-30', 'invalid']) assert.throws(() => eventLabels({ ...event, date }));
   assert.throws(() => eventLabels({ ...event, hours: { status: 'confirmed', start: '25:00', end: '21:00' } }));
 });
-test('a pending original map renders no download links', async () => {
-  const html = await buildPage({ ...event, map: { status: 'pending' } });
-  assert.doesNotMatch(html, /data-map-file|id="map-preview"/);
-});
-test('a published map without a real master fails rather than creating broken links', async () => {
-  await assert.rejects(buildPage({ ...event, map: { ...event.map, image: 'assets/maps/missing-local-fixture.png' } }));
-});
 test('generated pages are synchronized with their sources and have no historical registration', async () => {
   const outputs = await buildAll();
   for (const [rel, content] of outputs) assert.equal(content, await readFile(`${root}/${rel}`, 'utf8'), `${rel} is stale`);
   const html = outputs.get('halloween/index.html');
   assert.doesNotMatch(html, /2024|2025|252478605926063|google\.com\/maps|innerHTML|Swiper|ScrollReveal/);
-  assert.match(html, /redbird-trail-2026\.pdf/);
+  assert.match(html, /redbird-trail-map-2026\.pdf/);
 });

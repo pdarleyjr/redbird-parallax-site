@@ -5,9 +5,9 @@ import path from 'node:path';
 import { eventLabels, localAsset, registrationURL } from '../assets/js/content.js';
 import { assertSnapshot } from '../shared/snapshot-schema.mjs';
 import { render, escapeHTML, jsonForScript } from './lib/template.mjs';
-import { cardsHTML, houseCardsHTML, mapListHTML, houseCountText, archiveHTML } from './lib/fragments.mjs';
+import { cardsHTML, houseCardsHTML, mapListHTML, houseCountText } from './lib/fragments.mjs';
 import { readTokens } from './map/build-style.mjs';
-import { buildManifest } from './lib/manifest.mjs';
+import { buildManifest, APP_NAME } from './lib/manifest.mjs';
 import { buildServiceWorker } from './lib/sw.mjs';
 
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -61,7 +61,7 @@ function pageBase(inputs, page, extra) {
   const { site, tokens } = inputs;
   const version = `?v=${page.hash.slice(0, 8)}`;
   return {
-    root: page.root, title: page.title, description: page.description, themeColor: tokens['rb-sky'],
+    root: page.root, title: page.title, description: page.description, themeColor: tokens['rb-sky'], appName: APP_NAME,
     canonical: new URL(page.path, site.origin).href, ogImage: new URL('assets/img/optimized/hero.jpg', site.origin).href,
     ogImageAlt: 'Red Bird children in Halloween costumes with a cardinal and glowing pumpkins.',
     swFlag: site.features?.serviceWorker ? 'on' : 'off', csp: csp(site), assetVersion: version, cssLinksHTML: cssLinks(page.root, page.css, version),
@@ -73,14 +73,6 @@ export async function buildHalloween(inputs, hash, rootPrefix = '../') {
   const { event, snapshot, site } = inputs;
   const labels = eventLabels(event);
   const config = structuredClone(event);
-  const published = event.map?.status === 'published';
-  if (published) {
-    const image = localAsset(event.map.image);
-    if (!image || !event.map.width || !event.map.height) throw new Error('Published map requires a local image and dimensions.');
-    await access(path.join(root, image));
-    if (localAsset(event.map.pdf)) await access(path.join(root, event.map.pdf));
-    for (const p of event.map.previews || []) { if (!localAsset(p.path) || !Number.isInteger(p.width)) throw new Error('Invalid map preview.'); await access(path.join(root, p.path)); }
-  } else config.map = { status: 'pending' };
   const registration = registrationURL(event.registration);
   if (event.registration?.status === 'confirmed' && !registration) throw new Error('Confirmed registration requires a valid HTTPS URL.');
   if (!registration) config.registration = { status: 'pending', url: null };
@@ -94,7 +86,7 @@ export async function buildHalloween(inputs, hash, rootPrefix = '../') {
   const html = await render(templates, 'halloween.html', {
     ...base, ...event, ...labels, updated: event.updated, canonical: base.canonical,
     mapListHTML: mapListHTML(snapshot.houses), houseListHTML: houseCardsHTML(snapshot.houses, rootPrefix),
-    houseCountText: houseCountText(snapshot), snapshotVersion: String(snapshot.version), archiveHTML: archiveHTML(event, rootPrefix),
+    houseCountText: houseCountText(snapshot), snapshotVersion: String(snapshot.version),
     registrationActionHTML: registration ? `<p><a class="text-link" href="${escapeHTML(registration)}" target="_blank" rel="noopener">Register your house<span class="sr-only"> (opens a new tab)</span></a></p>` : '',
     eventJSON: jsonForScript({ ...config, apiBase: site.api?.publicBase || null })
   });
