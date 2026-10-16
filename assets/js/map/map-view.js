@@ -1,6 +1,6 @@
 // Interactive map controller. All map assets are same-origin (self-hosted tiles, glyphs and style).
 import { loadMapLibre } from './loader.js';
-import { addHouseLayers, housesToGeoJSON, setHouseState } from './markers.js';
+import { addHouseLayers, ensureIcons, housesToGeoJSON, setHouseState } from './markers.js';
 import { siteRoot } from '../data.js';
 
 const cssVar = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -26,7 +26,8 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
     bounds: bounds(ring), fitBoundsOptions: { padding: 24 }, canvasContextAttributes: { antialias: true }
   });
   if (location.search.includes('debug')) window.__map = map;
-  await new Promise((resolve, reject) => { map.once('load', resolve); map.once('error', e => reject(e.error || e)); });
+  map.on('error', e => console.warn('Map warning:', e.error?.message));
+  await new Promise((resolve, reject) => { const timer = setTimeout(() => reject(new Error('The map took too long to load.')), 30000); map.once('load', () => { clearTimeout(timer); resolve(); }); });
 
   map.addSource('boundary', { type: 'geojson', data: { type: 'Feature', geometry: snapshot.boundary, properties: {} } });
   map.addLayer({ id: 'boundary-line', type: 'line', source: 'boundary', paint: { 'line-color': cssVar('--rb-neon-orange'), 'line-width': 2, 'line-dasharray': [3, 2], 'line-opacity': .8 } });
@@ -81,7 +82,7 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
     follow(position, zoom = 17) { move([position.lng, position.lat], Math.max(map.getZoom(), zoom)); },
     fitAll() { reducedMotion ? map.fitBounds(bounds(ring), { padding: 24, duration: 0 }) : map.fitBounds(bounds(ring), { padding: 24 }); },
     zoom(delta) { map.zoomTo(map.getZoom() + delta, reducedMotion ? { duration: 0 } : {}); },
-    setSnapshot(next) { houses = next.houses; map.getSource('houses').setData(housesToGeoJSON(houses)); },
+    async setSnapshot(next) { houses = next.houses; await ensureIcons(map, houses, root); map.getSource('houses').setData(housesToGeoJSON(houses)); },
     destroy() { map.remove(); }
   };
   return api;

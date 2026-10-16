@@ -10,6 +10,7 @@ function container() {
     root = document.createElement('section');
     root.className = 'sheet'; root.hidden = true; root.id = 'house-sheet';
     document.body.append(root);
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && !root.hidden) hideSheet(); });
   }
   return root;
 }
@@ -26,7 +27,7 @@ function arrow(degrees) {
   return svg;
 }
 
-export function hideSheet() { if (root) { root.hidden = true; root.replaceChildren(); } }
+export function hideSheet() { if (root) { root.hidden = true; root.replaceChildren(); delete root.dataset.kind; delete root.dataset.sig; } }
 
 function frame(title) {
   const r = container(); r.replaceChildren(); r.hidden = false;
@@ -45,13 +46,20 @@ function directionsLink(house) {
 
 export function showNearest({ entry, visited, compass, onShow, onVisited, onNext, onCompass }) {
   const { house, meters, bearing } = entry;
-  const r = frame('Nearest house');
-  const wrap = el('div', 'arrow-wrap');
   const shown = compass.heading == null ? bearing : (bearing - compass.heading + 360) % 360;
+  const subText = `About ${formatDistance(meters)} · ${compassLabel(bearing)} (straight-line)${compass.heading == null ? ' · arrow points north-up' : ''}`;
+  const sig = [house.id, visited, compass.supported, compass.on].join('|');
+  if (root && !root.hidden && root.dataset.kind === 'nearest' && root.dataset.sig === sig) { // same house: update in place so focus and taps are not lost
+    root.querySelector('.arrow').style.transform = `rotate(${Math.round(shown)}deg)`; root.querySelector('.sub').textContent = subText;
+    return;
+  }
+  const r = frame('Nearest house');
+  r.dataset.kind = 'nearest'; r.dataset.sig = sig;
+  const wrap = el('div', 'arrow-wrap');
   wrap.append(arrow(shown));
   const text = el('div');
   text.append(el('h3', null, `Nearest: #${house.mapNumber} ${house.name}`));
-  text.append(el('p', 'sub', `About ${formatDistance(meters)} · ${compassLabel(bearing)} (straight-line)${compass.heading == null ? ' · arrow points north-up' : ''}`));
+  text.append(el('p', 'sub', subText));
   wrap.append(text);
   r.append(wrap);
   const row = el('div', 'row');

@@ -13,18 +13,20 @@ const mime = {
   '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml',
   '.pdf': 'application/pdf', '.woff2': 'font/woff2', '.pbf': 'application/x-protobuf', '.geojson': 'application/geo+json'
 };
-const blocked = /^(node_modules|tests|scripts|docs|worker|private|templates|\.git)(\/|$)/;
+const blocked = /^(node_modules|tests|scripts|docs|worker|private|templates|\.git)(\/|$)/i;
+const hostOK = host => /^(127\.0\.0\.1|localhost|\[::1\])(:\d+)?$/.test(host || '');
 
 export function createPreviewServer() {
   return createServer(async (req, res) => {
     try {
       let pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
       if (prefix !== '/' && pathname === prefix.slice(0, -1)) { res.writeHead(301, { Location: prefix }); res.end(); return; }
+      if (!hostOK(req.headers.host) || pathname.includes('\\') || /\.csv$/i.test(pathname)) throw new Error('Blocked');
       if (!pathname.startsWith(prefix)) throw new Error('Outside base path');
       pathname = pathname.slice(prefix.length);
       if (!pathname || pathname.endsWith('/')) pathname += 'index.html';
       const target = path.resolve(root, pathname);
-      if (!target.startsWith(root + path.sep) || pathname.split('/').some(p => p.startsWith('.') && p !== '.nojekyll') || blocked.test(pathname)) throw new Error('Blocked');
+      if (!target.startsWith(root + path.sep) || pathname.split('/').some(p => p.startsWith('.') && p !== '.nojekyll') || blocked.test(path.relative(root, target).split(path.sep).join('/'))) throw new Error('Blocked');
       const info = await stat(target);
       if (!info.isFile()) throw new Error('Not a file');
       res.writeHead(200, { 'Content-Type': mime[path.extname(target)] || 'application/octet-stream', 'Content-Length': info.size, 'Cache-Control': 'no-cache' });

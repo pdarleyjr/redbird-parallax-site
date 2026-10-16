@@ -53,7 +53,7 @@ async function main() {
     viewPromise = import('./map/map-view.js').then(m => m.createMapView({
       container: $('#map-canvas'), snapshot, reducedMotion,
       onSelect: id => selectHouse(id), onChoose: ids => showChooser({ houses: ids.map(houseById), onPick: id => selectHouse(id) })
-    })).then(v => { view = v; v.setVisited(getVisited()); setStatus(''); navigator.serviceWorker?.controller?.postMessage({ type: 'warm-map' }); return v; })
+    })).then(v => { view = v; v.setSnapshot(snapshot); v.setVisited(getVisited()); setStatus(''); navigator.serviceWorker?.controller?.postMessage({ type: 'warm-map' }); return v; })
       .catch(error => { console.error(error); setStatus('The interactive map couldn’t load. You can still use the house list.'); return null; });
     return viewPromise;
   };

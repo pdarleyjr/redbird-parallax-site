@@ -33,7 +33,7 @@ export async function preview(ctx) {
   if (!/^[0-9a-f]{64}$/.test(body.fileSha256 || '')) throw new HttpError(422, 'Missing file fingerprint.');
   const state = await loadState(ctx.db, eventId);
   const existing = state.houses.filter(h => h.status !== 'archived').map(h => ({ id: h.id, mapNumber: h.map_number, name: h.name, address: h.address_display }));
-  const result = reconcile(rows, existing);
+  const result = reconcile(rows, existing, { reserved: state.houses.map(h => h.map_number) });
   const prior = await ctx.db.prepare("SELECT created_at FROM import_batches WHERE event_id = ? AND file_sha256 = ? AND status = 'applied' ORDER BY created_at DESC LIMIT 1").bind(eventId, body.fileSha256).first();
   const known = new Set((await ctx.db.prepare("SELECT ir.fingerprint FROM import_rows ir JOIN import_batches ib ON ib.id = ir.batch_id WHERE ib.event_id = ? AND ib.status = 'applied' AND ir.decision IN ('accepted','skipped_known')").bind(eventId).all()).results.map(r => r.fingerprint));
   const groups = [...result.matched, ...result.added, ...result.items];
@@ -55,7 +55,7 @@ export async function preview(ctx) {
     ctx.db.prepare("INSERT INTO import_batches (id, event_id, file_sha256, row_count, status, summary_json, created_at, created_by) VALUES (?, ?, ?, ?, 'previewed', ?, ?, ?)")
       .bind(batchId, eventId, body.fileSha256, rows.length, JSON.stringify(result.summary), nowISO(), ctx.actor),
     ...rowStatements,
-    auditStatement(ctx.db, { actor: ctx.actor, action: 'import.preview', entity: 'import', entityId: batchId, after: result.summary, batchId })
+    auditStatement(ctx.db, { actor: ctx.actor, meta: ctx.meta, action: 'import.preview', entity: 'import', entityId: batchId, after: result.summary, batchId })
   ]);
   const view = g => ({ key: g.key, address: g.address, class: g.known ? 'known_fingerprint' : g.class, flags: g.flags || [], rowIndexes: g.rowIndexes || [g.rowIndex], submittedOn: g.submittedOn || null, submittedName: g.submittedName ?? null, publishedName: g.publishedName ?? null, houseId: g.houseId ?? null, mapNumber: g.mapNumber ?? null });
   return json({ batchId, summary: result.summary, alreadyImportedOn: prior?.created_at || null, groups: groups.map(view), notInExport: result.notInExport });
@@ -68,9 +68,9 @@ export async function apply(ctx, batchId) {
   if (batch.status !== 'previewed') throw new HttpError(409, 'That import was already applied or undone.');
   const state = await loadState(ctx.db, batch.event_id);
   const rows = (await ctx.db.prepare('SELECT * FROM import_rows WHERE batch_id = ? ORDER BY row_index').bind(batchId).all()).results;
-  const decisions = new Map((Array.isArray(body.decisions) ? body.decisions : []).map(d => [d.rowIndex, d]));
+  const decisions = new Map((Array.isArray(body.decisions) ? body.decisions : []).filter(d => d && Number.isInteger(d.rowIndex)).map(d => [d.rowIndex, d]));
   const registrations = rows.map(r => ({ rowIndex: r.row_index, submittedOn: r.submitted_on, address: r.address_raw, houseName: r.house_name_raw }));
-  const result = reconcile(registrations, state.houses.filter(h => h.status !== 'archived').map(h => ({ id: h.id, mapNumber: h.map_number, name: h.name, address: h.address_display })));
+  const result = reconcile(registrations, state.houses.filter(h => h.status !== 'archived').map(h => ({ id: h.id, mapNumber: h.map_number, name: h.name, address: h.address_display })), { reserved: state.houses.map(h => h.map_number) });
   const statements = [], audits = [], nextHouses = [...state.houses];
   let number = nextNumber(state.houses.map(h => ({ mapNumber: h.map_number })));
   const accepted = new Set();
@@ -78,8 +78,7 @@ export async function apply(ctx, batchId) {
   for (const g of [...result.added, ...result.matched]) {
     const lead = (g.rowIndexes || []).map(i => decisions.get(i)).find(d => d?.decision === 'accepted');
     if (!lead) continue;
-    const priorRow = rows.find(r => r.row_index === g.rowIndexes[0]);
-    if (priorRow.decision === 'skipped_known') continue;
+    if (g.rowIndexes.every(i => rows.find(r => r.row_index === i)?.decision === 'skipped_known')) continue;
     if (g.isNew) {
       const name = validateName(lead.override?.name ?? g.submittedName);
       const address = normalizeAddress(g.address);
@@ -113,7 +112,7 @@ export async function apply(ctx, batchId) {
   }
   statements.push(ctx.db.prepare("UPDATE import_batches SET status = 'applied' WHERE id = ?").bind(batchId));
   audits.push({ action: 'import.apply', entity: 'import', entityId: batchId, after: { accepted: accepted.size }, batchId });
-  await commit(ctx.db, state, { statements, audits, nextHouses, actor: ctx.actor });
+  await commit(ctx.db, state, { statements, audits, nextHouses, actor: ctx.actor, meta: ctx.meta });
   return json({ batchId, accepted: accepted.size });
 }
 
@@ -140,7 +139,7 @@ export async function rollback(ctx, batchId) {
   }
   if (edited.length) throw new HttpError(409, `These houses were edited after the import, so it cannot be undone automatically: ${edited.join(', ')}.`, { houses: edited });
   statements.push(ctx.db.prepare("UPDATE import_batches SET status = 'rolled_back' WHERE id = ?").bind(batchId));
-  await commit(ctx.db, state, { statements, nextHouses, actor: ctx.actor, audits: [{ action: 'import.rollback', entity: 'import', entityId: batchId, batchId: null }] });
+  await commit(ctx.db, state, { statements, nextHouses, actor: ctx.actor, meta: ctx.meta, audits: [{ action: 'import.rollback', entity: 'import', entityId: batchId, batchId: null }] });
   return json({ batchId, undone: log.length });
 }
 

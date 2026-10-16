@@ -272,5 +272,140 @@
       "matched": "3927 SW 58TH CT, MIAMI, FL, 33155",
       "source": "census"
     }
+  },
+  "3604|SW|60TH|AVENUE": {
+    "address": "3604 SW 60th Avenue",
+    "result": {
+      "lat": 25.737216,
+      "lng": -80.291648,
+      "matched": "3604 SW 60TH AVE, MIAMI, FL, 33155",
+      "source": "census"
+    }
+  },
+  "3611|SW|60TH|COURT": {
+    "address": "3611 SW 60th Court",
+    "result": {
+      "lat": 25.737155,
+      "lng": -80.292344,
+      "matched": "3611 SW 60TH CT, MIAMI, FL, 33155",
+      "source": "census"
+    }
+  },
+  "6028|SW|35TH|STREET": {
+    "address": "6028 SW 35th Street",
+    "result": {
+      "lat": 25.737787,
+      "lng": -80.292087,
+      "matched": "6028 SW 35TH ST, MIAMI, FL, 33155",
+      "source": "census"
+    }
+  },
+  "6391|SW|39TH|STREET": {
+    "address": "6391 SW 39th Street",
+    "result": {
+      "lat": 25.735113,
+      "lng": -80.298626,
+      "matched": "6391 SW 39TH ST, MIAMI, FL, 33155",
+      "source": "census"
+    }
+  },
+  "3710|SW|59TH|AVENUE": {
+    "address": "3710 SW 59th Avenue",
+    "result": {
+      "lat": 25.736651,
+      "lng": -80.290796,
+      "matched": "3710 SW 59TH AVE, MIAMI, FL, 33155",
+      "source": "census"
+    }
+  },
+  "3910|SW|60TH|PLACE": {
+    "address": "3910 SW 60th Place",
+    "result": {
+      "lat": 25.734775,
+      "lng": -80.293174,
+      "matched": "3910 SW 60TH PL, MIAMI, FL, 33155",
+      "source": "census"
+    }
+  },
+  "5778|SW|35TH|STREET": {
+    "address": "5778 SW 35th Street",
+    "result": {
+      "lat": 25.737915,
+      "lng": -80.288615,
+      "matched": "5778 SW 35TH ST, MIAMI, FL, 33155",
+      "source": "census"
+    }
+  },
+  "5765|SW|35TH|STREET": {
+    "address": "5765 SW 35th Street",
+    "result": {
+      "lat": 25.73804,
+      "lng": -80.28829,
+      "matched": "5765 SW 35TH ST, MIAMI, FL, 33155",
+      "source": "census"
+    }
+  },
+  "3615|SW|59TH|AVENUE": {
+    "address": "3615 SW 59th Avenue",
+    "result": {
+      "lat": 25.737197,
+      "lng": -80.290692,
+      "matched": "3615 SW 59TH AVE, MIAMI, FL, 33155",
+      "source": "census"
+    }
+  },
+  "6258|SW|39TH|STREET": {
+    "address": "6258 SW 39th Street",
+    "result": {
+      "lat": 25.735086,
+      "lng": -80.296556,
+      "matched": "6258 SW 39TH ST, MIAMI, FL, 33155",
+      "source": "census"
+    }
+  },
+  "5800|SW|35TH|STREET": {
+    "address": "5800 SW 35th Street",
+    "result": {
+      "lat": 25.737895,
+      "lng": -80.289212,
+      "matched": "5800 SW 35TH ST, MIAMI, FL, 33155",
+      "source": "census"
+    }
+  },
+  "3725|SW|59TH|AVENUE": {
+    "address": "3725 SW 59th Avenue",
+    "result": {
+      "lat": 25.736577,
+      "lng": -80.290666,
+      "matched": "3725 SW 59TH AVE, MIAMI, FL, 33155",
+      "source": "census"
+    }
+  },
+  "3801|SW|60TH|PLACE": {
+    "address": "3801 SW 60th Place",
+    "result": {
+      "lat": 25.735939,
+      "lng": -80.293103,
+      "matched": "3801 SW 60TH PL, MIAMI, FL, 33155",
+      "source": "census"
+    }
+  },
+  "3930|SW|60TH|PLACE": {
+    "address": "3930 SW 60th Place",
+    "result": {
+      "lat": 25.734564,
+      "lng": -80.293164,
+      "matched": "3930 SW 60TH PL, MIAMI, FL, 33155",
+      "source": "census"
+    }
+  },
+  "5790|SW|35TH|STREET": {
+    "address": "5790 SW 35th Street",
+    "result": {
+      "lat": 25.737906,
+      "lng": -80.288899,
+      "matched": "5790 SW 35TH ST, MIAMI, FL, 33155",
+      "source": "census"
+    }
   }
 }

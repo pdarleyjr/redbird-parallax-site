@@ -20,7 +20,7 @@ test('the published snapshot keeps all original stops 01–31 with their ids and
   assert.equal(byId['stop-05'].address, '5792 SW 39th Street');
   assert.equal(byId['stop-05'].name, 'Halloween Stop');
   assert.equal(byId['stop-10'].name, 'Haunted House');
-  assert.equal(byId['stop-10'].icon, 'pumpkin');
+  assert.equal(byId['stop-10'].icon, 'fluent-jack-o-lantern');
   assert.equal(byId['stop-30'].name, 'The Goalkeeper’s Graveyard');
 });
 test('empty, pending, malformed and historical rosters publish no houses', () => {

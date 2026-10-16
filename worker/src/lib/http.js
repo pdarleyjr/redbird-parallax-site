@@ -23,6 +23,7 @@ export function log(level, fields) {
 /** Parse a JSON body with a size cap; throws 400/413/415 as appropriate. */
 export async function readJSON(request, maxBytes = 200_000) {
   if (!(request.headers.get('Content-Type') || '').toLowerCase().startsWith('application/json')) throw new HttpError(415, 'Send JSON (Content-Type: application/json).');
+  if (Number(request.headers.get('Content-Length')) > maxBytes) throw new HttpError(413, 'That request is too large.');
   const text = await request.text();
   if (text.length > maxBytes) throw new HttpError(413, 'That request is too large.');
   try { return JSON.parse(text); } catch { throw new HttpError(400, 'The request was not valid JSON.'); }

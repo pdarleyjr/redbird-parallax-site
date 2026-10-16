@@ -17,14 +17,18 @@ async function loadIcon(url) {
   return createImageBitmap(blob);
 }
 
+export async function ensureIcons(map, houses, root) {
+  const missing = [...new Set(houses.map(h => h.icon))].filter(icon => !map.hasImage(`icon-${icon}`));
+  await Promise.all(missing.map(async icon => {
+    try { map.addImage(`icon-${icon}`, await loadIcon(`${root}assets/img/markers/${icon}.webp`)); } catch { /* the numbered dot still shows */ }
+  }));
+}
+
 export async function addHouseLayers(map, houses, root) {
   const c = { cardinal: cssVar('--rb-cardinal'), cream: cssVar('--rb-cream'), gold: cssVar('--rb-gold'), panel: cssVar('--rb-panel-raised'), amber: cssVar('--rb-amber'), neon: cssVar('--rb-neon-orange'), ink: cssVar('--rb-ink') };
   const state = key => ['boolean', ['feature-state', key], false];
   map.addSource('houses', { type: 'geojson', data: housesToGeoJSON(houses) });
-  const icons = [...new Set(houses.map(h => h.icon))];
-  await Promise.all(icons.map(async icon => {
-    try { map.addImage(`icon-${icon}`, await loadIcon(`${root}assets/img/markers/${icon}.webp`)); } catch { /* the numbered dot still shows */ }
-  }));
+  await ensureIcons(map, houses, root);
   map.addLayer({
     id: 'house-approx', type: 'circle', source: 'houses', filter: ['==', ['get', 'approx'], true],
     paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 15, 15, 18, 21], 'circle-color': 'transparent', 'circle-stroke-color': c.cream, 'circle-stroke-width': 1, 'circle-stroke-opacity': .45 }

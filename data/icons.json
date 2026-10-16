@@ -3,121 +3,265 @@
     {
       "key": "bakery",
       "label": "Bakery",
+      "source": "trail-2026",
       "file": "assets/img/markers/bakery.webp"
+    },
+    {
+      "key": "blues-boooooo-house",
+      "label": "Blues boooooo house",
+      "source": "red-bird-2024",
+      "file": "assets/img/markers/blues-boooooo-house.webp"
     },
     {
       "key": "bones",
       "label": "Bones",
+      "source": "trail-2026",
       "file": "assets/img/markers/bones.webp"
     },
     {
       "key": "book",
       "label": "Book",
+      "source": "trail-2026",
       "file": "assets/img/markers/book.webp"
     },
     {
       "key": "candy-pumpkin",
       "label": "Candy pumpkin",
+      "source": "trail-2026",
       "file": "assets/img/markers/candy-pumpkin.webp"
     },
     {
       "key": "dinosaur",
       "label": "Dinosaur",
+      "source": "trail-2026",
       "file": "assets/img/markers/dinosaur.webp"
     },
     {
       "key": "door",
       "label": "Door",
+      "source": "trail-2026",
       "file": "assets/img/markers/door.webp"
+    },
+    {
+      "key": "fluent-bat",
+      "label": "Bat",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-bat.webp"
+    },
+    {
+      "key": "fluent-black-cat",
+      "label": "Black cat",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-black-cat.webp"
+    },
+    {
+      "key": "fluent-bone",
+      "label": "Bone",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-bone.webp"
+    },
+    {
+      "key": "fluent-candy",
+      "label": "Candy",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-candy.webp"
+    },
+    {
+      "key": "fluent-castle",
+      "label": "Castle",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-castle.webp"
+    },
+    {
+      "key": "fluent-crystal-ball",
+      "label": "Crystal ball",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-crystal-ball.webp"
+    },
+    {
+      "key": "fluent-full-moon",
+      "label": "Full moon",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-full-moon.webp"
+    },
+    {
+      "key": "fluent-ghost",
+      "label": "Ghost",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-ghost.webp"
+    },
+    {
+      "key": "fluent-headstone",
+      "label": "Headstone",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-headstone.webp"
+    },
+    {
+      "key": "fluent-jack-o-lantern",
+      "label": "Jack o lantern",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-jack-o-lantern.webp"
+    },
+    {
+      "key": "fluent-lollipop",
+      "label": "Lollipop",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-lollipop.webp"
+    },
+    {
+      "key": "fluent-owl",
+      "label": "Owl",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-owl.webp"
+    },
+    {
+      "key": "fluent-potion",
+      "label": "Potion",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-potion.webp"
+    },
+    {
+      "key": "fluent-skull",
+      "label": "Skull",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-skull.webp"
+    },
+    {
+      "key": "fluent-skull-bones",
+      "label": "Skull bones",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-skull-bones.webp"
+    },
+    {
+      "key": "fluent-spider",
+      "label": "Spider",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-spider.webp"
+    },
+    {
+      "key": "fluent-spider-web",
+      "label": "Spider web",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-spider-web.webp"
     },
     {
       "key": "fountain",
       "label": "Fountain",
+      "source": "trail-2026",
       "file": "assets/img/markers/fountain.webp"
     },
     {
       "key": "ghost",
       "label": "Ghost",
+      "source": "trail-2026",
       "file": "assets/img/markers/ghost.webp"
     },
     {
       "key": "goalkeeper",
       "label": "Goalkeeper",
+      "source": "trail-2026",
       "file": "assets/img/markers/goalkeeper.webp"
     },
     {
       "key": "graveyard",
       "label": "Graveyard",
+      "source": "trail-2026",
       "file": "assets/img/markers/graveyard.webp"
     },
     {
       "key": "horror-house",
       "label": "Horror house",
+      "source": "trail-2026",
       "file": "assets/img/markers/horror-house.webp"
     },
     {
       "key": "jester",
       "label": "Jester",
+      "source": "trail-2026",
       "file": "assets/img/markers/jester.webp"
     },
     {
       "key": "mouse-pumpkin",
       "label": "Mouse pumpkin",
+      "source": "trail-2026",
       "file": "assets/img/markers/mouse-pumpkin.webp"
     },
     {
       "key": "pumpkin",
       "label": "Pumpkin",
+      "source": "trail-2026",
       "file": "assets/img/markers/pumpkin.webp"
     },
     {
       "key": "realty",
       "label": "Realty",
+      "source": "trail-2026",
       "file": "assets/img/markers/realty.webp"
     },
     {
       "key": "skeleton",
       "label": "Skeleton",
+      "source": "trail-2026",
       "file": "assets/img/markers/skeleton.webp"
     },
     {
       "key": "skeleton-dog",
       "label": "Skeleton dog",
+      "source": "trail-2026",
       "file": "assets/img/markers/skeleton-dog.webp"
     },
     {
       "key": "skull",
       "label": "Skull",
+      "source": "trail-2026",
       "file": "assets/img/markers/skull.webp"
     },
     {
       "key": "spider",
       "label": "Spider",
+      "source": "trail-2026",
       "file": "assets/img/markers/spider.webp"
+    },
+    {
+      "key": "sweet-and-spooky-stop",
+      "label": "Sweet and spooky stop",
+      "source": "red-bird-2024",
+      "file": "assets/img/markers/sweet-and-spooky-stop.webp"
     },
     {
       "key": "taco",
       "label": "Taco",
+      "source": "trail-2026",
       "file": "assets/img/markers/taco.webp"
+    },
+    {
+      "key": "the-webbed-manor",
+      "label": "The webbed manor",
+      "source": "red-bird-2024",
+      "file": "assets/img/markers/the-webbed-manor.webp"
     },
     {
       "key": "villa",
       "label": "Villa",
+      "source": "trail-2026",
       "file": "assets/img/markers/villa.webp"
     },
     {
       "key": "werewolf",
       "label": "Werewolf",
+      "source": "trail-2026",
       "file": "assets/img/markers/werewolf.webp"
     },
     {
       "key": "wicked-house",
       "label": "Wicked house",
+      "source": "trail-2026",
       "file": "assets/img/markers/wicked-house.webp"
     },
     {
       "key": "witch",
       "label": "Witch",
+      "source": "trail-2026",
       "file": "assets/img/markers/witch.webp"
     }
   ]

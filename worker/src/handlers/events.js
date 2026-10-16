@@ -34,12 +34,12 @@ export async function patchEvent(ctx, id) {
   next.details_json = JSON.stringify(details);
   const statement = ctx.db.prepare('UPDATE events SET title=?, status=?, date=?, start_time=?, end_time=?, details_json=?, updated_at=?, updated_by=? WHERE id=?')
     .bind(next.title, next.status, next.date, next.start_time, next.end_time, next.details_json, next.updated_at, next.updated_by, id);
-  await commit(ctx.db, state, { statements: [statement], nextEvent: next, actor: ctx.actor, audits: [{ action: 'event.update', entity: 'event', entityId: id, before: eventView(state.event), after: eventView(next) }] });
+  await commit(ctx.db, state, { statements: [statement], nextEvent: next, actor: ctx.actor, meta: ctx.meta, audits: [{ action: 'event.update', entity: 'event', entityId: id, before: eventView(state.event), after: eventView(next) }] });
   return json(eventView(next));
 }
 
 export async function audit(ctx) {
-  const limit = Math.min(Number(ctx.url.searchParams.get('limit')) || 100, 200);
+  const limit = Math.min(Math.max(Math.trunc(Number(ctx.url.searchParams.get('limit'))) || 100, 1), 200);
   const rows = await ctx.db.prepare('SELECT id, at, actor, action, entity, entity_id FROM audit_log ORDER BY id DESC LIMIT ?').bind(limit).all();
   return json(rows.results);
 }
@@ -48,6 +48,7 @@ const csvCell = v => { const s = v == null ? '' : String(v); return /^[=+\-@\t\r
 
 export async function exportCSV(ctx) {
   const eventId = ctx.url.searchParams.get('event') || 'halloween-2026';
+  if (!/^[\w-]{1,60}$/.test(eventId)) throw new HttpError(400, 'Unknown event.');
   const rows = await ctx.db.prepare('SELECT map_number, name, address_display, icon, lat, lng, location_status, status FROM houses WHERE event_id = ? ORDER BY map_number').bind(eventId).all();
   const header = 'number,name,address,icon,lat,lng,location,status';
   const lines = rows.results.map(r => [r.map_number, r.name, r.address_display, r.icon, r.lat, r.lng, r.location_status, r.status].map(csvCell).join(','));

@@ -17,4 +17,4 @@ Brand: all pages use the Red Bird Neighborhood palette sampled from the owner's 
 
 Owner decisions so far (2026-10-16): stay on github.io through Halloween; 3800 SW 58th Ave → "Haunted House" with a pumpkin icon; 5792 SW 39th St keeps "Halloween Stop"; purge the leaked 2025 CSVs from `red-bird-halloween-trail` (separate task).
 
-Privacy: the 15 new registrations are shown as `[new #N …]` placeholders until the owner approves them for publication (gate G2a). No contact details appear anywhere in this repo.
+Privacy: the owner approved publishing all 46 houses (names and addresses only). No contact details appear anywhere in this repo.

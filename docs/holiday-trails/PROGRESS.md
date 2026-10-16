@@ -46,3 +46,8 @@ Updated at every commit. Stages A–H per 05-TECH-SPEC §8.
 
 ## Stage H — Verify & deliver
 - [ ] CI, Lighthouse, screenshots vs flyer, reviews, DELIVERY-REPORT.md
+
+## Update 2026-10-16 (late)
+- [x] G2a answers applied: 46 houses published in the snapshot, manual pins verified, boundary approved, icons from 2024 originals + Fluent Emoji 3D on a brand badge
+- [x] Auth switched to password + signed cookie (Access app to be removed)
+- [ ] Owner types ADMIN_PASSWORD (see ADMIN-SETUP.md)

@@ -89,7 +89,7 @@ export async function buildHalloween(inputs, hash, rootPrefix = '../') {
     description: `Halloween with your neighbors. Join the Red Bird Trick-or-Treat Trail on ${labels.fullDate}. Find your stops on the interactive map, see the nearest house, or print the trail map.`,
     css: ['tokens', 'base', 'halloween', 'map'],
     nav: [['', 'Holiday Trails'], ['#what-to-expect', 'Event details'], ['#featured-houses', 'Participating houses'], ['halloween/print/', 'Print the map']],
-    footerNote: 'Map data © OpenStreetMap contributors · Protomaps. Original organizer map: Miami-Dade County GIS.'
+    footerNote: 'Map data © OpenStreetMap contributors · Protomaps. Icons: Microsoft Fluent Emoji (MIT license) and Red Bird artwork. Original organizer map: Miami-Dade County GIS.'
   });
   const html = await render(templates, 'halloween.html', {
     ...base, ...event, ...labels, updated: event.updated, canonical: base.canonical,
@@ -114,7 +114,7 @@ export async function buildAll() {
   const outputs = new Map();
   const counts = { [snapshot.eventId]: houseCountText(snapshot) };
   const homeNav = [['halloween/', 'Halloween trail'], ['christmas/', 'Christmas trail'], ['halloween/print/', 'Print the Halloween map']];
-  const home = pageBase(inputs, { root: '', hash, path: '', title: 'Red Bird Neighborhood Holiday Trails', description: 'Two neighborhood trails, one Red Bird. Explore the Halloween Trick-or-Treat Trail map, nearby houses and more.', css: ['tokens', 'base', 'home'], nav: homeNav, footerNote: 'A neighborhood project. No ads, no tracking.' });
+  const home = pageBase(inputs, { root: '', hash, path: '', title: 'Red Bird Neighborhood Holiday Trails', description: 'Two neighborhood trails, one Red Bird. Explore the Halloween Trick-or-Treat Trail map, nearby houses and more.', css: ['tokens', 'base', 'home'], nav: homeNav, footerNote: 'A neighborhood project. No ads, no tracking. Icons: Microsoft Fluent Emoji (MIT license).' });
   outputs.set('index.html', await render(templates, 'home.html', { ...home, cardsHTML: cardsHTML(site.events, '', counts), siteJSON: jsonForScript({ events: site.events, apiBase: site.api?.publicBase || null }) }));
   const halloween = await buildHalloween(inputs, hash);
   outputs.set('halloween/index.html', halloween);

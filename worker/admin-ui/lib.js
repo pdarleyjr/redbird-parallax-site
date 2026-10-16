@@ -18,9 +18,13 @@ export async function api(path, { method = 'GET', body, headers = {} } = {}) {
   try {
     response = await fetch(path, { method, credentials: 'same-origin', headers: { ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}), ...headers }, body: body === undefined ? undefined : JSON.stringify(body) });
   } catch { throw new Error('Could not reach the server. Check your connection and try again.'); }
-  if (response.redirected || response.headers.get('content-type')?.includes('text/html')) throw new Error('Your sign-in expired. Reload the page to sign in again.');
   const data = await response.json().catch(() => null);
-  if (!response.ok || !data?.ok) throw new Error(data?.error?.message || `Something went wrong (${response.status}).`);
+  if (!response.ok || !data?.ok) {
+    const error = new Error(data?.error?.message || `Something went wrong (${response.status}).`);
+    error.status = response.status;
+    if (response.status === 401 && path !== '/api/login') document.dispatchEvent(new CustomEvent('rb:signed-out'));
+    throw error;
+  }
   return data.data;
 }
 

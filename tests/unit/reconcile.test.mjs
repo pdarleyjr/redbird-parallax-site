@@ -78,3 +78,26 @@ test('local private CSV (if present) reproduces the documented totals', async t 
   assert.equal(out.matched.find(m => m.houseId === 'stop-05').class, 'incomplete_name');
   assert.equal(out.added.filter(a => a.flags.includes('zip_mismatch')).length, 1);
 });
+
+test('the committed sanitized fixture (date, address, house name only) reproduces the documented totals', async () => {
+  const { parseCsv, toRegistrations } = await import('../../shared/csv.mjs');
+  const text = await readFile(new URL('../fixtures/registrations-2026-10-16.sanitized.csv', import.meta.url), 'utf8');
+  const parsed = parseCsv(text);
+  assert.deepEqual(parsed.header, ['Submission Date', 'Address', 'Give Your House a Halloween Name']);
+  const { registrations } = toRegistrations(parsed);
+  const out = reconcile(registrations, roster);
+  assert.deepEqual(out.summary, { rows: 47, addresses: 46, matched: 31, new: 15, notInExport: 0 });
+  assert.equal(out.matched.find(m => m.houseId === 'stop-10').class, 'duplicate_conflict');
+  assert.equal(out.matched.find(m => m.houseId === 'stop-05').class, 'incomplete_name');
+  assert.equal(out.added.filter(a => a.flags.includes('zip_mismatch')).length, 1);
+  assert.deepEqual(out.added.map(a => a.mapNumber), Array.from({ length: 15 }, (_, i) => 32 + i));
+  const again = reconcile(registrations, [...roster, ...out.added.map(a => ({ id: a.houseId, mapNumber: a.mapNumber, name: a.submittedName, address: a.address }))]);
+  assert.equal(again.summary.new, 0);
+});
+
+test('archived (reserved) map numbers are never reused for new houses', () => {
+  const rows = [{ rowIndex: 0, submittedOn: '2026-10-15', address: '1 SW 40th Street', houseName: 'Fresh' }];
+  const out = reconcile(rows, roster.slice(0, 5), { reserved: [1, 2, 3, 4, 5, 31] });
+  assert.equal(out.added[0].mapNumber, 32);
+  assert.equal(out.added[0].houseId, 'stop-32');
+});

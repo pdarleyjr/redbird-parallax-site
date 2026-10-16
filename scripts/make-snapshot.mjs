@@ -41,6 +41,11 @@ export async function makeSnapshot({ cacheFile = 'data/reconcile/geocode-cache.j
       location: point ? (manual?.verified ? 'verified' : 'approximate') : 'none'
     };
   });
+  for (const n of decisions.approvedNew || []) {
+    const a = normalizeAddress(n.address);
+    const point = decisions.manualLocations?.[n.id] || trustedGeocode(cache[a.key], a.key);
+    houses.push({ id: n.id, mapNumber: n.mapNumber, name: n.name, address: a.display, description: null, icon: n.icon, lat: point ? point.lat : null, lng: point ? point.lng : null, location: point ? (point.verified ? 'verified' : 'approximate') : 'none' });
+  }
   houses.sort((a, b) => a.mapNumber - b.mapNumber);
   const ring = boundaryFeature.geometry.coordinates[0];
   const [start, end] = [event.hours.start, event.hours.end];

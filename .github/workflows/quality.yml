@@ -40,6 +40,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci --ignore-scripts
+      - run: node worker/scripts/build-ui.mjs
       - run: npx playwright install --with-deps chromium webkit firefox
       - run: npx playwright test
         env:

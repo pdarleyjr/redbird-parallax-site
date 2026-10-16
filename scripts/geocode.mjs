@@ -38,8 +38,9 @@ async function run(list, file) {
   console.log(`${file}: ${Object.keys(cache).length} addresses, ${missing} without a match`);
 }
 
-const roster = JSON.parse(await readFile(path.join(root, 'data/houses-2026.json'), 'utf8')).houses;
-await run(roster.map(h => h.address), path.join(root, 'data/reconcile/geocode-cache.json'));
+const roster = JSON.parse(await readFile(path.join(root, 'data/reconcile/roster-2026-10-09.json'), 'utf8')).houses;
+const decisions = JSON.parse(await readFile(path.join(root, 'data/reconcile/2026-10-16.decisions.json'), 'utf8'));
+await run([...roster.map(h => h.address), ...(decisions.approvedNew || []).map(h => h.address)], path.join(root, 'data/reconcile/geocode-cache.json'));
 if (wantPrivate) {
   const { parseCsv, toRegistrations } = await import('../shared/csv.mjs');
   const csv = process.env.RB_CSV || 'C:/Users/Peter Darley/Downloads/Red_Bird_Trick-or-Treat_Trail_2026-10-16_05_15_39.csv';

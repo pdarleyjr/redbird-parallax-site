@@ -36,7 +36,7 @@ export function validateLocation(input, ring) {
   if (!Number.isFinite(lat) || !Number.isFinite(lng)) throw new HttpError(422, 'The pin location is not valid.');
   if (!inBoundary({ lat, lng }, ring, 50)) throw new HttpError(422, 'That pin is outside the trail area.');
   const verified = input.verified === true;
-  return { lat: Number(lat.toFixed(6)), lng: Number(lng.toFixed(6)), location_status: verified ? 'verified' : 'suggested', location_source: input.source || 'manual' };
+  return { lat: Number(lat.toFixed(6)), lng: Number(lng.toFixed(6)), location_status: verified ? 'verified' : 'suggested', location_source: ['manual', 'census', 'nominatim'].includes(input.source) ? input.source : 'manual' };
 }
 
 export function requireString(value, label, max = 200) {

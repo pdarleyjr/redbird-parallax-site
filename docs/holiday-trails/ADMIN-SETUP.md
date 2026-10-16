@@ -1,6 +1,6 @@
-# Admin setup (Cloudflare Workers + D1 + Access)
+# Admin setup (Cloudflare Workers + D1, password sign-in)
 
-Everything here is already provisioned (2026-10-16). This document is the record and the recovery guide.
+Provisioned 2026-10-16. This is the record and the recovery guide. Auth design changed on 2026-10-16 from Cloudflare Access to a password stored only in Cloudflare (owner decision); see DECISIONS-LOG D12.
 
 | Piece | Name / value |
 |---|---|
@@ -8,46 +8,49 @@ Everything here is already provisioned (2026-10-16). This document is the record
 | D1 database | `redbird-trails` (`bd3d16ad-1545-466c-853f-a1ade401eed2`) |
 | Public Worker (read-only) | `redbird-public` → https://redbird-public.pdarleyjr.workers.dev |
 | Admin Worker | `redbird-admin` → https://redbird-admin.pdarleyjr.workers.dev |
-| Access team | `darl.cloudflareaccess.com` |
-| Access application | "Red Bird Trails Admin" (`9f443a40-ce7f-4b2c-aa92-0c685b903a60`), host `redbird-admin.pdarleyjr.workers.dev`, 24 h sessions, policy "Red Bird admins" = allowed emails |
-| Worker vars | `ACCESS_TEAM`, `ACCESS_AUD` (in `worker/wrangler.jsonc`) |
-| Worker secret | `ADMIN_EMAILS` (comma-separated allowlist; never committed) |
+| Secrets (Worker, never committed) | `ADMIN_PASSWORD` (typed by the owner), `SESSION_SECRET` (random, 32+ characters) |
 
-## How the admin is protected (two layers, fail closed)
-1. Cloudflare Access sits in front of the whole `redbird-admin` host (email one-time PIN).
-2. Every `/api/*` request verifies the `Cf-Access-Jwt-Assertion` (issuer, audience, signature via the team JWKS) **and** checks the email against `ADMIN_EMAILS`. Missing or invalid config returns 503/401/403. Mutations also need a same-origin `Origin` header and JSON.
-
-## Using it
-Open https://redbird-admin.pdarleyjr.workers.dev, enter an allowed email, and type the 6-digit code Cloudflare emails you. Sections: **Houses** (add, edit, drag the pin, choose the icon, publish, unpublish, archive), **Import** (choose the registration CSV; the file is read in your browser and only date, address and house name are uploaded), **Versions** (restore any earlier published version), **Events** (Christmas: Updating / Published), **Activity**.
-
-A published change reaches the public site within about 30 seconds (the public Worker caches for 30 s) as one new snapshot version, so the directory, map, count, nearest house and print page always agree.
-
-## Add or remove an admin
+## Setting the password (owner does this in their own terminal)
 ```bash
 cd worker
-npx wrangler secret put ADMIN_EMAILS --env admin     # comma-separated list, e.g. one@example.com,two@example.com
+npx wrangler login            # or set CLOUDFLARE_API_TOKEN in your shell
+npx wrangler secret put ADMIN_PASSWORD --env admin
 ```
-Also add the email to the Access policy (Zero Trust → Access → Applications → Red Bird Trails Admin → Policies).
+Wrangler prompts for the value; type or paste the password there. Do not put it in chat, in a file in the repo or on a command line. Until it is set, the admin answers “The admin is not set up yet” and nothing can be changed. To change the password, run the same command again.
+
+## How sign-in works (fail closed)
+- `POST /api/login {password}`: both values are SHA-256 hashed and compared in constant time. Failed attempts are limited to **5 per 15 minutes per address** and **20 per hour overall** (`login_attempts` table, hashed address only), answering 429. The error message never says what was wrong.
+- A correct password sets the cookie `rb_admin` = `{iat, exp}` signed with HMAC-SHA256 using `SESSION_SECRET`; `HttpOnly; Secure; SameSite=Strict; Path=/`, 12 hours.
+- Every `/api/*` route except login and logout needs a valid, unexpired cookie (401 otherwise, 503 if the secrets are missing). Mutations also need a same-origin `Origin` header and a JSON content type (CSRF).
+- The audit log records the actor `admin`, the user agent (80 characters) and a truncated hash of the address, never the raw address.
+
+## Rotation
+- **Password:** `npx wrangler secret put ADMIN_PASSWORD --env admin` (existing sessions stay valid until they expire; rotate the session secret as well to end them).
+- **Sign everyone out:** `npx wrangler secret put SESSION_SECRET --env admin` with a new random value (for example the output of `node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"`). Every cookie becomes invalid immediately.
+
+## Using it
+Open https://redbird-admin.pdarleyjr.workers.dev, enter the password (a password manager can fill it) and use **Houses** (add, edit, drag the pin, choose the icon, publish, unpublish, archive), **Import** (the CSV is read in your browser; only date, address and house name are uploaded), **Versions** (restore an earlier published version), **Events** (Christmas: Updating or Published) and **Activity**. **Sign out** ends the session.
+
+A published change reaches the public site within about 30 seconds as one new snapshot version, so the directory, map, count, nearest house and print page always agree.
 
 ## Deploy / redeploy
 ```bash
 cd worker
 npm install --no-package-lock --legacy-peer-deps
-npm test                                   # vitest + Workers runtime (23 tests)
-npx wrangler d1 migrations apply redbird-trails --remote   # only when a new migration exists
+npm test                                                     # vitest + Workers runtime
+npx wrangler d1 migrations apply redbird-trails --remote     # only when a new migration exists
 npx wrangler deploy --env public
 node scripts/build-ui.mjs && npx wrangler deploy --env admin
 ```
-Authenticate with `CLOUDFLARE_API_TOKEN` in your shell (never commit it).
 
 ## Backup and rollback
-- Backup before a production migration: `npx wrangler d1 export redbird-trails --remote --output backup.sql`
-- Data rollback: Admin → Versions → Restore (creates a new version). Import mistakes: Admin → Import → Undo batch.
-- Worker rollback: `npx wrangler rollback --env admin` (or `--env public`).
-- D1 point-in-time: `npx wrangler d1 time-travel restore redbird-trails --timestamp <ISO time>`.
+- Backup before a production change: `npx wrangler d1 export redbird-trails --remote --output backup.sql`
+- Data: Admin → Versions → Restore (creates a new version and restores map numbers too). Import mistakes: Admin → Import → Undo batch.
+- Worker: `npx wrangler rollback --env admin` (or `--env public`).
+- D1 point in time: `npx wrangler d1 time-travel restore redbird-trails --timestamp <ISO time>`.
 
 ## Print extent
-The print map base image is pre-rendered for a fixed extent. If the boundary changes, a developer must re-run `node scripts/map/render-print-base.mjs`; until then the print page shows “being updated”.
+The print map base image is pre-rendered for a fixed extent. If the boundary changes, re-run `node scripts/map/render-print-base.mjs`; until then the print page shows “being updated”.
 
 ## Geocoding
-`POST /api/geocode` tries the US Census geocoder (trusted only when the matched street equals the requested one), then OpenStreetMap Nominatim (≤1 request/second, identifying User-Agent). Miami-Dade GIS address points were not used (no verified public endpoint with clear terms). Pins stay `approximate` until an admin confirms them.
+`POST /api/geocode` tries the US Census geocoder (trusted only when the matched street equals the requested one), then OpenStreetMap Nominatim (≤1 request/second, identifying User-Agent). Pins stay `approximate` until an admin confirms them.

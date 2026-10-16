@@ -20,10 +20,13 @@ export async function loadState(db, eventId) {
   return { event, houses: houses.results, version: snap?.v || 0, boundary: JSON.parse(event.boundary_geojson) };
 }
 
-export function auditStatement(db, { actor, action, entity, entityId, before, after, batchId = null }) {
-  return db.prepare('INSERT INTO audit_log (at, actor, action, entity, entity_id, before_json, after_json, batch_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
-    .bind(nowISO(), actor, action, entity, entityId ?? null, before ? JSON.stringify(before) : null, after ? JSON.stringify(after) : null, batchId);
+export function auditStatement(db, { actor, meta, action, entity, entityId, before, after, batchId = null }) {
+  return db.prepare('INSERT INTO audit_log (at, actor, action, entity, entity_id, before_json, after_json, batch_id, ua, ip_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    .bind(nowISO(), actor, action, entity, entityId ?? null, before ? JSON.stringify(before) : null, after ? JSON.stringify(after) : null, batchId, meta?.ua ?? null, meta?.ipHash ?? null);
 }
+
+/** First statement of a batch: fails the whole batch (atomic) when the row's version moved on since it was read. */
+export const versionGuard = (db, id, version) => db.prepare("SELECT json(CASE WHEN (SELECT version FROM houses WHERE id = ?) = ? THEN '1' ELSE 'stale' END)").bind(id, version);
 
 const publicView = (event, houses) => JSON.stringify({
   e: [event.title, event.status, event.date, event.start_time, event.end_time, event.print_extent_json],
@@ -34,9 +37,9 @@ const publicView = (event, houses) => JSON.stringify({
  * Apply a change. `statements` mutate rows; `nextEvent`/`nextHouses` are the in-memory results used to build the snapshot.
  * A snapshot is written only when what the public sees changed (or `force` is set, e.g. a restore).
  */
-export async function commit(db, state, { statements, audits, nextEvent = state.event, nextHouses = state.houses, actor, force = false }) {
+export async function commit(db, state, { statements, audits, nextEvent = state.event, nextHouses = state.houses, actor, meta, force = false }) {
   const changed = force || publicView(state.event, state.houses) !== publicView(nextEvent, nextHouses);
-  const batch = [...statements, ...audits.map(a => auditStatement(db, { actor, ...a }))];
+  const batch = [...statements, ...audits.map(a => auditStatement(db, { actor, meta, ...a }))];
   let snapshot = null;
   if (changed) {
     const now = nowISO();
@@ -47,7 +50,7 @@ export async function commit(db, state, { statements, audits, nextEvent = state.
   }
   try { await db.batch(batch); }
   catch (error) {
-    if (/UNIQUE|constraint/i.test(String(error?.message))) throw new HttpError(409, 'Someone else changed this at the same time (or the address or number is already used). Reload and try again.');
+    if (/UNIQUE|constraint|malformed JSON/i.test(String(error?.message))) throw new HttpError(409, 'Someone else changed this at the same time (or the address or number is already used). Reload and try again.');
     throw error;
   }
   return { snapshot };

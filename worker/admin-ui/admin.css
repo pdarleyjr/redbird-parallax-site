@@ -52,3 +52,6 @@ dialog::backdrop{background:rgb(var(--glow-black) / .8)}
 .decide{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-top:.4rem}
 .decide input[type=text]{max-width:18rem}
 @media(max-width:700px){.grid2{grid-template-columns:1fr}table,thead,tbody,tr,td,th{display:block}thead{display:none}tr{border-bottom:2px solid var(--rb-line);padding:.5rem 0}}
+.login{max-width:24rem;margin:3rem auto;padding:1.5rem;background:var(--rb-panel);border:2px solid var(--rb-neon-orange);border-radius:1rem}.login input{margin-bottom:.25rem}#login-msg{min-height:1.5rem;color:var(--rb-coral)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+[hidden]{display:none!important}

@@ -10,12 +10,23 @@
 | D6 | 2026-10-16 | Map-number DOM chips use cream fill, ink numerals and a cardinal ring (not cardinal fill) | Brand rule: no text on a red fill. Canvas markers follow §4.3 (cream numerals on cardinal), which is a graphic, not text. |
 | D7 | 2026-10-16 | Wordmark is solid neon-red fill with a deeper-red stroke and glow, not hollow outline; power-on flicker animates `text-shadow`, never opacity | A transparent fill fails axe contrast; opacity animation produced transient contrast failures. |
 | D8 | 2026-10-16 | Street labels in the print/night styles start at z13 (spec default z15) | Tile data stops at z15 and the print extent renders at ~z15, so default minor labels would be missing. |
-| D9 | 2026-10-16 | Boundary shipped as the proposed rectangle, flagged `status: proposed` | Needed for schema validation and print extent; owner approval pending (G2a). |
-| D10 | 2026-10-16 | The 29 geocoded published houses ship as `location: approximate`; #03 and #25 ship as `none` | Census gave no match / wrong street. Owner placement pending (G2a). |
+| D9 | 2026-10-16 | Boundary shipped as the proposed rectangle; the owner approved it the same day (`status: approved`) | Needed for schema validation and print extent. |
+| D10 | 2026-10-16 | Geocoded pins ship as `approximate`; #03 and #25 use the owner's pins (`verified`, `manual-owner`) | Census gave no match / wrong street for those two; the owner supplied coordinates (G2a). |
 
 ## Gate log
 | Gate | Date | Status |
 |---|---|---|
-| G2a questions | 2026-10-16 | Sent to the owner via the orchestrating session. Awaiting answers. |
-| G1 Cloudflare steps | 2026-10-16 | Sent. Awaiting `wrangler login` + Access team name + admin email. |
+| G2a questions | 2026-10-16 | Sent to the owner via the orchestrating session; answered the same day (below). |
 | G3 | 2026-10-16 | Pre-authorized by the owner ("until it is live"); used per milestone only after QA is green. |
+
+| D11 | 2026-10-16 | Miami-Dade GIS address points not used for geocoding | No verified public endpoint with clear terms; US Census (street-checked) then Nominatim are used and every pin stays `approximate` until confirmed. |
+| D12 | 2026-10-16 | Admin auth changed from Cloudflare Access + JWT (jose) to an owner-typed password stored only as a Worker secret, with HMAC-signed `rb_admin` cookie sessions, login rate limiting and CSRF Origin checks | Owner decision. Simpler for the owner (no Zero Trust login), still fail-closed. The Access application created earlier was deleted. |
+| D13 | 2026-10-16 | Stop #10 icon is the Fluent jack-o-lantern, not the supplied pumpkin PNG | The supplied art showed candy characters, not a pumpkin, and did not match the brand set. |
+| D14 | 2026-10-16 | The 2024 originals are clipped to their circle and placed on the brand badge | The source PNGs carry a baked-in checkerboard/white background. |
+| D15 | 2026-10-16 | Review fixes applied before release: print/API/navigation routing in the service worker, in-place nearest-sheet updates, live snapshot applied to a loading map, import numbering that includes archived numbers, restore realigning map numbers, atomic optimistic-lock guard for edits, dev-server path blocklist on Windows | Findings from the security and code reviews. |
+
+## Gate log additions
+| Gate | Date | Status |
+|---|---|---|
+| G2a | 2026-10-16 | **Resolved** by the owner: #36 name as submitted; 2024 icons for #33/#40/#36; boundary approved; manual pins for #03 and #25 (verified, manual-owner); publish all 46. |
+| G1 | 2026-10-16 | Cloudflare access provided as an API token (kept in the process environment only). Workers and D1 deployed. Password to be set by the owner. |

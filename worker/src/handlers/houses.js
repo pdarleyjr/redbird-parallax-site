@@ -1,6 +1,6 @@
 // House CRUD, publication transitions and renumbering. All writes go through commit().
 import { HttpError, json, readJSON } from '../lib/http.js';
-import { loadState, commit, houseToAdmin, nowISO } from '../lib/db.js';
+import { loadState, commit, houseToAdmin, nowISO, versionGuard } from '../lib/db.js';
 import { validateName, validateDescription, validateAddress, validateIcon, validateLocation } from '../lib/validate.js';
 import { idForNumber, nextNumber } from '../../../shared/numbering.mjs';
 import icons from '../../../data/icons.json';
@@ -61,7 +61,7 @@ export async function createHouse(ctx) {
     location: validateLocation(body, state.boundary.coordinates[0]), status: 'draft'
   });
   await commit(ctx.db, state, {
-    statements: [insertStatement(ctx.db, row)], nextHouses: [...state.houses, row], actor: ctx.actor,
+    statements: [insertStatement(ctx.db, row)], nextHouses: [...state.houses, row], actor: ctx.actor, meta: ctx.meta,
     audits: [{ action: 'house.create', entity: 'house', entityId: row.id, after: row }]
   });
   return json(houseToAdmin(row), { status: 201 });
@@ -93,7 +93,7 @@ export async function patchHouse(ctx, id) {
   const statement = ctx.db.prepare('UPDATE houses SET name=?, address_display=?, address_key=?, description=?, icon=?, lat=?, lng=?, location_status=?, location_source=?, version=?, updated_at=?, updated_by=? WHERE id=? AND version=?')
     .bind(next.name, next.address_display, next.address_key, next.description, next.icon, next.lat, next.lng, next.location_status, next.location_source, next.version, next.updated_at, next.updated_by, id, row.version);
   await commit(ctx.db, state, {
-    statements: [statement], nextHouses: state.houses.map(h => (h.id === id ? next : h)), actor: ctx.actor,
+    statements: [versionGuard(ctx.db, id, row.version), statement], nextHouses: state.houses.map(h => (h.id === id ? next : h)), actor: ctx.actor, meta: ctx.meta,
     audits: [{ action: 'house.update', entity: 'house', entityId: id, before: row, after: next }]
   });
   return json(houseToAdmin(next));
@@ -117,7 +117,7 @@ export async function transition(ctx, id, action) {
   const next = { ...row, status: rule.to, version: row.version + 1, updated_at: nowISO(), updated_by: ctx.actor };
   const statement = ctx.db.prepare('UPDATE houses SET status=?, version=?, updated_at=?, updated_by=? WHERE id=?').bind(next.status, next.version, next.updated_at, next.updated_by, id);
   const { snapshot } = await commit(ctx.db, state, {
-    statements: [statement], nextHouses: state.houses.map(h => (h.id === id ? next : h)), actor: ctx.actor,
+    statements: [versionGuard(ctx.db, id, row.version), statement], nextHouses: state.houses.map(h => (h.id === id ? next : h)), actor: ctx.actor, meta: ctx.meta,
     audits: [{ action: `house.${action}`, entity: 'house', entityId: id, before: { status: row.status }, after: { status: next.status } }]
   });
   return json({ house: houseToAdmin(next), snapshotVersion: snapshot?.version ?? state.version });
@@ -138,7 +138,7 @@ export async function renumber(ctx) {
   ];
   const nextHouses = state.houses.map(h => ({ ...h, map_number: finalOrder.indexOf(h.id) + 1 }));
   await commit(ctx.db, state, {
-    statements, nextHouses, actor: ctx.actor, force: true,
+    statements, nextHouses, actor: ctx.actor, meta: ctx.meta, force: true,
     audits: [{ action: 'house.renumber', entity: 'event', entityId: state.event.id, before: state.houses.map(h => [h.id, h.map_number]), after: finalOrder.map((hid, i) => [hid, i + 1]) }]
   });
   return json({ renumbered: finalOrder.length });

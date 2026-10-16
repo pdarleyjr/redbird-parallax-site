@@ -93,3 +93,28 @@ test('the 15 unapproved houses are not in git: snapshot and decisions only conta
   const decisions = JSON.parse(await readFile(path.join(root, 'data/reconcile/2026-10-16.decisions.json'), 'utf8'));
   assert.equal(snapshot.houses.length, decisions.approvedNew.length + 31);
 });
+
+test('every published house resolves to an existing icon file and the icon catalog is consistent', async () => {
+  const snapshot = JSON.parse(await readFile(path.join(root, 'data/halloween-2026.public.json'), 'utf8'));
+  const catalog = JSON.parse(await readFile(path.join(root, 'data/icons.json'), 'utf8')).icons;
+  const keys = new Set(catalog.map(i => i.key));
+  for (const house of snapshot.houses) {
+    assert.ok(keys.has(house.icon), `${house.id} uses unknown icon ${house.icon}`);
+    await readFile(path.join(root, 'assets/img/markers', `${house.icon}.webp`));
+  }
+  for (const icon of catalog) await readFile(path.join(root, icon.file));
+});
+
+test('owner decisions are applied: #36 name as submitted, manual pins verified, 46 houses, Fluent attribution and license present', async () => {
+  const snapshot = JSON.parse(await readFile(path.join(root, 'data/halloween-2026.public.json'), 'utf8'));
+  const byId = Object.fromEntries(snapshot.houses.map(h => [h.id, h]));
+  assert.equal(snapshot.houses.length, 46);
+  assert.equal(byId['stop-36'].name, 'Just stop for juice and water');
+  assert.deepEqual([byId['stop-03'].lat, byId['stop-03'].lng, byId['stop-03'].location], [25.734927, -80.288444, 'verified']);
+  assert.deepEqual([byId['stop-25'].lat, byId['stop-25'].lng, byId['stop-25'].location], [25.7367261, -80.2955533, 'verified']);
+  assert.equal(snapshot.houses.filter(h => h.location === 'approximate').length, 44);
+  assert.equal(byId['stop-33'].icon, 'blues-boooooo-house'); assert.equal(byId['stop-40'].icon, 'the-webbed-manor'); assert.equal(byId['stop-36'].icon, 'sweet-and-spooky-stop');
+  assert.match(await readFile(path.join(root, 'assets/img/source/fluent/LICENSE.txt'), 'utf8'), /MIT License/);
+  const footer = (await buildAll()).get('halloween/index.html');
+  assert.match(footer, /Fluent Emoji/);
+});

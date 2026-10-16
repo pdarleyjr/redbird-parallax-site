@@ -1,6 +1,6 @@
 // redbird-admin: serves the admin UI (static assets) and the /api/* routes. Every /api/* request is verified.
-import { HttpError, fail, json, log } from './lib/http.js';
-import { requireAdmin, requireSameOrigin } from './lib/auth.js';
+import { HttpError, fail, json, log, readJSON } from './lib/http.js';
+import { requireAdmin, requireSameOrigin, login, clearedCookie } from './lib/auth.js';
 import * as houses from './handlers/houses.js';
 import * as imports from './handlers/imports.js';
 import * as snapshots from './handlers/snapshots.js';
@@ -8,7 +8,7 @@ import * as events from './handlers/events.js';
 import { geocode } from './handlers/geocode.js';
 
 const ROUTES = [
-  ['GET', /^\/api\/me$/, ctx => json({ email: ctx.actor })],
+  ['GET', /^\/api\/me$/, ctx => json({ role: ctx.actor })],
   ['GET', /^\/api\/houses$/, ctx => houses.listHouses(ctx)],
   ['POST', /^\/api\/houses$/, ctx => houses.createHouse(ctx)],
   ['POST', /^\/api\/houses\/renumber$/, ctx => houses.renumber(ctx)],
@@ -34,8 +34,14 @@ export async function handleApi(request, env) {
   let actor = 'anonymous';
   try {
     requireSameOrigin(request);
-    actor = await requireAdmin(request, env);
-    const ctx = { request, env, db: env.DB, url, actor };
+    if (url.pathname === '/api/login' && request.method === 'POST') {
+      const cookie = await login(request, env, await readJSON(request, 2_000));
+      return json({ signedIn: true }, { headers: { 'Set-Cookie': cookie, 'Cache-Control': 'no-store' } });
+    }
+    if (url.pathname === '/api/logout' && request.method === 'POST') return json({ signedIn: false }, { headers: { 'Set-Cookie': clearedCookie(), 'Cache-Control': 'no-store' } });
+    const auth = await requireAdmin(request, env);
+    actor = auth.actor;
+    const ctx = { request, env, db: env.DB, url, actor, meta: auth.meta };
     for (const [method, pattern, handler] of ROUTES) {
       const m = url.pathname.match(pattern);
       if (m && request.method === method) return await handler(ctx, m);

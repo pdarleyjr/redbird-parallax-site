@@ -7,7 +7,7 @@ import { idForNumber, nextNumber } from './numbering.mjs';
  * @param {{rowIndex:number, submittedOn:string|null, address:string, houseName:string}[]} registrations export order = newest first
  * @param {{id:string, mapNumber:number, name:string, address:string}[]} published
  */
-export function reconcile(registrations, published) {
+export function reconcile(registrations, published, { reserved = [] } = {}) {
   const publishedByKey = new Map(published.map(h => [normalizeAddress(h.address).key, h]));
   const groups = new Map();
   const items = [];
@@ -48,7 +48,7 @@ export function reconcile(registrations, published) {
 
   // New houses get numbers by earliest submission; same-day ties by reverse export order.
   fresh.sort((a, b) => (a.earliestOn || '').localeCompare(b.earliestOn || '') || b.earliestRow - a.earliestRow);
-  let cursor = nextNumber(published);
+  let cursor = nextNumber([...published, ...reserved.map(mapNumber => ({ mapNumber }))]);
   const added = fresh.map(f => {
     const mapNumber = cursor++;
     return { ...f, mapNumber, houseId: idForNumber(mapNumber) };

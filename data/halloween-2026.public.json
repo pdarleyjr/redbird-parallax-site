@@ -76,9 +76,9 @@
       "address": "5777 SW 40th Street",
       "description": null,
       "icon": "bakery",
-      "lat": null,
-      "lng": null,
-      "location": "none"
+      "lat": 25.734927,
+      "lng": -80.288444,
+      "location": "verified"
     },
     {
       "id": "stop-04",
@@ -152,7 +152,7 @@
       "name": "Haunted House",
       "address": "3800 SW 58th Avenue",
       "description": null,
-      "icon": "pumpkin",
+      "icon": "fluent-jack-o-lantern",
       "lat": 25.736123,
       "lng": -80.289116,
       "location": "approximate"
@@ -318,9 +318,9 @@
       "address": "6212 S Waterway Drive",
       "description": null,
       "icon": "realty",
-      "lat": null,
-      "lng": null,
-      "location": "none"
+      "lat": 25.7367261,
+      "lng": -80.2955533,
+      "location": "verified"
     },
     {
       "id": "stop-26",
@@ -386,6 +386,171 @@
       "icon": "spider",
       "lat": 25.73474,
       "lng": -80.289772,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-32",
+      "mapNumber": 32,
+      "name": "Candy Patch",
+      "address": "3604 SW 60th Avenue",
+      "description": null,
+      "icon": "fluent-candy",
+      "lat": 25.737216,
+      "lng": -80.291648,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-33",
+      "mapNumber": 33,
+      "name": "Blues Boo House",
+      "address": "3611 SW 60th Court",
+      "description": null,
+      "icon": "blues-boooooo-house",
+      "lat": 25.737155,
+      "lng": -80.292344,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-34",
+      "mapNumber": 34,
+      "name": "House of Treats NO TRICKS",
+      "address": "6028 SW 35th Street",
+      "description": null,
+      "icon": "fluent-lollipop",
+      "lat": 25.737787,
+      "lng": -80.292087,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-35",
+      "mapNumber": 35,
+      "name": "The Motley Brew",
+      "address": "6391 SW 39th Street",
+      "description": null,
+      "icon": "fluent-potion",
+      "lat": 25.735113,
+      "lng": -80.298626,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-36",
+      "mapNumber": 36,
+      "name": "Just stop for juice and water",
+      "address": "3710 SW 59th Avenue",
+      "description": null,
+      "icon": "sweet-and-spooky-stop",
+      "lat": 25.736651,
+      "lng": -80.290796,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-37",
+      "mapNumber": 37,
+      "name": "The Bone Yard",
+      "address": "3910 SW 60th Place",
+      "description": null,
+      "icon": "fluent-bone",
+      "lat": 25.734775,
+      "lng": -80.293174,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-38",
+      "mapNumber": 38,
+      "name": "Purr-anormal Cemetery",
+      "address": "5778 SW 35th Street",
+      "description": null,
+      "icon": "fluent-black-cat",
+      "lat": 25.737915,
+      "lng": -80.288615,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-39",
+      "mapNumber": 39,
+      "name": "The Tipsy Tomb",
+      "address": "5765 SW 35th Street",
+      "description": null,
+      "icon": "fluent-headstone",
+      "lat": 25.73804,
+      "lng": -80.28829,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-40",
+      "mapNumber": 40,
+      "name": "Webby’s",
+      "address": "3615 SW 59th Avenue",
+      "description": null,
+      "icon": "the-webbed-manor",
+      "lat": 25.737197,
+      "lng": -80.290692,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-41",
+      "mapNumber": 41,
+      "name": "Bats in the Cave",
+      "address": "6258 SW 39th Street",
+      "description": null,
+      "icon": "fluent-bat",
+      "lat": 25.735086,
+      "lng": -80.296556,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-42",
+      "mapNumber": 42,
+      "name": "Beware: kids are gone",
+      "address": "5800 SW 35th Street",
+      "description": null,
+      "icon": "fluent-ghost",
+      "lat": 25.737895,
+      "lng": -80.289212,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-43",
+      "mapNumber": 43,
+      "name": "The Boo Crew",
+      "address": "3725 SW 59th Avenue",
+      "description": null,
+      "icon": "fluent-ghost",
+      "lat": 25.736577,
+      "lng": -80.290666,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-44",
+      "mapNumber": 44,
+      "name": "Le Spooky Chateau",
+      "address": "3801 SW 60th Place",
+      "description": null,
+      "icon": "fluent-castle",
+      "lat": 25.735939,
+      "lng": -80.293103,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-45",
+      "mapNumber": 45,
+      "name": "Skeleton House",
+      "address": "3930 SW 60th Place",
+      "description": null,
+      "icon": "fluent-skull",
+      "lat": 25.734564,
+      "lng": -80.293164,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-46",
+      "mapNumber": 46,
+      "name": "The Boo-tiful Family Home",
+      "address": "5790 SW 35th Street",
+      "description": null,
+      "icon": "fluent-jack-o-lantern",
+      "lat": 25.737906,
+      "lng": -80.288899,
       "location": "approximate"
     }
   ]
