@@ -13,7 +13,7 @@ from PIL import Image
 
 W = Path(__file__).resolve().parent
 FLYER = W.parents[1] / "docs" / "holiday-trails" / "brand" / "redbird-flyer-2026.webp"
-SITE_URL = "https://pdarleyjr.github.io/redbird-parallax-site/"
+SITE_URL = "https://redbird.iplcmiami.com/"
 
 SKY, SKY_DEEP, PANEL, LINE = "#022255", "#000a20", "#131127", "#2f2c5a"
 CARDINAL, NEON_ORANGE = "#e8200c", "#f85818"

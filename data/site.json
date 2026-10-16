@@ -1,7 +1,7 @@
 {
   "name": "Red Bird Neighborhood Holiday Trails",
   "shortName": "Red Bird Trails",
-  "origin": "https://pdarleyjr.github.io/redbird-parallax-site/",
+  "origin": "https://redbird.iplcmiami.com/",
   "api": { "publicBase": "https://redbird-public.pdarleyjr.workers.dev" },
   "features": { "serviceWorker": true },
   "events": [

@@ -5,7 +5,7 @@ import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const args = process.argv.slice(2).filter(a => !a.startsWith('--'));
-const base = (args[0] || 'https://pdarleyjr.github.io/redbird-parallax-site/').replace(/\/?$/, '/');
+const base = (args[0] || 'https://redbird.iplcmiami.com/').replace(/\/?$/, '/');
 const out = path.resolve(args[1] || 'docs/qa/2026-holiday-trails/live');
 const wait = process.argv.includes('--wait');
 await mkdir(out, { recursive: true });
