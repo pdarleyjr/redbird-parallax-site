@@ -6,6 +6,7 @@ import * as imports from './handlers/imports.js';
 import * as snapshots from './handlers/snapshots.js';
 import * as events from './handlers/events.js';
 import { geocode } from './handlers/geocode.js';
+import * as icons from './handlers/icons.js';
 
 const ROUTES = [
   ['GET', /^\/api\/me$/, ctx => json({ email: ctx.actor })],
@@ -25,6 +26,10 @@ const ROUTES = [
   ['GET', /^\/api\/events$/, ctx => events.listEvents(ctx)],
   ['GET', /^\/api\/events\/([\w-]+)$/, (ctx, m) => events.getEvent(ctx, m[1])],
   ['PATCH', /^\/api\/events\/([\w-]+)$/, (ctx, m) => events.patchEvent(ctx, m[1])],
+  ['GET', /^\/api\/icons$/, ctx => icons.listIcons(ctx)],
+  ['POST', /^\/api\/icons$/, ctx => icons.uploadIcon(ctx)],
+  ['POST', /^\/api\/icons\/([a-z0-9-]+)\/(archive|restore)$/, (ctx, m) => icons.setIconStatus(ctx, m[1], m[2])],
+  ['GET', /^\/api\/icons\/file\/(?:(128)\/)?([a-z0-9-]+)\.webp$/, (ctx, m) => icons.iconFile(ctx, m[1], m[2])],
   ['GET', /^\/api\/audit$/, ctx => events.audit(ctx)],
   ['GET', /^\/api\/export\.csv$/, ctx => events.exportCSV(ctx)]
 ];

@@ -1,13 +1,14 @@
 import { h, api, notify, badge, confirmDialog, guarded } from './lib.js';
 import { createPinMap } from './pin-map.js';
+import { iconSrc, loadIcons, openUploadDialog } from './icons.js';
 
 let state = { houses: [], counts: {}, filter: 'all', query: '', boundary: null, snapshotVersion: 0, icons: [] };
 
 const LOCATION_LABEL = { none: 'No pin', suggested: 'Approximate', verified: 'Verified' };
 
 async function reload() {
-  const [data, icons] = await Promise.all([api('/api/houses'), state.icons.length ? null : fetch('assets/icons.json').then(r => r.json())]);
-  state = { ...state, ...data, icons: icons?.icons || state.icons };
+  const [data, icons] = await Promise.all([api('/api/houses'), loadIcons()]);
+  state = { ...state, ...data, icons };
 }
 
 function visible() {
@@ -28,7 +29,7 @@ function stats() {
 function table(refresh) {
   const rows = visible().map(x => h('tr', {},
     h('td', {}, x.mapNumber),
-    h('td', {}, h('img', { src: `assets/img/markers/${x.icon}.webp`, alt: '', width: 36, height: 36 })),
+    h('td', {}, h('img', { src: iconSrc(x.icon, true), alt: '', width: 36, height: 36 })),
     h('td', {}, x.name, x.flags.map(f => h('span', { class: 'badge review', title: f.code }, ` ${f.code.replace('_', ' ')}`))),
     h('td', {}, x.address),
     h('td', {}, badge(LOCATION_LABEL[x.locationStatus], x.locationStatus)),
@@ -49,7 +50,8 @@ export async function renderHouses(view) {
 }
 
 function iconGrid(selected) {
-  return h('div', { class: 'icons', role: 'radiogroup', 'aria-label': 'Icon' }, state.icons.map(i => h('label', { title: i.label }, h('input', { type: 'radio', name: 'icon', value: i.key, checked: i.key === selected }), h('img', { src: i.file.replace(/^assets/, 'assets'), alt: '', width: 44, height: 44 }), i.label)));
+  const offered = state.icons.filter(i => i.status === 'active' || i.key === selected);
+  return h('div', { class: 'icons', role: 'radiogroup', 'aria-label': 'Icon' }, offered.map(i => h('label', { title: i.label }, h('input', { type: 'radio', name: 'icon', value: i.key, checked: i.key === selected }), h('img', { src: iconSrc(i.key, true), alt: '', width: 44, height: 44 }), i.label)));
 }
 
 export async function openEditor(house, refresh) {
@@ -64,6 +66,10 @@ export async function openEditor(house, refresh) {
   const verified = h('input', { type: 'checkbox', id: 'f-verified', checked: draft.verified, onChange: e => { draft.verified = e.target.checked; } });
   const showCoords = () => { coords.textContent = draft.lat == null ? 'No pin yet. Click the map or use “Suggest from address”.' : `Pin at ${draft.lat.toFixed(6)}, ${draft.lng.toFixed(6)}`; };
   showCoords();
+  const iconHolder = h('div');
+  const chosen = () => dialog.querySelector('input[name=icon]:checked')?.value || house?.icon || 'candy-pumpkin';
+  iconHolder.append(iconGrid(chosen()));
+  const uploadOwn = () => openUploadDialog(async icon => { state.icons = await loadIcons(); iconHolder.replaceChildren(iconGrid(icon.key)); });
   const mapBox = h('div', { class: 'pinmap', role: 'application', 'aria-label': 'Map. Click to place the pin.' });
   const message = h('p', { role: 'alert' });
   const close = () => { pinMap?.destroy(); dialog.close(); dialog.replaceChildren(); };
@@ -84,7 +90,7 @@ export async function openEditor(house, refresh) {
 
   dialog.replaceChildren(h('h2', { id: 'editor-title' }, isNew ? 'Add a house' : `Edit #${house.mapNumber} ${house.name}`),
     h('div', { class: 'grid2' }, h('div', {}, h('label', { for: 'f-name' }, 'House name (what the public sees)'), name, h('label', { for: 'f-address' }, 'Address'), address, h('label', { for: 'f-desc' }, 'Short description (optional, up to 280 characters)'), description),
-      h('div', {}, h('h3', {}, 'Icon'), iconGrid(house?.icon || 'candy-pumpkin'))),
+      h('div', {}, h('h3', {}, 'Icon'), iconHolder, h('p', {}, h('button', { type: 'button', onClick: uploadOwn }, 'Upload your own icon')))),
     h('h3', {}, 'Location'), h('div', { class: 'row' }, suggest), mapBox, coords,
     h('label', { for: 'f-verified' }, verified, ' The pin is on the correct house front'),
     message,

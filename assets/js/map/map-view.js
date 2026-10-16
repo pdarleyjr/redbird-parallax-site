@@ -1,6 +1,8 @@
 // Interactive map controller. All map assets are same-origin (self-hosted tiles, glyphs and style).
 import { loadMapLibre } from './loader.js';
-import { createPins } from './pins.js';
+import { createPins, controlRects } from './pins.js';
+import { crossings, closestHeads } from '../../../shared/pin-layout.mjs';
+import { chooseDefaultView } from '../../../shared/pin-view.mjs';
 import { siteRoot } from '../data.js';
 
 const cssVar = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -22,18 +24,20 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
   const ring = snapshot.boundary.coordinates[0];
   const map = new maplibre.Map({
     container, style, attributionControl: { compact: true, customAttribution: '© OpenStreetMap contributors · Protomaps' },
-    maxBounds: bounds(ring, 800), minZoom: 14, maxZoom: 19, cooperativeGestures: window.matchMedia('(min-width: 960px)').matches,
+    maxBounds: bounds(ring, 1200), minZoom: 13, maxZoom: 19, cooperativeGestures: window.matchMedia('(min-width: 960px)').matches,
     bounds: bounds(ring), fitBoundsOptions: { padding: 24 }, canvasContextAttributes: { antialias: true }
   });
   if (location.search.includes('debug')) window.__map = map;
   map.on('error', e => console.warn('Map warning:', e.error?.message));
   await new Promise((resolve, reject) => { const timer = setTimeout(() => reject(new Error('The map took too long to load.')), 30000); map.once('load', () => { clearTimeout(timer); resolve(); }); });
 
-  // On a phone the whole trail at once is too crowded for 36 px pins: open about one zoom level in, centered on the houses.
-  // "Show whole trail" still fits everything.
-  if (container.clientWidth < 768) {
+  // The map opens framed on the densest block, zoomed in until the pins read cleanly ("Show whole trail" still fits everything).
+  {
     const located = snapshot.houses.filter(h => h.location !== 'none');
-    if (located.length) map.jumpTo({ zoom: map.getZoom() + 1.5, center: [located.reduce((s, h) => s + h.lng, 0) / located.length, located.reduce((s, h) => s + h.lat, 0) / located.length] });
+    if (located.length) {
+      const view = chooseDefaultView(located, { fitZoom: map.getZoom(), width: container.clientWidth, height: container.clientHeight, avoid: controlRects(container), phone: container.clientWidth < 768 });
+      map.jumpTo({ zoom: view.zoom, center: [view.center.lng, view.center.lat] });
+    }
   }
 
   map.addSource('boundary', { type: 'geojson', data: { type: 'Feature', geometry: snapshot.boundary, properties: {} } });
@@ -46,6 +50,7 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
   let houses = snapshot.houses;
   let selected = null;
   const pins = createPins({ map, maplibre, houses, root, onSelect, reducedMotion });
+  if (location.search.includes('debug')) { window.__pins = pins; window.__cross = crossings; window.__close = closestHeads; }
   const move = (center, zoom) => reducedMotion ? map.jumpTo({ center, zoom }) : map.flyTo({ center, zoom, essential: false });
 
   const api = {
@@ -67,7 +72,12 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
       map.setPaintProperty('user-accuracy', 'circle-radius', ['interpolate', ['exponential', 2], ['zoom'], 0, r20 / 2 ** 20, 20, r20]);
     },
     follow(position, zoom = 17) { move([position.lng, position.lat], Math.max(map.getZoom(), zoom)); },
-    fitAll() { reducedMotion ? map.fitBounds(bounds(ring), { padding: 24, duration: 0 }) : map.fitBounds(bounds(ring), { padding: 24 }); },
+    fitAll() {
+      // the boundary and every house (a few stops sit just outside the boundary line)
+      const all = [...ring, ...houses.filter(h => h.location !== 'none').map(h => [h.lng, h.lat])];
+      const options = { padding: { top: 56, bottom: 28, left: 28, right: 28 }, ...(reducedMotion ? { duration: 0 } : {}) };
+      map.fitBounds(bounds(all), options);
+    },
     zoom(delta) { map.zoomTo(map.getZoom() + delta, reducedMotion ? { duration: 0 } : {}); },
     setSnapshot(next) { houses = next.houses; pins.setHouses(houses); pins.setSelected(selected); },
     pins,

@@ -45,3 +45,9 @@ Authenticate with `CLOUDFLARE_API_TOKEN` in your shell (never commit it).
 
 ## Print extent and geocoding
 If the boundary changes, re-run `node scripts/map/render-print-base.mjs` (until then the print page says "being updated"). `POST /api/geocode` tries the US Census geocoder (trusted only when the matched street equals the requested one), then OpenStreetMap Nominatim (≤1 request/second). Pins stay `approximate` until an admin confirms them.
+
+## Icons (added 2026-10-16)
+
+The **Icons** tab lists the built-in icons and uploads. **Upload an icon** takes a PNG or WebP: transparent background, square (within 2%), at least 512 x 512, at most 2048 x 2048 and 8 MB, one centred subject filling at least half of the picture, not mostly dark. The page trims and centres it, saves 256 px and 128 px WebP files, and shows the real pin badge (40 px and 28 px) and the directory row before you press Save. The same icon step (with an **Upload your own icon** button) is in the house editor. An icon can be archived only when no house uses it. Every upload and archive is recorded in Activity.
+
+Setup that was done once: R2 bucket `redbird-icons` (binding `ICONS` on both Workers), D1 migration `0005_icons.sql`. Uploaded pictures are public at `https://redbird-public.pdarleyjr.workers.dev/v1/icons/<key>.webp`. To print a flyer with uploaded icons, run `build_flyer.py --fetch-icons` (see `tools/flyer-map/README.md`).

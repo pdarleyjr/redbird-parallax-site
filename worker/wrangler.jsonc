@@ -7,6 +7,7 @@
   "d1_databases": [
     { "binding": "DB", "database_name": "redbird-trails", "database_id": "bd3d16ad-1545-466c-853f-a1ade401eed2", "migrations_dir": "migrations" }
   ],
+  "r2_buckets": [{ "binding": "ICONS", "bucket_name": "redbird-icons" }],
   "env": {
     "public": {
       "name": "redbird-public",
@@ -14,7 +15,8 @@
       "workers_dev": true,
       "d1_databases": [
         { "binding": "DB", "database_name": "redbird-trails", "database_id": "bd3d16ad-1545-466c-853f-a1ade401eed2", "migrations_dir": "migrations" }
-      ]
+      ],
+      "r2_buckets": [{ "binding": "ICONS", "bucket_name": "redbird-icons" }]
     },
     "admin": {
       "name": "redbird-admin",
@@ -24,6 +26,7 @@
       "d1_databases": [
         { "binding": "DB", "database_name": "redbird-trails", "database_id": "bd3d16ad-1545-466c-853f-a1ade401eed2", "migrations_dir": "migrations" }
       ],
+      "r2_buckets": [{ "binding": "ICONS", "bucket_name": "redbird-icons" }],
       // Secret (never committed): ADMIN_EMAILS, comma-separated, set with `wrangler secret put ADMIN_EMAILS --env admin`.
       "vars": { "ACCESS_TEAM": "darl.cloudflareaccess.com", "ACCESS_AUD": "75bc46d168bf01339d6fc2d3a6e1aba279d05cfb7256a4eb488b97defde6efda" }
     }

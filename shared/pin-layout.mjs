@@ -30,16 +30,20 @@ export function layoutPins(anchors, options) {
   const step = R / 3;
   const finite = Number.isFinite(maxLen);
 
-  const inside = (x, y, u) => {
+  const inside = (x, y, u, loose = false) => {
     // a single house's head sits above it; a cluster head may sit in any direction (that is what keeps clusters from snowballing)
-    if (u.n === 1 ? y > u.ay - minLift : Math.hypot(x - u.ax, y - u.ay) < minLift) return false;
+    if (u.n === 1 ? y > u.ay - (loose ? 6 : minLift) : Math.hypot(x - u.ax, y - u.ay) < minLift) return false;
     if (y < u.ay - maxUp || Math.abs(x - u.ax) > maxSide) return false;
     if (finite && Math.hypot(x - u.ax, y - u.ay) > maxLen) return false;
     for (const r of avoid) if (x > r.x - R && x < r.x + r.width + R && y > r.y - R && y < r.y + r.height + R) return false;
     return !bounds || (x >= R + 4 && x <= bounds.width - R - 4 && y >= R + 4 && y <= bounds.height - R - 4);
   };
-  const free = (x, y, u, placed, units) => {
-    for (const q of placed) if (Math.hypot(x - q.hx, y - q.hy) < need) return false;
+  const free = (x, y, u, placed, units, strict = true) => {
+    for (const q of placed) {
+      if (Math.hypot(x - q.hx, y - q.hy) < need) return false;
+      // a needle never passes behind another pin's head
+      if (strict && (segDist(q.hx, q.hy, u.ax, u.ay, x, y) < R || segDist(x, y, q.ax, q.ay, q.hx, q.hy) < R)) return false;
+    }
     for (const d of units) if (d !== u && Math.hypot(x - d.ax, y - d.ay) < clearDot) return false;
     return true;
   };
@@ -52,15 +56,18 @@ export function layoutPins(anchors, options) {
     for (const u of [...units].sort((a, b) => a.ay - b.ay || a.ax - b.ax)) {
       const px = u.ax, py = u.ay - lift;
       let spot = null;
-      search: for (let ring = 0; ring <= maxRing; ring++) {
+      for (const strict of clustering ? [true] : [true, false]) {
+       if (spot) break;
+       search: for (let ring = 0; ring <= maxRing; ring++) {
         const r = ring * step;
         const count = ring === 0 ? 1 : Math.max(8, Math.round((TAU * r) / step));
         for (let i = 0; i < count; i++) {
           const k = Math.ceil(i / 2) * (i % 2 ? 1 : -1);        // alternate right/left so the result does not lean one way
           const ang = (k / count) * TAU;
           const x = px + Math.sin(ang) * r, y = py - Math.cos(ang) * r;
-          if (inside(x, y, u) && free(x, y, u, placed, units)) { spot = { x, y }; break search; }
+          if (inside(x, y, u) && free(x, y, u, placed, units, strict)) { spot = { x, y }; break search; }
         }
+       }
       }
       if (!spot) {
         if (clustering) { failed.push(u); continue; }
@@ -95,6 +102,13 @@ export function layoutPins(anchors, options) {
   return units.sort((a, b) => a.first - b.first).map(({ key, ids, ax, ay, hx, hy }) => ({ key, ids, ax, ay, hx, hy }));
 }
 
+/** Distance from point p to the segment a-b. */
+function segDist(px, py, ax, ay, bx, by) {
+  const dx = bx - ax, dy = by - ay, len2 = dx * dx + dy * dy;
+  const t = len2 ? Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / len2)) : 0;
+  return Math.hypot(px - (ax + t * dx), py - (ay + t * dy));
+}
+
 const cross = (a, b, c) => (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
 /** Do the needles (anchor to head) of two units intersect? */
 export function needlesCross(u, v) {
@@ -105,12 +119,12 @@ export function needlesCross(u, v) {
 
 /** Crossing penalty: where two needles cross, swap their heads when both heads stay valid. */
 function untangle(units, { inside }) {
-  for (let round = 0; round < 8; round++) {
+  for (let round = 0; round < 40; round++) {
     let swapped = false;
     for (let i = 0; i < units.length; i++) for (let j = i + 1; j < units.length; j++) {
       const u = units[i], v = units[j];
       if (!needlesCross(u, v)) continue;
-      if (inside(v.hx, v.hy, u) && inside(u.hx, u.hy, v)) {
+      if (inside(v.hx, v.hy, u, true) && inside(u.hx, u.hy, v, true)) {
         [u.hx, v.hx] = [v.hx, u.hx]; [u.hy, v.hy] = [v.hy, u.hy]; swapped = true;
       }
     }
@@ -130,4 +144,27 @@ export function crossings(pins) {
   let n = 0;
   for (let i = 0; i < pins.length; i++) for (let j = i + 1; j < pins.length; j++) if (needlesCross(pins[i], pins[j])) n++;
   return n;
+}
+
+/**
+ * Flat layout (no needles) for crowded small views: every badge sits directly on its house; badges that would touch merge into a
+ * cluster standing at their centre of gravity. Deterministic. Same output shape as layoutPins (head = anchor).
+ */
+export function layoutFlat(anchors, { radius: R, gap = 3 }) {
+  const need = 2 * R + gap;
+  let units = anchors.map((a, i) => ({ key: a.id, ids: [a.id], first: i, n: 1, ax: a.x, ay: a.y }));
+  for (;;) {
+    let best = null, bestD = need;
+    for (let i = 0; i < units.length; i++) for (let j = i + 1; j < units.length; j++) {
+      const d = Math.hypot(units[i].ax - units[j].ax, units[i].ay - units[j].ay);
+      if (d < bestD) { bestD = d; best = [i, j]; }
+    }
+    if (!best) break;
+    const [u, v] = [units[best[0]], units[best[1]]];
+    const n = u.n + v.n;
+    const merged = { key: [...u.ids, ...v.ids].sort().join('+'), ids: [...u.ids, ...v.ids], first: Math.min(u.first, v.first), n, ax: (u.ax * u.n + v.ax * v.n) / n, ay: (u.ay * u.n + v.ay * v.n) / n };
+    units = units.filter((_, i) => i !== best[0] && i !== best[1]);
+    units.push(merged);
+  }
+  return units.sort((a, b) => a.first - b.first).map(({ key, ids, ax, ay }) => ({ key, ids, ax, ay, hx: ax, hy: ay }));
 }
