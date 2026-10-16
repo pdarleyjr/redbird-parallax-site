@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures.mjs';
 import { axeViolations, allImages, watch } from './helpers.mjs';
 
 test('home shows two cards; Halloween is a link, Christmas is inert text', async ({ page }) => {

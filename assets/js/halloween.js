@@ -32,6 +32,9 @@ function setStatus(text) { $('#map-status').textContent = text; }
 async function main() {
   initMenu();
   initPwa();
+  const banner = $('#offline-banner');
+  const online = () => { banner.hidden = navigator.onLine; banner.textContent = navigator.onLine ? '' : 'You’re offline. Showing houses saved on this device.'; };
+  addEventListener('online', online); addEventListener('offline', online); online();
   const config = JSON.parse($('#event-config').textContent);
   const { bundled, livePromise } = await loadSnapshots({ snapshotPath: config.houses.path, apiBase: config.apiBase, eventId: 'halloween-2026', onLive: live => update(live) });
   let snapshot = bundled;
@@ -100,7 +103,12 @@ async function main() {
     if (list) list.dataset.version = String(next.version);
     renderNearest();
   }
-  void livePromise;
+  livePromise.then(live => {
+    if (live !== null) return;
+    const banner = $('#offline-banner');
+    const when = new Date(bundled.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+    banner.textContent = `Showing the house list saved on ${when}. Live updates are unavailable right now.`; banner.hidden = false;
+  });
 
   onVisitedChange(set => { view?.setVisited(set); renderNearest(); });
   $('#locate-button').addEventListener('click', locate);
@@ -113,9 +121,7 @@ async function main() {
   const match = location.hash.match(/^#house-(stop-\d+)$/);
   if (match) openHouse(match[1]);
 
-  const banner = $('#offline-banner');
-  const online = () => { banner.hidden = navigator.onLine; banner.textContent = navigator.onLine ? '' : 'You’re offline. Showing houses saved on this device.'; };
-  addEventListener('online', online); addEventListener('offline', online); online();
+
 }
 
 main().catch(error => {

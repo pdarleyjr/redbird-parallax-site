@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures.mjs';
 import { snapshot, located, axeViolations } from './helpers.mjs';
 
 for (const paper of ['letter-portrait', 'letter-landscape']) {

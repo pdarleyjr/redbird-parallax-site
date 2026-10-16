@@ -1,5 +1,5 @@
 // Admin UI behaviour against a mocked API (the real API is covered by the Worker test suite).
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures.mjs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

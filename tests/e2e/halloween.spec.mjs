@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures.mjs';
 import { readFile } from 'node:fs/promises';
 import { axeViolations, allImages, watch, snapshot } from './helpers.mjs';
 

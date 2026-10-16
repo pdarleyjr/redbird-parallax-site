@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures.mjs';
 import { nearest } from '../../shared/geo.mjs';
 import { snapshot, located, axeViolations } from './helpers.mjs';
 
