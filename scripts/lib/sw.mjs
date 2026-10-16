@@ -21,7 +21,7 @@ export async function mapFiles(root) {
 
 export async function mapHash(root, files) {
   const hash = createHash('sha256');
-  for (const f of files) hash.update(f).update(await readFile(path.join(root, f)));
+  for (const f of files) hash.update(f).update(/\.(json)$/.test(f) ? Buffer.from((await readFile(path.join(root, f), 'utf8')).replace(/\r\n/g, '\n')) : await readFile(path.join(root, f)));
   return hash.digest('hex').slice(0, 10);
 }
 

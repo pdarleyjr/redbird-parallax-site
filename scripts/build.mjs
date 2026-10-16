@@ -24,6 +24,10 @@ async function walk(dir, base = dir) {
   return out.sort();
 }
 
+const TEXT_EXT = /\.(js|mjs|css|json|svg|html|webmanifest|geojson|txt)$/;
+/** Strip CR so the hash is identical on Windows and Linux checkouts. */
+export const stableBytes = (file, buf) => (TEXT_EXT.test(file) ? Buffer.from(buf.toString('utf8').replace(/\r\n/g, '\n')) : buf);
+
 /** Hash of application code and assets (not data) — used for cache-busting and the service worker version. */
 export async function appHash() {
   const hash = createHash('sha256');
@@ -32,7 +36,7 @@ export async function appHash() {
     try { files = await walk(path.join(root, dir)); } catch { continue; }
     for (const file of files) {
       if (file === 'legacy-redirect.js') continue;
-      hash.update(`${dir}/${file}\0`).update(await readFile(path.join(root, dir, file)));
+      hash.update(`${dir}/${file}\0`).update(stableBytes(file, await readFile(path.join(root, dir, file))));
     }
   }
   return hash.digest('hex');

@@ -14,3 +14,11 @@
 *.yml text eol=lf
 # Generated Lighthouse reports retain their original evidence bytes.
 docs/qa/*.html -diff
+
+*.svg text eol=lf
+*.webmanifest text eol=lf
+*.geojson text eol=lf
+*.sql text eol=lf
+*.jsonc text eol=lf
+*.pbf binary
+*.mjs text eol=lf
