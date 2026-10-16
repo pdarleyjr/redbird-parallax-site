@@ -26,8 +26,8 @@
       ],
       "vars": {
         "ACCESS_TEAM": "darl.cloudflareaccess.com",
-        "ADMIN_EMAILS": "pdarleyjr@gmail.com"
-        // ACCESS_AUD is set after the Access application exists (see docs/holiday-trails/ADMIN-SETUP.md)
+        // ADMIN_EMAILS (comma-separated) is a Worker secret, never committed: wrangler secret put ADMIN_EMAILS --env admin
+        "ACCESS_AUD": "1812af903186dac10ce51edd755b44e570f5203b80785095a616363a3a3d7ec0"
       }
     }
   }

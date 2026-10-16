@@ -6,7 +6,7 @@
   "description": "Red Bird Neighborhood Holiday Trails: static site, self-hosted map, and an optional Cloudflare admin. Zero runtime dependencies in the browser.",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node scripts/build.mjs --check && node scripts/make-snapshot.mjs --check",
+    "check": "node scripts/build.mjs --check && node scripts/make-snapshot.mjs --check && node scripts/emit-seed.mjs --check",
     "snapshot": "node scripts/make-snapshot.mjs",
     "dev": "node scripts/serve.mjs",
     "test": "node --test tests/unit/*.test.mjs",

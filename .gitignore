@@ -31,3 +31,10 @@ worktrees/
 private/
 *.csv
 !tests/fixtures/*.csv
+worker/admin-ui/dist/
+worker/.wrangler/
+.dev.vars
+.wrangler/
+
+# Design tokens are source files, not secrets
+!assets/css/tokens.css
