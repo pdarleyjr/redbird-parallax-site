@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" data-theme="halloween">
+<head>
+{{>head}}
+</head>
+<body>
+{{>defs}}
+  <a class="skip-link" href="#main">Skip to content</a>
+  <main id="main" tabindex="-1">
+    <section class="home-hero sky" aria-labelledby="nf-title">
+      <div class="wrap">
+        <div class="lockup">
+          <h1 id="nf-title"><span class="wordmark">Lost?</span><span class="lockup-sub">That page wandered off</span></h1>
+          <span class="double-rule" aria-hidden="true"></span>
+          <p class="home-intro">Let’s get you back on the trail.</p>
+          <p class="actions" style="justify-content:center;margin-top:1rem"><a class="button button-primary" href="{{root}}">Holiday Trails home</a><a class="button button-secondary" href="{{root}}halloween/">Halloween trail</a></p>
+        </div>
+      </div>
+      <div class="silhouette-strip">{{>silhouette}}</div>
+    </section>
+  </main>
+</body>
+</html>

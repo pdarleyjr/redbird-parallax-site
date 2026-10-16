@@ -1,0 +1,25 @@
+// Web app manifest generated from site.json and brand tokens.
+export function buildManifest({ site, tokens }) {
+  const color = tokens['rb-sky'];
+  return {
+    id: './',
+    name: site.name,
+    short_name: site.shortName,
+    description: 'Neighborhood trick-or-treat trail map, nearest house and printable map for Red Bird, Miami.',
+    start_url: './?source=pwa',
+    scope: './',
+    display: 'standalone',
+    orientation: 'any',
+    background_color: color,
+    theme_color: color,
+    icons: [
+      { src: 'assets/app/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+      { src: 'assets/app/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+      { src: 'assets/app/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+    ],
+    screenshots: [
+      { src: 'assets/app/screenshot-narrow.png', sizes: '1080x1920', type: 'image/png', form_factor: 'narrow', label: 'Holiday Trails home' },
+      { src: 'assets/app/screenshot-wide.png', sizes: '1920x1080', type: 'image/png', form_factor: 'wide', label: 'Holiday Trails home on desktop' }
+    ]
+  };
+}

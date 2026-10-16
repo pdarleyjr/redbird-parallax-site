@@ -1,0 +1,11 @@
+{
+  "name": "Red Bird Neighborhood Holiday Trails",
+  "shortName": "Red Bird Trails",
+  "origin": "https://pdarleyjr.github.io/redbird-parallax-site/",
+  "api": { "publicBase": null },
+  "features": { "serviceWorker": false },
+  "events": [
+    { "id": "halloween-2026", "kind": "halloween", "year": 2026, "slug": "halloween", "title": "Red Bird Trick-or-Treat Trail", "status": "published", "date": "2026-10-31", "start": "18:00", "end": "21:00", "timeZone": "America/New_York", "snapshot": "data/halloween-2026.public.json" },
+    { "id": "christmas-2026", "kind": "christmas", "year": 2026, "slug": "christmas", "title": "Red Bird Neighborhood Holiday Trail", "status": "updating", "date": null, "start": null, "end": null, "timeZone": "America/New_York", "snapshot": null }
+  ]
+}

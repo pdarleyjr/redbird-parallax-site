@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { reconcile } from '../../shared/reconcile.mjs';
 
-const roster = JSON.parse(await readFile(new URL('../../data/houses-2026.json', import.meta.url), 'utf8')).houses;
+const roster = JSON.parse(await readFile(new URL('../../data/reconcile/roster-2026-10-09.json', import.meta.url), 'utf8')).houses;
 
 // Synthetic export: every published house (address variants), a conflict, a blank name, 15 fictional new houses.
 function syntheticExport() {

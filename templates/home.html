@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" data-theme="halloween">
+<head>
+{{>head}}
+  <script src="{{root}}assets/js/legacy-redirect.js"></script>
+  <noscript><style>.menu-button{display:none}</style></noscript>
+  <script type="module" src="{{root}}assets/js/home.js{{assetVersion}}"></script>
+</head>
+<body>
+{{>defs}}
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner wrap">
+      <a class="brand" href="{{root}}"><svg aria-hidden="true" width="46" height="40"><use href="#rb-cardinal"/></svg><span><span class="brand-name">RED BIRD</span><span class="brand-subtitle">Neighborhood Holiday Trails</span></span></a>
+      <span id="install-slot"></span>
+    </div>
+  </header>
+  <main id="main" tabindex="-1">
+    <section class="home-hero sky" aria-labelledby="home-title">
+      <span class="moon" aria-hidden="true"></span>
+      <svg class="sparkle hero-sparkle s1" aria-hidden="true"><use href="#rb-sparkle"/></svg>
+      <svg class="sparkle hero-sparkle s2" aria-hidden="true"><use href="#rb-sparkle"/></svg>
+      <svg class="sparkle hero-sparkle s3" aria-hidden="true"><use href="#rb-sparkle"/></svg>
+      <div class="wrap">
+        <div class="lockup neon">
+          <svg class="cardinal-mark" viewBox="0 0 120 104" aria-hidden="true"><use href="#rb-cardinal"/></svg>
+          <h1 id="home-title"><span class="wordmark power-on">Red Bird</span><span class="lockup-sub">Neighborhood Holiday Trails</span></h1>
+          <span class="double-rule" aria-hidden="true"></span>
+          <p class="tagline script">Same Neighborhood. More Magic.</p>
+        </div>
+        <p class="home-intro">Two neighborhood trails, one Red Bird.</p>
+      </div>
+      <div class="silhouette-strip">{{>silhouette}}</div>
+    </section>
+    <section class="cards-section" aria-label="Neighborhood trails">
+      <div class="wrap">
+        <div class="cards" id="event-cards">
+{{cardsHTML}}
+        </div>
+      </div>
+    </section>
+    <section class="install-row" id="install-row" hidden aria-label="Install the app">
+      <div class="wrap">
+        <button type="button" class="button button-secondary" id="install-button">Add Red Bird Trails to your home screen</button>
+        <p>Works offline once installed. Your location never leaves your phone.</p>
+      </div>
+    </section>
+  </main>
+{{>footer}}
+  <script id="site-config" type="application/json">{{siteJSON}}</script>
+</body>
+</html>

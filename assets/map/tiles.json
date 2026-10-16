@@ -1,0 +1,13 @@
+{
+  "source": "https://build.protomaps.com/20261015.pmtiles",
+  "bbox": [
+    -80.312,
+    25.725,
+    -80.274,
+    25.747
+  ],
+  "minzoom": 12,
+  "maxzoom": 15,
+  "tiles": 24,
+  "tileType": 1
+}

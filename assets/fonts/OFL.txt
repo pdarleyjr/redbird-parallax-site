@@ -91,3 +91,6 @@ INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
 DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
+
+---
+Yellowtail (assets/fonts/yellowtail-latin.woff2): Copyright 2012 The Yellowtail Project Authors (Astigmatic), licensed under the SIL Open Font License, Version 1.1 (same terms as above).

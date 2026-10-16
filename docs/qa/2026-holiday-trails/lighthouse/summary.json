@@ -1,0 +1,46 @@
+[
+  {
+    "page": "home",
+    "perf": 0.99,
+    "a11y": 1,
+    "bp": 1,
+    "seo": 1,
+    "lcp": 1860,
+    "cls": 0.023,
+    "tbt": 0,
+    "kb": 292,
+    "budget": {
+      "name": "home",
+      "path": "",
+      "perf": 0.95,
+      "a11y": 1,
+      "lcp": 2000,
+      "cls": 0.05,
+      "tbt": 100,
+      "kb": 350
+    },
+    "ok": true
+  },
+  {
+    "page": "halloween",
+    "perf": 0.98,
+    "a11y": 1,
+    "bp": 1,
+    "seo": 1,
+    "lcp": 2256,
+    "cls": 0,
+    "tbt": 0,
+    "kb": 236,
+    "budget": {
+      "name": "halloween",
+      "path": "halloween/",
+      "perf": 0.9,
+      "a11y": 1,
+      "lcp": 2500,
+      "cls": 0.1,
+      "tbt": 200,
+      "kb": 500
+    },
+    "ok": true
+  }
+]

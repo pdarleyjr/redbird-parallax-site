@@ -1,20 +1,29 @@
 {
-  "name": "redbird-trick-or-treat-trail",
-  "version": "2026.1.0",
+  "name": "redbird-holiday-trails",
+  "version": "2026.2.0",
   "private": true,
   "type": "module",
-  "description": "The Red Bird community Halloween trail. Zero runtime dependencies.",
+  "description": "Red Bird Neighborhood Holiday Trails: static site, self-hosted map, and an optional Cloudflare admin. Zero runtime dependencies in the browser.",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node scripts/build.mjs --check",
+    "check": "node scripts/build.mjs --check && node scripts/make-snapshot.mjs --check",
+    "snapshot": "node scripts/make-snapshot.mjs",
     "dev": "node scripts/serve.mjs",
-    "test": "node --test tests/content.test.mjs",
-    "test:browser": "node tests/browser.mjs"
+    "test": "node --test tests/unit/*.test.mjs",
+    "test:e2e": "playwright test",
+    "lighthouse": "node scripts/qa/lighthouse.mjs",
+    "styles": "node scripts/map/build-style.mjs",
+    "icons": "node scripts/assets/make-icons.mjs && node scripts/assets/make-app-icons.mjs"
   },
   "devDependencies": {
+    "@playwright/test": "1.62.1",
+    "@protomaps/basemaps": "^5.7.2",
     "axe-core": "4.14.0",
     "lighthouse": "13.5.0",
-    "playwright": "1.62.1"
+    "maplibre-gl": "6.14.0",
+    "playwright": "1.62.1",
+    "pmtiles": "^4.5.0",
+    "sharp": "^0.35.5"
   },
   "overrides": {
     "basic-ftp": "6.2.3",

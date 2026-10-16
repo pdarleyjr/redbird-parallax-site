@@ -1,0 +1,11 @@
+{
+  "decidedOn": "2026-10-16",
+  "publishedAt": "2026-10-16T12:00:00Z",
+  "note": "Public-safe decisions only (ids, names, addresses, icons). No contact details. New houses #32-#46 are NOT listed until the owner approves them for publication (gate G2a).",
+  "overrides": {
+    "stop-10": { "name": "Haunted House", "icon": "pumpkin", "reason": "Owner decision 2026-10-16: two conflicting submissions superseded" },
+    "stop-05": { "name": "Halloween Stop", "reason": "Owner decision 2026-10-16: CSV name blank; keep published name" }
+  },
+  "manualLocations": {},
+  "approvedNew": []
+}

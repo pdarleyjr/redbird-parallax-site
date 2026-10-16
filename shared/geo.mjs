@@ -56,3 +56,20 @@ export function nearest(houses, here, visited = new Set()) {
     .map(house => ({ house, meters: distanceMeters(here, house), bearing: bearingDegrees(here, house) }))
     .sort((a, b) => a.meters - b.meters || a.house.mapNumber - b.house.mapNumber);
 }
+
+/** Web-Mercator helpers for the print overlay. */
+export const mercatorY = lat => Math.log(Math.tan(Math.PI / 4 + rad(lat) / 2));
+export function projectToBounds({ lat, lng }, [west, south, east, north], width, height) {
+  return {
+    x: (lng - west) / (east - west) * width,
+    y: (mercatorY(north) - mercatorY(lat)) / (mercatorY(north) - mercatorY(south)) * height
+  };
+}
+
+/** Small deterministic hash (FNV-1a) of the print extent so browser and Node agree synchronously. */
+export function extentHash(extent) {
+  const text = JSON.stringify((extent || []).map(v => Number(v.toFixed(5))));
+  let h = 0x811c9dc5;
+  for (let i = 0; i < text.length; i++) { h ^= text.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+  return h.toString(16).padStart(8, '0');
+}
