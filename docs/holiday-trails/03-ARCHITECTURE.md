@@ -1,0 +1,39 @@
+# Red Bird Holiday Trails — Architecture Decisions
+
+> Note: the 15 registrations not yet approved for publication (stops #32–#46) appear as `[new #N …]` placeholders until gate G2a. The full table is regenerated locally by `scripts/reconcile.mjs` from the private CSV and kept in the owner's local plan copy.
+
+## 3. Architecture decisions (Deliverable 3)
+
+```
+ Visitors (phones/desktop) ──► GitHub Pages (static app, unchanged hosting)
+   /  /halloween/  /halloween/print/  /christmas/  manifest  sw.js  map tiles/fonts (same-origin)
+        │  GET (CORS *, no cookies)                  ▲ fallback: data/*.public.json in repo
+        ▼                                            │ (refreshed by snapshot workflow)
+ Worker "redbird-public" (workers.dev) ── read ──► D1 "redbird" ◄── read/write ── Worker "redbird-admin"
+   /v1/events  /v1/events/:id/public                                       (workers.dev host fully behind
+   Cache API 30 s, ETag                                                     Cloudflare Access + JWT check)
+                                                                            serves admin UI + /api/*
+```
+
+| Decision | Choice | Why (alternatives rejected) |
+|---|---|---|
+| Frontend | Keep vanilla ES modules + `build.mjs` templating, extended to multi-page | Matches repo, 99 Lighthouse baseline, no framework needed for 5 pages |
+| Hosting (public) | **Keep GitHub Pages legacy-from-main** with committed generated pages | No settings change; event-night static resilience; DNS for the custom domain is at GoDaddy, so Workers custom domains would need a DNS migration — not worth it 15 days out |
+| Domain | Build path-agnostic (all relative). Default URL stays `pdarleyjr.github.io/redbird-parallax-site/`. Moving `redbird.iplcmiami.com` to this repo is an **optional gated step (G4)** | Avoid breaking the Christmas site's URL without consent; app works at either base |
+| Map library | **MapLibre GL JS 6.14.0**, self-hosted ESM (`maplibre-gl.mjs`, worker, css ≈ 440 KB gz), lazy-loaded only when the map is needed | Vector rendering, crisp print, rotation/bearing, DOM markers; Leaflet+OSM raster forbidden for offline/prefetch by OSM policy and blurrier in print. v6 needs WebGL2 → explicit fallback (§5.6) |
+| Basemap | **Self-hosted Protomaps vector tiles**: go-pmtiles `extract` of a daily build for bbox `-80.3120,25.7250,-80.2740,25.7470` (maxBounds + one viewport), **z12–15 only**, then exploded into static `assets/map/tiles/{z}/{x}/{y}.pbf` (decompressed) + self-hosted style JSON (`@protomaps/basemaps` generated, POI layer removed, sprite only if a remaining layer needs it) + glyphs (Noto Sans Regular/Medium/Italic `0-255.pbf`) | Fully same-origin: no third-party runtime dependency, SW can precache (<2 MB), no tile-policy issues, clean print. Static z/x/y avoids SW range-request handling and the pmtiles runtime. OpenFreeMap (no SLA, “may discontinue”) not needed |
+| Geo data | GeoJSON (boundary Polygon, optional trail LineString, houses FeatureCollection derived from snapshot) | Standard, tiny |
+| Backend | **Two Cloudflare Workers sharing one codebase + one D1 DB**: `redbird-public` (read-only, no auth) and `redbird-admin` (Access-protected hostname, serves admin UI + API) | Access on workers.dev protects a whole hostname; splitting hosts avoids path-scoping uncertainty and keeps admin same-origin (no third-party Access cookies/CORS preflight problems). Free tier (100k req/day, D1 5M reads/day) is far above need |
+| Auth | Cloudflare Access (Zero Trust free) email-OTP policy for the admin hostname + Worker verifies `Cf-Access-Jwt-Assertion` with `jose` (issuer team domain, aud) **and** an `ADMIN_EMAILS` allowlist; fail-closed | Real server-side authorization, no passwords stored by us |
+| Publication model | Admin edits rows in `houses`; every public-affecting mutation regenerates a **versioned snapshot** (one JSON blob) in the same D1 batch; public API serves only the latest snapshot | Directory, map, count, nearest and print all read the *same* snapshot ⇒ consistent by construction; rollback = restore old snapshot |
+| Public data path | Page loads bundled `data/halloween-2026.public.json` (also precached), then fetches live snapshot from `redbird-public`; renders whichever has the higher `version` | Works with backend down, offline, or before backend exists (Milestone 1) |
+| Repo fallback freshness | GitHub Action `snapshot.yml` (**manual dispatch only**, a "Run workflow" button the owner can press): pulls the public API, validates schema, runs `build.mjs`, and opens a PR "Refresh offline house list" with `data/*.public.json` + regenerated pages (gate G6). Run once at content freeze (Oct 30) and after any late change | Static fallback stays correct without bot commits to main or stale `build --check`; live API remains the primary source |
+| PWA | One root `manifest.webmanifest` (`id/start_url/scope = ./`), one root `sw.js` with build-injected version; network-first HTML & data, cache-first versioned assets & map pack; user-confirmed updates | Single install covering every route; relative scope works under any base path |
+| Print | Dedicated `/halloween/print/` page: pre-rendered basemap image per paper format (fixed extent, rendered by a Playwright script from the same tiles/style) + **SVG overlay** of markers/numbers computed by Web-Mercator math from the snapshot; if the boundary changes, a developer re-renders the base (page shows "being updated" until then) | Fast on phones (no MapLibre/WebGL needed to print), deterministic extent, vector-crisp markers, no cross-origin canvas issues |
+| Privacy | CSV parsed **in the admin's browser**; only `submittedOn`, `address`, `houseName` sent to the Worker; no names/emails/phones stored anywhere; raw CSV never committed | Minimizes sensitive storage to zero |
+| Geocoding | Admin-only `POST /api/geocode` in the admin Worker (Miami-Dade → Census → Nominatim), never from public pages | Policies (Nominatim ≤1 rps) + CORS |
+
+**Cost:** $0 (GitHub Pages free, Workers/D1/Access free tiers). Only possible cost: none expected; Workers paid plan ($5/mo) only if free limits were ever exceeded (not plausible).
+
+---
+
