@@ -1,0 +1,8 @@
+{
+  "type": "Feature",
+  "properties": { "name": "Red Bird trail boundary (approved by the owner 2026-10-16)", "status": "approved" },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [[[-80.3000, 25.7330], [-80.2860, 25.7330], [-80.2860, 25.7392], [-80.3000, 25.7392], [-80.3000, 25.7330]]]
+  }
+}

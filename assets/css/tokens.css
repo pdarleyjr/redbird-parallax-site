@@ -1,0 +1,26 @@
+/* Red Bird Neighborhood brand tokens, sampled from the 2026 flyer (docs/holiday-trails/brand/redbird-flyer-2026.webp).
+   Every color in the site is defined here exactly once. Other CSS files use var(--…) only. */
+@font-face{font-family:Poppins;src:url('../fonts/poppins-bold.woff2') format('woff2');font-style:normal;font-weight:700;font-display:swap}
+@font-face{font-family:Yellowtail;src:url('../fonts/yellowtail-latin.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+:root{
+  --rb-sky:#022255;--rb-sky-mid:#01204f;--rb-sky-deep:#000a20;
+  --rb-panel:#131127;--rb-panel-raised:#1b1a3a;--rb-line:#2f2c5a;
+  --rb-twilight:#34173c;--rb-ember:#a62d2e;
+  --rb-cardinal:#e8200c;--rb-cardinal-deep:#b50201;--rb-neon-orange:#f85818;
+  --rb-cream:#fdeed3;--rb-text:#fbf3e3;--rb-ink:#08132b;--rb-muted:#c9cde0;
+  --rb-gold:#fcd272;--rb-amber:#fa8e29;--rb-coral:#f9a066;
+  --rb-violet:#8858c8;--rb-violet-core:#f4dafe;--rb-moon:#fddaa4;
+  --rb-evergreen:#0a3d2e;--rb-you:#4da3ff;--rb-paper:#ffffff;
+  /* Glow channels used inside rgb()/rgba() shadows */
+  --glow-cardinal:232 32 12;--glow-bloom:181 2 1;--glow-orange:248 88 24;--glow-black:0 10 32;
+  /* Legacy aliases kept for older selectors */
+  --rb-bg:var(--rb-sky);--rb-surface:var(--rb-panel);--rb-elevated:var(--rb-panel-raised);
+  --rb-accent:var(--rb-neon-orange);--rb-highlight:var(--rb-gold);--line:var(--rb-line);
+  --accent:var(--rb-neon-orange);
+  --space:clamp(1.25rem,4vw,3.5rem);--radius:1.25rem;
+  --step-0:clamp(1rem,.95rem + .25vw,1.125rem);--step-1:clamp(1.15rem,1.05rem + .5vw,1.4rem);
+  --step-2:clamp(1.4rem,1.2rem + 1vw,2rem);--step-3:clamp(1.8rem,1.4rem + 2vw,2.8rem);
+  --step-4:clamp(2.1rem,1.5rem + 3vw,3.6rem);--step-5:clamp(2.25rem,1.6rem + 3.2vw,4rem);
+  --signature-sky:linear-gradient(180deg,var(--rb-sky) 0%,var(--rb-sky-mid) 55%,var(--rb-sky-deep) 82%,var(--rb-twilight) 92%,var(--rb-ember) 100%);
+}
+[data-theme="christmas"]{--accent:var(--rb-gold)}

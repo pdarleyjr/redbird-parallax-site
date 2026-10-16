@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" data-theme="halloween">
+<head>
+{{>head}}
+</head>
+<body>
+{{>defs}}
+  <a class="skip-link" href="#main">Skip to content</a>
+  <main id="main" tabindex="-1">
+    <section class="home-hero sky" aria-labelledby="off-title">
+      <div class="wrap">
+        <div class="lockup">
+          <h1 id="off-title"><span class="wordmark">Offline</span><span class="lockup-sub">The lights are off for now</span></h1>
+          <span class="double-rule" aria-hidden="true"></span>
+          <p class="home-intro">You’re offline and this page isn’t saved on your device yet. Pages you have visited still open.</p>
+          <p class="actions" style="justify-content:center;margin-top:1rem"><a class="button button-primary" href="{{root}}halloween/">Open the Halloween trail</a><a class="button button-secondary" href="{{root}}">Holiday Trails home</a></p>
+        </div>
+      </div>
+      <div class="silhouette-strip">{{>silhouette}}</div>
+    </section>
+  </main>
+</body>
+</html>

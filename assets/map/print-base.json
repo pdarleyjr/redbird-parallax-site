@@ -1,0 +1,48 @@
+{
+  "extentHash": "522648fc",
+  "extent": [
+    -80.30084,
+    25.73263,
+    -80.28516,
+    25.73957
+  ],
+  "maps": {
+    "letter-portrait": {
+      "file": "assets/map/print-base-letter-portrait.webp",
+      "bounds": [
+        -80.30084,
+        25.7302637,
+        -80.28516,
+        25.7419361
+      ],
+      "zoom": 14.979,
+      "width": 2250,
+      "height": 1859
+    },
+    "letter-landscape": {
+      "file": "assets/map/print-base-letter-landscape.webp",
+      "bounds": [
+        -80.30084,
+        25.732219,
+        -80.28516,
+        25.739981
+      ],
+      "zoom": 15.422,
+      "width": 3059,
+      "height": 1681
+    },
+    "poster": {
+      "file": "assets/map/poster.webp",
+      "bounds": [
+        -80.3,
+        25.7297942,
+        -80.286,
+        25.7424055
+      ],
+      "zoom": 14.879,
+      "width": 1200,
+      "height": 1200
+    }
+  },
+  "styleHash": "06bff8513531"
+}

@@ -1,0 +1,31 @@
+/* Print page: deliberately light (paper white, ink text, cardinal markers) to save ink. */
+body.print-page{background:var(--rb-paper);color:var(--rb-ink)}
+.print-controls{background:var(--rb-sky);color:var(--rb-text);padding:1rem 0}
+.print-controls .wrap{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.print-controls label{display:inline-flex;gap:.5rem;align-items:center;min-height:44px}
+.print-controls select{min-height:44px;padding:.3rem .6rem;border-radius:.5rem}
+.print-hint{font-size:.85rem;color:var(--rb-muted)}
+.sheet-page{max-width:8.5in;margin:1rem auto;padding:.4in;background:var(--rb-paper);color:var(--rb-ink)}
+.sheet-page h1{font-size:1.6rem;letter-spacing:.02em;color:var(--rb-ink)}
+.sheet-page .when{font-weight:700;margin-bottom:.4rem}
+.map-block{position:relative;width:7.5in;max-width:100%;aspect-ratio:var(--map-aspect,7.5/6.2);border:1px solid var(--rb-ink);overflow:hidden}
+.map-block img{position:absolute;inset:0;width:100%;height:100%}
+.map-block svg{position:absolute;inset:0;width:100%;height:100%}
+.pm circle{fill:var(--rb-cardinal);stroke:var(--rb-paper);stroke-width:1.5}
+.pm text{fill:var(--rb-paper);font:700 7px system-ui,sans-serif;text-anchor:middle;dominant-baseline:central}
+.pm .lead{stroke:var(--rb-ink);stroke-width:.5}
+.boundary{fill:none;stroke:var(--rb-neon-orange);stroke-width:1.2;stroke-dasharray:5 3}
+.legend{columns:3;column-gap:.25in;margin-top:.15in;font-size:7.5pt;line-height:1.35}
+.legend li{break-inside:avoid;margin-bottom:.04in;list-style:none}
+.legend ol{padding:0;margin:0}
+.legend b{display:inline-block;min-width:1.6em;color:var(--rb-cardinal-deep)}
+.sheet-foot{margin-top:.15in;font-size:7.5pt;color:var(--rb-muted);display:flex;justify-content:space-between;gap:1rem;border-top:1px solid var(--rb-ink);padding-top:.08in}
+.sheet-foot p{max-width:none;color:var(--rb-ink)}
+.print-msg{padding:2rem;text-align:center}
+@media print{
+  @page{size:letter;margin:.4in}
+  .no-print,.site-header,.site-footer,.print-controls,.banner,.toast,.skip-link{display:none!important}
+  body.print-page{background:var(--rb-paper);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sheet-page{margin:0;padding:0;max-width:none}
+  html[data-paper="letter-landscape"] .sheet-page{max-width:none}
+}

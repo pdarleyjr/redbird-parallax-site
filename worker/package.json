@@ -1,0 +1,19 @@
+{
+  "name": "redbird-trails-worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:ui": "node scripts/build-ui.mjs",
+    "test": "vitest run",
+    "dev:public": "wrangler dev --env public",
+    "dev:admin": "node scripts/build-ui.mjs && wrangler dev --env admin",
+    "deploy:public": "wrangler deploy --env public",
+    "deploy:admin": "node scripts/build-ui.mjs && wrangler deploy --env admin"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "^1.4.4",
+    "vitest": "^4.1.0",
+    "wrangler": "latest"
+  }
+}

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" data-theme="halloween" data-paper="letter-portrait">
+<head>
+{{>head}}
+  <script type="module" src="{{root}}assets/js/print/print.js{{assetVersion}}"></script>
+</head>
+<body class="print-page">
+{{>defs}}
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header no-print">
+    <div class="header-inner wrap">
+      <a class="brand" href="{{root}}halloween/"><svg aria-hidden="true" width="46" height="40"><use href="#rb-cardinal"/></svg><span><span class="brand-name">RED BIRD</span><span class="brand-subtitle">← Trick-or-Treat Trail</span></span></a>
+    </div>
+  </header>
+  <section class="print-controls no-print" aria-label="Print options">
+    <div class="wrap">
+      <label>Paper <select id="paper"><option value="letter-portrait">Letter portrait</option><option value="letter-landscape">Letter landscape</option></select></label>
+      <label><input type="checkbox" id="include-list" checked> Include house list</label>
+      <button type="button" class="button button-primary" id="print-button" disabled>Print or save as PDF</button>
+      <span id="print-ready" role="status" aria-live="polite">Preparing map…</span>
+      <p class="print-hint">iPhone: Share → Print → Save to Files. Android: ⋮ → Share → Print → Save as PDF.</p>
+    </div>
+  </section>
+  <main id="main" tabindex="-1">
+    <article class="sheet-page" id="sheet">
+      <h1>Red Bird Trick-or-Treat Trail</h1>
+      <p class="when">{{fullDate}} · {{hours}}</p>
+      <div class="print-msg" id="print-msg" hidden></div>
+      <div class="map-block" id="map-block" hidden>
+        <img id="print-base" alt="Street map of the Red Bird neighborhood" decoding="async">
+        <svg id="print-overlay" viewBox="0 0 1000 827" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      <div class="legend" id="print-legend"><ol id="print-legend-list"></ol></div>
+      <div class="sheet-foot"><p id="print-version"></p><p>Map data © OpenStreetMap contributors · Protomaps · {{canonical}}</p></div>
+    </article>
+  </main>
+  <script id="event-config" type="application/json">{{eventJSON}}</script>
+</body>
+</html>

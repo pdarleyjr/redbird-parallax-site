@@ -1,0 +1,201 @@
+{
+  "decidedOn": "2026-10-16",
+  "publishedAt": "2026-10-16T12:00:00Z",
+  "note": "Public-safe decisions only (ids, names, addresses, icons). No contact details. Owner approved publication of #32-#46 on 2026-10-16.",
+  "overrides": {
+    "stop-10": {
+      "name": "Haunted House",
+      "icon": "fluent-jack-o-lantern",
+      "reason": "Owner decision 2026-10-16: two conflicting submissions superseded; pumpkin icon (Fluent jack-o-lantern, the supplied pumpkin art did not match the brand)"
+    },
+    "stop-05": {
+      "name": "Halloween Stop",
+      "reason": "Owner decision 2026-10-16: CSV name blank; keep published name"
+    }
+  },
+  "manualLocations": {
+    "stop-03": {
+      "lat": 25.734927,
+      "lng": -80.288444,
+      "verified": true,
+      "source": "manual-owner",
+      "note": "Gilbert’s Bakery on Bird building; point supplied by the owner from Google Maps"
+    },
+    "stop-25": {
+      "lat": 25.7367261,
+      "lng": -80.2955533,
+      "verified": true,
+      "source": "manual-owner"
+    }
+  },
+  "approvedNew": [
+    {
+      "id": "stop-32",
+      "mapNumber": 32,
+      "name": "Candy Patch",
+      "address": "3604 SW 60th Avenue",
+      "submittedOn": "2026-10-09",
+      "icon": "fluent-candy",
+      "flags": []
+    },
+    {
+      "id": "stop-33",
+      "mapNumber": 33,
+      "name": "Blues Boo House",
+      "address": "3611 SW 60th Court",
+      "submittedOn": "2026-10-11",
+      "icon": "blues-boooooo-house",
+      "flags": []
+    },
+    {
+      "id": "stop-34",
+      "mapNumber": 34,
+      "name": "House of Treats NO TRICKS",
+      "address": "6028 SW 35th Street",
+      "submittedOn": "2026-10-11",
+      "icon": "fluent-lollipop",
+      "flags": []
+    },
+    {
+      "id": "stop-35",
+      "mapNumber": 35,
+      "name": "The Motley Brew",
+      "address": "6391 SW 39th Street",
+      "submittedOn": "2026-10-13",
+      "icon": "fluent-potion",
+      "flags": []
+    },
+    {
+      "id": "stop-36",
+      "mapNumber": 36,
+      "name": "Just stop for juice and water",
+      "address": "3710 SW 59th Avenue",
+      "submittedOn": "2026-10-14",
+      "icon": "sweet-and-spooky-stop",
+      "flags": []
+    },
+    {
+      "id": "stop-37",
+      "mapNumber": 37,
+      "name": "The Bone Yard",
+      "address": "3910 SW 60th Place",
+      "submittedOn": "2026-10-14",
+      "icon": "fluent-bone",
+      "flags": []
+    },
+    {
+      "id": "stop-38",
+      "mapNumber": 38,
+      "name": "Purr-anormal Cemetery",
+      "address": "5778 SW 35th Street",
+      "submittedOn": "2026-10-14",
+      "icon": "fluent-black-cat",
+      "flags": []
+    },
+    {
+      "id": "stop-39",
+      "mapNumber": 39,
+      "name": "The Tipsy Tomb",
+      "address": "5765 SW 35th Street",
+      "submittedOn": "2026-10-14",
+      "icon": "fluent-headstone",
+      "flags": []
+    },
+    {
+      "id": "stop-40",
+      "mapNumber": 40,
+      "name": "Webby’s",
+      "address": "3615 SW 59th Avenue",
+      "submittedOn": "2026-10-14",
+      "icon": "the-webbed-manor",
+      "flags": []
+    },
+    {
+      "id": "stop-41",
+      "mapNumber": 41,
+      "name": "Bats in the Cave",
+      "address": "6258 SW 39th Street",
+      "submittedOn": "2026-10-15",
+      "icon": "fluent-bat",
+      "flags": []
+    },
+    {
+      "id": "stop-42",
+      "mapNumber": 42,
+      "name": "Beware: kids are gone",
+      "address": "5800 SW 35th Street",
+      "submittedOn": "2026-10-15",
+      "icon": "fluent-ghost",
+      "flags": []
+    },
+    {
+      "id": "stop-43",
+      "mapNumber": 43,
+      "name": "The Boo Crew",
+      "address": "3725 SW 59th Avenue",
+      "submittedOn": "2026-10-15",
+      "icon": "fluent-ghost",
+      "flags": []
+    },
+    {
+      "id": "stop-44",
+      "mapNumber": 44,
+      "name": "Le Spooky Chateau",
+      "address": "3801 SW 60th Place",
+      "submittedOn": "2026-10-15",
+      "icon": "fluent-castle",
+      "flags": []
+    },
+    {
+      "id": "stop-45",
+      "mapNumber": 45,
+      "name": "Skeleton House",
+      "address": "3930 SW 60th Place",
+      "submittedOn": "2026-10-15",
+      "icon": "fluent-skull",
+      "flags": [
+        "similar_name"
+      ]
+    },
+    {
+      "id": "stop-46",
+      "mapNumber": 46,
+      "name": "The Boo-tiful Family Home",
+      "address": "5790 SW 35th Street",
+      "submittedOn": "2026-10-15",
+      "icon": "fluent-jack-o-lantern",
+      "flags": []
+    }
+  ],
+  "boundary": {
+    "status": "approved",
+    "approvedOn": "2026-10-16",
+    "note": "SW 35th St to SW 40th St/Bird Rd, SW 57th Ave to SW 64th Ave (02-RECONCILIATION 2.3)"
+  },
+  "iconByStop": {
+    "stop-32": "fluent-candy",
+    "stop-33": "blues-boooooo-house",
+    "stop-34": "fluent-lollipop",
+    "stop-35": "fluent-potion",
+    "stop-36": "sweet-and-spooky-stop",
+    "stop-37": "fluent-bone",
+    "stop-38": "fluent-black-cat",
+    "stop-39": "fluent-headstone",
+    "stop-40": "the-webbed-manor",
+    "stop-41": "fluent-bat",
+    "stop-42": "fluent-ghost",
+    "stop-43": "fluent-ghost",
+    "stop-44": "fluent-castle",
+    "stop-45": "fluent-skull",
+    "stop-46": "fluent-jack-o-lantern"
+  },
+  "nameOverrides": {},
+  "resolvedFlags": {
+    "stop-36": [
+      "name_review"
+    ],
+    "stop-38": [
+      "zip_mismatch"
+    ]
+  }
+}

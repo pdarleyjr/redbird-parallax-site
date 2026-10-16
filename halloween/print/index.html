@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" data-theme="halloween" data-paper="letter-portrait">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Print the Red Bird Trick-or-Treat Trail map</title>
+  <meta name="description" content="A printable map of the Red Bird Trick-or-Treat Trail with a numbered house list.">
+  <meta name="theme-color" content="#022255">
+  <meta name="rb-sw" content="off">
+  <link rel="canonical" href="https://pdarleyjr.github.io/redbird-parallax-site/halloween/print/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Print the Red Bird Trick-or-Treat Trail map">
+  <meta property="og:description" content="A printable map of the Red Bird Trick-or-Treat Trail with a numbered house list.">
+  <meta property="og:url" content="https://pdarleyjr.github.io/redbird-parallax-site/halloween/print/">
+  <meta property="og:image" content="https://pdarleyjr.github.io/redbird-parallax-site/assets/img/optimized/hero.jpg">
+  <meta property="og:image:alt" content="Red Bird children in Halloween costumes with a cardinal and glowing pumpkins.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; img-src &#39;self&#39; data: blob:; style-src &#39;self&#39; &#39;unsafe-inline&#39;; script-src &#39;self&#39;; worker-src &#39;self&#39; blob:; connect-src &#39;self&#39;; base-uri &#39;none&#39;; form-action &#39;none&#39;">
+  <link rel="icon" href="../../assets/img/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="../../assets/app/apple-touch-icon.png">
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="preload" href="../../assets/fonts/poppins-bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/tokens.css?v=dece001d">
+  <link rel="stylesheet" href="../../assets/css/base.css?v=dece001d">
+  <link rel="stylesheet" href="../../assets/css/print.css?v=dece001d">
+  <script type="module" src="../../assets/js/print/print.js?v=dece001d"></script>
+</head>
+<body class="print-page">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="rb-sparkle" viewBox="0 0 24 24"><path d="M12 0c.7 6.8 3.5 10.3 12 12-8.5 1.7-11.3 5.2-12 12-.7-6.8-3.5-10.3-12-12C8.5 10.3 11.3 6.8 12 0z"/></symbol>
+      <symbol id="rb-cardinal" viewBox="0 0 120 104">
+        <path fill="var(--rb-cardinal-deep)" d="M34 76 4 98l5 5 36-18z"/>
+        <path fill="var(--rb-cardinal)" d="M30 78C28 52 52 36 78 40c14 2 20 14 12 26-12 18-42 26-60 12z"/>
+        <circle fill="var(--rb-cardinal)" cx="84" cy="36" r="15"/>
+        <path fill="var(--rb-cardinal)" d="M72 30 80 3l14 24z"/>
+        <path fill="var(--rb-panel)" d="M92 30c4 0 8 2 10 6-3 5-8 8-14 7z"/>
+        <path fill="var(--rb-neon-orange)" d="M97 33l16 7-17 6z"/>
+        <path fill="none" stroke="var(--rb-cardinal-deep)" stroke-width="3" stroke-linecap="round" d="M42 64c14-9 30-6 38 6"/>
+        <circle fill="var(--rb-cream)" cx="87" cy="34" r="2.4"/>
+      </symbol>
+    </defs>
+  </svg>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header no-print">
+    <div class="header-inner wrap">
+      <a class="brand" href="../../halloween/"><svg aria-hidden="true" width="46" height="40"><use href="#rb-cardinal"/></svg><span><span class="brand-name">RED BIRD</span><span class="brand-subtitle">← Trick-or-Treat Trail</span></span></a>
+    </div>
+  </header>
+  <section class="print-controls no-print" aria-label="Print options">
+    <div class="wrap">
+      <label>Paper <select id="paper"><option value="letter-portrait">Letter portrait</option><option value="letter-landscape">Letter landscape</option></select></label>
+      <label><input type="checkbox" id="include-list" checked> Include house list</label>
+      <button type="button" class="button button-primary" id="print-button" disabled>Print or save as PDF</button>
+      <span id="print-ready" role="status" aria-live="polite">Preparing map…</span>
+      <p class="print-hint">iPhone: Share → Print → Save to Files. Android: ⋮ → Share → Print → Save as PDF.</p>
+    </div>
+  </section>
+  <main id="main" tabindex="-1">
+    <article class="sheet-page" id="sheet">
+      <h1>Red Bird Trick-or-Treat Trail</h1>
+      <p class="when">Saturday, October 31, 2026 · 6 PM–9 PM</p>
+      <div class="print-msg" id="print-msg" hidden></div>
+      <div class="map-block" id="map-block" hidden>
+        <img id="print-base" alt="Street map of the Red Bird neighborhood" decoding="async">
+        <svg id="print-overlay" viewBox="0 0 1000 827" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      <div class="legend" id="print-legend"><ol id="print-legend-list"></ol></div>
+      <div class="sheet-foot"><p id="print-version"></p><p>Map data © OpenStreetMap contributors · Protomaps · https://pdarleyjr.github.io/redbird-parallax-site/halloween/print/</p></div>
+    </article>
+  </main>
+  <script id="event-config" type="application/json">{"name":"Red Bird Trick-or-Treat Trail","year":2026,"date":"2026-10-31","timeZone":"America/New_York","hours":{"status":"confirmed","start":"18:00","end":"21:00","source":"Confirmed by the organizer on October 9, 2026"},"location":"Red Bird neighborhood, Miami","registration":{"status":"pending","url":null},"map":{"status":"published","image":"assets/maps/redbird-trail-2026.png","pdf":"assets/maps/redbird-trail-2026.pdf","previews":[{"path":"assets/maps/redbird-trail-2026-600.webp","width":600},{"path":"assets/maps/redbird-trail-2026-720.webp","width":720},{"path":"assets/maps/redbird-trail-2026-1000.webp","width":1000},{"path":"assets/maps/redbird-trail-2026-1600.webp","width":1600}],"width":6000,"height":8300,"source":"Organizer-supplied PNG and PDF, October 9, 2026"},"houses":{"status":"approved","path":"data/halloween-2026.public.json"},"updated":"2026-10-09","canonical":"https://pdarleyjr.github.io/redbird-parallax-site/","apiBase":null}</script>
+</body>
+</html>

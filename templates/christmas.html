@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" data-theme="christmas">
+<head>
+{{>head}}
+  <script type="module" src="{{root}}assets/js/home.js{{assetVersion}}"></script>
+</head>
+<body>
+{{>defs}}
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner wrap">
+      <a class="brand" href="{{root}}"><svg aria-hidden="true" width="46" height="40"><use href="#rb-cardinal"/></svg><span><span class="brand-name">RED BIRD</span><span class="brand-subtitle">← Holiday Trails</span></span></a>
+    </div>
+  </header>
+  <main id="main" tabindex="-1">
+    <section class="home-hero sky" aria-labelledby="xmas-title">
+      <div class="wrap">
+        <div class="lockup">
+          <h1 id="xmas-title"><span class="wordmark">Red Bird</span><span class="lockup-sub">Neighborhood Holiday Trail</span></h1>
+          <span class="double-rule" aria-hidden="true"></span>
+          <p class="tagline script" id="xmas-status">Updating for this year’s event</p>
+        </div>
+        <p class="home-intro" id="xmas-body">Details for this year’s holiday trail will be posted here.</p>
+        <p class="home-intro"><a class="text-link" href="{{root}}">← Back to Holiday Trails</a></p>
+      </div>
+      <div class="silhouette-strip">{{>silhouette}}</div>
+    </section>
+  </main>
+{{>footer}}
+  <script id="site-config" type="application/json">{{siteJSON}}</script>
+</body>
+</html>
