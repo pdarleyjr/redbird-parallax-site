@@ -1,0 +1,370 @@
+[
+ {
+  "n": 1,
+  "name": "Skeleton Dog",
+  "address": "3911 SW 60th Court",
+  "lat": 25.735143875,
+  "lng": -80.292032025,
+  "source": "osm-building"
+ },
+ {
+  "n": 2,
+  "name": "Mickey & Minnie’s Halloween Party",
+  "address": "3934 SW 58th Court",
+  "lat": 25.73473789166667,
+  "lng": -80.29003198333334,
+  "source": "osm-building"
+ },
+ {
+  "n": 3,
+  "name": "Gilbert’s Bakery",
+  "address": "5777 SW 40th Street",
+  "lat": 25.734927,
+  "lng": -80.288444,
+  "source": "owner"
+ },
+ {
+  "n": 4,
+  "name": "Skull Cove",
+  "address": "5790 SW 39th Street",
+  "lat": 25.735217,
+  "lng": -80.28871214955136,
+  "source": "osm-building (duplex east half)"
+ },
+ {
+  "n": 5,
+  "name": "Halloween Stop",
+  "address": "5792 SW 39th Street",
+  "lat": 25.735217,
+  "lng": -80.28881185044865,
+  "source": "osm-building (duplex west half)"
+ },
+ {
+  "n": 6,
+  "name": "Lima’s Nightmare on 39th Street",
+  "address": "5785 SW 39th Street",
+  "lat": 25.735616716666666,
+  "lng": -80.28854729999999,
+  "source": "osm-building"
+ },
+ {
+  "n": 7,
+  "name": "The Coven on 39th ST",
+  "address": "5795 SW 39th Street",
+  "lat": 25.735619900000003,
+  "lng": -80.2887573,
+  "source": "osm-building"
+ },
+ {
+  "n": 8,
+  "name": "Witches’ Den",
+  "address": "3825 SW 58th Avenue",
+  "lat": 25.735746499999998,
+  "lng": -80.2887935,
+  "source": "osm-building"
+ },
+ {
+  "n": 9,
+  "name": "Boo Bungalow",
+  "address": "3815 SW 58th Avenue",
+  "lat": 25.73589065,
+  "lng": -80.28881115,
+  "source": "osm-building"
+ },
+ {
+  "n": 10,
+  "name": "Haunted House",
+  "address": "3800 SW 58th Avenue",
+  "lat": 25.735961166666666,
+  "lng": -80.28927037777777,
+  "source": "osm-building"
+ },
+ {
+  "n": 11,
+  "name": "Jurassic House",
+  "address": "3830 SW 58th Court",
+  "lat": 25.735576975,
+  "lng": -80.29010280833333,
+  "source": "osm-building"
+ },
+ {
+  "n": 12,
+  "name": "Phantasmal Phountain",
+  "address": "3624 SW 58th Avenue",
+  "lat": 25.736975144444443,
+  "lng": -80.2893849,
+  "source": "osm-building"
+ },
+ {
+  "n": 13,
+  "name": "The Friendly Ghost House",
+  "address": "3703 SW 58th Avenue",
+  "lat": 25.736897775,
+  "lng": -80.288868925,
+  "source": "osm-building"
+ },
+ {
+  "n": 14,
+  "name": "Spider Crawl",
+  "address": "3601 SW 58th Avenue",
+  "lat": 25.7373202,
+  "lng": -80.2889023,
+  "source": "osm-building"
+ },
+ {
+  "n": 15,
+  "name": "The Spooky Villa",
+  "address": "5735 SW 35th Street",
+  "lat": 25.7382699625,
+  "lng": -80.2874971875,
+  "source": "osm-building"
+ },
+ {
+  "n": 16,
+  "name": "House of Horrors",
+  "address": "5825 SW 35th Street",
+  "lat": 25.7381773,
+  "lng": -80.28962778571429,
+  "source": "osm-building"
+ },
+ {
+  "n": 17,
+  "name": "The Wicked House",
+  "address": "5935 SW 35th Street",
+  "lat": 25.73812203,
+  "lng": -80.29146898,
+  "source": "osm-building"
+ },
+ {
+  "n": 18,
+  "name": "House of Trickery",
+  "address": "3601 SW 60th Avenue",
+  "lat": 25.737238389999998,
+  "lng": -80.2913223,
+  "source": "osm-building"
+ },
+ {
+  "n": 19,
+  "name": "The Fright House!",
+  "address": "3610 SW 60th Avenue",
+  "lat": 25.73709058333333,
+  "lng": -80.29180385833332,
+  "source": "osm-building"
+ },
+ {
+  "n": 20,
+  "name": "Walking Dead Taco Stop",
+  "address": "3700 SW 60th Avenue",
+  "lat": 25.73674928888889,
+  "lng": -80.29180078888889,
+  "source": "osm-building"
+ },
+ {
+  "n": 21,
+  "name": "Milos House of Bones",
+  "address": "3736 SW 60th Avenue",
+  "lat": 25.736268566666666,
+  "lng": -80.29175292222222,
+  "source": "osm-building"
+ },
+ {
+  "n": 22,
+  "name": "The Werewolf Den",
+  "address": "3700 SW 60th Place",
+  "lat": 25.736811941666662,
+  "lng": -80.29347834166667,
+  "source": "osm-building"
+ },
+ {
+  "n": 23,
+  "name": "Ghostly Graveyard",
+  "address": "3720 SW 60th Place",
+  "lat": 25.736479974999998,
+  "lng": -80.29344798333334,
+  "source": "osm-building"
+ },
+ {
+  "n": 24,
+  "name": "The Skeleton House",
+  "address": "6078 S Waterway Drive",
+  "lat": 25.737116200000003,
+  "lng": -80.29343523,
+  "source": "osm-building"
+ },
+ {
+  "n": 25,
+  "name": "Trick or Treat Realty",
+  "address": "6212 S Waterway Drive",
+  "lat": 25.7367261,
+  "lng": -80.2955533,
+  "source": "owner (osm 31 m away)"
+ },
+ {
+  "n": 26,
+  "name": "Knock if you dare!",
+  "address": "3810 SW 61st Avenue",
+  "lat": 25.73569265,
+  "lng": -80.2942254,
+  "source": "osm-building"
+ },
+ {
+  "n": 27,
+  "name": "Witch Way to the Candy?",
+  "address": "3825 SW 62nd Avenue",
+  "lat": 25.735535666666667,
+  "lng": -80.29452583333334,
+  "source": "osm-building"
+ },
+ {
+  "n": 28,
+  "name": "Haunted Book Nook",
+  "address": "6210 SW 38th Street",
+  "lat": 25.735346157142857,
+  "lng": -80.29513218571428,
+  "source": "osm-building"
+ },
+ {
+  "n": 29,
+  "name": "The Spider's Den",
+  "address": "6275 SW 39th Street",
+  "lat": 25.7353564,
+  "lng": -80.29630105999999,
+  "source": "osm-building"
+ },
+ {
+  "n": 30,
+  "name": "The Goalkeeper’s Graveyard",
+  "address": "3821 SW 60th Avenue",
+  "lat": 25.735650816666666,
+  "lng": -80.29125188333333,
+  "source": "osm-building"
+ },
+ {
+  "n": 31,
+  "name": "The Haunted Spider House",
+  "address": "3927 SW 58th Court",
+  "lat": 25.7349058,
+  "lng": -80.28956242,
+  "source": "osm-building"
+ },
+ {
+  "n": 32,
+  "name": "Candy Patch",
+  "address": "3604 SW 60th Avenue",
+  "lat": 25.73721592,
+  "lng": -80.29182248,
+  "source": "osm-building"
+ },
+ {
+  "n": 33,
+  "name": "Blues Boo House",
+  "address": "3611 SW 60th Court",
+  "lat": 25.737055249999997,
+  "lng": -80.29217096666666,
+  "source": "osm-building"
+ },
+ {
+  "n": 34,
+  "name": "House of Treats NO TRICKS",
+  "address": "6028 SW 35th Street",
+  "lat": 25.7376033625,
+  "lng": -80.29214495625,
+  "source": "osm-building"
+ },
+ {
+  "n": 35,
+  "name": "The Motley Brew",
+  "address": "6391 SW 39th Street",
+  "lat": 25.735299573333336,
+  "lng": -80.29864912,
+  "source": "osm-building"
+ },
+ {
+  "n": 36,
+  "name": "Just stop for juice and water",
+  "address": "3710 SW 59th Avenue",
+  "lat": 25.73660327,
+  "lng": -80.29096434,
+  "source": "osm-building"
+ },
+ {
+  "n": 37,
+  "name": "The Bone Yard",
+  "address": "3910 SW 60th Place",
+  "lat": 25.734964422222223,
+  "lng": -80.29334323333333,
+  "source": "osm-building"
+ },
+ {
+  "n": 38,
+  "name": "Purr-anormal Cemetery",
+  "address": "5778 SW 35th Street",
+  "lat": 25.7377454,
+  "lng": -80.2883860875,
+  "source": "osm-building"
+ },
+ {
+  "n": 39,
+  "name": "The Tipsy Tomb",
+  "address": "5765 SW 35th Street",
+  "lat": 25.738234005263156,
+  "lng": -80.28832855789473,
+  "source": "osm-building"
+ },
+ {
+  "n": 40,
+  "name": "Webby’s",
+  "address": "3615 SW 59th Avenue",
+  "lat": 25.737055771428572,
+  "lng": -80.29049735714285,
+  "source": "osm-building"
+ },
+ {
+  "n": 41,
+  "name": "Bats in the Cave",
+  "address": "6258 SW 39th Street",
+  "lat": 25.73493876666667,
+  "lng": -80.295980675,
+  "source": "osm-building"
+ },
+ {
+  "n": 42,
+  "name": "Beware: kids are gone",
+  "address": "5800 SW 35th Street",
+  "lat": 25.737682533333334,
+  "lng": -80.28931519999999,
+  "source": "osm-building"
+ },
+ {
+  "n": 43,
+  "name": "The Boo Crew",
+  "address": "3725 SW 59th Avenue",
+  "lat": 25.73655055,
+  "lng": -80.2904906375,
+  "source": "osm-building"
+ },
+ {
+  "n": 44,
+  "name": "Le Spooky Chateau",
+  "address": "3801 SW 60th Place",
+  "lat": 25.735872664285715,
+  "lng": -80.2929246642857,
+  "source": "osm-building"
+ },
+ {
+  "n": 45,
+  "name": "Skeleton House",
+  "address": "3930 SW 60th Place",
+  "lat": 25.73462988,
+  "lng": -80.29331776000001,
+  "source": "osm-building"
+ },
+ {
+  "n": 46,
+  "name": "The Boo-tiful Family Home",
+  "address": "5790 SW 35th Street",
+  "lat": 25.7377399875,
+  "lng": -80.288535625,
+  "source": "osm-building"
+ }
+]
