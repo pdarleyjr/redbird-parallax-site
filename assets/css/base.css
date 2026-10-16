@@ -1,6 +1,6 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:6.5rem;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--rb-sky);color:var(--rb-text);font:var(--step-0)/1.65 system-ui,-apple-system,'Segoe UI',sans-serif;min-height:100vh}
+body{margin:0;background:var(--rb-sky);color:var(--rb-text);font:var(--step-0)/1.65 system-ui,-apple-system,'Segoe UI',sans-serif;min-height:100svh}
 img,svg{display:block;max-width:100%;height:auto}
 button,input,select{font:inherit}
 button,a,input{-webkit-tap-highlight-color:transparent}

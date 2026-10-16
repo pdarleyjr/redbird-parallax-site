@@ -1,10 +1,12 @@
 // Web app manifest generated from site.json and brand tokens.
+// The name people see under the icon on a home screen (and what iOS suggests when adding it). Page <title> tags are separate.
+export const APP_NAME = 'Red Bird Events';
 export function buildManifest({ site, tokens }) {
   const color = tokens['rb-sky'];
   return {
     id: './',
-    name: site.name,
-    short_name: site.shortName,
+    name: APP_NAME,
+    short_name: APP_NAME,
     description: 'Neighborhood trick-or-treat trail map, nearest house and printable map for Red Bird, Miami.',
     start_url: './?source=pwa',
     scope: './',

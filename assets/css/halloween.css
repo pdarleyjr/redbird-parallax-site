@@ -48,13 +48,6 @@
 .house-actions button,.house-actions label{min-height:44px;display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .8rem;border:1.5px solid var(--rb-muted);border-radius:.6rem;background:transparent;color:var(--rb-text);font-size:.82rem;font-weight:700}
 .house-actions input{width:20px;height:20px;accent-color:var(--rb-amber)}
 .empty-search{margin-top:1rem;color:var(--rb-muted)}
-.archive{margin-top:2.5rem;border:1px solid var(--rb-line);border-radius:1rem;padding:1rem 1.25rem;background:var(--rb-panel)}
-.archive summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:700}
-.archive .badge{background:var(--rb-gold);color:var(--rb-ink);font-size:.72rem;padding:.15rem .6rem;border-radius:2rem;margin-left:.75rem}
-.map-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1rem}
-.map-figure{margin:1rem 0 0;border-radius:1rem;overflow:hidden;border:1px solid var(--rb-line);max-width:480px}
-.map-figure img{width:100%;aspect-ratio:6000/8300;object-fit:contain;background:var(--rb-paper)}
-.map-figure figcaption,.map-note{font-size:.8rem;color:var(--rb-muted);padding:.75rem 1rem 0}
 .community{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;border-top:1px solid var(--rb-line);padding-block:4rem}
 .community picture{border-radius:var(--radius);overflow:hidden}
 .community h2{font-size:clamp(1.8rem,3.5vw,2.7rem);margin-bottom:1.5rem}
@@ -68,7 +61,7 @@
   .steps{gap:1rem}.step{padding:1.25rem}.community{gap:2.5rem}
 }
 @media(max-width:699px){
-  html{scroll-padding-top:6rem}body.has-action-bar{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+  html{scroll-padding-top:6rem}body.has-action-bar{padding-bottom:calc(88px + env(safe-area-inset-bottom))}
   .hero{grid-template-columns:1fr;padding-block:2rem;gap:2rem}.hero h1{max-width:15ch}.hero-intro{max-width:38ch}.hero-caption{margin-left:0}
   .date-band .wrap{grid-template-columns:1fr;padding-block:1.5rem;gap:1.1rem}.date-band .detail:not(:first-child){padding-left:0;border:0}
   .section{padding-block:3rem}.section-heading{display:block;margin-bottom:1.75rem}.section-heading>p{margin-top:1rem}
@@ -76,6 +69,7 @@
   .house-list{grid-template-columns:1fr}.house-controls{max-width:none}
   .community{grid-template-columns:1fr;gap:2rem;padding-block:3rem}.community picture{order:2}
   .action-bar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--rb-panel);border-top:2px solid var(--rb-neon-orange);padding-bottom:env(safe-area-inset-bottom)}
+  .action-bar:after{content:'';position:absolute;left:0;right:0;top:100%;height:120px;background:var(--rb-panel);pointer-events:none}   /* iOS Safari's floating toolbar can expose the area under a bottom:0 bar; this keeps it filled */
   .action-bar a,.action-bar button{min-height:64px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.15rem;font-size:.75rem;font-weight:700;color:var(--rb-text);text-decoration:none;background:none;border:0}
   .action-bar svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2}
 }

@@ -12,7 +12,7 @@ test('manifest is valid and its icons exist at the declared sizes', async ({ pag
   await page.goto('./');
   const href = await page.locator('link[rel=manifest]').getAttribute('href');
   const manifest = await (await request.get(new URL(href, page.url()).href)).json();
-  expect(manifest).toMatchObject({ id: './', scope: './', display: 'standalone', name: 'Red Bird Neighborhood Holiday Trails' });
+  expect(manifest).toMatchObject({ id: './', scope: './', display: 'standalone', name: 'Red Bird Events', short_name: 'Red Bird Events' });
   expect(new URL(manifest.start_url, page.url()).pathname).toBe(new URL('./', page.url()).pathname);
   for (const icon of manifest.icons) {
     const res = await request.get(new URL(icon.src, page.url()).href);

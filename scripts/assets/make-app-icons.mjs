@@ -1,38 +1,52 @@
-// App icon master (SVG) -> PNGs. Colors come from tokens.css. Run: node scripts/assets/make-app-icons.mjs
-import { mkdir, writeFile } from 'node:fs/promises';
+// App icons from the owner's artwork (tools/app-icon/redbird-app-icon-source.png, 1254x1254 RGBA, rounded square, transparent corners).
+// Run: node scripts/assets/make-app-icons.mjs
+//   apple-touch-icon.png 180  OPAQUE (iOS paints transparency black): inner artwork on the art's own edge navy; iOS applies its corner mask
+//   icon-192.png, icon-512.png  purpose "any": the artwork with its transparent rounded corners
+//   icon-maskable-512.png       artwork at 80% on a solid navy square so Android's mask never clips the cardinal
+//   favicon-32.png, favicon-96.png (assets/img/)
+import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
-import { readTokens } from '../map/build-style.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const source = path.join(root, 'tools/app-icon/redbird-app-icon-source.png');
 const out = path.join(root, 'assets/app');
 await mkdir(out, { recursive: true });
-const t = await readTokens();
 
-// scale = fraction of the canvas used by the artwork (maskable keeps a 20% safe padding).
-const svg = (scale, rounded) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <rect width="512" height="512" ${rounded ? 'rx="112"' : ''} fill="${t['rb-sky']}"/>
-  <g transform="translate(256 256) scale(${scale}) translate(-256 -256)">
-    <rect x="40" y="40" width="432" height="432" rx="96" fill="none" stroke="${t['rb-cream']}" stroke-width="10"/>
-    <g transform="translate(86 118) scale(2.9)" filter="none">
-      <path fill="${t['rb-cardinal-deep']}" d="M34 76 4 98l5 5 36-18z"/>
-      <path fill="${t['rb-cardinal']}" d="M30 78C28 52 52 36 78 40c14 2 20 14 12 26-12 18-42 26-60 12z"/>
-      <circle fill="${t['rb-cardinal']}" cx="84" cy="36" r="15"/>
-      <path fill="${t['rb-cardinal']}" d="M72 30 80 3l14 24z"/>
-      <path fill="${t['rb-panel']}" d="M92 30c4 0 8 2 10 6-3 5-8 8-14 7z"/>
-      <path fill="${t['rb-neon-orange']}" d="M97 33l16 7-17 6z"/>
-      <path fill="none" stroke="${t['rb-cardinal-deep']}" stroke-width="3" stroke-linecap="round" d="M42 64c14-9 30-6 38 6"/>
-      <circle fill="${t['rb-cream']}" cx="87" cy="34" r="2.4"/>
-    </g>
-    <path transform="translate(380 70) scale(1.5)" fill="${t['rb-gold']}" d="M12 0c.7 6.8 3.5 10.3 12 12-8.5 1.7-11.3 5.2-12 12-.7-6.8-3.5-10.3-12-12C8.5 10.3 11.3 6.8 12 0z"/>
-  </g>
-</svg>`;
+// The artwork without the transparent margin.
+const trimmed = await sharp(source).ensureAlpha().trim({ background: { r: 0, g: 0, b: 0, alpha: 0 }, threshold: 10 }).toBuffer({ resolveWithObject: true });
+const art = sharp(trimmed.data);
+const { width: W, height: H } = trimmed.info;
 
-await writeFile(path.join(out, 'icon.svg'), svg(1, true));
-const png = (name, size, markup) => sharp(Buffer.from(markup)).resize(size, size).png().toFile(path.join(out, name));
-await png('icon-192.png', 192, svg(1, true));
-await png('icon-512.png', 512, svg(1, true));
-await png('icon-maskable-512.png', 512, svg(0.8, false));
-await png('apple-touch-icon.png', 180, svg(1, false));
+// Edge navy, sampled from the artwork's own night-sky rim (opaque pixels in the band 4-7% below the top edge, middle 40% across).
+const raw = await sharp(trimmed.data).raw().toBuffer();
+let r = 0, g = 0, b = 0, n = 0;
+for (let y = Math.round(H * 0.04); y <= Math.round(H * 0.07); y++) for (let x = Math.round(W * 0.3); x <= Math.round(W * 0.7); x++) {
+  const i = (y * W + x) * 4;
+  if (raw[i + 3] > 250) { r += raw[i]; g += raw[i + 1]; b += raw[i + 2]; n++; }
+}
+const navy = { r: Math.round(r / n), g: Math.round(g / n), b: Math.round(b / n), alpha: 1 };
+console.log('edge navy', '#' + [navy.r, navy.g, navy.b].map(v => v.toString(16).padStart(2, '0')).join(''));
+
+const crop = (fraction) => {            // the centre `fraction` of the artwork (drops the rounded corners and the glowing rim)
+  const w = Math.round(W * fraction), h = Math.round(H * fraction);
+  return { left: Math.round((W - w) / 2), top: Math.round((H - h) / 2), width: w, height: h };
+};
+
+// iOS: opaque. Cut a square from inside the artwork, then flatten onto the navy so no corner can be transparent.
+await sharp(await art.clone().extract(crop(0.9)).toBuffer()).resize(180, 180).flatten({ background: navy }).png({ palette: true, quality: 85, compressionLevel: 9, effort: 10 }).toFile(path.join(out, 'apple-touch-icon.png'));
+
+// "any": the whole artwork, transparent corners kept.
+for (const size of [192, 512]) await art.clone().resize(size, size).png({ palette: true, quality: 85, compressionLevel: 9, effort: 10 }).toFile(path.join(out, `icon-${size}.png`));
+
+// maskable: 80% artwork centred on solid navy.
+const inner = Math.round(512 * 0.8);
+await sharp({ create: { width: 512, height: 512, channels: 4, background: navy } })
+  .composite([{ input: await art.clone().resize(inner, inner).toBuffer(), left: Math.round((512 - inner) / 2), top: Math.round((512 - inner) / 2) }])
+  .flatten({ background: navy }).png({ palette: true, quality: 85, compressionLevel: 9, effort: 10 }).toFile(path.join(out, 'icon-maskable-512.png'));
+
+// favicons keep the rounded shape.
+for (const size of [32, 96]) await art.clone().resize(size, size).png({ palette: true, quality: 85, compressionLevel: 9, effort: 10 }).toFile(path.join(root, `assets/img/favicon-${size}.png`));
+await art.clone().resize(96, 96).png({ palette: true, quality: 85, compressionLevel: 9, effort: 10 }).toFile(path.join(root, 'assets/img/favicon.png'));
 console.log('app icons written');

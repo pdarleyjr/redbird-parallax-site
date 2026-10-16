@@ -57,14 +57,3 @@ export function cardsHTML(events, root, counts = {}) {
   }
   return cards.join('\n');
 }
-
-export function archiveHTML(event, root) {
-  const image = localAsset(event.map?.image), pdf = localAsset(event.map?.pdf);
-  if (event.map?.status !== 'published' || !image) return '          <p class="map-note">The original organizer map is not available.</p>';
-  const previews = event.map.previews || [];
-  const srcset = previews.map(p => `${root}${p.path} ${p.width}w`).join(', ');
-  const preview = previews.at(-1)?.path || image;
-  return `          <p class="map-note">This printed map shows the first ${event.year} houses only and is superseded by the interactive map above. New houses are listed in the directory below.</p>
-          <div class="map-actions"><a class="button button-secondary" href="${e(root + image)}" target="_blank" rel="noopener" data-map-file>View full map <span aria-hidden="true">↗</span><span class="sr-only"> (opens a new tab)</span></a>${pdf ? `<a class="button button-secondary" href="${e(root + pdf)}" target="_blank" rel="noopener" data-map-file>Open printable PDF <span aria-hidden="true">↗</span><span class="sr-only"> (opens a new tab)</span></a>` : ''}</div>
-          <figure class="map-figure"><picture>${srcset ? `<source type="image/webp" srcset="${e(srcset)}" sizes="480px">` : ''}<img src="${e(root + preview)}" alt="The organizer’s October 9 trail map with the first 31 numbered stops. Open the full map to read street labels." width="${event.map.width}" height="${event.map.height}" loading="lazy" decoding="async"></picture><figcaption>The organizer’s original ${event.year} map. Out of date: use the interactive map above.</figcaption></figure>`;
-}
