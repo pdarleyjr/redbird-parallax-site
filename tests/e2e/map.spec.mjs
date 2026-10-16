@@ -30,7 +30,7 @@ test('every located house renders exactly once with the correct number; unlocate
   expect(await page.locator('#map-house-list li').count()).toBe(snapshot.houses.length);
   const none = snapshot.houses.filter(h => h.location === 'none');
   for (const h of none) await expect(page.locator(`#map-house-list button[data-id="${h.id}"]`)).toContainText('Map location coming soon');
-  expect(await page.evaluate(() => window.__map.getStyle().glyphs.startsWith('http://127.0.0.1'))).toBe(true);
+  expect(await page.evaluate(() => window.__map.getStyle().glyphs.startsWith(location.origin))).toBe(true);
 });
 
 test('Find my location shows the nearest house, then visited changes it; no coordinates leave the device', async ({ browser }) => {

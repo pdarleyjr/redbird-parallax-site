@@ -1,29 +1,20 @@
-# Putting the site on a GoDaddy subdomain of iplcmiami.com
+# Domain: https://redbird.iplcmiami.com/ (done 2026-10-16)
 
-The owner will make the DNS change themselves in GoDaddy. Cloudflare is **not** the DNS host for iplcmiami.com, and nothing below needs it to be.
+The site, the PWA and every future Red Bird event live at **https://redbird.iplcmiami.com/**. GoDaddy DNS needed no change: `redbird` is a CNAME to `pdarleyjr.github.io` (kept). Only the GitHub Pages custom domain moved between repositories.
 
-## What you need to create in GoDaddy (public website)
-Pick a subdomain name, for example `trails.iplcmiami.com` (not `redbird`, which still serves the 2025 Christmas site).
-
-| Field | Value |
+| Step | Time (UTC, 2026-10-16) |
 |---|---|
-| Type | `CNAME` |
-| Name / Host | `trails` (or your chosen name, without `.iplcmiami.com`) |
-| Value / Points to | `pdarleyjr.github.io` |
-| TTL | 1 hour (default) |
+| Kill-switch `service-worker.js` live on the old address first | before 15:00 |
+| Christmas repo `pdarleyjr/red-bird-holiday-trail`: CNAME file deleted and Pages custom domain cleared | 15:29:00–15:29:08 |
+| This repo: domain PR merged (CNAME file, canonical origin, flyer QR) | 15:29:19 |
+| This repo: Pages custom domain set (HTTPS enforcement already on) | 15:29:22 |
+| New site answering on the domain (404 page, kill-switch file served) | by 15:30:05 |
+| Canonical URLs show the new domain | 15:30:31 |
 
-GoDaddy path: My Products → iplcmiami.com → DNS → Add New Record. Do not add A records, and do not point the name anywhere else.
+`https://pdarleyjr.github.io/redbird-parallax-site/` now answers 301 to the new address. The Christmas 2025 site stays at https://pdarleyjr.github.io/red-bird-holiday-trail/.
 
-## What the project does afterwards (tell the implementer the name)
-1. Adds a `CNAME` file containing the full name to the repository root and sets it as the GitHub Pages custom domain.
-2. Updates `data/site.json` (`origin`) so canonical links and social previews use the new address; rebuilds and verifies the live site.
-3. After GitHub finishes issuing the certificate (usually under an hour, up to 24 h), turns on Enforce HTTPS.
-4. Keeps the old `pdarleyjr.github.io/redbird-parallax-site/` address working for a redirect-free transition: GitHub redirects it to the custom domain automatically once the custom domain is set.
+## Returning Christmas visitors
+Their browsers hold a cache-first worker registered at `/service-worker.js`. The kill-switch is served at that exact URL: it deletes only caches named `red-bird-holiday-trail-*`, unregisters itself and reloads open pages. It is proven by `tests/e2e/killswitch.spec.mjs` (old worker swapped for the kill-switch, then the new site loads). The current app's worker is `/sw.js`. Keep `service-worker.js` until at least 2026-12-31.
 
-The site is built with only relative links, so it works on either address. A new domain is a new browser origin: visitors' "visited houses" start fresh once.
-
-## The admin
-The admin stays on `https://redbird-admin.pdarleyjr.workers.dev` behind Cloudflare Access (email code login). A custom admin hostname under iplcmiami.com would need that domain's DNS to live on Cloudflare, so it is intentionally not used. The public data feed is `https://redbird-public.pdarleyjr.workers.dev` (read-only); the site falls back to its bundled copy if that is unreachable.
-
-## Not changed
-`redbird.iplcmiami.com` keeps serving the old Christmas 2025 site until the owner decides otherwise (gate G4). The old Christmas service worker lives only on that name, so no kill-switch is needed for a new subdomain.
+## Rollback
+Give the domain back: delete the repo-root `CNAME`, clear the Pages custom domain here, then set it again in the Christmas repo (Settings → Pages) and re-add its `CNAME` file. DNS stays as is.

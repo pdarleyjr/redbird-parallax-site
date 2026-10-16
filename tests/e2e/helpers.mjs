@@ -26,6 +26,6 @@ export function watch(page) {
   page.on('pageerror', e => problems.errors.push(e.message));
   page.on('console', m => { if (m.type() === 'error') problems.errors.push(m.text()); });
   page.on('response', r => { if (r.status() >= 400) problems.bad.push(`${r.status()} ${r.url()}`); });
-  page.on('request', r => { const u = new URL(r.url()); if (!['127.0.0.1', 'localhost', 'redbird-public.pdarleyjr.workers.dev'].includes(u.hostname) && u.protocol.startsWith('http')) problems.external.push(r.url()); });
+  page.on('request', r => { const u = new URL(r.url()); if (!['127.0.0.1', 'localhost', 'redbird-public.pdarleyjr.workers.dev', ...(process.env.TEST_URL ? [new URL(process.env.TEST_URL).hostname] : [])].includes(u.hostname) && u.protocol.startsWith('http')) problems.external.push(r.url()); });
   return problems;
 }
