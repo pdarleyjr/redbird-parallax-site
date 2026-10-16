@@ -25,7 +25,7 @@ test('the map is lazy: MapLibre is not requested on the homepage or before the m
 
 test('every located house renders exactly once with the correct number; unlocated houses are list-only', async ({ page }) => {
   await mapReady(page);
-  const pins = await page.locator('.pin-head').evaluateAll(els => els.map(e => ({ n: Number(e.querySelector('.pin-num').textContent), src: e.querySelector('img').getAttribute('src'), label: e.getAttribute('aria-label') })));
+  const pins = await page.locator('.pin:not(.is-cluster) .pin-head').evaluateAll(els => els.map(e => ({ n: Number(e.querySelector('.pin-num').textContent), src: e.querySelector('img').getAttribute('src'), label: e.getAttribute('aria-label') })));
   expect(pins.map(p => p.n)).toEqual(located.map(h => h.mapNumber)); // one pin per located house, Tab order = number order
   for (const h of located) {
     const pin = pins.find(p => p.n === h.mapNumber);
@@ -77,7 +77,7 @@ test('selecting a house from the accessible list flies to it and announces detai
   const h = located[8];
   await page.locator(`#map-house-list button[data-id="${h.id}"]`).click();
   await expect(page.locator('#house-sheet h3')).toContainText(h.name);
-  await expect(page.locator('.pin.is-selected .pin-head')).toHaveAttribute('aria-label', new RegExp(`^Stop ${h.mapNumber}, `));
+  await expect(page.locator('.pin:not(.is-cluster).is-selected:not([hidden]) .pin-head')).toHaveAttribute('aria-label', new RegExp(`^Stop ${h.mapNumber}, `));
 });
 
 test('without WebGL2 the page explains and the list remains', async ({ browser }) => {
@@ -110,14 +110,20 @@ for (const [name, size] of [['phone 390x844', { width: 390, height: 844 }], ['de
     const page = await context.newPage();
     await mapReady(page);
     await page.waitForTimeout(2000);
-    const boxes = await page.locator('.pin-disc').evaluateAll(els => els.map(e => { const r = e.getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2, d: r.width }; }));
-    expect(boxes.length).toBe(located.length);
+    const boxes = await page.locator('.pin:not([hidden]) .pin-disc').evaluateAll(els => els.map(e => { const r = e.getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2, d: r.width }; }));
+    const shown = await page.locator('.pin:not([hidden]):not(.is-cluster)').count();
+    const grouped = await page.locator('.pin.is-cluster .pin-num').allTextContents();
+    const total = shown + grouped.reduce((n, t) => n + Number(t.replace('+', '')), 0);
+    if (size.width >= 768) expect(total, 'every house is a pin or inside a cluster').toBe(located.length); else expect(total, 'the phone opens framed on the densest area').toBeGreaterThanOrEqual(20);
+    const cap = size.width >= 768 ? 36 : 28;
+    const needles = await page.locator('.pin:not([hidden]) .pin-line').evaluateAll(ls => ls.map(l => Math.hypot(Number(l.getAttribute('x1')), Number(l.getAttribute('y1')))));
+    for (const n of needles) expect(n - (size.width >= 768 ? 22 : 20), 'needle length').toBeLessThanOrEqual(cap + 1);
     let closest = Infinity;
     for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) closest = Math.min(closest, Math.hypot(boxes[i].x - boxes[j].x, boxes[i].y - boxes[j].y) - (boxes[i].d + boxes[j].d) / 2);
     expect(closest, `closest heads are ${closest.toFixed(1)}px apart`).toBeGreaterThanOrEqual(0);
     const stage = await page.locator('#map-stage').boundingBox();
     for (const b of boxes) { expect(b.x).toBeGreaterThan(stage.x); expect(b.x).toBeLessThan(stage.x + stage.width); expect(b.y).toBeGreaterThan(stage.y); expect(b.y).toBeLessThan(stage.y + stage.height); }
-    const tap = await page.locator('.pin-head').first().boundingBox();
+    const tap = await page.locator('.pin:not([hidden]) .pin-head').first().boundingBox();
     expect(tap.width).toBeGreaterThanOrEqual(36); expect(tap.height).toBeGreaterThanOrEqual(36);
     await page.locator('#map-stage').screenshot({ path: `test-results/pins-${size.width}.png` });
     if (process.env.QA_SHOTS) await page.locator('#map-stage').screenshot({ path: `${process.env.QA_SHOTS}/map-pins-${size.width}.png` });
@@ -130,8 +136,38 @@ test('visited and nearest states restyle the pins', async ({ page }) => {
   const h = located[3];
   await page.locator(`#map-house-list button[data-id="${h.id}"]`).click();
   await page.locator('#house-sheet').getByRole('button', { name: 'Mark visited' }).click();
-  const pin = page.locator('.pin', { has: page.locator(`.pin-head[aria-label^="Stop ${h.mapNumber},"]`) });
+  const pin = page.locator('.pin:not(.is-cluster)', { has: page.locator(`.pin-head[aria-label^="Stop ${h.mapNumber},"]`) });
   await expect(pin).toHaveClass(/is-visited/);
   await expect(pin.locator('.pin-num')).toHaveText('✓');
   await expect(pin.locator('.pin-head')).toHaveAttribute('aria-label', /visited$/);
+});
+
+test('Show whole trail on a phone accounts for every house, in pins or clusters, with short needles', async ({ browser }) => {
+  const context = await browser.newContext({ baseURL: test.info().project.use.baseURL, viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
+  const page = await context.newPage();
+  await mapReady(page);
+  await page.locator('#show-all').click();
+  await page.waitForTimeout(2000);
+  const shown = await page.locator('.pin:not([hidden]):not(.is-cluster)').count();
+  const grouped = await page.locator('.pin.is-cluster .pin-num').allTextContents();
+  expect(shown + grouped.reduce((n, t) => n + Number(t.replace('+', '')), 0)).toBe(located.length);
+  const needles = await page.locator('.pin:not([hidden]) .pin-line').evaluateAll(ls => ls.map(l => Math.hypot(Number(l.getAttribute('x1')), Number(l.getAttribute('y1')))));
+  for (const n of needles) expect(n - 20).toBeLessThanOrEqual(29);
+  if (process.env.QA_SHOTS) await page.locator('#map-stage').screenshot({ path: `${process.env.QA_SHOTS}/map-pins-390-whole.png` });
+  await context.close();
+});
+
+test('tapping a cluster zooms in and splits it into more pins', async ({ browser }) => {
+  const context = await browser.newContext({ baseURL: test.info().project.use.baseURL, viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  await mapReady(page);
+  await page.locator('#show-all').click();
+  await page.waitForTimeout(2000);
+  const before = await page.locator('.pin.is-cluster:not([hidden])').count();
+  expect(before).toBeGreaterThan(0);
+  const zoom = await page.evaluate(() => window.__map.getZoom());
+  await page.locator('.pin.is-cluster:not([hidden]) .pin-head').first().click();
+  await page.waitForFunction(z => window.__map.getZoom() > z + 0.5, zoom);
+  expect(await page.evaluate(() => window.__map.getZoom())).toBeGreaterThan(zoom);
+  await context.close();
 });

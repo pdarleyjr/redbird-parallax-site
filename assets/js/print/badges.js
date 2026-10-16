@@ -32,20 +32,22 @@ export function drawBadges(svg, houses, { bounds, W, H, radius: R, root }) {
   defs.append(grad, shine); svg.append(defs);
 
   const group = svgEl('g', { class: 'pm' });
-  placed.forEach((p, i) => {
-    const h = located[i];
+  const byId = new Map(located.map(h => [h.id, h]));
+  placed.forEach(p => {
+    const h = byId.get(p.ids[0]);
     const g = svgEl('g', { 'data-n': h.mapNumber, 'data-x': p.hx.toFixed(1), 'data-y': p.hy.toFixed(1) });
     g.append(
       svgEl('ellipse', { class: 'pm-shadow', cx: (p.ax + R * .17).toFixed(1), cy: (p.ay + R * .07).toFixed(1), rx: (R * .36).toFixed(1), ry: (R * .14).toFixed(1) }),
-      svgEl('line', { class: 'pm-needle', x1: p.ax.toFixed(1), y1: p.ay.toFixed(1), x2: p.hx.toFixed(1), y2: (p.hy + R).toFixed(1) }),
+      svgEl('line', { class: 'pm-needle', x1: p.ax.toFixed(1), y1: p.ay.toFixed(1), x2: p.hx.toFixed(1), y2: p.hy.toFixed(1) }),
       svgEl('circle', { class: 'pm-ground', cx: p.ax.toFixed(1), cy: p.ay.toFixed(1), r: (R * .17).toFixed(1) }),
       svgEl('circle', { class: 'pm-glow', cx: p.hx.toFixed(1), cy: p.hy.toFixed(1), r: (R + R * .12).toFixed(1) }),
-      svgEl('circle', { class: `pm-head${h.location === 'approximate' ? ' is-approx' : ''}`, cx: p.hx.toFixed(1), cy: p.hy.toFixed(1), r: R.toFixed(1), fill: 'url(#pm-head)' }),
-      svgEl('image', { href: `${root}assets/img/markers/${h.icon}.webp`, x: (p.hx - R * .78).toFixed(1), y: (p.hy - R * .78).toFixed(1), width: (R * 1.56).toFixed(1), height: (R * 1.56).toFixed(1), preserveAspectRatio: 'xMidYMid meet' }),
+      svgEl('circle', { class: 'pm-head', cx: p.hx.toFixed(1), cy: p.hy.toFixed(1), r: R.toFixed(1), fill: 'url(#pm-head)' }),
+      svgEl('image', { href: `${root}assets/img/markers/${h.icon}.webp`, x: (p.hx - R * .92).toFixed(1), y: (p.hy - R * .92).toFixed(1), width: (R * 1.84).toFixed(1), height: (R * 1.84).toFixed(1), preserveAspectRatio: 'xMidYMid meet' }),
+      svgEl('circle', { class: 'pm-ring', cx: p.hx.toFixed(1), cy: p.hy.toFixed(1), r: (R - 1.2).toFixed(1) }),
       svgEl('circle', { class: 'pm-shine', cx: p.hx.toFixed(1), cy: p.hy.toFixed(1), r: R.toFixed(1), fill: 'url(#pm-shine)' }),
-      svgEl('circle', { class: 'pm-tag', cx: (p.hx + R * .8).toFixed(1), cy: (p.hy + R * .68).toFixed(1), r: (R * .5).toFixed(1) })
+      svgEl('circle', { class: 'pm-tag', cx: (p.hx + R * .74).toFixed(1), cy: (p.hy + R * .74).toFixed(1), r: (R * .4).toFixed(1) })
     );
-    const t = svgEl('text', { x: (p.hx + R * .8).toFixed(1), y: (p.hy + R * .68).toFixed(1), style: `font-size:${(R * .62).toFixed(1)}px` });
+    const t = svgEl('text', { x: (p.hx + R * .74).toFixed(1), y: (p.hy + R * .74).toFixed(1), style: `font-size:${(R * .47).toFixed(1)}px` });
     t.textContent = String(h.mapNumber);
     g.append(t); group.append(g);
   });

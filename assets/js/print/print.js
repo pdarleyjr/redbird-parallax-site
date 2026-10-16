@@ -23,7 +23,7 @@ function drawOverlay(svg, snapshot, meta, paper) {
   svg.replaceChildren();
   const ring = snapshot.boundary.coordinates[0].map(([lng, lat]) => projectToBounds({ lat, lng }, entry.bounds, W, H));
   svg.append(svgEl('polygon', { class: 'boundary', points: ring.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ') }));
-  const count = drawBadges(svg, snapshot.houses, { bounds: entry.bounds, W, H, radius: 0.15 / BLOCK_INCHES[paper] * W, root: siteRoot.href });
+  const count = drawBadges(svg, snapshot.houses, { bounds: entry.bounds, W, H, radius: 0.17 / BLOCK_INCHES[paper] * W, root: siteRoot.href });
   // North arrow and scale bar
   const [w, s, e, n] = entry.bounds;
   const metersPerUnit = distanceMeters({ lat: (s + n) / 2, lng: w }, { lat: (s + n) / 2, lng: e }) / W;
