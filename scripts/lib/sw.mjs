@@ -25,11 +25,20 @@ export async function mapHash(root, files) {
   return hash.digest('hex').slice(0, 10);
 }
 
-export async function buildServiceWorker({ root, outputs, hash, site }) {
+export async function buildServiceWorker({ root, outputs, hash, site, snapshot }) {
   const pages = [...outputs.keys()].filter(k => k.endsWith('.html') || k === 'manifest.webmanifest' || k === 'assets/js/legacy-redirect.js');
   const shellDirs = ['shared', 'assets/css', 'assets/js', 'assets/fonts', 'assets/app', 'assets/img/markers', 'assets/img/optimized', 'assets/img/christmas'];
   const shell = [...pages];
-  for (const dir of shellDirs) shell.push(...(await walk(path.join(root, dir))).map(f => `${dir}/${f}`));
+  const usedIcons = new Set((snapshot?.houses || []).map(h => `${h.icon}.webp`));
+  // Install downloads only code and pages. Images are saved shortly after the page has settled ('warm-extras'), so a first visit stays light.
+  const extras = [];
+  for (const dir of shellDirs) {
+    for (const f of await walk(path.join(root, dir))) {
+      const isImage = /\.(webp|jpg|png)$/.test(f) && dir.startsWith('assets/img');
+      if (!isImage) shell.push(`${dir}/${f}`);
+      else if ((dir === 'assets/img/markers' && usedIcons.has(f)) || (dir !== 'assets/img/markers' && /-(600|960)\.webp$/.test(f))) extras.push(`${dir}/${f}`);
+    }
+  }
   shell.push('data/icons.json', ...(await walk(path.join(root, 'assets/map'))).filter(f => f.startsWith('print-base')).map(f => `assets/map/${f}`));
   const data = ['data/site.json', ...(site.events.map(e => e.snapshot).filter(Boolean))];
   const maps = await mapFiles(root);
@@ -43,6 +52,7 @@ const DATA = 'rbht-data';
 const API = ${JSON.stringify(api)};
 const PRECACHE = ${JSON.stringify([...new Set(shell)].sort())};
 const DATA_URLS = ${JSON.stringify(data)};
+const EXTRAS = ${JSON.stringify(extras.sort())};
 const scope = self.registration.scope;
 const abs = u => new URL(u, scope).href;
 
@@ -66,8 +76,14 @@ self.addEventListener('activate', event => {
 self.addEventListener('message', event => {
   if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
   if (event.data?.type === 'warm-map') event.waitUntil(warmMap());
+  if (event.data?.type === 'warm-extras') event.waitUntil(warmExtras());
   if (event.data?.type === 'GET_VERSION') event.source?.postMessage({ type: 'VERSION', version: VERSION });
 });
+
+async function warmExtras() {
+  const cache = await caches.open(SHELL);
+  for (const u of EXTRAS) { if (!(await cache.match(abs(u)))) { try { await cache.add(abs(u)); } catch (e) { /* skip */ } } }
+}
 
 async function warmMap() {
   const cache = await caches.open(MAP);

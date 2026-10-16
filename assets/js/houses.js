@@ -9,7 +9,8 @@ function buildCard(house, root) {
   const main = document.createElement('div'); main.className = 'house-main';
   const art = document.createElement('div'); art.className = 'house-art';
   const img = document.createElement('img');
-  img.src = `${root}assets/img/markers/${house.icon}.webp`; img.alt = ''; img.width = 80; img.height = 80; img.loading = 'lazy'; img.decoding = 'async';
+  img.loading = 'lazy'; img.decoding = 'async'; img.alt = ''; img.width = 80; img.height = 80; // set loading before src, or the image starts fetching immediately
+  img.src = `${root}assets/img/markers/${house.icon}.webp`;
   img.addEventListener('error', () => img.remove(), { once: true });
   const number = document.createElement('span'); number.className = 'stop-number'; number.textContent = house.mapNumber;
   number.setAttribute('aria-label', `Map stop ${house.mapNumber}`);
@@ -70,6 +71,7 @@ export function initHouses({ snapshot, root, onShow }) {
     sync(); filter();
   };
   const render = next => {
+    if (JSON.stringify(next.houses) === JSON.stringify(houses) && list.children.length === houses.length) { list.dataset.version = String(next.version); return; } // same content: keep the DOM
     houses = next.houses;
     list.replaceChildren(...houses.map(h => buildCard(h, root)));
     list.dataset.version = String(next.version);

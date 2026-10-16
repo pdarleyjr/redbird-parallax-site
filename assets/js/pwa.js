@@ -57,8 +57,17 @@ function initInstall() {
   if (ios && !dismissed()) row.hidden = false;
 }
 
+// Save images for offline use a little after the page has settled (skipped when the visitor asked to save data).
+function saveImagesLater() {
+  if (navigator.connection?.saveData) return;
+  const send = () => setTimeout(() => navigator.serviceWorker.ready.then(r => r.active?.postMessage({ type: 'warm-extras' })), 8000);
+  if (document.readyState === 'complete') send(); else addEventListener('load', send, { once: true });
+}
+
 export function initPwa() {
   initInstall();
   if (!flag || !('serviceWorker' in navigator)) return;
-  navigator.serviceWorker.register(new URL('sw.js', siteRoot), { scope: siteRoot.href }).then(watchForUpdates).catch(error => console.warn('Offline mode unavailable:', error.message));
+  // Register after the page has finished loading so the worker's downloads never compete with what the visitor is waiting for.
+  const register = () => setTimeout(() => navigator.serviceWorker.register(new URL('sw.js', siteRoot), { scope: siteRoot.href }).then(registration => { watchForUpdates(registration); saveImagesLater(); }).catch(error => console.warn('Offline mode unavailable:', error.message)), 2000);
+  if (document.readyState === 'complete') register(); else addEventListener('load', register, { once: true });
 }

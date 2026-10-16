@@ -19,12 +19,12 @@ export async function loadBundled(path) {
 }
 
 export async function loadLive(apiBase, eventId) {
-  if (!apiBase) return null;
+  if (!apiBase) return undefined; // no live source configured
   try {
     const body = await getJSON(`${apiBase.replace(/\/$/, '')}/v1/events/${encodeURIComponent(eventId)}/public`, 5000);
     const data = body && 'ok' in body ? body.data : body;
     const errors = validateSnapshot(data);
-    if (errors.length) { console.error('Live snapshot ignored:', errors[0]); return null; }
+    if (errors.length) { console.warn('Live snapshot ignored:', errors[0]); return null; }
     return data;
   } catch (error) {
     console.info('Live data unavailable, showing saved list.', error.message);
