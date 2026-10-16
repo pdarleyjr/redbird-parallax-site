@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-16T14:58:01.338Z",
+  "base": "https://pdarleyjr.github.io/redbird-parallax-site/",
+  "results": [
+    {
+      "name": "homepage cards",
+      "ok": true,
+      "details": "46 houses on the trail"
+    },
+    {
+      "name": "halloween directory",
+      "ok": true,
+      "details": "46 houses"
+    },
+    {
+      "name": "interactive map renders every located house",
+      "ok": true,
+      "details": "46 pins"
+    },
+    {
+      "name": "print page ready",
+      "ok": true,
+      "details": "46 markers"
+    },
+    {
+      "name": "manifest, icons, service worker file",
+      "ok": true,
+      "details": "Red Bird Neighborhood Holiday Trails; 3 icons; sw 7801 bytes"
+    },
+    {
+      "name": "live data feed matches the site",
+      "ok": true,
+      "details": "snapshot v3, 46 houses"
+    },
+    {
+      "name": "no page errors or failed requests",
+      "ok": true,
+      "details": "clean"
+    }
+  ]
+}

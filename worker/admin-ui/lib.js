@@ -22,7 +22,7 @@ export async function api(path, { method = 'GET', body, headers = {} } = {}) {
   if (!response.ok || !data?.ok) {
     const error = new Error(data?.error?.message || `Something went wrong (${response.status}).`);
     error.status = response.status;
-    if (response.status === 401 && path !== '/api/login') document.dispatchEvent(new CustomEvent('rb:signed-out'));
+    if (response.status === 401) document.dispatchEvent(new CustomEvent('rb:signed-out'));
     throw error;
   }
   return data.data;

@@ -95,3 +95,17 @@ export function showChooser({ houses, onPick }) {
   for (const h of houses) row.append(button(`#${h.mapNumber} ${h.name}`, () => onPick(h.id)));
   r.append(row);
 }
+
+/** A small sheet of links (used by the mobile "Print" entry). */
+export function showLinks({ title, links }) {
+  const r = frame(title);
+  r.append(el('h3', null, title));
+  const row = el('div', 'row');
+  for (const { label, href, main } of links) {
+    const a = el('a', main ? 'main' : null, label);
+    a.href = href;
+    row.append(a);
+  }
+  r.append(row);
+  r.querySelector('a')?.focus();
+}

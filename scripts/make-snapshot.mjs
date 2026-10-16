@@ -10,6 +10,12 @@ import { assertSnapshot } from '../shared/snapshot-schema.mjs';
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readJSON = async rel => JSON.parse(await readFile(path.join(root, rel), 'utf8'));
 
+/** Building-snapped positions from the flyer generator (OSM address import); owner GPS pins are marked manual-owner. */
+export async function flyerPositions() {
+  const list = JSON.parse(await readFile(path.join(root, 'tools/flyer-map/houses.json'), 'utf8'));
+  return new Map(list.map(h => { const owner = String(h.source).startsWith('owner'); return [h.n, { lat: h.lat, lng: h.lng, source: owner ? 'manual-owner' : 'osm-building', verified: owner }]; }));
+}
+
 export function printExtentFor(ring, pad = 0.06) {
   const lngs = ring.map(p => p[0]), lats = ring.map(p => p[1]);
   const [w, e, s, n] = [Math.min(...lngs), Math.max(...lngs), Math.min(...lats), Math.max(...lats)];
@@ -29,21 +35,22 @@ export async function makeSnapshot({ cacheFile = 'data/reconcile/geocode-cache.j
     readJSON('data/reconcile/roster-2026-10-09.json'), readJSON('data/reconcile/2026-10-16.decisions.json'),
     readJSON('data/events/halloween-2026.json'), readJSON('data/geo/redbird-boundary.geojson'), readJSON(cacheFile)
   ]);
+  const flyer = await flyerPositions();
   const houses = roster.houses.filter(h => h.status === 'approved').map(h => {
     const override = decisions.overrides?.[h.id] || {};
     const key = normalizeAddress(h.address).key;
     const manual = decisions.manualLocations?.[h.id];
-    const point = manual || trustedGeocode(cache[key], key);
+    const point = manual || flyer.get(h.mapNumber) || trustedGeocode(cache[key], key);
     return {
       id: h.id, mapNumber: h.mapNumber, name: override.name || h.name, address: normalizeAddress(h.address).display,
       description: null, icon: override.icon || path.basename(h.image || 'haunted-generic', '.webp'),
       lat: point ? point.lat : null, lng: point ? point.lng : null,
-      location: point ? (manual?.verified ? 'verified' : 'approximate') : 'none'
+      location: point ? (point.verified ? 'verified' : 'approximate') : 'none'
     };
   });
   for (const n of decisions.approvedNew || []) {
     const a = normalizeAddress(n.address);
-    const point = decisions.manualLocations?.[n.id] || trustedGeocode(cache[a.key], a.key);
+    const point = decisions.manualLocations?.[n.id] || flyer.get(n.mapNumber) || trustedGeocode(cache[a.key], a.key);
     houses.push({ id: n.id, mapNumber: n.mapNumber, name: n.name, address: a.display, description: null, icon: n.icon, lat: point ? point.lat : null, lng: point ? point.lng : null, location: point ? (point.verified ? 'verified' : 'approximate') : 'none' });
   }
   houses.sort((a, b) => a.mapNumber - b.mapNumber);

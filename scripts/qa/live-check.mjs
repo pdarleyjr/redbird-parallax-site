@@ -17,7 +17,8 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 if (wait) {
   for (let i = 0; i < 60; i++) {
     const html = await fetch(base, { cache: 'no-store' }).then(r => r.text()).catch(() => '');
-    if (html.includes(`${snapshot.houses.length} houses on the trail`)) break;
+    const sw = await fetch(base + 'sw.js', { cache: 'no-store' }).then(r => r.text()).catch(() => '');
+    if (html.includes(`${snapshot.houses.length} houses on the trail`) && sw.includes(process.env.LIVE_MARKER || 'warm-extras')) break;
     await sleep(10000);
   }
 }

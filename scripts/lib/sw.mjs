@@ -39,7 +39,7 @@ export async function buildServiceWorker({ root, outputs, hash, site, snapshot }
       else if ((dir === 'assets/img/markers' && usedIcons.has(f)) || (dir !== 'assets/img/markers' && /-(600|960)\.webp$/.test(f))) extras.push(`${dir}/${f}`);
     }
   }
-  shell.push('data/icons.json', ...(await walk(path.join(root, 'assets/map'))).filter(f => f.startsWith('print-base')).map(f => `assets/map/${f}`));
+  shell.push('data/icons.json', 'data/flyer-houses.json', 'assets/maps/redbird-trail-map-2026-1600.webp', ...(await walk(path.join(root, 'assets/map'))).filter(f => f.startsWith('print-base')).map(f => `assets/map/${f}`));
   const data = ['data/site.json', ...(site.events.map(e => e.snapshot).filter(Boolean))];
   const maps = await mapFiles(root);
   outputs.set('assets/map/manifest.json', JSON.stringify(maps) + '\n');

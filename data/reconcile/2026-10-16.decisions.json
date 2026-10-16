@@ -6,28 +6,14 @@
     "stop-10": {
       "name": "Haunted House",
       "icon": "fluent-jack-o-lantern",
-      "reason": "Owner decision 2026-10-16: two conflicting submissions superseded; pumpkin icon (Fluent jack-o-lantern, the supplied pumpkin art did not match the brand)"
+      "reason": "Owner decision 2026-10-16: two conflicting submissions superseded; pumpkin icon (Fluent jack-o-lantern)"
     },
     "stop-05": {
       "name": "Halloween Stop",
       "reason": "Owner decision 2026-10-16: CSV name blank; keep published name"
     }
   },
-  "manualLocations": {
-    "stop-03": {
-      "lat": 25.734927,
-      "lng": -80.288444,
-      "verified": true,
-      "source": "manual-owner",
-      "note": "Gilbert’s Bakery on Bird building; point supplied by the owner from Google Maps"
-    },
-    "stop-25": {
-      "lat": 25.7367261,
-      "lng": -80.2955533,
-      "verified": true,
-      "source": "manual-owner"
-    }
-  },
+  "manualLocations": {},
   "approvedNew": [
     {
       "id": "stop-32",
@@ -62,7 +48,7 @@
       "name": "The Motley Brew",
       "address": "6391 SW 39th Street",
       "submittedOn": "2026-10-13",
-      "icon": "fluent-potion",
+      "icon": "fluent-alembic",
       "flags": []
     },
     {
@@ -107,7 +93,7 @@
       "name": "Webby’s",
       "address": "3615 SW 59th Avenue",
       "submittedOn": "2026-10-14",
-      "icon": "the-webbed-manor",
+      "icon": "fluent-spider-web",
       "flags": []
     },
     {
@@ -125,7 +111,7 @@
       "name": "Beware: kids are gone",
       "address": "5800 SW 35th Street",
       "submittedOn": "2026-10-15",
-      "icon": "fluent-ghost",
+      "icon": "fluent-spider",
       "flags": []
     },
     {
@@ -163,7 +149,7 @@
       "name": "The Boo-tiful Family Home",
       "address": "5790 SW 35th Street",
       "submittedOn": "2026-10-15",
-      "icon": "fluent-jack-o-lantern",
+      "icon": "fluent-derelict-house",
       "flags": []
     }
   ],
@@ -176,18 +162,18 @@
     "stop-32": "fluent-candy",
     "stop-33": "blues-boooooo-house",
     "stop-34": "fluent-lollipop",
-    "stop-35": "fluent-potion",
+    "stop-35": "fluent-alembic",
     "stop-36": "sweet-and-spooky-stop",
     "stop-37": "fluent-bone",
     "stop-38": "fluent-black-cat",
     "stop-39": "fluent-headstone",
-    "stop-40": "the-webbed-manor",
+    "stop-40": "fluent-spider-web",
     "stop-41": "fluent-bat",
-    "stop-42": "fluent-ghost",
+    "stop-42": "fluent-spider",
     "stop-43": "fluent-ghost",
     "stop-44": "fluent-castle",
     "stop-45": "fluent-skull",
-    "stop-46": "fluent-jack-o-lantern"
+    "stop-46": "fluent-derelict-house"
   },
   "nameOverrides": {},
   "resolvedFlags": {
@@ -197,5 +183,6 @@
     "stop-38": [
       "zip_mismatch"
     ]
-  }
+  },
+  "manualLocationsNote": "Owner GPS pins for #03 and #25 live in tools/flyer-map/houses.json (source manual-owner); they are verified."
 }

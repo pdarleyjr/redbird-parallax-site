@@ -1,0 +1,19 @@
+.trailmap{padding-block:clamp(1.5rem,4vw,3rem)}
+.tm-title{font-size:var(--step-4);letter-spacing:.02em;text-transform:uppercase;margin-bottom:.75rem}
+.tm-intro{color:var(--rb-text);max-width:60ch;margin-bottom:1rem}
+.trailmap .actions{margin-block:1rem 1.5rem}
+.muted-size{font-weight:400;opacity:.8}
+.notice{padding:.75rem 1rem;border-radius:.75rem;border:1.5px solid var(--rb-gold);background:var(--rb-panel);margin-bottom:1rem;max-width:none}
+.tm-figure{margin:0;border-radius:1rem;overflow:hidden;border:1px solid var(--rb-line);background:var(--rb-panel);touch-action:pan-x pan-y pinch-zoom}
+.tm-figure a{display:block;overflow:auto}
+.tm-figure img{width:100%;height:auto;min-width:min(100%,56rem)}
+.tm-figure figcaption{font-size:.8rem;color:var(--rb-muted);padding:.75rem 1rem}
+@media(max-width:699px){.tm-figure a{overflow-x:auto}.tm-figure img{min-width:150%}}
+@media print{
+  @page{size:letter landscape;margin:.25in}
+  body{background:var(--rb-paper)}
+  .site-header,.site-footer,.trailmap .eyebrow,.tm-title,.tm-intro,.trailmap .actions,.notice,.skip-link,.tm-figure figcaption{display:none!important}
+  .trailmap{width:auto;padding:0}
+  .tm-figure{border:0;border-radius:0}
+  .tm-figure img{width:100%;min-width:0;max-height:7.9in;object-fit:contain}
+}

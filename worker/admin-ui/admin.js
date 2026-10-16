@@ -8,22 +8,11 @@ const view = document.querySelector('#view');
 const tabs = document.querySelector('#tabs');
 const who = document.querySelector('#who');
 
-function showLogin(message = '') {
+// Sign-in is handled by Cloudflare Access in front of this page. If a call is refused, ask for a reload (which re-runs Access).
+function showBlocked(message) {
   tabs.hidden = true; who.replaceChildren();
-  const password = h('input', { type: 'password', id: 'password', name: 'password', autocomplete: 'current-password', required: true, 'aria-describedby': 'login-msg' });
-  const error = h('p', { id: 'login-msg', role: 'alert' }, message);
-  const form = h('form', { class: 'login', onSubmit: async event => {
-    event.preventDefault();
-    error.textContent = '';
-    try {
-      await api('/api/login', { method: 'POST', body: { password: password.value } });
-      password.value = '';
-      await start();
-    } catch (err) { error.textContent = err.message; password.value = ''; password.focus(); }
-  } }, h('h2', {}, 'Sign in'), h('label', { for: 'password' }, 'Admin password'), password,
-  h('div', { class: 'row' }, h('button', { type: 'submit', class: 'primary' }, 'Sign in')), error);
-  view.replaceChildren(form);
-  password.focus();
+  view.replaceChildren(h('section', { class: 'login' }, h('h2', {}, 'Sign-in needed'), h('p', { role: 'alert' }, message),
+    h('div', { class: 'row' }, h('button', { type: 'button', class: 'primary', onClick: () => location.reload() }, 'Reload and sign in'))));
 }
 
 async function show(tab) {
@@ -34,12 +23,13 @@ async function show(tab) {
 }
 
 async function start() {
-  try { await api('/api/me'); } catch (error) { showLogin(error.status === 401 ? '' : error.message); return; }
+  let me;
+  try { me = await api('/api/me'); } catch (error) { showBlocked(error.status === 403 ? 'This account is not allowed to use the admin.' : error.message); return; }
   tabs.hidden = false;
-  who.replaceChildren(h('button', { type: 'button', id: 'sign-out', onClick: async () => { await guarded(() => api('/api/logout', { method: 'POST', body: {} })); showLogin('You are signed out.'); } }, 'Sign out'));
+  who.replaceChildren(h('span', {}, me.email, ' '), h('a', { href: '/cdn-cgi/access/logout' }, 'Sign out'));
   await show(VIEWS[location.hash.slice(1)] ? location.hash.slice(1) : 'houses');
 }
 
 tabs.addEventListener('click', event => { const b = event.target.closest('button[data-tab]'); if (b) show(b.dataset.tab); });
-document.addEventListener('rb:signed-out', () => showLogin('Your session ended. Please sign in again.'));
+document.addEventListener('rb:signed-out', () => showBlocked('Your sign-in expired. Reload to sign in again.'));
 await start();

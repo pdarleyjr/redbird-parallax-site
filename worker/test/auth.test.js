@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { call, env, forgedCookie, freshIp, nowSec, resetDatabase, signIn, SESSION_SECONDS } from './helpers.js';
-import { LIMITS, passwordMatches, readSession, signSession, timingSafeEqual } from '../src/lib/auth.js';
+import { SignJWT, generateKeyPair } from 'jose';
+import { call, env, resetDatabase, token } from './helpers.js';
 
 beforeEach(resetDatabase);
 
@@ -8,125 +8,58 @@ const PROTECTED = [['GET', '/api/me'], ['GET', '/api/houses'], ['POST', '/api/ho
   ['POST', '/api/geocode'], ['GET', '/api/imports'], ['POST', '/api/imports/preview'], ['POST', '/api/imports/x/apply'], ['POST', '/api/imports/x/rollback'],
   ['GET', '/api/snapshots'], ['POST', '/api/snapshots/halloween-2026/2/restore'], ['GET', '/api/events'], ['PATCH', '/api/events/halloween-2026'], ['GET', '/api/audit'], ['GET', '/api/export.csv']];
 
-describe('password sign-in', () => {
-  it('signs in with the right password and sets a hardened session cookie', async () => {
-    const { res, set } = await signIn();
-    expect(res.status).toBe(200);
-    expect(set).toMatch(/^rb_admin=[\w-]+\.[\w-]+;/);
-    for (const attr of ['HttpOnly', 'Secure', 'SameSite=Strict', 'Path=/', `Max-Age=${SESSION_SECONDS}`]) expect(set).toContain(attr);
-    expect(SESSION_SECONDS).toBe(12 * 3600);
+describe('Cloudflare Access verification (fail closed)', () => {
+  it('rejects requests without a token on every protected route', async () => {
+    for (const [method, path] of PROTECTED) expect((await call(path, { method, body: method === 'GET' ? undefined : {}, auth: false })).status, `${method} ${path}`).toBe(401);
   });
-  it('rejects a wrong password with a generic message and no cookie', async () => {
-    const { res, set } = await signIn('definitely wrong');
+  it('there is no password login or cookie path any more', async () => {
+    expect((await call('/api/login', { method: 'POST', body: { password: env.ADMIN_PASSWORD ?? 'x' }, auth: false })).status).toBe(401);
+    expect((await call('/api/logout', { method: 'POST', body: {}, auth: false })).status).toBe(401);
+    const res = await call('/api/me', { auth: false, headers: { Cookie: 'rb_admin=anything' } });
     expect(res.status).toBe(401);
-    expect(set).toBeNull();
-    expect(res.body.error.message).toBe('That password did not work.');
-    expect(JSON.stringify(res.body)).not.toMatch(/correct horse|ADMIN_PASSWORD/);
   });
-  it('treats missing, empty and non-string passwords as wrong', async () => {
-    for (const body of [{}, { password: '' }, { password: 12345 }, { password: null }, { password: ['x'] }]) {
-      const res = await call('/api/login', { method: 'POST', body, ip: freshIp() });
-      expect(res.status).toBe(401);
+  it('rejects a wrong audience, wrong issuer, an unknown signing key and an expired token', async () => {
+    const other = await generateKeyPair('ES256');
+    const expired = await new SignJWT({ email: 'admin@example.invalid' }).setProtectedHeader({ alg: 'ES256', kid: 'test-key' }).setIssuer('https://team.example.invalid').setAudience('test-audience').setExpirationTime('-1m').sign(other.privateKey);
+    const bad = [await token({}, { aud: 'someone-else' }), await token({}, { iss: 'https://evil.example.invalid' }), await token({}, { key: other.privateKey }), expired, 'not.a.jwt'];
+    for (const t of bad) expect((await call('/api/me', { auth: t })).status).toBe(401);
+  });
+  it('accepts every allowlisted address and reports the email', async () => {
+    for (const email of ['admin@example.invalid', 'second@example.invalid', 'ADMIN@Example.Invalid']) {
+      const res = await call('/api/me', { auth: await token({}, { email }) });
+      expect(res.status, email).toBe(200);
+      expect(res.body.data.email).toBe(email.toLowerCase());
     }
   });
-  it('compares in constant time over SHA-256 digests', async () => {
-    expect(await passwordMatches('a', 'a')).toBe(true);
-    expect(await passwordMatches('a', 'b')).toBe(false);
-    expect(await passwordMatches('a'.repeat(1000), 'a')).toBe(false);
-    expect(timingSafeEqual(new Uint8Array([1, 2]), new Uint8Array([1, 2]))).toBe(true);
-    expect(timingSafeEqual(new Uint8Array([1, 2]), new Uint8Array([1, 3]))).toBe(false);
-    expect(timingSafeEqual(new Uint8Array([1]), new Uint8Array([1, 2]))).toBe(false);
+  it('rejects a valid token for an address that is not on the allowlist (403), and tokens without an email', async () => {
+    expect((await call('/api/me', { auth: await token({}, { email: 'stranger@example.invalid' }) })).status).toBe(403);
+    expect((await call('/api/me', { auth: await token({ email: undefined }, { email: undefined }) })).status).toBe(403);
+    expect((await call('/api/me', { auth: await token({}, { email: ['admin', '@example.invalid', '.evil.test'].join('') }) })).status).toBe(403);
   });
-  it('rate limits to 5 failures per 15 minutes per IP, then answers 429 even for the right password', async () => {
-    const ip = freshIp();
-    for (let i = 0; i < LIMITS.perIpFailures; i++) expect((await call('/api/login', { method: 'POST', body: { password: 'nope' }, ip })).status).toBe(401);
-    expect((await call('/api/login', { method: 'POST', body: { password: 'nope' }, ip })).status).toBe(429);
-    expect((await call('/api/login', { method: 'POST', body: { password: env.ADMIN_PASSWORD }, ip })).status).toBe(429);
-    expect((await signIn(env.ADMIN_PASSWORD, { ip: freshIp() })).res.status).toBe(200); // another address is unaffected
-  });
-  it('limits failures globally to 20 per hour across addresses', async () => {
-    for (let i = 0; i < LIMITS.globalFailures; i++) await call('/api/login', { method: 'POST', body: { password: 'nope' }, ip: freshIp() });
-    const res = await call('/api/login', { method: 'POST', body: { password: env.ADMIN_PASSWORD }, ip: freshIp() });
-    expect(res.status).toBe(429);
-  });
-  it('ignores failures older than the window', async () => {
-    const ip = freshIp();
-    for (let i = 0; i < LIMITS.perIpFailures; i++) await call('/api/login', { method: 'POST', body: { password: 'nope' }, ip });
-    await env.DB.prepare('UPDATE login_attempts SET at = at - ?').bind(LIMITS.globalWindowMs + 1000).run();
-    expect((await signIn(env.ADMIN_PASSWORD, { ip })).res.status).toBe(200);
-  });
-  it('stores no password material, only a hashed address and the outcome', async () => {
-    await call('/api/login', { method: 'POST', body: { password: 'secret-attempt-123' }, ip: '198.51.100.7' });
-    const rows = (await env.DB.prepare('SELECT * FROM login_attempts').all()).results;
-    expect(JSON.stringify(rows)).not.toMatch(/secret-attempt|198\.51\.100\.7/);
-    expect(Object.keys(rows[0]).sort()).toEqual(['at', 'id', 'ip_hash', 'ok']);
-  });
-  it('fails closed with 503 when the secrets are not configured', async () => {
+  it('fails closed with 503 when Access settings or the allowlist are missing', async () => {
     const { handleApi } = await import('../src/admin.js');
-    const res = await handleApi(new Request('https://admin.test/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://admin.test' }, body: JSON.stringify({ password: 'x' }) }), { DB: env.DB });
-    expect(res.status).toBe(503);
-    const me = await handleApi(new Request('https://admin.test/api/me'), { DB: env.DB, SESSION_SECRET: 'short' });
-    expect(me.status).toBe(503);
+    const t = await token();
+    for (const patch of [{ ACCESS_TEAM: '' }, { ACCESS_AUD: '' }, { ADMIN_EMAILS: '' }]) {
+      const res = await handleApi(new Request('https://admin.test/api/me', { headers: { 'Cf-Access-Jwt-Assertion': t } }), { ...env, ...patch });
+      expect(res.status, JSON.stringify(patch)).toBe(503);
+    }
   });
 });
 
-describe('session cookie', () => {
-  it('rejects every protected route without a cookie', async () => {
-    for (const [method, path] of PROTECTED) expect((await call(path, { method, body: method === 'GET' ? undefined : {} })).status, `${method} ${path}`).toBe(401);
-  });
-  it('accepts a valid cookie and sees the admin role', async () => {
-    const { cookie } = await signIn();
-    const me = await call('/api/me', { cookie });
-    expect(me.status).toBe(200);
-    expect(me.body.data.role).toBe('admin');
-  });
-  it('rejects a tampered payload, a tampered signature and a cookie signed with another secret', async () => {
-    const { cookie } = await signIn();
-    const [name, value] = cookie.split('=');
-    const [body, sig] = value.split('.');
-    const forgedBody = btoa(JSON.stringify({ iat: nowSec(), exp: nowSec() + 999999 })).replace(/=+$/, '');
-    for (const bad of [`${name}=${forgedBody}.${sig}`, `${name}=${body}.${sig.slice(0, -2)}AA`, `${name}=${body}`, `${name}=.`, `${name}=x.y`, await forgedCookie({ iat: nowSec(), exp: nowSec() + 600 }, 'another-secret-another-secret-another-secret!')]) {
-      expect((await call('/api/me', { cookie: bad })).status).toBe(401);
-    }
-  });
-  it('rejects an expired cookie and one issued in the future', async () => {
-    expect((await call('/api/me', { cookie: await forgedCookie({ iat: nowSec() - 7200, exp: nowSec() - 3600 }) })).status).toBe(401);
-    expect((await call('/api/me', { cookie: await forgedCookie({ iat: nowSec() + 3600, exp: nowSec() + 7200 }) })).status).toBe(401);
-    expect((await call('/api/me', { cookie: await forgedCookie({ iat: nowSec(), exp: nowSec() + 600 }) })).status).toBe(200);
-    expect(await readSession(env.SESSION_SECRET, await signSession(env.SESSION_SECRET, { iat: 1, exp: 2 }))).toBeNull();
-  });
-  it('rotating SESSION_SECRET signs everyone out', async () => {
-    const { cookie } = await signIn();
-    const { handleApi } = await import('../src/admin.js');
-    const res = await handleApi(new Request('https://admin.test/api/me', { headers: { Cookie: cookie } }), { ...env, SESSION_SECRET: 'rotated-secret-rotated-secret-rotated-secret' });
-    expect(res.status).toBe(401);
-  });
-  it('logout clears the cookie', async () => {
-    const { cookie } = await signIn();
-    const out = await call('/api/logout', { method: 'POST', cookie, body: {} });
-    expect(out.status).toBe(200);
-    expect(out.headers.get('Set-Cookie')).toMatch(/rb_admin=;.*Max-Age=0/);
-  });
-});
-
-describe('CSRF protections', () => {
+describe('CSRF protections and audit', () => {
   it('refuses mutations without an Origin header or from another origin', async () => {
-    const { cookie } = await signIn();
-    expect((await call('/api/houses', { method: 'POST', cookie, body: {}, origin: false })).status).toBe(403);
-    expect((await call('/api/houses', { method: 'POST', cookie, body: {}, origin: false, headers: { Origin: 'https://evil.example.invalid' } })).status).toBe(403);
-    expect((await call('/api/login', { method: 'POST', body: { password: env.ADMIN_PASSWORD }, origin: false })).status).toBe(403);
+    expect((await call('/api/houses', { method: 'POST', body: {}, origin: false })).status).toBe(403);
+    expect((await call('/api/houses', { method: 'POST', body: {}, origin: false, headers: { Origin: 'https://evil.example.invalid' } })).status).toBe(403);
   });
   it('requires a JSON content type for mutations', async () => {
-    const { cookie } = await signIn();
     const { handleApi } = await import('../src/admin.js');
-    const res = await handleApi(new Request('https://admin.test/api/houses', { method: 'POST', headers: { Cookie: cookie, Origin: 'https://admin.test', 'Content-Type': 'text/plain' }, body: 'x' }), env);
+    const res = await handleApi(new Request('https://admin.test/api/houses', { method: 'POST', headers: { 'Cf-Access-Jwt-Assertion': await token(), Origin: 'https://admin.test', 'Content-Type': 'text/plain' }, body: 'x' }), env);
     expect(res.status).toBe(415);
   });
-  it('records who and where in the audit log (hashed address, truncated user agent), never the raw address', async () => {
-    const { cookie } = await signIn(env.ADMIN_PASSWORD, { ip: '198.51.100.44' });
-    await call('/api/houses', { method: 'POST', cookie, ip: '198.51.100.44', body: { name: 'Audit Fixture', address: '3700 SW 61st Avenue', icon: 'ghost' } });
+  it('records the signed-in email, a truncated user agent and a hashed address (never the raw address)', async () => {
+    await call('/api/houses', { method: 'POST', ip: '198.51.100.44', auth: await token({}, { email: 'second@example.invalid' }), body: { name: 'Audit Fixture', address: '3700 SW 61st Avenue', icon: 'fluent-ghost' } });
     const row = await env.DB.prepare('SELECT * FROM audit_log ORDER BY id DESC LIMIT 1').first();
-    expect(row.actor).toBe('admin');
+    expect(row.actor).toBe('second@example.invalid');
     expect(row.ua).toBe('vitest-agent');
     expect(row.ip_hash).toMatch(/^[0-9a-f]{12}$/);
     expect(JSON.stringify(row)).not.toContain('198.51.100.44');
