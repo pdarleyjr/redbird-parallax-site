@@ -123,6 +123,11 @@ export async function buildAll() {
   const printBase = pageBase(inputs, { root: '../../', hash, path: 'halloween/print/', title: `Print the ${event.name} map`, description: 'A printable map of the Red Bird Trick-or-Treat Trail with a numbered house list.', css: ['tokens', 'base', 'print'], nav: [['', 'Holiday Trails'], ['halloween/', 'Halloween trail']], footerNote: 'Map data © OpenStreetMap contributors · Protomaps.' });
   outputs.set('halloween/print/index.html', await render(templates, 'print.html', { ...printBase, ...labels, eventJSON: jsonForScript({ ...event, apiBase: site.api?.publicBase || null }) }));
 
+  const trail = pageBase(inputs, { root: '../../', hash, path: 'halloween/trail-map/', title: `Trail map flyer · ${event.name}`, description: 'Download or print the one-page illustrated trail map of the Red Bird neighborhood with every numbered Halloween house.', css: ['tokens', 'base', 'trailmap'], nav: [['', 'Holiday Trails'], ['halloween/', 'Halloween trail'], ['halloween/print/', 'Print the live map']], footerNote: 'Map data © OpenStreetMap contributors (ODbL). Icons: Red Bird artwork and Microsoft Fluent Emoji (MIT).' });
+  outputs.set('halloween/trail-map/index.html', await render(templates, 'trail-map.html', { ...trail, ...labels, eventJSON: jsonForScript({ ...event, apiBase: site.api?.publicBase || null }) }));
+  const flyerHouses = JSON.parse(await readFile(path.join(root, 'tools/flyer-map/houses.json'), 'utf8'));
+  outputs.set('data/flyer-houses.json', JSON.stringify({ madeOn: 'October 16, 2026', ids: flyerHouses.map(h => `stop-${String(h.n).padStart(2, '0')}`) }) + '\n');
+
   const xmas = pageBase(inputs, { root: '../', hash, path: 'christmas/', title: 'Red Bird Neighborhood Holiday Trail', description: 'Details for this year’s Red Bird holiday trail will be posted here.', css: ['tokens', 'base', 'home'], nav: [['', 'Holiday Trails'], ['halloween/', 'Halloween trail']], footerNote: 'A neighborhood project. No ads, no tracking.' });
   outputs.set('christmas/index.html', await render(templates, 'christmas.html', { ...xmas, siteJSON: jsonForScript({ events: site.events, apiBase: site.api?.publicBase || null }) }));
 

@@ -113,8 +113,24 @@ test('owner decisions are applied: #36 name as submitted, manual pins verified, 
   assert.deepEqual([byId['stop-03'].lat, byId['stop-03'].lng, byId['stop-03'].location], [25.734927, -80.288444, 'verified']);
   assert.deepEqual([byId['stop-25'].lat, byId['stop-25'].lng, byId['stop-25'].location], [25.7367261, -80.2955533, 'verified']);
   assert.equal(snapshot.houses.filter(h => h.location === 'approximate').length, 44);
-  assert.equal(byId['stop-33'].icon, 'blues-boooooo-house'); assert.equal(byId['stop-40'].icon, 'the-webbed-manor'); assert.equal(byId['stop-36'].icon, 'sweet-and-spooky-stop');
-  assert.match(await readFile(path.join(root, 'assets/img/source/fluent/LICENSE.txt'), 'utf8'), /MIT License/);
+  assert.equal(byId['stop-33'].icon, 'blues-boooooo-house'); assert.equal(byId['stop-40'].icon, 'fluent-spider-web'); assert.equal(byId['stop-36'].icon, 'sweet-and-spooky-stop');
+  assert.match(await readFile(path.join(root, 'assets/img/markers/FLUENT-LICENSE.txt'), 'utf8'), /MIT License/);
   const footer = (await buildAll()).get('halloween/index.html');
   assert.match(footer, /Fluent Emoji/);
+});
+
+test('every marker icon has real alpha transparency at all four corners (no boxed or checkerboard backgrounds)', async () => {
+  const { default: sharp } = await import('sharp');
+  const dirs = ['tools/flyer-map/icons', 'assets/img/markers'];
+  let checked = 0;
+  for (const dir of dirs) {
+    for (const file of (await readdir(path.join(root, dir))).filter(f => /\.(png|webp)$/.test(f))) {
+      const { data, info } = await sharp(path.join(root, dir, file)).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+      assert.equal(info.channels, 4, `${dir}/${file} has no alpha channel`);
+      const at = (x, y) => data[(y * info.width + x) * 4 + 3];
+      for (const [x, y] of [[0, 0], [info.width - 1, 0], [0, info.height - 1], [info.width - 1, info.height - 1]]) assert.ok(at(x, y) < 16, `${dir}/${file} corner (${x},${y}) is opaque (alpha ${at(x, y)})`);
+      checked++;
+    }
+  }
+  assert.ok(checked >= 78, `checked ${checked} icons`);
 });

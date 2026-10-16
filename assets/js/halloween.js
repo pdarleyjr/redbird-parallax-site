@@ -4,7 +4,7 @@ import { getVisited, setVisited, onVisitedChange } from './visited.js';
 import { webgl2Available } from './map/loader.js';
 import { nearest } from '../../shared/geo.mjs';
 import { createLocator } from './map/locate.js';
-import { showNearest, showHouse, showChooser, hideSheet } from './map/sheet.js';
+import { showNearest, showHouse, showChooser, showLinks, hideSheet } from './map/sheet.js';
 import { compassSupported, startCompass, stopCompass, currentHeading } from './map/compass.js';
 import { initPwa } from './pwa.js';
 
@@ -111,6 +111,7 @@ async function main() {
   });
 
   onVisitedChange(set => { view?.setVisited(set); renderNearest(); });
+  $('#bar-print').addEventListener('click', () => showLinks({ title: 'Print the trail map', links: [{ label: 'Trail map flyer (PDF)', href: new URL('halloween/trail-map/', siteRoot).href, main: true }, { label: 'Print live map', href: new URL('halloween/print/', siteRoot).href }] }));
   $('#locate-button').addEventListener('click', locate);
   $('#bar-near').addEventListener('click', locate);
   $('#zoom-in').addEventListener('click', async () => (await loadMap())?.zoom(1));

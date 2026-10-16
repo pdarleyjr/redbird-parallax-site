@@ -97,6 +97,11 @@ async function main() {
     document.body.dataset.markers = String(count);
     ready.textContent = 'Map ready ✓'; button.disabled = false;
   }
+  try { // tell people when the downloadable flyer is older than this live list
+    const flyer = await (await fetch(new URL('data/flyer-houses.json', siteRoot))).json();
+    const newer = snapshot.houses.filter(h => !flyer.ids.includes(h.id)).length;
+    if (newer) { const note = $('#print-newer'); note.textContent = `This is the latest map. The downloadable trail map flyer (made ${flyer.madeOn}) does not include ${newer === 1 ? '1 newer house' : `${newer} newer houses`}.`; note.hidden = false; }
+  } catch { /* optional hint */ }
   select.addEventListener('change', render);
   include.addEventListener('change', () => drawLegend(snapshot, include.checked));
   button.addEventListener('click', () => window.print());

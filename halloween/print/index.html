@@ -20,10 +20,10 @@
   <link rel="apple-touch-icon" href="../../assets/app/apple-touch-icon.png">
   <link rel="manifest" href="../../manifest.webmanifest">
   <link rel="preload" href="../../assets/fonts/poppins-bold.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../../assets/css/tokens.css?v=f305b55c">
-  <link rel="stylesheet" href="../../assets/css/base.css?v=f305b55c">
-  <link rel="stylesheet" href="../../assets/css/print.css?v=f305b55c">
-  <script type="module" src="../../assets/js/print/print.js?v=f305b55c"></script>
+  <link rel="stylesheet" href="../../assets/css/tokens.css?v=85d080df">
+  <link rel="stylesheet" href="../../assets/css/base.css?v=85d080df">
+  <link rel="stylesheet" href="../../assets/css/print.css?v=85d080df">
+  <script type="module" src="../../assets/js/print/print.js?v=85d080df"></script>
 </head>
 <body class="print-page">
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -53,6 +53,7 @@
       <label><input type="checkbox" id="include-list" checked> Include house list</label>
       <button type="button" class="button button-primary" id="print-button" disabled>Print or save as PDF</button>
       <span id="print-ready" role="status" aria-live="polite">Preparing map…</span>
+      <p class="print-hint" id="print-newer" hidden></p>
       <p class="print-hint">iPhone: Share → Print → Save to Files. Android: ⋮ → Share → Print → Save as PDF.</p>
     </div>
   </section>

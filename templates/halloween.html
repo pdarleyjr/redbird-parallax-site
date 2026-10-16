@@ -17,7 +17,8 @@
         <a href="#what-to-expect">Event info</a>
         <a href="#how-it-works">How it works</a>
         <a href="#featured-houses">The houses</a>
-        <a href="{{root}}halloween/print/">Print map</a>
+        <a href="{{root}}halloween/trail-map/">Trail map flyer</a>
+        <a href="{{root}}halloween/print/">Print live map</a>
         <a class="nav-map" href="#map">Trail map <span aria-hidden="true">&nbsp;↗</span></a>
         <button id="menu-close" class="menu-button" hidden>Close menu <span aria-hidden="true">×</span></button>
       </nav>
@@ -83,6 +84,7 @@
             </div>
             <p class="map-status" id="map-status" role="status" aria-live="polite"></p>
             <p class="map-privacy">We use your location only on this device to show where you are. It’s never sent anywhere.</p>
+            <p class="map-flyer"><a class="text-link" href="{{root}}halloween/trail-map/">Download or print the trail map flyer (PDF)</a></p>
           </div>
           <aside class="map-side" aria-labelledby="map-list-title">
             <h3 id="map-list-title">Houses on the map</h3>
@@ -118,7 +120,7 @@
     <a href="#map"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14M15 6v14"/></svg>Map</a>
     <button type="button" id="bar-near"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>Near me</button>
     <a href="#featured-houses"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>Houses</a>
-    <a href="{{root}}halloween/print/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4v-8h16v8h-2M7 14h10v7H7z"/></svg>Print</a>
+    <button type="button" id="bar-print" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4v-8h16v8h-2M7 14h10v7H7z"/></svg>Print</button>
   </nav>
 {{>footer}}
   <script id="event-config" type="application/json">{{eventJSON}}</script>

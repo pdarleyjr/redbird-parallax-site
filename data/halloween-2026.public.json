@@ -54,8 +54,8 @@
       "address": "3911 SW 60th Court",
       "description": null,
       "icon": "skeleton-dog",
-      "lat": 25.734809,
-      "lng": -80.292223,
+      "lat": 25.735143875,
+      "lng": -80.292032025,
       "location": "approximate"
     },
     {
@@ -65,8 +65,8 @@
       "address": "3934 SW 58th Court",
       "description": null,
       "icon": "mouse-pumpkin",
-      "lat": 25.73465,
-      "lng": -80.289895,
+      "lat": 25.73473789166667,
+      "lng": -80.29003198333334,
       "location": "approximate"
     },
     {
@@ -87,8 +87,8 @@
       "address": "5790 SW 39th Street",
       "description": null,
       "icon": "skull",
-      "lat": 25.735346,
-      "lng": -80.288783,
+      "lat": 25.735217,
+      "lng": -80.28871214955136,
       "location": "approximate"
     },
     {
@@ -98,8 +98,8 @@
       "address": "5792 SW 39th Street",
       "description": null,
       "icon": "candy-pumpkin",
-      "lat": 25.735344,
-      "lng": -80.288831,
+      "lat": 25.735217,
+      "lng": -80.28881185044865,
       "location": "approximate"
     },
     {
@@ -109,8 +109,8 @@
       "address": "5785 SW 39th Street",
       "description": null,
       "icon": "horror-house",
-      "lat": 25.735466,
-      "lng": -80.288646,
+      "lat": 25.735616716666666,
+      "lng": -80.28854729999999,
       "location": "approximate"
     },
     {
@@ -120,8 +120,8 @@
       "address": "5795 SW 39th Street",
       "description": null,
       "icon": "witch",
-      "lat": 25.735456,
-      "lng": -80.288883,
+      "lat": 25.735619900000003,
+      "lng": -80.2887573,
       "location": "approximate"
     },
     {
@@ -131,8 +131,8 @@
       "address": "3825 SW 58th Avenue",
       "description": null,
       "icon": "witch",
-      "lat": 25.735788,
-      "lng": -80.288983,
+      "lat": 25.735746499999998,
+      "lng": -80.2887935,
       "location": "approximate"
     },
     {
@@ -142,8 +142,8 @@
       "address": "3815 SW 58th Avenue",
       "description": null,
       "icon": "ghost",
-      "lat": 25.735833,
-      "lng": -80.288984,
+      "lat": 25.73589065,
+      "lng": -80.28881115,
       "location": "approximate"
     },
     {
@@ -153,8 +153,8 @@
       "address": "3800 SW 58th Avenue",
       "description": null,
       "icon": "fluent-jack-o-lantern",
-      "lat": 25.736123,
-      "lng": -80.289116,
+      "lat": 25.735961166666666,
+      "lng": -80.28927037777777,
       "location": "approximate"
     },
     {
@@ -164,8 +164,8 @@
       "address": "3830 SW 58th Court",
       "description": null,
       "icon": "dinosaur",
-      "lat": 25.735757,
-      "lng": -80.289941,
+      "lat": 25.735576975,
+      "lng": -80.29010280833333,
       "location": "approximate"
     },
     {
@@ -175,8 +175,8 @@
       "address": "3624 SW 58th Avenue",
       "description": null,
       "icon": "fountain",
-      "lat": 25.737205,
-      "lng": -80.289175,
+      "lat": 25.736975144444443,
+      "lng": -80.2893849,
       "location": "approximate"
     },
     {
@@ -186,8 +186,8 @@
       "address": "3703 SW 58th Avenue",
       "description": null,
       "icon": "ghost",
-      "lat": 25.736549,
-      "lng": -80.289011,
+      "lat": 25.736897775,
+      "lng": -80.288868925,
       "location": "approximate"
     },
     {
@@ -197,8 +197,8 @@
       "address": "3601 SW 58th Avenue",
       "description": null,
       "icon": "spider",
-      "lat": 25.737232,
-      "lng": -80.289049,
+      "lat": 25.7373202,
+      "lng": -80.2889023,
       "location": "approximate"
     },
     {
@@ -208,8 +208,8 @@
       "address": "5735 SW 35th Street",
       "description": null,
       "icon": "villa",
-      "lat": 25.738061,
-      "lng": -80.287582,
+      "lat": 25.7382699625,
+      "lng": -80.2874971875,
       "location": "approximate"
     },
     {
@@ -219,8 +219,8 @@
       "address": "5825 SW 35th Street",
       "description": null,
       "icon": "horror-house",
-      "lat": 25.737988,
-      "lng": -80.289596,
+      "lat": 25.7381773,
+      "lng": -80.28962778571429,
       "location": "approximate"
     },
     {
@@ -230,8 +230,8 @@
       "address": "5935 SW 35th Street",
       "description": null,
       "icon": "wicked-house",
-      "lat": 25.737939,
-      "lng": -80.291099,
+      "lat": 25.73812203,
+      "lng": -80.29146898,
       "location": "approximate"
     },
     {
@@ -241,8 +241,8 @@
       "address": "3601 SW 60th Avenue",
       "description": null,
       "icon": "jester",
-      "lat": 25.737245,
-      "lng": -80.291522,
+      "lat": 25.737238389999998,
+      "lng": -80.2913223,
       "location": "approximate"
     },
     {
@@ -252,8 +252,8 @@
       "address": "3610 SW 60th Avenue",
       "description": null,
       "icon": "horror-house",
-      "lat": 25.737182,
-      "lng": -80.291646,
+      "lat": 25.73709058333333,
+      "lng": -80.29180385833332,
       "location": "approximate"
     },
     {
@@ -263,8 +263,8 @@
       "address": "3700 SW 60th Avenue",
       "description": null,
       "icon": "taco",
-      "lat": 25.736678,
-      "lng": -80.291615,
+      "lat": 25.73674928888889,
+      "lng": -80.29180078888889,
       "location": "approximate"
     },
     {
@@ -274,8 +274,8 @@
       "address": "3736 SW 60th Avenue",
       "description": null,
       "icon": "bones",
-      "lat": 25.736476,
-      "lng": -80.291602,
+      "lat": 25.736268566666666,
+      "lng": -80.29175292222222,
       "location": "approximate"
     },
     {
@@ -285,8 +285,8 @@
       "address": "3700 SW 60th Place",
       "description": null,
       "icon": "werewolf",
-      "lat": 25.736556,
-      "lng": -80.293259,
+      "lat": 25.736811941666662,
+      "lng": -80.29347834166667,
       "location": "approximate"
     },
     {
@@ -296,8 +296,8 @@
       "address": "3720 SW 60th Place",
       "description": null,
       "icon": "graveyard",
-      "lat": 25.736452,
-      "lng": -80.293254,
+      "lat": 25.736479974999998,
+      "lng": -80.29344798333334,
       "location": "approximate"
     },
     {
@@ -307,8 +307,8 @@
       "address": "6078 S Waterway Drive",
       "description": null,
       "icon": "skeleton",
-      "lat": 25.736999,
-      "lng": -80.293769,
+      "lat": 25.737116200000003,
+      "lng": -80.29343523,
       "location": "approximate"
     },
     {
@@ -329,8 +329,8 @@
       "address": "3810 SW 61st Avenue",
       "description": null,
       "icon": "door",
-      "lat": 25.735817,
-      "lng": -80.29403,
+      "lat": 25.73569265,
+      "lng": -80.2942254,
       "location": "approximate"
     },
     {
@@ -340,8 +340,8 @@
       "address": "3825 SW 62nd Avenue",
       "description": null,
       "icon": "witch",
-      "lat": 25.735503,
-      "lng": -80.29473,
+      "lat": 25.735535666666667,
+      "lng": -80.29452583333334,
       "location": "approximate"
     },
     {
@@ -351,8 +351,8 @@
       "address": "6210 SW 38th Street",
       "description": null,
       "icon": "book",
-      "lat": 25.73549,
-      "lng": -80.295047,
+      "lat": 25.735346157142857,
+      "lng": -80.29513218571428,
       "location": "approximate"
     },
     {
@@ -362,8 +362,8 @@
       "address": "6275 SW 39th Street",
       "description": null,
       "icon": "spider",
-      "lat": 25.735197,
-      "lng": -80.296635,
+      "lat": 25.7353564,
+      "lng": -80.29630105999999,
       "location": "approximate"
     },
     {
@@ -373,8 +373,8 @@
       "address": "3821 SW 60th Avenue",
       "description": null,
       "icon": "goalkeeper",
-      "lat": 25.735807,
-      "lng": -80.291436,
+      "lat": 25.735650816666666,
+      "lng": -80.29125188333333,
       "location": "approximate"
     },
     {
@@ -384,8 +384,8 @@
       "address": "3927 SW 58th Court",
       "description": null,
       "icon": "spider",
-      "lat": 25.73474,
-      "lng": -80.289772,
+      "lat": 25.7349058,
+      "lng": -80.28956242,
       "location": "approximate"
     },
     {
@@ -395,8 +395,8 @@
       "address": "3604 SW 60th Avenue",
       "description": null,
       "icon": "fluent-candy",
-      "lat": 25.737216,
-      "lng": -80.291648,
+      "lat": 25.73721592,
+      "lng": -80.29182248,
       "location": "approximate"
     },
     {
@@ -406,8 +406,8 @@
       "address": "3611 SW 60th Court",
       "description": null,
       "icon": "blues-boooooo-house",
-      "lat": 25.737155,
-      "lng": -80.292344,
+      "lat": 25.737055249999997,
+      "lng": -80.29217096666666,
       "location": "approximate"
     },
     {
@@ -417,8 +417,8 @@
       "address": "6028 SW 35th Street",
       "description": null,
       "icon": "fluent-lollipop",
-      "lat": 25.737787,
-      "lng": -80.292087,
+      "lat": 25.7376033625,
+      "lng": -80.29214495625,
       "location": "approximate"
     },
     {
@@ -427,9 +427,9 @@
       "name": "The Motley Brew",
       "address": "6391 SW 39th Street",
       "description": null,
-      "icon": "fluent-potion",
-      "lat": 25.735113,
-      "lng": -80.298626,
+      "icon": "fluent-alembic",
+      "lat": 25.735299573333336,
+      "lng": -80.29864912,
       "location": "approximate"
     },
     {
@@ -439,8 +439,8 @@
       "address": "3710 SW 59th Avenue",
       "description": null,
       "icon": "sweet-and-spooky-stop",
-      "lat": 25.736651,
-      "lng": -80.290796,
+      "lat": 25.73660327,
+      "lng": -80.29096434,
       "location": "approximate"
     },
     {
@@ -450,8 +450,8 @@
       "address": "3910 SW 60th Place",
       "description": null,
       "icon": "fluent-bone",
-      "lat": 25.734775,
-      "lng": -80.293174,
+      "lat": 25.734964422222223,
+      "lng": -80.29334323333333,
       "location": "approximate"
     },
     {
@@ -461,8 +461,8 @@
       "address": "5778 SW 35th Street",
       "description": null,
       "icon": "fluent-black-cat",
-      "lat": 25.737915,
-      "lng": -80.288615,
+      "lat": 25.7377454,
+      "lng": -80.2883860875,
       "location": "approximate"
     },
     {
@@ -472,8 +472,8 @@
       "address": "5765 SW 35th Street",
       "description": null,
       "icon": "fluent-headstone",
-      "lat": 25.73804,
-      "lng": -80.28829,
+      "lat": 25.738234005263156,
+      "lng": -80.28832855789473,
       "location": "approximate"
     },
     {
@@ -482,9 +482,9 @@
       "name": "Webby’s",
       "address": "3615 SW 59th Avenue",
       "description": null,
-      "icon": "the-webbed-manor",
-      "lat": 25.737197,
-      "lng": -80.290692,
+      "icon": "fluent-spider-web",
+      "lat": 25.737055771428572,
+      "lng": -80.29049735714285,
       "location": "approximate"
     },
     {
@@ -494,8 +494,8 @@
       "address": "6258 SW 39th Street",
       "description": null,
       "icon": "fluent-bat",
-      "lat": 25.735086,
-      "lng": -80.296556,
+      "lat": 25.73493876666667,
+      "lng": -80.295980675,
       "location": "approximate"
     },
     {
@@ -504,9 +504,9 @@
       "name": "Beware: kids are gone",
       "address": "5800 SW 35th Street",
       "description": null,
-      "icon": "fluent-ghost",
-      "lat": 25.737895,
-      "lng": -80.289212,
+      "icon": "fluent-spider",
+      "lat": 25.737682533333334,
+      "lng": -80.28931519999999,
       "location": "approximate"
     },
     {
@@ -516,8 +516,8 @@
       "address": "3725 SW 59th Avenue",
       "description": null,
       "icon": "fluent-ghost",
-      "lat": 25.736577,
-      "lng": -80.290666,
+      "lat": 25.73655055,
+      "lng": -80.2904906375,
       "location": "approximate"
     },
     {
@@ -527,8 +527,8 @@
       "address": "3801 SW 60th Place",
       "description": null,
       "icon": "fluent-castle",
-      "lat": 25.735939,
-      "lng": -80.293103,
+      "lat": 25.735872664285715,
+      "lng": -80.2929246642857,
       "location": "approximate"
     },
     {
@@ -538,8 +538,8 @@
       "address": "3930 SW 60th Place",
       "description": null,
       "icon": "fluent-skull",
-      "lat": 25.734564,
-      "lng": -80.293164,
+      "lat": 25.73462988,
+      "lng": -80.29331776000001,
       "location": "approximate"
     },
     {
@@ -548,9 +548,9 @@
       "name": "The Boo-tiful Family Home",
       "address": "5790 SW 35th Street",
       "description": null,
-      "icon": "fluent-jack-o-lantern",
-      "lat": 25.737906,
-      "lng": -80.288899,
+      "icon": "fluent-derelict-house",
+      "lat": 25.7377399875,
+      "lng": -80.288535625,
       "location": "approximate"
     }
   ]

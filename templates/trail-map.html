@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" data-theme="halloween">
+<head>
+{{>head}}
+  <script type="module" src="{{root}}assets/js/trailmap.js{{assetVersion}}"></script>
+</head>
+<body>
+{{>defs}}
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner wrap">
+      <a class="brand" href="{{root}}halloween/"><svg aria-hidden="true" width="46" height="40"><use href="#rb-cardinal"/></svg><span><span class="brand-name">RED BIRD</span><span class="brand-subtitle">← Trick-or-Treat Trail</span></span></a>
+    </div>
+  </header>
+  <main id="main" tabindex="-1">
+    <section class="trailmap wrap" aria-labelledby="tm-title">
+      <p class="eyebrow">Printable guide · {{year}}</p>
+      <h1 id="tm-title" class="tm-title">Trail map flyer</h1>
+      <p class="tm-intro">One page, Letter landscape. Pinch or tap the map to zoom, download the PDF, or print it. Illustrations show Halloween themes, not the actual homes.</p>
+      <p id="tm-hint" class="notice" role="status" hidden></p>
+      <div class="actions">
+        <a class="button button-primary" id="tm-pdf" href="{{root}}assets/maps/redbird-trail-map-2026.pdf" download="redbird-trail-map-2026.pdf" type="application/pdf">Download PDF <span class="muted-size">(6 MB)</span></a>
+        <button type="button" class="button button-secondary" id="tm-print">Print</button>
+        <a class="button button-secondary" href="{{root}}halloween/print/">Print latest map</a>
+      </div>
+      <figure class="tm-figure">
+        <a href="{{root}}assets/maps/redbird-trail-map-2026.webp" target="_blank" rel="noopener" aria-label="Open the full-size trail map in a new tab">
+          <img id="tm-image" src="{{root}}assets/maps/redbird-trail-map-2026-1600.webp" alt="Three-dimensional illustrated map of the Red Bird neighborhood with numbered Halloween houses, streets, the waterway and a numbered house list." width="1600" height="1236" decoding="async">
+        </a>
+        <figcaption>Tap the map to open the full-size image. Map data © OpenStreetMap contributors (ODbL). Icons: Red Bird artwork and Microsoft Fluent Emoji (MIT).</figcaption>
+      </figure>
+    </section>
+  </main>
+{{>footer}}
+  <script id="event-config" type="application/json">{{eventJSON}}</script>
+</body>
+</html>

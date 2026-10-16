@@ -34,3 +34,4 @@ a.event-card:focus-visible{outline:3px solid var(--rb-neon-orange);outline-offse
 @media(min-width:960px){
   .cards{grid-template-columns:1fr 1fr;gap:1.5rem}.event-card{aspect-ratio:5/6}
 }
+.card-note{text-align:center;margin:1.25rem auto 0;max-width:none}
