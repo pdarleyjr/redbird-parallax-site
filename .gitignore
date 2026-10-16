@@ -26,3 +26,8 @@ playwright-report/
 tmp/
 worktrees/
 *.log
+
+# Private registration data
+private/
+*.csv
+!tests/fixtures/*.csv
