@@ -134,3 +134,11 @@ test('every marker icon has real alpha transparency at all four corners (no boxe
   }
   assert.ok(checked >= 78, `checked ${checked} icons`);
 });
+test('the app and the printed flyer use the same icon for every house (ICONS in tools/flyer-map/build_flyer.py)', async () => {
+  const py = await readFile(path.join(root, 'tools/flyer-map/build_flyer.py'), 'utf8');
+  const block = py.match(/ICONS\s*=\s*\{([\s\S]*?)\n\}/)[1];
+  const flyer = new Map([...block.matchAll(/(\d+)\s*:\s*"([\w-]+)"/g)].map(m => [Number(m[1]), m[2]]));
+  const snapshot = JSON.parse(await readFile(path.join(root, 'data/halloween-2026.public.json'), 'utf8'));
+  assert.equal(flyer.size, snapshot.houses.length);
+  for (const h of snapshot.houses) assert.equal(h.icon, flyer.get(h.mapNumber), `#${h.mapNumber} ${h.name}: app uses ${h.icon}, flyer uses ${flyer.get(h.mapNumber)}`);
+});
