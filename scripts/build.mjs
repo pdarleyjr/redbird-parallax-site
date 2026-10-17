@@ -54,14 +54,20 @@ export async function loadInputs() {
   const [site, event, rawSnapshot, tokens] = await Promise.all([
     readJSON('data/site.json'), readJSON('data/events/halloween-2026.json'), readJSON('data/halloween-2026.public.json'), readTokens()
   ]);
-  return { site, event, snapshot: assertSnapshot(rawSnapshot), tokens };
+  // Content hashes for the icons and the manifest: they go in every icon and manifest URL (?v=...), so a changed icon is a new URL.
+  const iconFiles = [...(await walk(path.join(root, 'assets/app'))).filter(f => /^(apple-touch|icon)/.test(f)).map(f => `assets/app/${f}`), 'assets/img/favicon-32.png', 'assets/img/favicon-96.png'].sort();
+  const iconHash = createHash('sha256');
+  for (const f of iconFiles) iconHash.update(f + '\0').update(await readFile(path.join(root, f)));
+  const iconVersion = iconHash.digest('hex').slice(0, 10);
+  const manifestVersion = createHash('sha256').update(JSON.stringify(buildManifest({ site, tokens, iconVersion }))).digest('hex').slice(0, 10);
+  return { site, event, snapshot: assertSnapshot(rawSnapshot), tokens, iconVersion, manifestVersion };
 }
 
 function pageBase(inputs, page, extra) {
   const { site, tokens } = inputs;
   const version = `?v=${page.hash.slice(0, 8)}`;
   return {
-    root: page.root, title: page.title, description: page.description, themeColor: tokens['rb-sky'], appName: APP_NAME,
+    root: page.root, title: page.title, description: page.description, themeColor: tokens['rb-sky'], appName: APP_NAME, iconVersion: inputs.iconVersion, manifestVersion: inputs.manifestVersion,
     canonical: new URL(page.path, site.origin).href, ogImage: new URL('assets/img/optimized/hero.jpg', site.origin).href,
     ogImageAlt: 'Red Bird children in Halloween costumes with a cardinal and glowing pumpkins.',
     swFlag: site.features?.serviceWorker ? 'on' : 'off', csp: csp(site), assetVersion: version, cssLinksHTML: cssLinks(page.root, page.css, version),

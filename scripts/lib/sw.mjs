@@ -62,6 +62,7 @@ self.addEventListener('install', event => {
     await Promise.all(PRECACHE.map(async u => { try { await shell.add(new Request(abs(u), { cache: 'reload' })); } catch (e) { /* optional files may be absent */ } }));
     const data = await caches.open(DATA);
     await Promise.all(DATA_URLS.map(async u => { try { await data.add(new Request(abs(u), { cache: 'reload' })); } catch (e) { /* offline install */ } }));
+    self.skipWaiting();   // a new worker takes over at once (it only changes where files come from, never reloads a page), so a stale cache cannot outlive a release
   })());
 });
 
@@ -142,6 +143,8 @@ self.addEventListener('fetch', event => {
         return (await shell.match(pageKey(url))) || (await shell.match(abs('offline.html'))) || Response.error();
       }
     })());
+  } else if (path === 'manifest.webmanifest' || path.startsWith('assets/app/') || path.startsWith('assets/img/favicon')) {
+    event.respondWith(networkFirst(event, request, SHELL, 4000, () => Response.error()));   // the manifest and every icon: never cache-first, or an old icon outlives its replacement
   } else if (/\\.public\\.json$/.test(path) || path === 'data/site.json') {
     event.respondWith(networkFirst(event, request, DATA, 4000, () => Response.error()));
   } else if (path.startsWith('assets/map/print-base')) {

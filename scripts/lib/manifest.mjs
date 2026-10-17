@@ -1,8 +1,9 @@
 // Web app manifest generated from site.json and brand tokens.
 // The name people see under the icon on a home screen (and what iOS suggests when adding it). Page <title> tags are separate.
 export const APP_NAME = 'Red Bird Events';
-export function buildManifest({ site, tokens }) {
+export function buildManifest({ site, tokens, iconVersion }) {
   const color = tokens['rb-sky'];
+  const v = iconVersion;                 // icon URLs change whenever an icon's bytes change, so no cache can keep an old one
   return {
     id: './',
     name: APP_NAME,
@@ -15,9 +16,9 @@ export function buildManifest({ site, tokens }) {
     background_color: color,
     theme_color: color,
     icons: [
-      { src: 'assets/app/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
-      { src: 'assets/app/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
-      { src: 'assets/app/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+      { src: `assets/app/icon-192.png?v=${v}`, sizes: '192x192', type: 'image/png', purpose: 'any' },
+      { src: `assets/app/icon-512.png?v=${v}`, sizes: '512x512', type: 'image/png', purpose: 'any' },
+      { src: `assets/app/icon-maskable-512.png?v=${v}`, sizes: '512x512', type: 'image/png', purpose: 'maskable' }
     ],
     screenshots: [
       { src: 'assets/app/screenshot-narrow.png', sizes: '1080x1920', type: 'image/png', form_factor: 'narrow', label: 'Holiday Trails home' },
