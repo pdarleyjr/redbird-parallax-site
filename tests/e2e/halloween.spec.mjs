@@ -62,6 +62,7 @@ test('mobile menu: touch, Escape, close, navigation, focus and resize', async ({
 });
 
 test('all in-page anchors resolve and the skip link works', async ({ page, browserName }) => {
+  await page.route('**/assets/vendor/**', route => route.abort());   // this test is about anchors; keep the WebGL map (heavy on CI WebKit) out of it
   await page.setViewportSize({ width: 1440, height: 1000 });
   await loaded(page);
   const missing = await page.locator('a[href^="#"]').evaluateAll(links => links.filter(l => !document.getElementById(l.hash.slice(1))).map(l => l.href));
