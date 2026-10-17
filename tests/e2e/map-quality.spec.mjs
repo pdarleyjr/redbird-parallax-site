@@ -49,6 +49,7 @@ for (const [w, h] of VIEWPORTS) {
     const before = await page.evaluate(() => window.__map.getCenter().lng + ',' + window.__map.getZoom());
     await page.locator('#show-all').click();
     await page.waitForFunction(b => window.__map.isMoving() || window.__map.getCenter().lng + ',' + window.__map.getZoom() !== b, before, { timeout: 10000 }).catch(() => {});   // the click starts the move asynchronously
+    await page.waitForFunction(n => window.__pins.metrics()?.stats.total === n, located.length, { timeout: 25000 });   // the move and the re-layout finish later on a slow CI machine
     const whole = await measure('whole trail');
     expect(whole.houses).toBe(located.length);
     expect(whole.crossings).toBe(0);
