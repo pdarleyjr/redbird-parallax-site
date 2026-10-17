@@ -2,6 +2,8 @@ import { test, expect } from './fixtures.mjs';
 import { readFile } from 'node:fs/promises';
 import { axeViolations, allImages, watch, snapshot } from './helpers.mjs';
 
+// These tests are about the page content, not the WebGL map (see map.spec.mjs); keep the map out of them (software GL crashes CI WebKit at big sizes).
+test.beforeEach(({ page }) => page.route('**/assets/vendor/**', route => route.abort()));
 const loaded = async page => { await page.goto('halloween/'); await page.locator('.house-card').first().waitFor(); await page.evaluate(() => document.fonts.ready); };
 
 test('public content: date, hours, directory equals snapshot, no historical content', async ({ page }) => {

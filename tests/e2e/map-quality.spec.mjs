@@ -46,7 +46,10 @@ for (const [w, h] of VIEWPORTS) {
     if (phone) expect(def.maxNeedlePx, 'needle length on a phone').toBeLessThanOrEqual(20.01);
     expect(def.mode).toBe('needles');
 
+    const before = await page.evaluate(() => window.__map.getCenter().lng + ',' + window.__map.getZoom());
     await page.locator('#show-all').click();
+    await page.waitForFunction(b => window.__map.isMoving() || window.__map.getCenter().lng + ',' + window.__map.getZoom() !== b, before, { timeout: 10000 }).catch(() => {});   // the click starts the move asynchronously
+    await page.waitForFunction(n => window.__pins.metrics()?.stats.total === n, located.length, { timeout: 25000 });   // the move and the re-layout finish later on a slow CI machine
     const whole = await measure('whole trail');
     expect(whole.houses).toBe(located.length);
     expect(whole.crossings).toBe(0);
@@ -65,7 +68,7 @@ for (const [w, h] of VIEWPORTS) {
       await page.evaluate(v => window.__map.jumpTo({ zoom: v.z, center: v.c }), home);
       await settle();
       await page.locator('#map-stage').screenshot({ path: `${process.env.QA_SHOTS}/map-${w}-default.png` });
-      await page.locator('#show-all').click(); await settle();
+      await page.locator('#show-all').click(); await page.waitForTimeout(400); await settle();
       await page.locator('#map-stage').screenshot({ path: `${process.env.QA_SHOTS}/map-${w}-whole.png` });
     }
     await context.close();

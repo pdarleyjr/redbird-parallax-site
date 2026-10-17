@@ -40,8 +40,9 @@ test('the kill-switch replaces the cache-first Christmas worker and returning vi
     await expect(page.locator('#which')).toContainText('OLD'); // cache-first serves the stale page until the kill-switch takes over
 
     // 3. The browser re-checks the worker script, installs the kill-switch, which clears the old caches, unregisters and reloads the page.
-    await expect.poll(() => page.evaluate(async () => (await navigator.serviceWorker.getRegistrations()).length), { timeout: 30000 }).toBe(0);
-    await expect.poll(() => page.evaluate(async () => (await caches.keys()).filter(k => k.startsWith('red-bird-holiday-trail-')).length), { timeout: 30000 }).toBe(0);
+    const retry = fn => async () => { try { return await fn(); } catch { return -1; } };   // the kill-switch reloads the page, which can destroy the context mid-call
+    await expect.poll(retry(() => page.evaluate(async () => (await navigator.serviceWorker.getRegistrations()).length)), { timeout: 30000 }).toBe(0);
+    await expect.poll(retry(() => page.evaluate(async () => (await caches.keys()).filter(k => k.startsWith('red-bird-holiday-trail-')).length)), { timeout: 30000 }).toBe(0);
     await page.reload();
     await expect(page.locator('#which')).toContainText('NEW');
   } finally {

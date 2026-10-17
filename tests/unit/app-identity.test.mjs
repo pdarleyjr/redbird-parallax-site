@@ -11,8 +11,9 @@ const rootOf = rel => (['404.html', 'offline.html'].includes(rel) ? '/' : '../'.
 for (const rel of PAGES) {
   test(`${rel}: apple-touch-icon, manifest and the app name are on the page`, async () => {
     const html = await read(rel), up = rootOf(rel);
-    assert.match(html, new RegExp(`<link rel="apple-touch-icon" href="${up}assets/app/apple-touch-icon\\.png">`));
-    assert.match(html, new RegExp(`<link rel="manifest" href="${up}manifest\\.webmanifest">`));
+    assert.match(html, new RegExp(`<link rel="apple-touch-icon" href="${up}assets/app/apple-touch-icon\\.png\\?v=[0-9a-f]{10}">`));
+    assert.match(html, new RegExp(`<link rel="manifest" href="${up}manifest\\.webmanifest\\?v=[0-9a-f]{10}">`));
+    for (const size of [180, 167, 152, 120]) assert.match(html, new RegExp(`<link rel="apple-touch-icon" sizes="${size}x${size}" href="${up}assets/app/apple-touch-icon-${size}\\.png\\?v=[0-9a-f]{10}">`));
     assert.match(html, /<meta name="apple-mobile-web-app-title" content="Red Bird Events">/);
     assert.match(html, /<meta name="application-name" content="Red Bird Events">/);
     assert.match(html, /<title>[^<]+<\/title>/, 'the page title is untouched');
@@ -24,23 +25,57 @@ test('the manifest names the app "Red Bird Events" and lists the new icons', asy
   const manifest = JSON.parse(await read('manifest.webmanifest'));
   assert.equal(manifest.name, 'Red Bird Events');
   assert.equal(manifest.short_name, 'Red Bird Events');
-  const sizes = Object.fromEntries(manifest.icons.map(i => [i.src, i.purpose]));
+  const sizes = Object.fromEntries(manifest.icons.map(i => [i.src.replace(/\?v=[0-9a-f]{10}$/, ''), i.purpose]));
   assert.deepEqual(sizes, { 'assets/app/icon-192.png': 'any', 'assets/app/icon-512.png': 'any', 'assets/app/icon-maskable-512.png': 'maskable' });
+  assert.ok(manifest.icons.every(i => /\?v=[0-9a-f]{10}$/.test(i.src)), 'every manifest icon URL carries a content hash');
 });
 
-test('apple-touch-icon is 180x180 and fully opaque (iOS paints transparency black); maskable is opaque too', async () => {
-  const touch = sharp(new URL('assets/app/apple-touch-icon.png', root).pathname.replace(/^\/([A-Za-z]:)/, '$1').replaceAll('%20', ' '));
-  const meta = await touch.metadata();
-  assert.equal(meta.width, 180); assert.equal(meta.height, 180);
-  assert.equal((await touch.stats()).isOpaque, true);
+const file = rel => new URL(rel, root).pathname.replace(/^\/([A-Za-z]:)/, '$1').replaceAll('%20', ' ');
+
+test('apple-touch icons: 180, 167, 152 and 120 px, fully opaque, and the default is the 180', async () => {
+  for (const size of [180, 167, 152, 120]) {
+    const touch = sharp(file(`assets/app/apple-touch-icon-${size}.png`));
+    const meta = await touch.metadata();
+    assert.equal(meta.width, size); assert.equal(meta.height, size);
+    assert.equal((await touch.stats()).isOpaque, true, `${size} must be opaque (iOS paints transparency black)`);
+  }
+  assert.deepEqual(await readFile(new URL('assets/app/apple-touch-icon.png', root)), await readFile(new URL('assets/app/apple-touch-icon-180.png', root)).catch(() => null) ?? await readFile(new URL('assets/app/apple-touch-icon.png', root)));
 });
 
-test('the icon set has every size', async () => {
+test('after iOS rounds the corners (radius 22.37%) no white or light rim, ring or sliver remains in the corners', async () => {
+  for (const size of [180, 167, 152, 120]) {
+    const { data, info } = await sharp(file(`assets/app/apple-touch-icon-${size}.png`)).raw().toBuffer({ resolveWithObject: true });
+    const radius = size * 0.2237, reach = Math.ceil(size * 0.12);
+    let checked = 0, light = 0;
+    for (const [ox, oy] of [[0, 0], [size - reach, 0], [0, size - reach], [size - reach, size - reach]]) {
+      for (let y = oy; y < oy + reach; y++) for (let x = ox; x < ox + reach; x++) {
+        const dx = Math.max(radius - x, x - (size - 1 - radius), 0), dy = Math.max(radius - y, y - (size - 1 - radius), 0);
+        if (Math.hypot(dx, dy) > radius) continue;           // cut away by the mask
+        checked++;
+        const i = (y * info.width + x) * info.channels;
+        if (data[i] > 200 && data[i + 1] > 200 && data[i + 2] > 200) light++;
+      }
+    }
+    assert.ok(checked > 20, 'corner pixels were examined');
+    assert.equal(light, 0, `${size}: light pixels in the corners`);
+  }
+});
+
+test('the icon set has every size, "any" icons keep transparent corners, maskable is opaque', async () => {
   const sizes = { 'assets/app/icon-192.png': 192, 'assets/app/icon-512.png': 512, 'assets/app/icon-maskable-512.png': 512, 'assets/img/favicon-32.png': 32, 'assets/img/favicon-96.png': 96 };
   for (const [rel, size] of Object.entries(sizes)) {
     const meta = await sharp(await readFile(new URL(rel, root))).metadata();
     assert.equal(meta.width, size, rel); assert.equal(meta.height, size, rel);
   }
+  assert.equal((await sharp(file('assets/app/icon-192.png')).stats()).isOpaque, false);
+  assert.equal((await sharp(file('assets/app/icon-maskable-512.png')).stats()).isOpaque, true);
+});
+
+test('the service worker never serves the manifest or an icon cache-first', async () => {
+  const sw = await read('sw.js');
+  const branch = sw.slice(sw.indexOf("path === 'manifest.webmanifest'"), sw.indexOf("path === 'manifest.webmanifest'") + 400);
+  assert.match(branch, /networkFirst/);
+  assert.doesNotMatch(branch, /cacheFirst/);
 });
 
 test('the old organizer map is not linked anywhere in the shipped site', async () => {
