@@ -2,7 +2,7 @@
 //   apple-touch-icon-{180,167,152,120}.png  OPAQUE, full bleed (iOS paints transparency black and applies its own mask): the inner crop of the
 //                                           artwork flattened on the art's own edge navy. apple-touch-icon.png is the 180 (default, no sizes).
 //   icon-192.png, icon-512.png   purpose "any": the pack's Android launcher (192) and Play Store (512) art, transparent rounded corners as shipped
-//   icon-maskable-512.png        purpose "maskable": one continuous scene (blurred, darkened enlargement of the art behind a feathered centre crop),
+//   icon-maskable-512.png        purpose "maskable": a clean sky-gradient background (no blur) behind the art's feathered centre crop,
 //                                with the whole cardinal inside the central 80% safe circle, so no mask shows a frame or ring
 //   favicon-32.png, favicon-96.png (assets/img/) from the pack's 48 px and 96 px launcher icons; favicon.png is the 96
 // --previews writes the icons under circle, squircle and teardrop masks to docs/qa/2026-holiday-trails/round4/.
@@ -69,22 +69,28 @@ for (let start = 0; start < redMask.length; start++) {
 }
 const pts = best.map(p => [(p % gw) * step, Math.floor(p / gw) * step]);
 const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
-const cx = (Math.min(...xs) + Math.max(...xs)) / 2, cy = (Math.min(...ys) + Math.max(...ys)) / 2;
+// Smallest circle around the cardinal (Badoiu-Clarkson iteration), so the art can be scaled up as far as the safe circle allows.
+let cx = (Math.min(...xs) + Math.max(...xs)) / 2, cy = (Math.min(...ys) + Math.max(...ys)) / 2;
+for (let i = 1; i <= 4000; i++) {
+  let far = pts[0], d = 0;
+  for (const p of pts) { const dd = Math.hypot(p[0] - cx, p[1] - cy); if (dd > d) { d = dd; far = p; } }
+  cx += (far[0] - cx) / (i + 1); cy += (far[1] - cy) / (i + 1);
+}
 const reach = Math.max(...pts.map(([x, y]) => Math.hypot(x - cx, y - cy)));
-const SIZE = 512, SAFE = SIZE * 0.4 * 0.97;
+const SIZE = 512, SAFE = SIZE * 0.4 * 0.985;
 const k = SAFE / reach;                         // master px -> icon px
-// background: the art enlarged to 140% of the icon, blurred (radius about 40 px) and slightly darkened
-const bgSide = Math.round(SIZE * 1.4);
-const background = await sharp(inner).resize(bgSide, bgSide).blur(40).modulate({ brightness: 0.82 })
-  .extract({ left: Math.round((bgSide - SIZE) / 2), top: Math.round((bgSide - SIZE) / 2), width: SIZE, height: SIZE }).flatten({ background: navy }).toBuffer();
-// foreground: the art scaled by k with the cardinal centred, its edges feathered into the background
+// background: a clean vertical gradient in the art's own sky colours (no blur), with a few tiny stars
+const stars = [[60, 70, 1.6], [128, 38, 1.2], [452, 52, 1.8], [488, 120, 1.2], [30, 180, 1.2], [470, 210, 1.4], [92, 120, 1], [400, 30, 1.2], [24, 300, 1.2], [490, 330, 1.2]];
+const background = await sharp(Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1a4f"/><stop offset="0.55" stop-color="#1d1d5c"/><stop offset="1" stop-color="#3a1a45"/></linearGradient></defs><rect width="${SIZE}" height="${SIZE}" fill="url(#g)"/>${stars.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fdeed3" opacity="0.85"/>`).join('')}</svg>`)).png().toBuffer();
+// foreground: the art's inner crop scaled by k with the cardinal centred; its edge falls off over about 7% so it melts into the matching sky
 const fgSide = Math.round(cropSide * k);
 const fgMaster = await sharp(inner).resize(fgSide, fgSide).toBuffer();
 const left = Math.round(SIZE / 2 - (cx - cropLeft) * k), top = Math.round(SIZE / 2 - (cy - cropTop) * k);
-const feather = Math.round(fgSide * 0.1);
-const mask = await sharp(Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${fgSide}" height="${fgSide}"><rect x="${feather * 1.5}" y="${feather * 1.5}" width="${fgSide - feather * 3}" height="${fgSide - feather * 3}" rx="${fgSide * 0.2}" fill="white"/></svg>`)).blur(feather * 0.7).toBuffer();
+const inset = fgSide * 0.045, sigma = fgSide * 0.022;
+const mask = await sharp(Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${fgSide}" height="${fgSide}"><rect x="${inset}" y="${inset}" width="${fgSide - inset * 2}" height="${fgSide - inset * 2}" fill="white"/></svg>`)).blur(sigma).toBuffer();
 const feathered = await sharp(fgMaster).ensureAlpha().composite([{ input: mask, blend: 'dest-in' }]).png().toBuffer();
 const maskable = await sharp(background).composite([{ input: feathered, left, top }]).flatten({ background: navy }).png().toBuffer();
+console.log('maskable art', Math.round(fgSide / SIZE * 100) + '% of the canvas');
 await sharp(maskable).png(PNG).toFile(path.join(out, 'icon-maskable-512.png'));
 
 // ---- favicons ----
