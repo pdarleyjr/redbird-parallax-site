@@ -2,6 +2,8 @@ import { test, expect } from './fixtures.mjs';
 import { readFile } from 'node:fs/promises';
 import { axeViolations, allImages, watch, snapshot } from './helpers.mjs';
 
+// These tests are about the page content, not the WebGL map (see map.spec.mjs); keep the map out of them (software GL crashes CI WebKit at big sizes).
+test.beforeEach(({ page }) => page.route('**/assets/vendor/**', route => route.abort()));
 const loaded = async page => { await page.goto('halloween/'); await page.locator('.house-card').first().waitFor(); await page.evaluate(() => document.fonts.ready); };
 
 test('public content: date, hours, directory equals snapshot, no historical content', async ({ page }) => {
@@ -62,7 +64,6 @@ test('mobile menu: touch, Escape, close, navigation, focus and resize', async ({
 });
 
 test('all in-page anchors resolve and the skip link works', async ({ page, browserName }) => {
-  await page.route('**/assets/vendor/**', route => route.abort());   // this test is about anchors; keep the WebGL map (heavy on CI WebKit) out of it
   await page.setViewportSize({ width: 1440, height: 1000 });
   await loaded(page);
   const missing = await page.locator('a[href^="#"]').evaluateAll(links => links.filter(l => !document.getElementById(l.hash.slice(1))).map(l => l.href));
