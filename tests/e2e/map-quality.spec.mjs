@@ -43,9 +43,11 @@ for (const [w, h] of VIEWPORTS) {
     expect(def.headsTouching).toBe(false);
     expect(def.needlesBehindHeads, 'no needle behind another head').toBe(0);
     expect(def.clusters, 'clusters in the default view').toBeLessThanOrEqual(12);
-    expect(def.singles, 'individual pins in the default view').toBeGreaterThanOrEqual(0.6 * def.houses);
+    // a phone opens on the whole trail (houses grouped into clusters); wider screens open zoomed in on the densest block
+    if (!phone) expect(def.singles, 'individual pins in the default view').toBeGreaterThanOrEqual(0.6 * def.houses);
+    else expect(def.zoom, 'phone default is the whole-trail framing').toBeLessThanOrEqual(16);
     if (phone) expect(def.maxNeedlePx, 'needle length on a phone').toBeLessThanOrEqual(20.01);
-    expect(def.mode).toBe('needles');
+    expect(def.mode).toBe(phone ? 'flat' : 'needles');
 
     const before = await page.evaluate(() => window.__map.getCenter().lng + ',' + window.__map.getZoom());
     await page.locator('#show-all').click();
