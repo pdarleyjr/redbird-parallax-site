@@ -366,5 +366,53 @@
   "lat": 25.7377399875,
   "lng": -80.288535625,
   "source": "osm-building"
+ },
+ {
+  "n": 47,
+  "name": "Refreshment Station",
+  "address": "5795 SW 35th Street",
+  "lat": 25.7382364,
+  "lng": -80.2890194,
+  "source": "osm-building"
+ },
+ {
+  "n": 48,
+  "name": "Scully’s Den",
+  "address": "6235 SW 38th Street",
+  "lat": 25.7357145,
+  "lng": -80.2954973,
+  "source": "osm-building"
+ },
+ {
+  "n": 49,
+  "name": "Bob the Ghost!",
+  "address": "3726 SW 60th Avenue",
+  "lat": 25.736422,
+  "lng": -80.291807,
+  "source": "osm-building"
+ },
+ {
+  "n": 50,
+  "name": "The Little Boo House",
+  "address": "5740 SW 39th Street",
+  "lat": 25.7352696,
+  "lng": -80.2875565,
+  "source": "osm-building"
+ },
+ {
+  "n": 51,
+  "name": "CARME-NAUGHTY OR NICE?!",
+  "address": "6285 SW 38th Street",
+  "lat": 25.7361045,
+  "lng": -80.2965024,
+  "source": "osm-building"
+ },
+ {
+  "n": 52,
+  "name": "Coraline’s Button-Eye Parlour",
+  "address": "3610 SW 58th Court",
+  "lat": 25.7370017,
+  "lng": -80.2901682,
+  "source": "osm-building (tagged 3680, probable OSM typo for 3610; verify)"
  }
 ]

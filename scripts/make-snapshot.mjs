@@ -8,6 +8,7 @@ import { normalizeAddress } from '../shared/address.mjs';
 import { assertSnapshot } from '../shared/snapshot-schema.mjs';
 
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+export const DECISION_FILES = ['2026-10-16.decisions.json', '2026-10-23.decisions.json'];
 const readJSON = async rel => JSON.parse(await readFile(path.join(root, rel), 'utf8'));
 
 /** Building-snapped positions from the flyer generator (OSM address import); owner GPS pins are marked manual-owner. */
@@ -31,10 +32,15 @@ export function trustedGeocode(entry, expectedKey) {
 }
 
 export async function makeSnapshot({ cacheFile = 'data/reconcile/geocode-cache.json' } = {}) {
-  const [roster, decisions, event, boundaryFeature, cache] = await Promise.all([
-    readJSON('data/reconcile/roster-2026-10-09.json'), readJSON('data/reconcile/2026-10-16.decisions.json'),
+  const [roster, decisionFiles, event, boundaryFeature, cache] = await Promise.all([
+    readJSON('data/reconcile/roster-2026-10-09.json'), Promise.all(DECISION_FILES.map(f => readJSON(`data/reconcile/${f}`))),
     readJSON('data/events/halloween-2026.json'), readJSON('data/geo/redbird-boundary.geojson'), readJSON(cacheFile)
   ]);
+  // Decisions accumulate: each export adds a file; overrides and manual locations merge, new houses append, the newest publishedAt wins.
+  const decisions = {
+    overrides: Object.assign({}, ...decisionFiles.map(d => d.overrides)), manualLocations: Object.assign({}, ...decisionFiles.map(d => d.manualLocations)),
+    approvedNew: decisionFiles.flatMap(d => d.approvedNew || []), publishedAt: decisionFiles.map(d => d.publishedAt).sort().at(-1)
+  };
   const flyer = await flyerPositions();
   const houses = roster.houses.filter(h => h.status === 'approved').map(h => {
     const override = decisions.overrides?.[h.id] || {};

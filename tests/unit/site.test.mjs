@@ -88,10 +88,31 @@ test('privacy scan: no emails or phone numbers in tracked files; private data is
   }
 });
 
-test('the 15 unapproved houses are not in git: snapshot and decisions only contain approved houses', async () => {
+test('snapshot and decisions only contain approved houses: 31 original + 15 (Oct 16) + 6 (Oct 23)', async () => {
   const snapshot = JSON.parse(await readFile(path.join(root, 'data/halloween-2026.public.json'), 'utf8'));
-  const decisions = JSON.parse(await readFile(path.join(root, 'data/reconcile/2026-10-16.decisions.json'), 'utf8'));
-  assert.equal(snapshot.houses.length, decisions.approvedNew.length + 31);
+  const oct16 = JSON.parse(await readFile(path.join(root, 'data/reconcile/2026-10-16.decisions.json'), 'utf8'));
+  const oct23 = JSON.parse(await readFile(path.join(root, 'data/reconcile/2026-10-23.decisions.json'), 'utf8'));
+  assert.equal(oct16.approvedNew.length, 15);
+  assert.equal(oct23.approvedNew.length, 6);
+  assert.equal(snapshot.houses.length, 31 + oct16.approvedNew.length + oct23.approvedNew.length);
+});
+
+test('the six houses added from the Oct 23 export are published with the agreed names, addresses, pins and icons', async () => {
+  const snapshot = JSON.parse(await readFile(path.join(root, 'data/halloween-2026.public.json'), 'utf8'));
+  const byNumber = Object.fromEntries(snapshot.houses.map(h => [h.mapNumber, h]));
+  const expected = {
+    47: ['Refreshment Station', '5795 SW 35th Street', 25.7382364, -80.2890194, 'fluent-cup-with-straw'],
+    48: ['Scully’s Den', '6235 SW 38th Street', 25.7357145, -80.2954973, 'fluent-skull-and-crossbones'],
+    49: ['Bob the Ghost!', '3726 SW 60th Avenue', 25.736422, -80.291807, 'rb-bob-the-ghost'],
+    50: ['The Little Boo House', '5740 SW 39th Street', 25.7352696, -80.2875565, 'rb-little-boo-house'],
+    51: ['CARME-NAUGHTY OR NICE?!', '6285 SW 38th Street', 25.7361045, -80.2965024, 'fluent-smiling-face-with-horns'],
+    52: ['Coraline’s Button-Eye Parlour', '3610 SW 58th Court', 25.7370017, -80.2901682, 'rb-button-eye-parlour']
+  };
+  for (const [n, [name, address, lat, lng, icon]] of Object.entries(expected)) {
+    const h = byNumber[n];
+    assert.deepEqual([h.id, h.name, h.address, h.lat, h.lng, h.icon, h.location], [`stop-${n}`, name, address, lat, lng, icon, 'approximate'], `#${n}`);
+  }
+  assert.equal(byNumber[7].address, '5795 SW 39th Street', '#7 is a different house from #47 (39th vs 35th)');
 });
 
 test('every published house resolves to an existing icon file and the icon catalog is consistent', async () => {
@@ -105,14 +126,14 @@ test('every published house resolves to an existing icon file and the icon catal
   for (const icon of catalog) await readFile(path.join(root, icon.file));
 });
 
-test('owner decisions are applied: #36 name as submitted, manual pins verified, 46 houses, Fluent attribution and license present', async () => {
+test('owner decisions are applied: #36 name as submitted, manual pins verified, 52 houses, Fluent attribution and license present', async () => {
   const snapshot = JSON.parse(await readFile(path.join(root, 'data/halloween-2026.public.json'), 'utf8'));
   const byId = Object.fromEntries(snapshot.houses.map(h => [h.id, h]));
-  assert.equal(snapshot.houses.length, 46);
+  assert.equal(snapshot.houses.length, 52);
   assert.equal(byId['stop-36'].name, 'Just stop for juice and water');
   assert.deepEqual([byId['stop-03'].lat, byId['stop-03'].lng, byId['stop-03'].location], [25.734927, -80.288444, 'verified']);
   assert.deepEqual([byId['stop-25'].lat, byId['stop-25'].lng, byId['stop-25'].location], [25.7367261, -80.2955533, 'verified']);
-  assert.equal(snapshot.houses.filter(h => h.location === 'approximate').length, 44);
+  assert.equal(snapshot.houses.filter(h => h.location === 'approximate').length, 50);
   assert.equal(byId['stop-33'].icon, 'blues-boooooo-house'); assert.equal(byId['stop-40'].icon, 'fluent-spider-web'); assert.equal(byId['stop-36'].icon, 'sweet-and-spooky-stop');
   assert.match(await readFile(path.join(root, 'assets/img/markers/FLUENT-LICENSE.txt'), 'utf8'), /MIT License/);
   const footer = (await buildAll()).get('halloween/index.html');
@@ -132,7 +153,7 @@ test('every marker icon has real alpha transparency at all four corners (no boxe
       checked++;
     }
   }
-  assert.ok(checked >= 78, `checked ${checked} icons`);
+  assert.ok(checked >= 90, `checked ${checked} icons`);
 });
 test('the app and the printed flyer use the same icon for every house (ICONS in tools/flyer-map/build_flyer.py)', async () => {
   const py = await readFile(path.join(root, 'tools/flyer-map/build_flyer.py'), 'utf8');

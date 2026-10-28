@@ -2,7 +2,7 @@
   "schema": 1,
   "eventId": "halloween-2026",
   "version": 1,
-  "publishedAt": "2026-10-16T12:00:00Z",
+  "publishedAt": "2026-10-28T12:00:00Z",
   "event": {
     "name": "Red Bird Trick-or-Treat Trail",
     "year": 2026,
@@ -551,6 +551,72 @@
       "icon": "fluent-derelict-house",
       "lat": 25.7377399875,
       "lng": -80.288535625,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-47",
+      "mapNumber": 47,
+      "name": "Refreshment Station",
+      "address": "5795 SW 35th Street",
+      "description": null,
+      "icon": "fluent-cup-with-straw",
+      "lat": 25.7382364,
+      "lng": -80.2890194,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-48",
+      "mapNumber": 48,
+      "name": "Scully’s Den",
+      "address": "6235 SW 38th Street",
+      "description": null,
+      "icon": "fluent-skull-and-crossbones",
+      "lat": 25.7357145,
+      "lng": -80.2954973,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-49",
+      "mapNumber": 49,
+      "name": "Bob the Ghost!",
+      "address": "3726 SW 60th Avenue",
+      "description": null,
+      "icon": "rb-bob-the-ghost",
+      "lat": 25.736422,
+      "lng": -80.291807,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-50",
+      "mapNumber": 50,
+      "name": "The Little Boo House",
+      "address": "5740 SW 39th Street",
+      "description": null,
+      "icon": "rb-little-boo-house",
+      "lat": 25.7352696,
+      "lng": -80.2875565,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-51",
+      "mapNumber": 51,
+      "name": "CARME-NAUGHTY OR NICE?!",
+      "address": "6285 SW 38th Street",
+      "description": null,
+      "icon": "fluent-smiling-face-with-horns",
+      "lat": 25.7361045,
+      "lng": -80.2965024,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-52",
+      "mapNumber": 52,
+      "name": "Coraline’s Button-Eye Parlour",
+      "address": "3610 SW 58th Court",
+      "description": null,
+      "icon": "rb-button-eye-parlour",
+      "lat": 25.7370017,
+      "lng": -80.2901682,
       "location": "approximate"
     }
   ]

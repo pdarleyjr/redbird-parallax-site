@@ -1,0 +1,15 @@
+{
+  "decidedOn": "2026-10-28",
+  "publishedAt": "2026-10-28T12:00:00Z",
+  "note": "Public-safe decisions only (ids, names, addresses, icons). No contact details. Owner approved publication of #47-#52 from the 2026-10-23 export. Numbered by earliest submission with the same tie rule as before. Positions come from tools/flyer-map/houses.json (OSM building centroids).",
+  "overrides": {},
+  "manualLocations": {},
+  "approvedNew": [
+    { "id": "stop-47", "mapNumber": 47, "name": "Refreshment Station", "address": "5795 SW 35th Street", "icon": "fluent-cup-with-straw", "flags": [] },
+    { "id": "stop-48", "mapNumber": 48, "name": "Scully’s Den", "address": "6235 SW 38th Street", "icon": "fluent-skull-and-crossbones", "flags": [] },
+    { "id": "stop-49", "mapNumber": 49, "name": "Bob the Ghost!", "address": "3726 SW 60th Avenue", "icon": "rb-bob-the-ghost", "flags": [] },
+    { "id": "stop-50", "mapNumber": 50, "name": "The Little Boo House", "address": "5740 SW 39th Street", "icon": "rb-little-boo-house", "flags": [] },
+    { "id": "stop-51", "mapNumber": 51, "name": "CARME-NAUGHTY OR NICE?!", "address": "6285 SW 38th Street", "icon": "fluent-smiling-face-with-horns", "flags": [], "note": "The submission had repeated punctuation; collapsed. The owner can edit the name in the admin." },
+    { "id": "stop-52", "mapNumber": 52, "name": "Coraline’s Button-Eye Parlour", "address": "3610 SW 58th Court", "icon": "rb-button-eye-parlour", "flags": ["osm_address_mismatch"], "note": "No OSM address for 3610. The pin is the building OSM tags 3680 (between 3608 and 3600, a probable OSM typo); the Census point is about 30 m away. Shown as an approximate pin until the owner verifies it." }
+  ]
+}
