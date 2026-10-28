@@ -26,13 +26,14 @@
   <link rel="apple-touch-icon" sizes="152x152" href="assets/app/apple-touch-icon-152.png?v=dde7b64cbc">
   <link rel="apple-touch-icon" sizes="120x120" href="assets/app/apple-touch-icon-120.png?v=dde7b64cbc">
   <link rel="manifest" href="manifest.webmanifest?v=6b6f8b6feb">
+  <link rel="preload" as="image" type="image/webp" fetchpriority="high" imagesrcset="assets/img/optimized/hero-600.webp 600w, assets/img/optimized/hero-720.webp 720w, assets/img/optimized/hero-960.webp 960w, assets/img/optimized/hero-1536.webp 1536w" imagesizes="(max-width: 760px) 340px, 720px">
   <link rel="preload" href="assets/fonts/poppins-bold.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/tokens.css?v=24f27b8f">
-  <link rel="stylesheet" href="assets/css/base.css?v=24f27b8f">
-  <link rel="stylesheet" href="assets/css/home.css?v=24f27b8f">
+  <link rel="stylesheet" href="assets/css/tokens.css?v=37202e4d">
+  <link rel="stylesheet" href="assets/css/base.css?v=37202e4d">
+  <link rel="stylesheet" href="assets/css/home.css?v=37202e4d">
   <script src="assets/js/legacy-redirect.js"></script>
   <noscript><style>.menu-button{display:none}</style></noscript>
-  <script type="module" src="assets/js/home.js?v=24f27b8f"></script>
+  <script type="module" src="assets/js/home.js?v=37202e4d"></script>
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -59,10 +60,7 @@
   </header>
   <main id="main" tabindex="-1">
     <section class="home-hero sky" aria-labelledby="home-title">
-      <span class="moon" aria-hidden="true"></span>
-      <svg class="sparkle hero-sparkle s1" aria-hidden="true"><use href="#rb-sparkle"/></svg>
-      <svg class="sparkle hero-sparkle s2" aria-hidden="true"><use href="#rb-sparkle"/></svg>
-      <svg class="sparkle hero-sparkle s3" aria-hidden="true"><use href="#rb-sparkle"/></svg>
+            <svg class="sparkle hero-sparkle s1" aria-hidden="true"><use href="#rb-sparkle"/></svg>
       <div class="wrap">
         <div class="lockup neon">
           <svg class="cardinal-mark" viewBox="0 0 120 104" aria-hidden="true"><use href="#rb-cardinal"/></svg>
@@ -72,26 +70,14 @@
         </div>
         <p class="home-intro">Two neighborhood trails, one Red Bird.</p>
       </div>
-      <div class="silhouette-strip"><svg class="silhouette" viewBox="0 0 1200 160" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
-  <g class="sil">
-    <path d="M0 160V132h60V112l36-22 36 22v20h50V150H0z"/><path d="M180 160v-40h90l-45-30z" transform="translate(40 0)"/>
-    <path d="M330 160V126h70V108l34-20 34 20v18h70v34z"/><path d="M590 160V120h80l40-26 40 26h60v40z"/>
-    <path d="M900 160V128h60l36-24 36 24h60v32z"/><path d="M1090 160V118h50l30-20 30 20v42z"/>
-    <path d="M150 160V70h6V160z M153 70c-20-4-34 4-44 20 14-8 26-10 44-6 18-4 30-2 44 6-10-16-24-24-44-20z M153 66c-12-10-26-10-38-2 12-2 24 0 38 8 14-8 26-10 38-8-12-8-26-8-38 2z"/>
-    <path d="M520 160V60h6V160z M523 60c-22-4-38 6-48 22 16-8 30-10 48-6 18-4 32-2 48 6-10-16-26-26-48-22z M523 54c-14-12-30-12-42-2 14-2 28 2 42 10 14-8 28-12 42-10-12-10-28-10-42 2z"/>
-    <path d="M860 160V76h6V160z M863 76c-20-4-36 4-46 20 14-8 28-10 46-6 18-4 32-2 46 6-10-16-26-24-46-20z"/>
-    <path d="M1060 160V82h6V160z M1063 82c-18-4-32 4-42 18 12-6 24-8 42-4 16-4 28-2 40 4-8-14-22-22-40-18z"/>
-  </g>
-  <g class="win"><rect x="84" y="118" width="14" height="12"/><rect x="415" y="118" width="12" height="12"/><rect x="655" y="116" width="14" height="12"/><rect x="705" y="116" width="14" height="12"/><rect x="985" y="120" width="14" height="12"/><rect x="1128" y="122" width="12" height="14"/><rect x="238" y="132" width="12" height="12"/></g>
-</svg></div>
     </section>
     <section class="cards-section" aria-label="Neighborhood trails">
       <div class="wrap">
         <div class="cards" id="event-cards">
-          <a class="event-card neon" href="halloween/" data-event="halloween-2026"><picture><source type="image/webp" srcset="assets/img/optimized/hero-600.webp 600w, assets/img/optimized/hero-720.webp 720w, assets/img/optimized/hero-960.webp 960w, assets/img/optimized/hero-1536.webp 1536w" sizes="(max-width: 959px) calc(100vw - 32px), 590px"><img src="assets/img/optimized/hero.jpg" alt="" width="1536" height="1024" fetchpriority="high" decoding="async"></picture><div class="card-body"><p class="card-eyebrow">Halloween</p><h2 class="card-title">Red Bird Trick-or-Treat Trail</h2><p class="card-meta">Saturday, October 31, 2026 · 6 PM–9 PM</p><p class="card-count">52 houses on the trail</p><span class="button button-primary card-cta">Explore the trail →</span></div></a>
-          <article class="event-card is-updating" data-event="christmas-2026" aria-labelledby="christmas-2026-title" aria-describedby="christmas-2026-status"><picture><source type="image/webp" srcset="assets/img/christmas/holiday-trail-600.webp 600w, assets/img/christmas/holiday-trail-960.webp 960w, assets/img/christmas/holiday-trail-1440.webp 1440w" sizes="(max-width: 959px) calc(100vw - 32px), 590px"><img src="assets/img/christmas/holiday-trail-960.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async"></picture><span class="card-badge" id="christmas-2026-status">Updating for this year's event<span class="sr-only"> (not yet available)</span></span><div class="card-body"><p class="card-eyebrow muted">Christmas</p><h2 class="card-title" id="christmas-2026-title">Red Bird Neighborhood Holiday Trail</h2><p class="card-meta">Details for this year’s holiday trail will be posted here.</p></div></article>
+          <a class="event-card neon is-primary" href="halloween/" data-event="halloween-2026"><picture><source type="image/webp" srcset="assets/img/optimized/hero-600.webp 600w, assets/img/optimized/hero-720.webp 720w, assets/img/optimized/hero-960.webp 960w, assets/img/optimized/hero-1536.webp 1536w" sizes="(max-width: 760px) 340px, 720px"><img src="assets/img/optimized/hero.jpg" alt="" width="1536" height="1024" fetchpriority="high" decoding="async"></picture><div class="card-body"><span class="status-chip" data-status data-date="2026-10-31" data-start="18:00" data-end="21:00" data-tz="America/New_York">Sat Oct 31</span><p class="card-eyebrow">Halloween</p><h2 class="card-title">Red Bird Trick-or-Treat Trail</h2><p class="card-meta">Saturday, October 31, 2026 · 6 PM–9 PM</p><p class="card-count">52 houses on the trail</p><span class="button button-primary card-cta">Explore the trail →</span></div></a>
+          <article class="event-card is-updating is-compact" data-event="christmas-2026" aria-labelledby="christmas-2026-title" aria-describedby="christmas-2026-status"><picture><source type="image/webp" srcset="assets/img/christmas/holiday-trail-600.webp 600w, assets/img/christmas/holiday-trail-960.webp 960w, assets/img/christmas/holiday-trail-1440.webp 1440w" sizes="(max-width: 959px) calc(100vw - 32px), 590px"><img src="assets/img/christmas/holiday-trail-960.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async"></picture><span class="card-badge" id="christmas-2026-status">Updating for this year's event<span class="sr-only"> (not yet available)</span></span><div class="card-body"><p class="card-eyebrow muted">Christmas</p><h2 class="card-title" id="christmas-2026-title">Red Bird Neighborhood Holiday Trail</h2><p class="card-meta">Details for this year’s holiday trail will be posted here.</p></div></article>
         </div>
-        <p class="card-note"><a class="text-link" href="halloween/#printables">Printable maps: flyer or live printout →</a></p>
+        <p class="card-note"><a class="text-link" href="halloween/#more">Printable maps: flyer or live printout →</a></p>
       </div>
     </section>
     <section id="get-app" class="get-app" aria-labelledby="app-title" tabindex="-1">

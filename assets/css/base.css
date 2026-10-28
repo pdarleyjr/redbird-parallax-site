@@ -78,3 +78,22 @@ p{max-width:65ch}
 @media(max-width:699px){.footer-top{flex-direction:column;align-items:start;gap:1rem}.footer-nav{gap:1rem}.footer-bottom{flex-direction:column;gap:.5rem}}
 @media(max-width:359px){.brand-name{font-size:.95rem}.brand-subtitle{font-size:.58rem}.brand{gap:.5rem}.brand img,.brand svg{width:38px;height:38px}.menu-button{font-size:.82rem;padding:.45rem .6rem}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
+.get-app{background:var(--rb-sky-deep);border-top:1px solid var(--rb-line);padding-block:3rem}
+.get-app h2{margin-bottom:.6rem}
+.app-lead{max-width:62ch;font-size:var(--step-1)}
+.app-benefits{list-style:none;padding:0;margin:1.5rem 0;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.app-benefits li{display:flex;gap:.75rem;align-items:center;background:var(--rb-panel);border:1px solid var(--rb-line);border-radius:1rem;padding:.9rem 1rem;font-weight:700}
+.glyph{width:1.5em;height:1.5em;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.35em;color:var(--rb-gold)}
+.glyph circle[r="1.6"],.glyph circle[r="1"]{fill:currentColor}
+.app-installed{display:inline-block;background:var(--rb-evergreen);color:var(--rb-cream);border:1px solid var(--rb-gold);border-radius:2rem;padding:.7rem 1.2rem;font-weight:700;font-size:1.05rem}
+.app-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.app-tabs button{min-height:44px;padding:.4rem 1.1rem;border-radius:2rem;border:1.5px solid var(--rb-line);background:var(--rb-panel);color:var(--rb-text);font-weight:700}
+.app-tabs button[aria-selected="true"]{background:var(--rb-cream);color:var(--rb-ink);border-color:var(--rb-neon-orange)}
+.app-panel{background:var(--rb-panel);border:1px solid var(--rb-line);border-radius:1rem;padding:1.1rem 1.3rem;margin-bottom:1rem}
+.app-panel[hidden]{display:none}
+.app-panel h3{margin-bottom:.5rem}
+.app-list{padding-left:1.3rem;display:grid;gap:.6rem}
+.app-list li{line-height:1.6}
+.app-note{color:var(--rb-muted);font-size:.9rem}
+@media(max-width:699px){.app-benefits{grid-template-columns:1fr}}
+.app-list .glyph{display:inline-block;width:1.3em;height:1.3em}

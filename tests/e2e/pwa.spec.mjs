@@ -35,11 +35,11 @@ test('the service worker registers with the site scope and the app is installabl
 test('offline reload of home and Halloween succeeds and shows the saved house list', async ({ page, context }) => {
   await ready(page);
   await page.goto('halloween/');
-  await page.locator('.house-card').first().waitFor();
+  await page.locator('#house-list .hrow').first().waitFor({ state: 'attached' });
   await page.waitForTimeout(1500);
   await context.setOffline(true);
   await page.reload();
-  await expect(page.locator('.house-card')).toHaveCount(snapshot.houses.length);
+  await expect(page.locator('#house-list .hrow')).toHaveCount(snapshot.houses.length);
   await page.goto('./');
   await expect(page.locator('.event-card')).toHaveCount(2);
   await context.setOffline(false);
@@ -50,7 +50,7 @@ test('a newer snapshot after reconnect replaces the bundled list (bundled v1 →
   const live = { ...snapshot, version: snapshot.version + 1, houses: snapshot.houses.slice(0, 5) };
   await page.context().route('**/data/halloween-2026.public.json', route => route.fulfill({ json: live }));
   await page.goto('halloween/');
-  await expect(page.locator('.house-card')).toHaveCount(5);
+  await expect(page.locator('#house-list .hrow')).toHaveCount(5);
 });
 
 test('data-only changes never change the service worker version', async () => {

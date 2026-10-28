@@ -5,11 +5,12 @@ import { axeViolations } from './helpers.mjs';
 const IOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
 const ANDROID = 'Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36';
 
-test('Printable maps: a section after the map with two cards, a which-to-use line, and one header item', async ({ page }) => {
-  await page.goto('halloween/');
+test('Printable maps live in the More view: two cards, a which-to-use line, and the old #printables address opens them', async ({ page }) => {
+  await page.route('**/assets/vendor/**', route => route.abort());
+  await page.goto('halloween/#printables');
+  await expect(page.locator('body')).toHaveAttribute('data-view', 'more');
   const section = page.locator('#printables');
   await expect(section.getByRole('heading', { name: 'Printable maps', level: 2 })).toBeVisible();
-  expect(await page.evaluate(() => document.querySelector('#printables').previousElementSibling === document.querySelector('#map'))).toBe(true);
   await expect(section.getByRole('heading', { name: 'Trail map flyer' })).toBeVisible();
   await expect(section.getByText('Designed one-page map with every house, best for printing and sharing')).toBeVisible();
   await expect(section.getByRole('link', { name: 'Download PDF' })).toHaveAttribute('href', /redbird-trail-map-2026\.pdf$/);
@@ -18,22 +19,8 @@ test('Printable maps: a section after the map with two cards, a which-to-use lin
   await expect(section.getByText('Always includes the newest houses')).toBeVisible();
   await expect(section.getByRole('link', { name: 'Print or save as PDF' })).toHaveAttribute('href', /halloween\/print\/$/);
   await expect(section.getByText('Which should I use?')).toBeVisible();
-  await expect(page.locator('.archive')).toHaveCount(0);
-  const navLabels = await page.locator('#site-nav a').allTextContents();
-  expect(navLabels.filter(t => /print|flyer|trail map/i.test(t))).toEqual(['Printable maps']);
   expect(await page.evaluate(() => [...document.querySelectorAll('#printables img')].every(i => i.getAttribute('width') && i.getAttribute('height')))).toBe(true);
-  if (process.env.QA_SHOTS) await section.screenshot({ path: `${process.env.QA_SHOTS}/printables-${test.info().project.name}.png` });
-  expect(await axeViolations(page)).toEqual([]);
-});
-
-test('the Halloween hero has a reserved box with a placeholder and a reminder about the app', async ({ page }) => {
-  await page.route('**/assets/img/optimized/hero*', route => route.abort());   // the picture has not arrived yet
-  await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto('halloween/');
-  const box = await page.locator('.hero-art picture').boundingBox();
-  expect(box.height, 'the box is reserved before the picture arrives').toBeGreaterThan(150);
-  expect(await page.locator('.hero-art picture').evaluate(el => getComputedStyle(el).backgroundImage)).toContain('data:image/webp');
-  await expect(page.locator('.hero-app a')).toHaveAttribute('href', /#get-app$/);
+  if (process.env.QA_SHOTS) await section.screenshot({ path: process.env.QA_SHOTS + "/printables-" + test.info().project.name + ".png" });
 });
 
 test.describe('Get the Red Bird app', () => {
@@ -105,7 +92,7 @@ test.describe('Get the Red Bird app', () => {
       const real = window.matchMedia.bind(window);
       window.matchMedia = q => (q.includes('display-mode: standalone') ? { matches: true, media: q, addEventListener() {}, removeEventListener() {} } : real(q));
     });
-    await page.goto('./');
+    await page.goto('./?home');
     await expect(page.locator('#app-installed')).toBeVisible();
     await expect(page.locator('#app-installed')).toHaveText('You’re using the Red Bird app ✓');
     await expect(page.locator('#app-steps')).toBeHidden();

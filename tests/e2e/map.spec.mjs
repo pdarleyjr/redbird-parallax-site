@@ -5,21 +5,22 @@ import { snapshot, located, axeViolations } from './helpers.mjs';
 test.beforeEach(({ browserName }) => { test.skip(browserName !== 'chromium', 'WebGL map specs run on Chromium (software GL)'); test.setTimeout(90000); });
 
 const here = { latitude: located[0].lat + 0.00005, longitude: located[0].lng + 0.00005 };
+/** On a phone the list is in the dock; open it first (on tablets and desktops it is always open). */
+const openList = async page => { if (await page.locator('#dock-body').evaluate(e => e.inert)) await page.locator('#dock-handle').click(); };
 const mapReady = async page => {
   await page.goto('halloween/?debug');
   await page.evaluate(() => document.querySelector('#map').scrollIntoView());
   await page.waitForFunction(() => window.__map?.loaded() && document.querySelectorAll('.pin-head').length > 0, null, { timeout: 30000 });
 };
 
-test('the map is lazy: MapLibre is not requested on the homepage or before the map is near', async ({ page }) => {
+test('the map is lazy: MapLibre is not requested on the homepage or on the Halloween Info, Houses and More views', async ({ page }) => {
   const urls = [];
   page.on('request', r => urls.push(r.url()));
   await page.goto('./');
   await page.waitForLoadState('networkidle');
   expect(urls.filter(u => u.includes('maplibre'))).toEqual([]);
-  await page.setViewportSize({ width: 1200, height: 600 });
-  await page.goto('halloween/');
-  await page.waitForLoadState('networkidle');
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const view of ['info', 'houses', 'more']) { await page.goto(`halloween/#${view}`); await page.waitForLoadState('networkidle'); }
   expect(urls.filter(u => u.includes('maplibre-gl.mjs'))).toEqual([]);
 });
 
@@ -51,7 +52,7 @@ test('Find my location shows the nearest house, then visited changes it; no coor
   await expect(page.locator('#house-sheet .sub')).toContainText('straight-line');
   await page.locator('#house-sheet').getByRole('button', { name: 'Mark visited' }).click();
   await expect(page.locator('#house-sheet h3')).toHaveText(`Nearest: #${first[1].house.mapNumber} ${first[1].house.name}`);
-  const link = page.locator('#house-sheet a', { hasText: 'Walking directions' });
+  const link = page.locator('#house-sheet a', { hasText: 'Directions' });
   expect(await link.getAttribute('href')).toMatch(/destination=[\d.-]+,[\d.-]+/);
   expect(await link.getAttribute('href')).not.toContain(String(here.latitude).slice(0, 8));
   await expect(page.locator('#map-status')).toHaveText('');
@@ -69,7 +70,8 @@ test('denied location shows the friendly message and the list still works', asyn
   await page.evaluate(() => { navigator.geolocation.watchPosition = (ok, fail) => { fail({ code: 1 }); return 1; }; });
   await page.locator('#locate-button').click();
   await expect(page.locator('#map-status')).toContainText('Location is off for this site');
-  await page.locator('#map-house-list button').first().click();
+  await openList(page);
+  await page.locator('#map-house-list button.hr-main').first().click();
   await expect(page.locator('#house-sheet')).toBeVisible();
   await context.close();
 });
@@ -77,6 +79,7 @@ test('denied location shows the friendly message and the list still works', asyn
 test('selecting a house from the accessible list flies to it and announces details', async ({ page }) => {
   await mapReady(page);
   const h = located[8];
+  await openList(page);
   await page.locator(`#map-house-list button[data-id="${h.id}"]`).click();
   await expect(page.locator('#house-sheet h3')).toContainText(h.name);
   await expect(page.locator('.pin:not(.is-cluster).is-selected:not([hidden]) .pin-head')).toHaveAttribute('aria-label', new RegExp(`^Stop ${h.mapNumber}, `));
@@ -92,6 +95,7 @@ test('without WebGL2 the page explains and the list remains', async ({ browser }
   });
   await page.goto('halloween/');
   await page.locator('#locate-button').click();
+  await openList(page);
   await expect(page.locator('.map-fallback')).toContainText('Interactive map isn’t supported');
   await expect(page.locator('#map-house-list li').first()).toBeVisible();
   await context.close();
@@ -112,6 +116,7 @@ test('a house deep link opens that house', async ({ page }) => {
 test('visited and nearest states restyle the pins', async ({ page }) => {
   await mapReady(page);
   const h = located[3];
+  await openList(page);
   await page.locator(`#map-house-list button[data-id="${h.id}"]`).click();
   await page.locator('#house-sheet').getByRole('button', { name: 'Mark visited' }).click();
   const pin = page.locator('.pin:not(.is-cluster)', { has: page.locator(`.pin-head[aria-label^="Stop ${h.mapNumber},"]`) });

@@ -1,7 +1,7 @@
 // "Get the Red Bird app" section: picks the right steps for the device, offers the native install prompt where the browser has one,
 // and says so when the app is already installed. Nothing pops up by itself.
 const $ = selector => document.querySelector(selector);
-const standalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+export const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 const PLATFORMS = ['ios', 'android', 'desktop'];
 
 export function detectPlatform(ua = navigator.userAgent, touchPoints = navigator.maxTouchPoints || 0) {
@@ -16,7 +16,7 @@ addEventListener('beforeinstallprompt', event => { event.preventDefault(); defer
 export function initInstallSection() {
   const section = $('#get-app');
   if (!section) return;
-  if (standalone()) { $('#app-installed').hidden = false; $('#app-steps').hidden = true; return; }
+  if (isStandalone()) { $('#app-installed').hidden = false; $('#app-steps').hidden = true; return; }
   const tabs = PLATFORMS.map(id => ({ id, tab: $(`#tab-${id}`), panel: $(`#panel-${id}`) }));
   $('.app-tabs').hidden = false;
   const show = (id, focus = false) => {
@@ -45,5 +45,5 @@ export function initInstallSection() {
     deferred = null; install.hidden = true;
   });
   addEventListener('appinstalled', () => { $('#app-installed').hidden = false; $('#app-steps').hidden = true; });
-  matchMedia('(display-mode: standalone)').addEventListener('change', () => { if (standalone()) { $('#app-installed').hidden = false; $('#app-steps').hidden = true; } });
+  matchMedia('(display-mode: standalone)').addEventListener('change', () => { if (isStandalone()) { $('#app-installed').hidden = false; $('#app-steps').hidden = true; } });
 }
