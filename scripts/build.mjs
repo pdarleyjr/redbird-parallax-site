@@ -5,8 +5,9 @@ import path from 'node:path';
 import { eventLabels, localAsset, registrationURL } from '../assets/js/content.js';
 import { assertSnapshot } from '../shared/snapshot-schema.mjs';
 import { render, escapeHTML, jsonForScript } from './lib/template.mjs';
-import { cardsHTML, houseCardsHTML, mapListHTML, houseCountText } from './lib/fragments.mjs';
+import { cardsHTML, houseRowsHTML, houseCountText } from './lib/fragments.mjs';
 import { readTokens } from './map/build-style.mjs';
+import { LEGACY, VIEWS } from '../assets/js/app/router.js';
 import { buildManifest, APP_NAME } from './lib/manifest.mjs';
 import { buildServiceWorker } from './lib/sw.mjs';
 
@@ -71,8 +72,18 @@ function pageBase(inputs, page, extra) {
     canonical: new URL(page.path, site.origin).href, ogImage: new URL('assets/img/optimized/hero.jpg', site.origin).href,
     ogImageAlt: 'Red Bird children in Halloween costumes with a cardinal and glowing pumpkins.',
     swFlag: site.features?.serviceWorker ? 'on' : 'off', csp: csp(site), assetVersion: version, cssLinksHTML: cssLinks(page.root, page.css, version),
-    footerNavHTML: footerNav(page.root, page.nav), footerNote: page.footerNote, year: String(inputs.event.year), ...extra
+    footerNavHTML: footerNav(page.root, page.nav), footerNote: page.footerNote, year: String(inputs.event.year), headExtraHTML: page.headExtra || '', ...extra
   };
+}
+
+/** Short event line for the app bar, e.g. "Sat Oct 31 · 6–9 PM". */
+export function eventChip(event) {
+  const day = new Date(`${event.date}T12:00:00Z`).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' }).replace(',', '');
+  const hour = t => { const [h, m] = t.split(':').map(Number); return { h12: h % 12 || 12, m, pm: h >= 12 }; };
+  const [s, en] = [hour(event.hours.start), hour(event.hours.end)];
+  const fmt = x => `${x.h12}${x.m ? ':' + String(x.m).padStart(2, '0') : ''}`;
+  const range = s.pm === en.pm ? `${fmt(s)}–${fmt(en)} ${en.pm ? 'PM' : 'AM'}` : `${fmt(s)} ${s.pm ? 'PM' : 'AM'}–${fmt(en)} ${en.pm ? 'PM' : 'AM'}`;
+  return `${day} · ${range}`;
 }
 
 export async function buildHalloween(inputs, hash, rootPrefix = '../') {
@@ -85,13 +96,13 @@ export async function buildHalloween(inputs, hash, rootPrefix = '../') {
   const base = pageBase(inputs, {
     root: rootPrefix, hash, path: 'halloween/', title: `${event.name} ${event.year}`,
     description: `Halloween with your neighbors. Join the Red Bird Trick-or-Treat Trail on ${labels.fullDate}. Find your stops on the interactive map, see the nearest house, or print the trail map.`,
-    css: ['tokens', 'base', 'halloween', 'map'],
+    css: ['tokens', 'base', 'app', 'map'],
     nav: [['', 'Holiday Trails'], ['#what-to-expect', 'Event details'], ['#featured-houses', 'Participating houses'], ['halloween/print/', 'Print the map']],
     footerNote: 'Map data © OpenStreetMap contributors · Protomaps. Icons: Microsoft Fluent Emoji (MIT license) and Red Bird artwork. Original organizer map: Miami-Dade County GIS.'
   });
   const html = await render(templates, 'halloween.html', {
     ...base, ...event, ...labels, updated: event.updated, canonical: base.canonical,
-    mapListHTML: mapListHTML(snapshot.houses), houseListHTML: houseCardsHTML(snapshot.houses, rootPrefix),
+    houseListHTML: houseRowsHTML(snapshot.houses, rootPrefix), houseCount: String(snapshot.houses.length), chip: eventChip(event),
     houseCountText: houseCountText(snapshot), snapshotVersion: String(snapshot.version),
     registrationActionHTML: registration ? `<p><a class="text-link" href="${escapeHTML(registration)}" target="_blank" rel="noopener">Register your house<span class="sr-only"> (opens a new tab)</span></a></p>` : '',
     eventJSON: jsonForScript({ ...config, apiBase: site.api?.publicBase || null })
@@ -112,7 +123,7 @@ export async function buildAll() {
   const outputs = new Map();
   const counts = { [snapshot.eventId]: houseCountText(snapshot) };
   const homeNav = [['halloween/', 'Halloween trail'], ['christmas/', 'Christmas trail'], ['halloween/print/', 'Print the Halloween map']];
-  const home = pageBase(inputs, { root: '', hash, path: '', title: 'Red Bird Neighborhood Holiday Trails', description: 'Two neighborhood trails, one Red Bird. Explore the Halloween Trick-or-Treat Trail map, nearby houses and more.', css: ['tokens', 'base', 'home'], nav: homeNav, footerNote: 'A neighborhood project. No ads, no tracking. Icons: Microsoft Fluent Emoji (MIT license).' });
+  const home = pageBase(inputs, { root: '', hash, path: '', title: 'Red Bird Neighborhood Holiday Trails', description: 'Two neighborhood trails, one Red Bird. Explore the Halloween Trick-or-Treat Trail map, nearby houses and more.', css: ['tokens', 'base', 'home'], headExtra: `  <link rel="preload" as="image" type="image/webp" fetchpriority="high" imagesrcset="assets/img/optimized/hero-600.webp 600w, assets/img/optimized/hero-720.webp 720w, assets/img/optimized/hero-960.webp 960w, assets/img/optimized/hero-1536.webp 1536w" imagesizes="(max-width: 760px) 340px, 720px">`, nav: homeNav, footerNote: 'A neighborhood project. No ads, no tracking. Icons: Microsoft Fluent Emoji (MIT license).' });
   outputs.set('index.html', await render(templates, 'home.html', { ...home, cardsHTML: cardsHTML(site.events, '', counts), siteJSON: jsonForScript({ events: site.events, apiBase: site.api?.publicBase || null }) }));
   const halloween = await buildHalloween(inputs, hash);
   outputs.set('halloween/index.html', halloween);
@@ -136,6 +147,7 @@ export async function buildAll() {
   }
 
   const ids = [...halloween.matchAll(/\sid="([a-zA-Z][\w-]*)"/g)].map(m => m[1]).filter(id => !id.startsWith('house-') || id === 'house-list' || id === 'house-search');
+  ids.push(...Object.keys(LEGACY), ...VIEWS);   // the long page's anchors still open the right view (see assets/js/app/router.js)
   outputs.set('assets/js/legacy-redirect.js', `// GENERATED by scripts/build.mjs: old QR codes and bookmarks to /#section move to /halloween/#section.\n(function(){var ids=${JSON.stringify([...new Set(ids)])},h=location.hash.slice(1);if(h&&(ids.indexOf(h)>-1||/^house-stop-\\d+$/.test(h)))location.replace('halloween/'+location.search+location.hash)})();\n`);
   outputs.set('manifest.webmanifest', JSON.stringify(buildManifest(inputs), null, 2) + '\n');
   outputs.set('sw.js', await buildServiceWorker({ root, outputs, hash, site, snapshot }));

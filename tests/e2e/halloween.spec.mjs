@@ -1,131 +1,198 @@
 import { test, expect } from './fixtures.mjs';
-import { readFile } from 'node:fs/promises';
 import { axeViolations, allImages, watch, snapshot } from './helpers.mjs';
 
-// These tests are about the page content, not the WebGL map (see map.spec.mjs); keep the map out of them (software GL crashes CI WebKit at big sizes).
+// These tests are about the page content and the app shell, not the WebGL map (see map.spec.mjs); keep the map out of them
+// (software GL crashes CI WebKit at big sizes).
 test.beforeEach(({ page }) => page.route('**/assets/vendor/**', route => route.abort()));
-const loaded = async page => { await page.goto('halloween/'); await page.locator('.house-card').first().waitFor(); await page.evaluate(() => document.fonts.ready); };
+const loaded = async (page, hash = '') => { await page.goto(`halloween/${hash}`); await page.locator('#house-list .hrow').first().waitFor({ state: 'attached' }); await page.evaluate(() => document.fonts.ready); };
+const VIEWS = ['map', 'houses', 'info', 'more'];
 
-test('public content: date, hours, directory equals snapshot, no historical content', async ({ page }) => {
+test('public content: date and hours in Info, the Houses list equals the snapshot, no historical content', async ({ page }) => {
   const problems = watch(page);
-  await loaded(page);
-  const text = await page.locator('body').innerText();
+  await loaded(page, '#info');
+  const text = await page.locator('#info').innerText();
   expect(text).toMatch(/Saturday, October 31, 2026/);
   expect(text).toMatch(/6 PM–9 PM/);
-  expect(text).not.toMatch(/2024|2025|Book Now|shipping|discount|Bedimcode/i);
-  expect(await page.locator('.house-card').count()).toBe(snapshot.houses.length);
+  const all = await page.locator('body').innerText();
+  expect(all).not.toMatch(/2024|2025|Book Now|shipping|discount|Bedimcode/i);
+  expect(await page.locator('#house-list .hrow').count()).toBe(snapshot.houses.length);
   expect(await page.locator('iframe,video,a[href*="jotform"]').count()).toBe(0);
-  const ids = await page.locator('.house-card').evaluateAll(cards => cards.map(c => c.dataset.id));
-  for (let n = 1; n <= 31; n++) expect(ids).toContain(`stop-${String(n).padStart(2, '0')}`);
-  const actual = await page.locator('.house-card').evaluateAll(cards => cards.map(c => ({ name: c.querySelector('h3').textContent, address: c.querySelector('p').textContent })));
+  const ids = await page.locator('#house-list .hrow').evaluateAll(rows => rows.map(r => r.dataset.id));
+  for (let n = 1; n <= 52; n++) expect(ids).toContain(`stop-${String(n).padStart(2, '0')}`);
+  const actual = await page.locator('#house-list .hrow').evaluateAll(rows => rows.map(r => ({ name: r.querySelector('.hr-t b').textContent, address: r.querySelector('.hr-t small').textContent })));
   expect(actual).toEqual(snapshot.houses.map(h => ({ name: h.name, address: h.address })));
-  await expect(page.locator('#site-nav a[href="../"]')).toBeAttached();
   expect(problems.external).toEqual([]);
   expect(problems.bad).toEqual([]);
 });
 
-for (const [width, height] of [[320, 740], [375, 812], [390, 844], [430, 932], [768, 1024], [1024, 768], [1440, 1000], [1920, 1080], [844, 390]]) {
-  test(`responsive ${width}x${height}: no overflow, no broken images, usable hero action`, async ({ page }) => {
+test('the app bar: back to Red Bird home, the event chip and the progress ring', async ({ page }) => {
+  await loaded(page);
+  await expect(page.locator('.appbar-home')).toHaveAttribute('href', /\?home$/);
+  await expect(page.locator('.event-chip')).toHaveText('Sat Oct 31 · 6–9 PM');
+  await expect(page.locator('#progress-ring')).toHaveAttribute('aria-label', `0/${snapshot.houses.length} houses visited`);
+});
+
+for (const [width, height] of [[320, 740], [375, 812], [390, 844], [430, 932], [768, 1024], [1024, 768], [1440, 900], [1920, 1080], [844, 390]]) {
+  test(`responsive ${width}x${height}: every view fits, no broken images, 44 px targets`, async ({ page }) => {
     await page.setViewportSize({ width, height });
-    await loaded(page); await allImages(page);
-    const layout = await page.evaluate(() => ({ overflow: document.documentElement.scrollWidth - innerWidth, broken: [...document.images].filter(i => !i.complete || !i.naturalWidth).map(i => i.src), ids: [...document.querySelectorAll('[id]')].map(e => e.id) }));
-    expect(layout.overflow).toBeLessThanOrEqual(1);
-    expect(layout.broken).toEqual([]);
-    expect(new Set(layout.ids).size).toBe(layout.ids.length);
-    const title = await page.locator('h1').boundingBox();
-    expect(title.width).toBeLessThanOrEqual(width); expect(title.x).toBeGreaterThanOrEqual(0);
-    const cta = await page.locator('.hero .button-primary').boundingBox();
-    expect(cta.height).toBeGreaterThanOrEqual(44);
-    if (width >= 375 && width <= 430) expect(cta.y + cta.height).toBeLessThan(height);
+    for (const view of VIEWS) {
+      await loaded(page, `#${view}`);
+      await page.evaluate(() => document.querySelectorAll('img[loading="lazy"]').forEach(i => { i.loading = 'eager'; }));
+      await page.waitForFunction(() => [...document.images].every(i => !i.offsetParent || i.closest('[hidden]') || i.complete), null, { timeout: 10000 }).catch(() => {});
+      await page.waitForTimeout(300);
+      const layout = await page.evaluate(() => ({
+        overflow: document.documentElement.scrollWidth - innerWidth,
+        panes: [...document.querySelectorAll('.view:not([hidden])')].map(v => v.scrollWidth - v.clientWidth),
+        broken: [...document.images].filter(i => i.offsetParent && (!i.complete || !i.naturalWidth) && !i.closest('[hidden]') && !i.classList.contains('map-poster')).map(i => i.src),
+        ids: [...document.querySelectorAll('[id]')].map(e => e.id)
+      }));
+      expect(layout.overflow, `${view}: page overflow`).toBeLessThanOrEqual(1);
+      for (const p of layout.panes) expect(p, `${view}: pane overflow`).toBeLessThanOrEqual(1);
+      expect(layout.broken, `${view}: broken images`).toEqual([]);
+      expect(new Set(layout.ids).size).toBe(layout.ids.length);
+      const tabs = await page.locator('#tabbar a').evaluateAll(a => a.map(x => { const r = x.getBoundingClientRect(); return [r.width, r.height]; }));
+      for (const [w, h] of tabs) { expect(w).toBeGreaterThanOrEqual(44); expect(h).toBeGreaterThanOrEqual(44); }
+    }
   });
 }
 
-test('mobile menu: touch, Escape, close, navigation, focus and resize', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
+test('tabs are real views: routes, titles, active tab, one view at a time, and the back button walks them', async ({ page }) => {
   await loaded(page);
-  const toggle = page.locator('#menu-toggle');
-  await toggle.click();
-  expect(await toggle.getAttribute('aria-expanded')).toBe('true');
-  expect(await page.locator('#site-nav a').first().evaluate(e => e === document.activeElement)).toBe(true);
-  await page.keyboard.press('Escape');
-  expect(await toggle.getAttribute('aria-expanded')).toBe('false');
-  expect(await toggle.evaluate(e => e === document.activeElement)).toBe(true);
-  await toggle.press('Enter'); await page.locator('#menu-close').click();
-  expect(await toggle.getAttribute('aria-expanded')).toBe('false');
-  await toggle.click(); await page.locator('#site-nav a[href="#map"]').click();
-  await page.waitForURL('**/#map');
-  expect(await toggle.getAttribute('aria-expanded')).toBe('false');
-  await toggle.click(); await page.setViewportSize({ width: 1024, height: 768 });
-  await page.waitForFunction(() => document.querySelector('#menu-toggle').getAttribute('aria-expanded') === 'false');
-  expect(await page.locator('#site-nav').isVisible()).toBe(true);
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.locator('#site-nav').waitFor({ state: 'hidden' });
-  expect(await page.evaluate(() => getComputedStyle(document.body).overflow)).not.toBe('hidden');
+  await expect(page.locator('body')).toHaveAttribute('data-view', 'map');
+  await expect(page).toHaveTitle(/^Map · /);
+  const seen = [];
+  for (const view of ['houses', 'info', 'more']) {
+    await page.locator(`#tabbar a[data-tab="${view}"]`).click();
+    await expect(page.locator('body')).toHaveAttribute('data-view', view);
+    expect(new URL(page.url()).hash).toBe(`#${view}`);
+    await expect(page.locator(`#${view}`)).toBeVisible();
+    for (const other of ['houses', 'info', 'more'].filter(v => v !== view)) await expect(page.locator(`#${other}`)).toBeHidden();
+    await expect(page.locator(`#tabbar a[data-tab="${view}"]`)).toHaveAttribute('aria-current', 'page');
+    await expect(page).toHaveTitle(new RegExp(`^${view[0].toUpperCase()}${view.slice(1)} · `));
+    seen.push(view);
+  }
+  await page.goBack(); await expect(page.locator('body')).toHaveAttribute('data-view', 'info');
+  await page.goBack(); await expect(page.locator('body')).toHaveAttribute('data-view', 'houses');
+  await page.goBack(); await expect(page.locator('body')).toHaveAttribute('data-view', 'map');
+  await page.goForward(); await expect(page.locator('body')).toHaveAttribute('data-view', 'houses');
 });
 
-test('all in-page anchors resolve and the skip link works', async ({ page, browserName }) => {
-  await page.setViewportSize({ width: 1440, height: 1000 });
+test('every old anchor of the long page opens the right view and the address is rewritten', async ({ page }) => {
+  const cases = { hero: 'map', nearest: 'map', 'what-to-expect': 'info', 'how-it-works': 'info', 'featured-houses': 'houses', 'house-list': 'houses', printables: 'more', 'get-app': 'more', info: 'info', more: 'more', houses: 'houses', map: 'map' };
+  for (const [anchor, view] of Object.entries(cases)) {
+    await page.goto(`halloween/#${anchor}`);
+    await expect(page.locator('body')).toHaveAttribute('data-view', view);
+    await expect(page.locator(`#${view}`)).toBeVisible();
+    await expect.poll(() => new URL(page.url()).hash).toBe(`#${view}`);
+  }
+});
+
+test('the skip link works and focus moves to the view on a tab change', async ({ page, browserName }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
   await loaded(page);
-  const missing = await page.locator('a[href^="#"]').evaluateAll(links => links.filter(l => !document.getElementById(l.hash.slice(1))).map(l => l.href));
-  expect(missing).toEqual([]);
   if (browserName !== 'webkit') { // Safari does not Tab to links unless a system setting is on
     await page.keyboard.press('Tab');
     expect(await page.locator('.skip-link').evaluate(e => e === document.activeElement)).toBe(true);
-    await page.keyboard.press('Enter');
-    expect(page.url()).toMatch(/#main$/);
   }
-  for (const href of ['#what-to-expect', '#how-it-works', '#featured-houses', '#map']) { await page.locator(`#site-nav a[href="${href}"]`).click(); expect(new URL(page.url()).hash).toBe(href); }
+  await page.locator('#tabbar a[data-tab="info"]').click();
+  await expect(page.locator('#info')).toBeFocused();
 });
 
-test('search filters the real count and handles no matches', async ({ page }) => {
-  await loaded(page);
+test('Houses: search, filter chips and the sort button work on the one list', async ({ page }) => {
+  await loaded(page, '#houses');
   await page.locator('#house-search').fill('5792');
-  await expect(page.locator('.house-card:not([hidden])')).toHaveCount(1);
+  await expect(page.locator('#house-list .hrow')).toHaveCount(1);
   await page.locator('#house-search').fill('NONEXISTENT LOCAL TEST FIXTURE');
-  await expect(page.locator('.house-card:not([hidden])')).toHaveCount(0);
+  await expect(page.locator('#house-list .hrow')).toHaveCount(0);
   await expect(page.locator('#house-empty')).toBeVisible();
   await page.locator('#house-search').fill('');
-  await expect(page.locator('.house-card:not([hidden])')).toHaveCount(snapshot.houses.length);
+  await expect(page.locator('#house-list .hrow')).toHaveCount(snapshot.houses.length);
+  await page.locator('#house-list .hrow').first().locator('[data-visited]').check();
+  await page.locator('#house-controls [data-filter="visited"]').click();
+  await expect(page.locator('#house-list .hrow')).toHaveCount(1);
+  await page.locator('#house-controls [data-filter="todo"]').click();
+  await expect(page.locator('#house-list .hrow')).toHaveCount(snapshot.houses.length - 1);
+  await page.locator('#house-controls [data-filter="all"]').click();
+  await expect(page.locator('#house-controls [data-sort-toggle]')).toHaveAttribute('aria-disabled', 'true');   // no location yet, so "Nearest" is not available
 });
 
-test('visited marks persist across reloads and update the count', async ({ page }) => {
-  await loaded(page);
-  await page.locator('.house-card').first().locator('[data-visited]').check();
+test('rows are about 64 px with a 40 px icon, the number, name, address and a visited box', async ({ page }) => {
+  await loaded(page, '#houses');
+  const row = page.locator('#house-list .hrow').first();
+  await expect(row).toBeVisible();
+  const box = await row.boundingBox();
+  expect(box.height).toBeGreaterThanOrEqual(63); expect(box.height).toBeLessThanOrEqual(72);
+  const icon = await row.locator('.hr-art img').boundingBox();
+  expect(Math.round(icon.width)).toBe(40);
+  await expect(row.locator('.hr-n')).toContainText('1');
+  expect(await page.locator('#house-list').evaluate(el => el.scrollHeight)).toBeLessThan(snapshot.houses.length * 72);
+  expect((await row.locator('[data-visited]').locator('xpath=..').boundingBox()).width).toBeGreaterThanOrEqual(44);
+});
+
+test('visited: persists across reloads, drives the progress ring and the live announcement, and Reset asks first', async ({ page }) => {
+  await loaded(page, '#houses');
+  await page.locator('#house-list .hrow').first().locator('[data-visited]').check();
   await expect(page.locator('#visited-count')).toHaveText(`1 of ${snapshot.houses.length} visited`);
-  await page.reload(); await page.locator('.house-card').first().waitFor();
-  await expect(page.locator('.house-card').first().locator('[data-visited]')).toBeChecked();
+  await expect(page.locator('#ring-text')).toHaveText(`1/${snapshot.houses.length}`);
+  await expect(page.locator('#progress-ring')).toHaveAttribute('aria-label', `1/${snapshot.houses.length} houses visited`);
+  await expect(page.locator('#announce')).toContainText(`1 of ${snapshot.houses.length}`);
+  expect(await page.locator('#ring-fill').getAttribute('stroke-dasharray')).toMatch(/^1\.9 100$/);
+  await page.reload(); await page.locator('#house-list .hrow').first().waitFor({ state: 'attached' });
+  await expect(page.locator('#house-list .hrow').first().locator('[data-visited]')).toBeChecked();
+  await page.locator('#tabbar a[data-tab="more"]').click();
   await page.locator('#visited-reset').click();
-  await expect(page.locator('#visited-count')).toHaveText(`0 of ${snapshot.houses.length} visited`);
+  await expect(page.locator('#reset-confirm')).toBeVisible();
+  await page.locator('#reset-cancel').click();
+  await expect(page.locator('#reset-confirm')).toBeHidden();
+  await expect(page.locator('#ring-text')).toHaveText(`1/${snapshot.houses.length}`);
+  await page.locator('#visited-reset').click(); await page.locator('#reset-yes').click();
+  await expect(page.locator('#ring-text')).toHaveText(`0/${snapshot.houses.length}`);
+});
+
+test('visited uses the same storage key as before (nothing people saved is lost)', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('rbht:visited:halloween-2026', JSON.stringify(['stop-01', 'stop-02'])));
+  await loaded(page, '#houses');
+  await expect(page.locator('#ring-text')).toHaveText(`2/${snapshot.houses.length}`);
+  await expect(page.locator('#house-list .hrow').first().locator('[data-visited]')).toBeChecked();
 });
 
 test('the old organizer map is gone from the page: no section, no links to its files', async ({ page }) => {
-  await loaded(page);
+  await loaded(page, '#more');
   await expect(page.locator('details.archive')).toHaveCount(0);
   await expect(page.getByText('Original October 9 map')).toHaveCount(0);
   const hrefs = await page.locator('a[href], img[src], source[srcset]').evaluateAll(els => els.map(e => e.getAttribute('href') || e.getAttribute('src') || e.getAttribute('srcset')));
   expect(hrefs.filter(h => /redbird-trail-2026[.-]/.test(h))).toEqual([]);
 });
 
-test('WCAG 2.2 AA automated accessibility (axe) has zero violations', async ({ page }) => {
-  await loaded(page); await allImages(page);
-  expect(await axeViolations(page)).toEqual([]);
-});
+for (const [label, size] of [['phone', { width: 390, height: 844 }], ['desktop', { width: 1440, height: 900 }]]) {
+  test(`WCAG 2.2 AA automated accessibility (axe) has zero violations on every view (${label})`, async ({ page }) => {
+    await page.setViewportSize(size);
+    for (const view of VIEWS) {
+      await loaded(page, `#${view}`); await allImages(page);
+      expect(await axeViolations(page), view).toEqual([]);
+    }
+  });
+}
 
-test('reduced motion and mobile menu open have no axe violations', async ({ browser }) => {
+test('reduced motion: no scroll animation, axe stays clean', async ({ browser }) => {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce', baseURL: test.info().project.use.baseURL });
-  await loaded(page);
-  expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
-  await page.locator('#menu-toggle').click();
+  await page.route('**/assets/vendor/**', route => route.abort());
+  await loaded(page, '#houses');
+  expect(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(true);
   expect(await axeViolations(page)).toEqual([]);
   await page.close();
 });
 
-test('JavaScript disabled: date, directory and navigation remain usable', async ({ browser }) => {
+test('JavaScript disabled: one readable page with the date, the full house list and the printable maps', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 }, baseURL: test.info().project.use.baseURL });
   const page = await context.newPage();
   await page.goto('halloween/');
-  await expect(page.locator('h1')).toBeVisible();
-  expect(await page.locator('.house-card').count()).toBe(snapshot.houses.length);
+  await expect(page.locator('#info h1')).toBeVisible();
+  await expect(page.locator('#houses')).toBeVisible();
+  await expect(page.locator('#more')).toBeVisible();
+  expect(await page.locator('#house-list .hrow').count()).toBe(snapshot.houses.length);
+  await expect(page.locator('#info')).toContainText('Saturday, October 31, 2026');
+  await expect(page.locator('#printables a[href$=".pdf"]')).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
   await context.close();
 });
@@ -135,17 +202,28 @@ test('fixtures: invalid or historical snapshots are ignored (bundled data used)'
     await page.route('**/data/halloween-2026.public.json', route => route.fulfill({ body, contentType: 'application/json' }));
     await page.goto('halloween/');
     await page.waitForLoadState('networkidle');
-    expect(await page.locator('.house-card').count()).toBe(snapshot.houses.length);
+    expect(await page.locator('#house-list .hrow').count()).toBe(snapshot.houses.length);
     await page.unroute('**/data/halloween-2026.public.json');
   }
 });
 
-test('a newer valid snapshot re-renders the directory (long names stay text, no injection)', async ({ page }) => {
+test('a newer valid snapshot re-renders the list (long names stay text, no injection)', async ({ page }) => {
   const next = { ...snapshot, version: snapshot.version + 5, houses: [{ ...snapshot.houses[0], name: 'Local test <img src=x onerror=window.INJECTED=true> & ' + 'Long name '.repeat(25) }] };
   await page.route('**/data/halloween-2026.public.json', route => route.fulfill({ json: next }));
-  await page.goto('halloween/');
-  await expect(page.locator('.house-card')).toHaveCount(1);
+  await page.goto('halloween/#houses');
+  await expect(page.locator('#house-list .hrow')).toHaveCount(1);
   expect(await page.evaluate(() => window.INJECTED)).toBeUndefined();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
   await expect(page.locator('#house-count')).toHaveText('1 house on the trail');
+});
+
+test('the map and its code are not loaded on the Info, Houses or More views (phone)', async ({ page }) => {
+  await page.unroute('**/assets/vendor/**');
+  await page.setViewportSize({ width: 390, height: 844 });
+  const urls = [];
+  page.on('request', r => urls.push(r.url()));
+  await page.goto('halloween/#info');
+  await page.waitForLoadState('networkidle');
+  for (const view of ['houses', 'more', 'info']) { await page.goto(`halloween/#${view}`); await page.waitForLoadState('networkidle'); }
+  expect(urls.filter(u => /maplibre|map-view\.js|\/tiles\//.test(u))).toEqual([]);
 });

@@ -27,7 +27,7 @@ test('legacy /#map links redirect to the Halloween page', async ({ page }) => {
   await page.goto('./#map');
   await page.waitForURL(/\/halloween\/#map$/);
   await page.goto('./#featured-houses');
-  await page.waitForURL(/\/halloween\/#featured-houses$/);
+  await page.waitForURL(/\/halloween\/#houses$/);
 });
 test('home has no axe violations and no horizontal overflow at 320 px', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 700 });

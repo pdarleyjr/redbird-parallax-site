@@ -1,9 +1,25 @@
 // Homepage: cards come from the build-time registry; when the live events API says Christmas is published, activate its card.
 import { initPwa } from './pwa.js';
-import { initInstallSection } from './install.js';
+import { initInstallSection, isStandalone } from './install.js';
+import { eventStatus } from '../../shared/event-status.mjs';
+
+// An installed app opens straight into the one live event (the home page stays one tap away: "Red Bird home" is ?home).
+const siteConfig = (() => { try { return JSON.parse(document.querySelector('#site-config')?.textContent || '{}'); } catch { return {}; } })();
+const liveEvents = (siteConfig.events || []).filter(e => e.status === 'published' && !(e.date && e.end && eventStatus({ date: e.date, start: e.start, end: e.end, tz: e.timeZone }).kind === 'ended'));
+if (isStandalone() && !new URLSearchParams(location.search).has('home') && liveEvents.length === 1) location.replace(new URL(`${liveEvents[0].slug}/`, document.baseURI));
 
 initPwa();
 initInstallSection();
+
+// Status chips on the event cards: "In 3 days", "Happening now", "Ended" (in the event's own time zone).
+const paintStatus = () => {
+  for (const chip of document.querySelectorAll('[data-status]')) {
+    const { kind, label } = eventStatus({ date: chip.dataset.date, start: chip.dataset.start, end: chip.dataset.end, tz: chip.dataset.tz });
+    chip.textContent = label; chip.dataset.kind = kind;
+  }
+};
+paintStatus();
+setInterval(paintStatus, 60000);
 
 function activate(card) {
   const link = document.createElement('a');

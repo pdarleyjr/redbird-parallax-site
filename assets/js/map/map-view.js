@@ -14,7 +14,7 @@ function bounds(ring, padMeters = 0) {
   return [[Math.min(...lngs) - dLng, Math.min(...lats) - dLat], [Math.max(...lngs) + dLng, Math.max(...lats) + dLat]];
 }
 
-export async function createMapView({ container, snapshot, reducedMotion, onSelect, onChoose }) {
+export async function createMapView({ container, snapshot, reducedMotion, onSelect, onChoose, getInsets = () => ({ bottom: 0, right: 0 }) }) {
   const maplibre = await loadMapLibre();
   const root = siteRoot.href;
   const style = await (await fetch(new URL('assets/map/style-night.json', siteRoot))).json();
@@ -35,7 +35,7 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
   {
     const located = snapshot.houses.filter(h => h.location !== 'none');
     if (located.length) {
-      const view = chooseDefaultView(located, { fitZoom: map.getZoom(), width: container.clientWidth, height: container.clientHeight, avoid: controlRects(container), phone: container.clientWidth < 768 });
+      const view = chooseDefaultView(located, { fitZoom: map.getZoom(), width: container.clientWidth - getInsets().right, height: container.clientHeight - getInsets().bottom, avoid: controlRects(container), phone: container.clientWidth < 768 });
       map.jumpTo({ zoom: view.zoom, center: [view.center.lng, view.center.lat] });
     }
   }
@@ -49,9 +49,10 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
 
   let houses = snapshot.houses;
   let selected = null;
-  const pins = createPins({ map, maplibre, houses, root, onSelect, reducedMotion });
+  const pins = createPins({ map, maplibre, houses, root, onSelect, reducedMotion, getInsets });
   if (location.search.includes('debug')) { window.__pins = pins; window.__cross = crossings; window.__close = closestHeads; }
-  const move = (center, zoom) => reducedMotion ? map.jumpTo({ center, zoom }) : map.flyTo({ center, zoom, essential: false });
+  // camera moves keep the target clear of the dock (bottom sheet or side sheet)
+  const move = (center, zoom) => { const i = getInsets(), padding = { top: 0, left: 0, bottom: i.bottom, right: i.right }; return reducedMotion ? map.jumpTo({ center, zoom, padding }) : map.flyTo({ center, zoom, padding, essential: false }); };
 
   const api = {
     map,
@@ -75,12 +76,15 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
     fitAll() {
       // the boundary and every house (a few stops sit just outside the boundary line)
       const all = [...ring, ...houses.filter(h => h.location !== 'none').map(h => [h.lng, h.lat])];
-      const options = { padding: { top: 56, bottom: 28, left: 28, right: 28 }, ...(reducedMotion ? { duration: 0 } : {}) };
+      const i = getInsets();
+      const options = { padding: { top: 56, bottom: 28 + i.bottom, left: 28, right: 28 + i.right }, ...(reducedMotion ? { duration: 0 } : {}) };
       map.fitBounds(bounds(all), options);
     },
     zoom(delta) { map.zoomTo(map.getZoom() + delta, reducedMotion ? { duration: 0 } : {}); },
     setSnapshot(next) { houses = next.houses; pins.setHouses(houses); pins.setSelected(selected); },
     pins,
+    refresh() { pins.refresh(); },
+    resize() { map.resize(); pins.refresh(); },
     destroy() { map.remove(); }
   };
   return api;

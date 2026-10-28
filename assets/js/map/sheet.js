@@ -1,21 +1,32 @@
-// Bottom sheets: nearest house, house details, and the "which house?" chooser. textContent only.
+// The card at the top of the map dock: the nearest house, one house's details, a "which house?" chooser, or a location prompt.
+// It renders into #house-sheet (inside the dock). textContent only.
 import { compassLabel, formatDistance } from '../../../shared/geo.mjs';
 import { directionsURL, isApplePlatform } from '../../../shared/directions.mjs';
+import { iconURL } from '../../../shared/icon-url.mjs';
 
 const NS = 'http://www.w3.org/2000/svg';
-let root = null;
-
-function container() {
-  if (!root) {
-    root = document.createElement('section');
-    root.className = 'sheet'; root.hidden = true; root.id = 'house-sheet';
-    document.body.append(root);
-    document.addEventListener('keydown', event => { if (event.key === 'Escape' && !root.hidden) hideSheet(); });
-  }
-  return root;
-}
+const root = () => document.getElementById('house-sheet');
 const el = (tag, className, text) => { const n = document.createElement(tag); if (className) n.className = className; if (text != null) n.textContent = text; return n; };
 const button = (label, handler, className) => { const b = el('button', className, label); b.type = 'button'; b.addEventListener('click', handler); return b; };
+
+function arrowBox(degrees, northUp) {
+  const box = el('span', 'arrow-box');
+  box.setAttribute('role', 'img');
+  box.setAttribute('aria-label', northUp ? 'Arrow points toward the house, with north at the top of the screen' : 'Arrow points toward the house');
+  box.title = northUp ? 'Arrow points toward the house, north-up' : 'Arrow points toward the house';
+  box.append(arrow(degrees));
+  if (northUp) box.append(el('span', 'arrow-n', 'N'));
+  return box;
+}
+
+function compassIcon() {
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('aria-hidden', 'true');
+  for (const [tag, attrs] of [['circle', { cx: 12, cy: 12, r: 9 }], ['path', { d: 'M15.5 8.5l-2 5-5 2 2-5z' }]]) {
+    const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); svg.append(n);
+  }
+  return svg;
+}
 
 function arrow(degrees) {
   const svg = document.createElementNS(NS, 'svg');
@@ -27,60 +38,88 @@ function arrow(degrees) {
   return svg;
 }
 
-export function hideSheet() { if (root) { root.hidden = true; root.replaceChildren(); delete root.dataset.kind; delete root.dataset.sig; } }
+/** Clears the card; the page then shows the nearest house or the location prompt again. */
+export function hideSheet() { const r = root(); if (r) { r.replaceChildren(); delete r.dataset.kind; delete r.dataset.sig; r.dispatchEvent(new CustomEvent('sheet:hidden', { bubbles: true })); } }
 
-function frame(title) {
-  const r = container(); r.replaceChildren(); r.hidden = false;
+function frame(title, { closable = false } = {}) {
+  const r = root(); r.replaceChildren();
   r.setAttribute('aria-label', title);
-  r.append(button('×', hideSheet, 'close'));
-  r.lastChild.setAttribute('aria-label', 'Close');
+  if (closable) { const c = button('×', hideSheet, 'close'); c.setAttribute('aria-label', 'Close'); r.append(c); }
   return r;
 }
 
 function directionsLink(house) {
-  const a = el('a', null, 'Walking directions ↗');
+  const a = el('a', null, 'Directions ↗');
   a.href = directionsURL(house, isApplePlatform(navigator.userAgent, navigator.platform));
   a.target = '_blank'; a.rel = 'noopener';
+  a.setAttribute('aria-label', `Walking directions to ${house.name} (opens your maps app)`);
   return a;
 }
 
-export function showNearest({ entry, visited, compass, onShow, onVisited, onNext, onCompass }) {
+function houseIcon(house, root0) {
+  const wrap = el('span', 'hr-art');
+  const img = el('img'); img.alt = ''; img.width = 40; img.height = 40; img.src = iconURL(house.icon, root0, { small: true });
+  wrap.append(img, el('span', 'hr-n', String(house.mapNumber)));
+  return wrap;
+}
+
+/** "Find my location" prompt, shown while the location is unknown. */
+export function showPrompt({ onLocate, text = 'Find the nearest house. Your location stays on your phone.' }) {
+  const r = frame('Find my location');
+  r.dataset.kind = 'prompt';
+  const wrap = el('div', 'prompt');
+  wrap.append(el('p', null, text), button('Find my location', onLocate));
+  r.append(wrap);
+}
+
+export function showNearest({ entry, visited, compass, root: siteRoot, onShow, onVisited, onNext, onCompass }) {
   const { house, meters, bearing } = entry;
   const shown = compass.heading == null ? bearing : (bearing - compass.heading + 360) % 360;
-  const subText = `About ${formatDistance(meters)} · ${compassLabel(bearing)} (straight-line)${compass.heading == null ? ' · arrow points north-up' : ''}`;
+  const subText = `About ${formatDistance(meters)} · ${compassLabel(bearing)} (straight-line)`;
   const sig = [house.id, visited, compass.supported, compass.on].join('|');
-  if (root && !root.hidden && root.dataset.kind === 'nearest' && root.dataset.sig === sig) { // same house: update in place so focus and taps are not lost
-    root.querySelector('.arrow').style.transform = `rotate(${Math.round(shown)}deg)`; root.querySelector('.sub').textContent = subText;
+  const existing = root();
+  if (existing.dataset.kind === 'nearest' && existing.dataset.sig === sig) { // same house: update in place so focus and taps are not lost
+    existing.querySelector('.arrow').style.transform = `rotate(${Math.round(shown)}deg)`; existing.querySelector('.sub').textContent = subText;
     return;
   }
   const r = frame('Nearest house');
   r.dataset.kind = 'nearest'; r.dataset.sig = sig;
   const wrap = el('div', 'arrow-wrap');
-  wrap.append(arrow(shown));
+  wrap.append(houseIcon(house, siteRoot));
   const text = el('div');
   text.append(el('h3', null, `Nearest: #${house.mapNumber} ${house.name}`));
   text.append(el('p', 'sub', subText));
-  wrap.append(text);
+  text.style.flex = '1'; text.style.minWidth = '0';
+  wrap.append(text, arrowBox(shown, compass.heading == null));
   r.append(wrap);
   const row = el('div', 'row');
-  row.append(button('Show on map', () => onShow(house.id), 'main'));
-  row.append(button(visited ? 'Visited ✓ (undo)' : 'Mark visited', () => onVisited(house.id, !visited)));
-  row.append(button('Next nearest', onNext));
+  row.append(button(visited ? 'Visited ✓ (undo)' : 'Mark visited', () => onVisited(house.id, !visited), 'main'));
+  row.append(button('Next', onNext));
   row.append(directionsLink(house));
-  r.append(row);
   if (compass.supported) {
-    const toggle = button(compass.on ? 'Stop using compass' : 'Point arrow using compass', onCompass);
+    const toggle = button('', onCompass, 'compass-btn');
+    toggle.append(compassIcon());
+    toggle.setAttribute('aria-label', compass.on ? 'Compass: on' : 'Compass: off');
+    toggle.title = 'Point the arrow with your phone compass';
     toggle.setAttribute('aria-pressed', String(compass.on));
-    r.append(toggle);
+    row.append(toggle);
   }
-  r.append(el('p', 'note', 'Opens your maps app. Check that the route is safe to walk.'));
+  r.append(row);
+  const detail = button(`Show #${house.mapNumber} on the map`, () => onShow(house.id));
+  detail.className = 'sr-only'; r.append(detail);
 }
 
-export function showHouse({ house, visited, onVisited }) {
-  const r = frame(`Stop ${house.mapNumber}`);
-  r.append(el('h3', null, `#${house.mapNumber} ${house.name}`));
-  r.append(el('p', 'sub', house.address));
-  if (house.description) r.append(el('p', null, house.description));
+export function showHouse({ house, visited, root: siteRoot, onVisited }) {
+  const r = frame(`Stop ${house.mapNumber}`, { closable: true });
+  r.dataset.kind = 'house';
+  const wrap = el('div', 'arrow-wrap');
+  wrap.append(houseIcon(house, siteRoot));
+  const text = el('div');
+  text.style.flex = '1'; text.style.minWidth = '0';
+  text.append(el('h3', null, `#${house.mapNumber} ${house.name}`), el('p', 'sub', house.address));
+  wrap.append(text);
+  r.append(wrap);
+  if (house.description) r.append(el('p', 'sub', house.description));
   if (house.location === 'approximate') r.append(el('p', 'note', 'Location approximate.'));
   const row = el('div', 'row');
   row.append(button(visited ? 'Visited ✓ (undo)' : 'Mark visited', () => onVisited(house.id, !visited), 'main'));
@@ -90,37 +129,9 @@ export function showHouse({ house, visited, onVisited }) {
 
 export function showChooser({ houses, onPick }) {
   const r = frame('Choose a house');
+  r.dataset.kind = 'chooser';
   r.append(el('h3', null, 'Several houses are close together'));
   const row = el('div', 'row');
   for (const h of houses) row.append(button(`#${h.mapNumber} ${h.name}`, () => onPick(h.id)));
   r.append(row);
-}
-
-/** A small sheet of links (used by the mobile "Print" entry). */
-export function showLinks({ title, links }) {
-  const r = frame(title);
-  r.append(el('h3', null, title));
-  const row = el('div', 'row');
-  for (const { label, href, main } of links) {
-    const a = el('a', main ? 'main' : null, label);
-    a.href = href;
-    row.append(a);
-  }
-  r.append(row);
-  r.querySelector('a')?.focus();
-}
-
-/** The "Printable maps" cards (copied from the page so the sheet and the section never drift apart). */
-export function showPrintables({ title, cards }) {
-  const r = frame(title);
-  r.classList.add('sheet-print');
-  r.append(el('h3', null, title));
-  const copy = cards.cloneNode(true);
-  copy.removeAttribute('id');
-  for (const n of copy.querySelectorAll('[id]')) n.removeAttribute('id');
-  for (const a of copy.querySelectorAll('[aria-labelledby]')) a.removeAttribute('aria-labelledby');
-  for (const t of copy.querySelectorAll('.pc-thumb')) t.remove();
-  r.append(copy);
-  r.append(el('p', 'note', 'Flyer: polished handout. Live printout: always has the newest houses.'));
-  r.querySelector('a')?.focus();
 }

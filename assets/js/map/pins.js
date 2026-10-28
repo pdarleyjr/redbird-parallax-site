@@ -17,7 +17,7 @@ export function controlRects(el) {
     .filter(r => r.width && r.height).map(r => ({ x: r.x - box.x, y: r.y - box.y, width: r.width, height: r.height }));
 }
 
-export function createPins({ map, maplibre, houses, root, onSelect, reducedMotion = false }) {
+export function createPins({ map, maplibre, houses, root, onSelect, reducedMotion = false, getInsets = () => ({ bottom: 0, right: 0 }) }) {
   let pins = new Map();           // id -> { house, wrapper, button, tag, line, marker }
   let clusters = new Map();       // key -> { ids, wrapper, button, line, marker }
   let selected = null, nearest = null, visited = new Set();
@@ -104,7 +104,8 @@ export function createPins({ map, maplibre, houses, root, onSelect, reducedMotio
     frame = 0;
     if (!pins.size) return;
     const el = map.getContainer();
-    const w = el.clientWidth, h = el.clientHeight;
+    const insets = getInsets();
+    const w = el.clientWidth - insets.right, h = el.clientHeight - insets.bottom;   // the dock covers part of the map; pins keep to the visible part
     // Houses outside the view (or too close to the top edge for a head to sit above them) are left out; they come back when the map moves.
     // Flat badges sit on the house itself, so they only need the house to be on screen.
     const anchors = [], onScreen = [];
