@@ -9,10 +9,10 @@ const VIEWS = ['map', 'houses', 'info', 'more'];
 const mapReady = async page => { await page.waitForFunction(() => window.__map?.loaded() && window.__pins?.metrics(), null, { timeout: 45000 }); await page.waitForTimeout(800); };
 const settle = page => page.waitForFunction(() => !window.__map.isMoving() && !window.__map.isZooming(), null, { timeout: 30000 });
 
-test.beforeEach(({ browserName }) => { test.skip(browserName !== 'chromium', 'The shell is checked on Chromium here; iPhone Safari is checked below with its own WebKit launch'); test.setTimeout(120000); });
+test.beforeEach(({ browserName }, info) => { const iphone = info.title.startsWith('iPhone 15'); test.skip(iphone ? info.project.name !== 'webkit-mobile' : browserName !== 'chromium', 'The shell is checked on Chromium here; iPhone Safari is checked in the webkit-mobile project'); test.setTimeout(120000); });
 
-async function deviceChecks(browserType, device, name, info) {
-  const browser = await browserType.launch(name === 'iphone-15-webkit' ? {} : GL);
+async function deviceChecks(browserType, device, name, info, shared) {
+  const browser = shared ?? await browserType.launch(GL);
   const context = await browser.newContext({ ...devices[device], baseURL: info.project.use.baseURL, deviceScaleFactor: 2 });
   await mockApi(context);
   const page = await context.newPage();
@@ -41,11 +41,12 @@ async function deviceChecks(browserType, device, name, info) {
     if (process.env.QA_SHOTS) await page.screenshot({ path: `${process.env.QA_SHOTS}/${name}-${view}.png` });
   }
   for (const r of results) { expect(r.gap, `${r.view}: tab bar bottom vs window height`).toBeLessThanOrEqual(0.5); expect(r.overflow).toBeLessThanOrEqual(1); }
-  await browser.close();
+  await context.close();
+  if (!shared) await browser.close();
 }
 
-test('iPhone 15 (WebKit): the tab bar stays attached to the bottom on every view, the page does not scroll, status bar is translucent', async ({}, info) => {
-  await deviceChecks(webkit, 'iPhone 15', 'iphone-15-webkit', info);
+test('iPhone 15 (WebKit): the tab bar stays attached to the bottom on every view, the page does not scroll, status bar is translucent', async ({ browser }, info) => {
+  await deviceChecks(webkit, 'iPhone 15', 'iphone-15-webkit', info, browser);
 });
 
 test('Pixel 7 (Chromium): the same checks', async ({}, info) => {
