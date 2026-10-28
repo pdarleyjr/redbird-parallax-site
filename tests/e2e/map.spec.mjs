@@ -46,7 +46,7 @@ test('Find my location shows the nearest house, then visited changes it; no coor
   const leaks = [];
   page.on('request', r => { if (r.url().includes(String(here.latitude).slice(0, 8)) || (r.postData() || '').includes(String(here.longitude).slice(0, 8))) leaks.push(r.url()); });
   await mapReady(page);
-  await page.locator('#locate-button').click();
+  await page.locator('#house-sheet .prompt button').click();
   const first = nearest(snapshot.houses, { lat: here.latitude, lng: here.longitude });
   await expect(page.locator('#house-sheet h3')).toHaveText(`Nearest: #${first[0].house.mapNumber} ${first[0].house.name}`);
   await expect(page.locator('#house-sheet .sub')).toContainText('straight-line');
@@ -68,7 +68,7 @@ test('denied location shows the friendly message and the list still works', asyn
   await context.clearPermissions();
   await page.addInitScript(() => {});
   await page.evaluate(() => { navigator.geolocation.watchPosition = (ok, fail) => { fail({ code: 1 }); return 1; }; });
-  await page.locator('#locate-button').click();
+  await page.locator('#house-sheet .prompt button').click();
   await expect(page.locator('#map-status')).toContainText('Location is off for this site');
   await openList(page);
   await page.locator('#map-house-list button.hr-main').first().click();
@@ -94,7 +94,7 @@ test('without WebGL2 the page explains and the list remains', async ({ browser }
     HTMLCanvasElement.prototype.getContext = function (type, ...a) { return type === 'webgl2' ? null : orig.call(this, type, ...a); };
   });
   await page.goto('halloween/');
-  await page.locator('#locate-button').click();
+  await page.locator('#house-sheet .prompt button').click();
   await openList(page);
   await expect(page.locator('.map-fallback')).toContainText('Interactive map isn’t supported');
   await expect(page.locator('#map-house-list li').first()).toBeVisible();

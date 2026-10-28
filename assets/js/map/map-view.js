@@ -31,8 +31,13 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
   map.on('error', e => console.warn('Map warning:', e.error?.message));
   await new Promise((resolve, reject) => { const timer = setTimeout(() => reject(new Error('The map took too long to load.')), 30000); map.once('load', () => { clearTimeout(timer); resolve(); }); });
 
-  // The map opens framed on the densest block, zoomed in until the pins read cleanly ("Show whole trail" still fits everything).
-  {
+  // Before a location is known the phone opens on the whole trail, clear of the header and the peek sheet; wider screens open on the densest block.
+  const fitWhole = (list, options = {}) => {
+    const all = [...ring, ...list.filter(h => h.location !== 'none').map(h => [h.lng, h.lat])], i = getInsets();
+    map.fitBounds(bounds(all), { padding: { top: 56, bottom: 28 + i.bottom, left: 28, right: 28 + i.right }, ...options });
+  };
+  if (container.clientWidth < 768) fitWhole(snapshot.houses, { duration: 0 });
+  else {
     const located = snapshot.houses.filter(h => h.location !== 'none');
     if (located.length) {
       const view = chooseDefaultView(located, { fitZoom: map.getZoom(), width: container.clientWidth - getInsets().right, height: container.clientHeight - getInsets().bottom, avoid: controlRects(container), phone: container.clientWidth < 768 });
@@ -74,11 +79,7 @@ export async function createMapView({ container, snapshot, reducedMotion, onSele
     },
     follow(position, zoom = 17) { move([position.lng, position.lat], Math.max(map.getZoom(), zoom)); },
     fitAll() {
-      // the boundary and every house (a few stops sit just outside the boundary line)
-      const all = [...ring, ...houses.filter(h => h.location !== 'none').map(h => [h.lng, h.lat])];
-      const i = getInsets();
-      const options = { padding: { top: 56, bottom: 28 + i.bottom, left: 28, right: 28 + i.right }, ...(reducedMotion ? { duration: 0 } : {}) };
-      map.fitBounds(bounds(all), options);
+      fitWhole(houses, reducedMotion ? { duration: 0 } : {});   // the boundary and every house (a few stops sit just outside the boundary line)
     },
     zoom(delta) { map.zoomTo(map.getZoom() + delta, reducedMotion ? { duration: 0 } : {}); },
     setSnapshot(next) { houses = next.houses; pins.setHouses(houses); pins.setSelected(selected); },
