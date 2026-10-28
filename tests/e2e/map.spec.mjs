@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures.mjs';
+import { test, expect, mockApi } from './fixtures.mjs';
 import { nearest } from '../../shared/geo.mjs';
 import { snapshot, located, axeViolations } from './helpers.mjs';
 
@@ -40,6 +40,7 @@ test('every located house renders exactly once with the correct number; unlocate
 
 test('Find my location shows the nearest house, then visited changes it; no coordinates leave the device', async ({ browser }) => {
   const context = await browser.newContext({ baseURL: test.info().project.use.baseURL, geolocation: { ...here, accuracy: 10 }, permissions: ['geolocation'], viewport: { width: 1200, height: 900 } });
+  await mockApi(context);
   const page = await context.newPage();
   const leaks = [];
   page.on('request', r => { if (r.url().includes(String(here.latitude).slice(0, 8)) || (r.postData() || '').includes(String(here.longitude).slice(0, 8))) leaks.push(r.url()); });
@@ -60,6 +61,7 @@ test('Find my location shows the nearest house, then visited changes it; no coor
 
 test('denied location shows the friendly message and the list still works', async ({ browser }) => {
   const context = await browser.newContext({ baseURL: test.info().project.use.baseURL, viewport: { width: 1200, height: 900 } });
+  await mockApi(context);
   const page = await context.newPage();
   await mapReady(page);
   await context.clearPermissions();
@@ -82,6 +84,7 @@ test('selecting a house from the accessible list flies to it and announces detai
 
 test('without WebGL2 the page explains and the list remains', async ({ browser }) => {
   const context = await browser.newContext({ baseURL: test.info().project.use.baseURL });
+  await mockApi(context);
   const page = await context.newPage();
   await page.addInitScript(() => {
     const orig = HTMLCanvasElement.prototype.getContext;
@@ -119,6 +122,7 @@ test('visited and nearest states restyle the pins', async ({ page }) => {
 
 test('Show whole trail on a phone accounts for every house, in pins or clusters, with short needles', async ({ browser }) => {
   const context = await browser.newContext({ baseURL: test.info().project.use.baseURL, viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
+  await mockApi(context);
   const page = await context.newPage();
   await mapReady(page);
   await page.locator('#show-all').click();
@@ -135,6 +139,7 @@ test('Show whole trail on a phone accounts for every house, in pins or clusters,
 
 test('tapping a cluster zooms in and splits it into more pins', async ({ browser }) => {
   const context = await browser.newContext({ baseURL: test.info().project.use.baseURL, viewport: { width: 390, height: 844 } });
+  await mockApi(context);
   const page = await context.newPage();
   await mapReady(page);
   await page.locator('#show-all').click();

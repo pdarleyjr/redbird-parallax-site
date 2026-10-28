@@ -101,3 +101,29 @@ test('archived (reserved) map numbers are never reused for new houses', () => {
   assert.equal(out.added[0].mapNumber, 32);
   assert.equal(out.added[0].houseId, 'stop-32');
 });
+
+test('Oct 23 export (53 rows, 52 addresses): the 46 published houses match and the 6 new ones are numbered 47-52 by earliest submission', async () => {
+  const { parseCsv, toRegistrations } = await import('../../shared/csv.mjs');
+  const snapshot = JSON.parse(await readFile(new URL('../../data/halloween-2026.public.json', import.meta.url), 'utf8'));
+  const published = snapshot.houses.filter(h => h.mapNumber <= 46).map(h => ({ id: h.id, mapNumber: h.mapNumber, name: h.name, address: h.address }));
+  const { registrations } = toRegistrations(parseCsv(await readFile(new URL('../fixtures/registrations-2026-10-23.sanitized.csv', import.meta.url), 'utf8')));
+  const out = reconcile(registrations, published);
+  assert.equal(out.summary.rows, 53);
+  assert.equal(out.summary.addresses, 52);
+  assert.equal(out.summary.matched, 46);
+  assert.equal(out.summary.new, 6);
+  assert.deepEqual(out.added.map(a => a.mapNumber), [47, 48, 49, 50, 51, 52]);
+  assert.deepEqual(out.added.map(a => a.houseId), ['stop-47', 'stop-48', 'stop-49', 'stop-50', 'stop-51', 'stop-52']);
+  // the two houses submitted on the same day (49 and 50) keep the tie rule: reverse export order
+  assert.deepEqual(out.added.map(a => a.submittedName.slice(0, 8)), ['Refreshm', 'Scully’s', 'Bob the ', 'The Litt', 'CARME-NA', 'Coraline']);
+  // after publishing them, a second run finds nothing new
+  const again = reconcile(registrations, [...published, ...out.added.map(a => ({ id: a.houseId, mapNumber: a.mapNumber, name: a.submittedName, address: a.address }))]);
+  assert.equal(again.summary.new, 0);
+});
+test('the earlier Oct 16 fixture still reconciles to 31 matched + 15 new', async () => {
+  const { parseCsv, toRegistrations } = await import('../../shared/csv.mjs');
+  const { registrations } = toRegistrations(parseCsv(await readFile(new URL('../fixtures/registrations-2026-10-16.sanitized.csv', import.meta.url), 'utf8')));
+  const out = reconcile(registrations, roster);
+  assert.equal(out.summary.matched, 31);
+  assert.equal(out.summary.new, 15);
+});

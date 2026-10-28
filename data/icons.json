@@ -79,6 +79,12 @@
       "file": "assets/img/markers/fluent-castle.webp"
     },
     {
+      "key": "fluent-cup-with-straw",
+      "label": "Cup with straw",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-cup-with-straw.webp"
+    },
+    {
       "key": "fluent-derelict-house",
       "label": "Derelict house",
       "source": "fluent-emoji",
@@ -109,10 +115,22 @@
       "file": "assets/img/markers/fluent-lollipop.webp"
     },
     {
+      "key": "fluent-skull-and-crossbones",
+      "label": "Skull and crossbones",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-skull-and-crossbones.webp"
+    },
+    {
       "key": "fluent-skull",
       "label": "Skull",
       "source": "fluent-emoji",
       "file": "assets/img/markers/fluent-skull.webp"
+    },
+    {
+      "key": "fluent-smiling-face-with-horns",
+      "label": "Smiling face with horns",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-smiling-face-with-horns.webp"
     },
     {
       "key": "fluent-spider-web",
@@ -167,6 +185,24 @@
       "label": "Mouse pumpkin",
       "source": "trail-2026",
       "file": "assets/img/markers/mouse-pumpkin.webp"
+    },
+    {
+      "key": "rb-bob-the-ghost",
+      "label": "Rb bob the ghost",
+      "source": "red-bird-composite",
+      "file": "assets/img/markers/rb-bob-the-ghost.webp"
+    },
+    {
+      "key": "rb-button-eye-parlour",
+      "label": "Rb button eye parlour",
+      "source": "red-bird-composite",
+      "file": "assets/img/markers/rb-button-eye-parlour.webp"
+    },
+    {
+      "key": "rb-little-boo-house",
+      "label": "Rb little boo house",
+      "source": "red-bird-composite",
+      "file": "assets/img/markers/rb-little-boo-house.webp"
     },
     {
       "key": "realty",

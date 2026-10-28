@@ -1,5 +1,5 @@
 // Measured map quality at the sizes people use. Numbers are printed and, with QA_SHOTS set, saved to map-metrics.json.
-import { test, expect } from './fixtures.mjs';
+import { test, expect, mockApi } from './fixtures.mjs';
 import { writeFile } from 'node:fs/promises';
 import { located } from './helpers.mjs';
 
@@ -11,6 +11,7 @@ test.beforeEach(({ browserName }) => { test.skip(browserName !== 'chromium', 'Ma
 for (const [w, h] of VIEWPORTS) {
   test(`map quality at ${w}x${h}: default, whole trail and one zoom level in`, async ({ browser }) => {
     const context = await browser.newContext({ baseURL: test.info().project.use.baseURL, viewport: { width: w, height: h }, deviceScaleFactor: 2 });
+    await mockApi(context);
     const page = await context.newPage();
     await page.goto('halloween/?debug');
     await page.evaluate(() => document.querySelector('#map').scrollIntoView());

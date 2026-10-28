@@ -12,7 +12,7 @@ const out = path.join(root, 'assets/img/markers');
 await rm(out, { recursive: true, force: true });
 await mkdir(out, { recursive: true });
 
-const sourceOf = key => (key.startsWith('fluent-') ? 'fluent-emoji' : ['blues-boooooo-house', 'sweet-and-spooky-stop'].includes(key) ? 'red-bird-2024' : 'trail-2026');
+const sourceOf = key => (key.startsWith('fluent-') ? 'fluent-emoji' : key.startsWith('rb-') ? 'red-bird-composite' : ['blues-boooooo-house', 'sweet-and-spooky-stop'].includes(key) ? 'red-bird-2024' : 'trail-2026');
 const title = key => key.replace(/^fluent-/, '').replace(/-/g, ' ').replace(/^./, c => c.toUpperCase());
 const catalog = [];
 for (const f of (await readdir(src)).filter(f => f.endsWith('.png')).sort()) {

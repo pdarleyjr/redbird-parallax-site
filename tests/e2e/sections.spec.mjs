@@ -1,5 +1,5 @@
 // Printable maps section, the Get the app section and the header on the Halloween page.
-import { test, expect } from './fixtures.mjs';
+import { test, expect, mockApi } from './fixtures.mjs';
 import { axeViolations } from './helpers.mjs';
 
 const IOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
@@ -69,6 +69,7 @@ test.describe('Get the Red Bird app', () => {
 
   test('an iPhone sees the iPhone steps first', async ({ browser }) => {
     const context = await browser.newContext({ userAgent: IOS, baseURL: test.info().project.use.baseURL, viewport: { width: 390, height: 844 }, hasTouch: true });
+    await mockApi(context);
     const page = await context.newPage();
     await page.goto('./');
     await expect(page.getByRole('tab', { name: 'iPhone or iPad' })).toHaveAttribute('aria-selected', 'true');
@@ -80,6 +81,7 @@ test.describe('Get the Red Bird app', () => {
 
   test('Android sees the Install app button once the browser offers the prompt, and the menu fallback otherwise', async ({ browser }) => {
     const context = await browser.newContext({ userAgent: ANDROID, baseURL: test.info().project.use.baseURL, viewport: { width: 412, height: 915 }, hasTouch: true });
+    await mockApi(context);
     const page = await context.newPage();
     await page.goto('./');
     await expect(page.getByRole('tab', { name: 'Android' })).toHaveAttribute('aria-selected', 'true');
