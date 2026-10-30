@@ -27,14 +27,12 @@
     {
       "id": "stop-55",
       "mapNumber": 55,
-      "name": "Halloween Lab",
+      "name": "Wuhan lab",
       "address": "3801 SW 60th Avenue",
       "submittedOn": "2026-10-25",
       "icon": "fluent-test-tube",
-      "flags": [
-        "name_held_for_owner"
-      ],
-      "note": "Submitted name held for owner review and shown with a neutral name on the public map; the owner can change it in the admin. A different house from #44 (3801 SW 60th Place)."
+      "flags": [],
+      "note": "Name as submitted (owner confirmed 2026-10-30). A different house from #44 (3801 SW 60th Place)."
     },
     {
       "id": "stop-56",

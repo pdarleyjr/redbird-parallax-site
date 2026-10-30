@@ -172,7 +172,7 @@ test('the four houses added from the Oct 30 export are published with the agreed
   const expected = {
     53: ['Sand snake Haunt', '3930 SW 60th Avenue', 25.734832645454546, -80.29169068181818, 'fluent-snake'],
     54: ['Cancela’s Crypt', '3715 SW 60th Place', 25.73648731818182, -80.29292733636363, 'fluent-coffin'],
-    55: ['Halloween Lab', '3801 SW 60th Avenue', 25.73590377777778, -80.29123465555556, 'fluent-test-tube'],
+    55: ['Wuhan lab', '3801 SW 60th Avenue', 25.73590377777778, -80.29123465555556, 'fluent-test-tube'],
     56: ['No Name House', '3800 SW 59th Avenue', 25.735925394117647, -80.29098590000001, 'fluent-house']
   };
   for (const [n, [name, address, lat, lng, icon]] of Object.entries(expected)) {
