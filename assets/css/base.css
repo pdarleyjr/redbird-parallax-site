@@ -97,3 +97,8 @@ p{max-width:65ch}
 .app-note{color:var(--rb-muted);font-size:.9rem}
 @media(max-width:699px){.app-benefits{grid-template-columns:1fr}}
 .app-list .glyph{display:inline-block;width:1.3em;height:1.3em}
+/* Shown when this browser cannot print (iPhone home-screen app, in-app browsers) */
+.print-help{padding:.75rem 1rem;border-radius:.75rem;border:1.5px solid var(--rb-gold);background:var(--rb-panel);color:var(--rb-text);margin-block:.75rem;max-width:40rem}
+.print-help p{margin:0 0 .5rem;max-width:none}
+.print-help .actions{display:flex;flex-wrap:wrap;gap:.5rem}
+@media print{.print-help{display:none!important}}

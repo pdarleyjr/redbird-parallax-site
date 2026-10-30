@@ -69,3 +69,32 @@ for (const paper of ['letter-portrait', 'letter-landscape']) {
     if (process.env.QA_SHOTS) await page.locator('#map-block').screenshot({ path: `${process.env.QA_SHOTS}/print-badges-${paper}.png` });
   });
 }
+
+test('printing the Halloween app prints the paper sheet with every house, not the app screen', async ({ page }) => {
+  await page.goto('halloween/');
+  await page.waitForFunction(() => document.querySelectorAll('#ap-overlay .pm g[data-n]').length > 0, null, { timeout: 20000 });
+  expect(await page.locator('#ap-overlay .pm g[data-n]').count()).toBe(located.length);
+  expect(await page.locator('#ap-legend-list li').count()).toBe(snapshot.houses.length);
+  await expect(page.locator('#app-print')).toBeHidden();
+  await page.emulateMedia({ media: 'print' });
+  await expect(page.locator('#app-print')).toBeVisible();
+  await expect(page.locator('.appbar')).toBeHidden();
+  await expect(page.locator('#tabbar')).toBeHidden();
+  await expect(page.locator('#map')).toBeHidden();
+  expect(await page.locator('#ap-base').evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
+});
+
+test('the Print map button prints; in an in-app browser it explains how to print instead', async ({ page, browserName }) => {
+  await page.addInitScript(() => { window.__printed = 0; window.print = () => { window.__printed++; dispatchEvent(new Event('beforeprint')); }; });
+  await page.goto('halloween/#map');
+  await page.locator('#print-map').click();
+  await expect.poll(() => page.evaluate(() => window.__printed), { timeout: 15000 }).toBe(1);
+  await expect(page.locator('#app-print-help')).toBeHidden();
+  if (browserName !== 'chromium') return;
+  await page.goto('halloween/print/');
+  await page.evaluate(() => Object.defineProperty(navigator, 'userAgent', { value: navigator.userAgent + ' [FBAN/FBIOS;FBAV/480.0]', configurable: true }));
+  await expect(page.locator('#print-ready')).toHaveText('Map ready ✓');
+  await page.locator('#print-button').click();
+  await expect(page.locator('#print-help')).toContainText('can’t print');
+  expect(await page.evaluate(() => window.__printed)).toBe(0);
+});

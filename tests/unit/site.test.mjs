@@ -88,13 +88,15 @@ test('privacy scan: no emails or phone numbers in tracked files; private data is
   }
 });
 
-test('snapshot and decisions only contain approved houses: 31 original + 15 (Oct 16) + 6 (Oct 23)', async () => {
+test('snapshot and decisions only contain approved houses: 31 original + 15 (Oct 16) + 6 (Oct 23) + 4 (Oct 30)', async () => {
   const snapshot = JSON.parse(await readFile(path.join(root, 'data/halloween-2026.public.json'), 'utf8'));
   const oct16 = JSON.parse(await readFile(path.join(root, 'data/reconcile/2026-10-16.decisions.json'), 'utf8'));
   const oct23 = JSON.parse(await readFile(path.join(root, 'data/reconcile/2026-10-23.decisions.json'), 'utf8'));
   assert.equal(oct16.approvedNew.length, 15);
+  const oct30 = JSON.parse(await readFile(path.join(root, 'data/reconcile/2026-10-30.decisions.json'), 'utf8'));
   assert.equal(oct23.approvedNew.length, 6);
-  assert.equal(snapshot.houses.length, 31 + oct16.approvedNew.length + oct23.approvedNew.length);
+  assert.equal(oct30.approvedNew.length, 4);
+  assert.equal(snapshot.houses.length, 31 + oct16.approvedNew.length + oct23.approvedNew.length + oct30.approvedNew.length);
 });
 
 test('the six houses added from the Oct 23 export are published with the agreed names, addresses, pins and icons', async () => {
@@ -126,14 +128,14 @@ test('every published house resolves to an existing icon file and the icon catal
   for (const icon of catalog) await readFile(path.join(root, icon.file));
 });
 
-test('owner decisions are applied: #36 name as submitted, manual pins verified, 52 houses, Fluent attribution and license present', async () => {
+test('owner decisions are applied: #36 name as submitted, manual pins verified, 56 houses, Fluent attribution and license present', async () => {
   const snapshot = JSON.parse(await readFile(path.join(root, 'data/halloween-2026.public.json'), 'utf8'));
   const byId = Object.fromEntries(snapshot.houses.map(h => [h.id, h]));
-  assert.equal(snapshot.houses.length, 52);
+  assert.equal(snapshot.houses.length, 56);
   assert.equal(byId['stop-36'].name, 'Just stop for juice and water');
   assert.deepEqual([byId['stop-03'].lat, byId['stop-03'].lng, byId['stop-03'].location], [25.734927, -80.288444, 'verified']);
   assert.deepEqual([byId['stop-25'].lat, byId['stop-25'].lng, byId['stop-25'].location], [25.7367261, -80.2955533, 'verified']);
-  assert.equal(snapshot.houses.filter(h => h.location === 'approximate').length, 50);
+  assert.equal(snapshot.houses.filter(h => h.location === 'approximate').length, 54);
   assert.equal(byId['stop-33'].icon, 'blues-boooooo-house'); assert.equal(byId['stop-40'].icon, 'fluent-spider-web'); assert.equal(byId['stop-36'].icon, 'sweet-and-spooky-stop');
   assert.match(await readFile(path.join(root, 'assets/img/markers/FLUENT-LICENSE.txt'), 'utf8'), /MIT License/);
   const footer = (await buildAll()).get('halloween/index.html');
@@ -162,4 +164,23 @@ test('the app and the printed flyer use the same icon for every house (ICONS in 
   const snapshot = JSON.parse(await readFile(path.join(root, 'data/halloween-2026.public.json'), 'utf8'));
   assert.equal(flyer.size, snapshot.houses.length);
   for (const h of snapshot.houses) assert.equal(h.icon, flyer.get(h.mapNumber), `#${h.mapNumber} ${h.name}: app uses ${h.icon}, flyer uses ${flyer.get(h.mapNumber)}`);
+});
+
+test('the four houses added from the Oct 30 export are published with the agreed names, addresses, pins and icons', async () => {
+  const snapshot = JSON.parse(await readFile(path.join(root, 'data/halloween-2026.public.json'), 'utf8'));
+  const byNumber = Object.fromEntries(snapshot.houses.map(h => [h.mapNumber, h]));
+  const expected = {
+    53: ['Sand snake Haunt', '3930 SW 60th Avenue', 25.734832645454546, -80.29169068181818, 'fluent-snake'],
+    54: ['Cancela’s Crypt', '3715 SW 60th Place', 25.73648731818182, -80.29292733636363, 'fluent-coffin'],
+    55: ['Halloween Lab', '3801 SW 60th Avenue', 25.73590377777778, -80.29123465555556, 'fluent-test-tube'],
+    56: ['No Name House', '3800 SW 59th Avenue', 25.735925394117647, -80.29098590000001, 'fluent-house']
+  };
+  for (const [n, [name, address, lat, lng, icon]] of Object.entries(expected)) {
+    const h = byNumber[n];
+    assert.deepEqual([h.id, h.name, h.address, h.lat, h.lng, h.icon, h.location], [`stop-${n}`, name, address, lat, lng, icon, 'approximate'], `#${n}`);
+  }
+  // same house numbers on different streets are different houses
+  assert.equal(byNumber[45].address, '3930 SW 60th Place');
+  assert.equal(byNumber[44].address, '3801 SW 60th Place');
+  assert.equal(byNumber[10].address, '3800 SW 58th Avenue');
 });

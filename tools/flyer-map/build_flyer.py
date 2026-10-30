@@ -34,6 +34,7 @@ ICONS = {
     45: "fluent-skull", 46: "fluent-derelict-house",
     47: "fluent-cup-with-straw", 48: "fluent-skull-and-crossbones", 49: "rb-bob-the-ghost",
     50: "rb-little-boo-house", 51: "fluent-smiling-face-with-horns", 52: "rb-button-eye-parlour",
+    53: "fluent-snake", 54: "fluent-coffin", 55: "fluent-test-tube", 56: "fluent-house",
 }
 
 # ------------------------------------------------------------------ page (Letter landscape, CSS px @96/in)
@@ -477,10 +478,10 @@ body{{font-family:Poppins,sans-serif;color:{TEXT};overflow:hidden;position:relat
 .dir h2{{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:700;letter-spacing:.22em;color:{CREAM};text-transform:uppercase;margin-bottom:3px}}
 .dir h2:before,.dir h2:after{{content:"";flex:1;height:5px;border-top:1.5px solid {VIOLET};border-bottom:1.5px solid {VIOLET}}}
 .dir ol{{list-style:none;columns:6;column-gap:8px}}
-.dir li{{display:flex;align-items:center;gap:3px;height:16.6px;break-inside:avoid}}
-.dn{{flex:0 0 14px;height:14px;border-radius:50%;background:{CREAM};color:{INK};font-weight:800;font-size:7.3px;display:grid;place-items:center;box-shadow:0 0 0 1.2px {CARDINAL}}}
-.dir img{{flex:0 0 15px;width:15px;height:15px;object-fit:contain}}
-.dt{{display:flex;flex-direction:column;line-height:1.06;min-width:0}}
+.dir li{{display:flex;align-items:center;gap:3px;height:14.9px;break-inside:avoid}}
+.dn{{flex:0 0 13px;height:13px;border-radius:50%;background:{CREAM};color:{INK};font-weight:800;font-size:7.3px;display:grid;place-items:center;box-shadow:0 0 0 1.2px {CARDINAL}}}
+.dir img{{flex:0 0 14px;width:14px;height:14px;object-fit:contain}}
+.dt{{display:flex;flex-direction:column;line-height:1.02;min-width:0}}
 .dt b{{font-weight:600;font-size:7.4px;color:{TEXT};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em}}
 .dt b.long{{font-size:6.6px;letter-spacing:-.02em}}
 .dt i{{font-style:normal;font-size:6.7px;color:{MUTED};white-space:nowrap}}
@@ -498,7 +499,7 @@ body{{font-family:Poppins,sans-serif;color:{TEXT};overflow:hidden;position:relat
 <div class="abs tag">Same Neighborhood. More Halloween Magic.</div>
 <div class="abs maptitle">Trail Map<small>SW 35th St to Bird Rd · SW 57th Ave to SW 64th Ave</small></div>
 <div class="abs dir"><h2>The {len(houses)} haunted stops</h2><ol>{rows}</ol>
-  <div class="credits">Map data © OpenStreetMap contributors (ODbL) · house positions from registered addresses, Oct 28, 2026 · icons: Red Bird originals &amp; Microsoft Fluent Emoji (MIT) · {SITE_URL}</div></div>
+  <div class="credits">Map data © OpenStreetMap contributors (ODbL) · house positions from registered addresses, Oct 30, 2026 · icons: Red Bird originals &amp; Microsoft Fluent Emoji (MIT) · {SITE_URL}</div></div>
 </body></html>'''
 
 (W / "out").mkdir(exist_ok=True)

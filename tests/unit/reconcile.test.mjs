@@ -127,3 +127,17 @@ test('the earlier Oct 16 fixture still reconciles to 31 matched + 15 new', async
   assert.equal(out.summary.matched, 31);
   assert.equal(out.summary.new, 15);
 });
+
+test('Oct 30 export (58 rows, 57 addresses): the 52 published houses match and the 4 new ones are numbered 53-56 by earliest submission', async () => {
+  const { parseCsv, toRegistrations } = await import('../../shared/csv.mjs');
+  const snapshot = JSON.parse(await readFile(new URL('../../data/halloween-2026.public.json', import.meta.url), 'utf8'));
+  const published = snapshot.houses.filter(h => h.mapNumber <= 52).map(h => ({ id: h.id, mapNumber: h.mapNumber, name: h.name, address: h.address }));
+  const { registrations } = toRegistrations(parseCsv(await readFile(new URL('../fixtures/registrations-2026-10-30.sanitized.csv', import.meta.url), 'utf8')));
+  const out = reconcile(registrations, published);
+  assert.deepEqual([out.summary.rows, out.summary.addresses, out.summary.matched, out.summary.new], [58, 57, 52, 4]);
+  assert.deepEqual(out.added.map(a => a.houseId), ['stop-53', 'stop-54', 'stop-55', 'stop-56']);
+  assert.deepEqual(out.added.map(a => a.address), ['3930 SW 60th Avenue', '3715 SW 60th Place', '3801 SW 60th Avenue', '3800 SW 59th Avenue']);
+  // the published snapshot holds exactly these, so a second run finds nothing new
+  const again = reconcile(registrations, snapshot.houses.map(h => ({ id: h.id, mapNumber: h.mapNumber, name: h.name, address: h.address })));
+  assert.equal(again.summary.new, 0);
+});

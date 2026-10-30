@@ -1,0 +1,50 @@
+{
+  "decidedOn": "2026-10-30",
+  "publishedAt": "2026-10-30T12:00:00Z",
+  "note": "Public-safe decisions only (ids, names, addresses, icons). No contact details. Four new houses from the 2026-10-30 export (#53-#56), numbered by earliest submission with the same tie rule as before (reverse export order within a day). The 2026-10-27 row for 5777 SW 40th Street is a repeat submission of #3 (Gilbert’s Bakery). Positions are OSM building centroids from tools/flyer-map/osm.json; each address also has an exact Census match.",
+  "overrides": {},
+  "manualLocations": {},
+  "approvedNew": [
+    {
+      "id": "stop-53",
+      "mapNumber": 53,
+      "name": "Sand snake Haunt",
+      "address": "3930 SW 60th Avenue",
+      "submittedOn": "2026-10-23",
+      "icon": "fluent-snake",
+      "flags": [],
+      "note": "Submitted with a snake emoji in the name; emoji dropped (as for #2 and #11). A different house from #45 (3930 SW 60th Place)."
+    },
+    {
+      "id": "stop-54",
+      "mapNumber": 54,
+      "name": "Cancela’s Crypt",
+      "address": "3715 SW 60th Place",
+      "submittedOn": "2026-10-23",
+      "icon": "fluent-coffin",
+      "flags": []
+    },
+    {
+      "id": "stop-55",
+      "mapNumber": 55,
+      "name": "Halloween Lab",
+      "address": "3801 SW 60th Avenue",
+      "submittedOn": "2026-10-25",
+      "icon": "fluent-test-tube",
+      "flags": [
+        "name_held_for_owner"
+      ],
+      "note": "Submitted name held for owner review and shown with a neutral name on the public map; the owner can change it in the admin. A different house from #44 (3801 SW 60th Place)."
+    },
+    {
+      "id": "stop-56",
+      "mapNumber": 56,
+      "name": "No Name House",
+      "address": "3800 SW 59th Avenue",
+      "submittedOn": "2026-10-25",
+      "icon": "fluent-house",
+      "flags": [],
+      "note": "Name as submitted. A different house from #10 (3800 SW 58th Avenue); OSM has a separate addressed building for 3800 SW 59th Avenue."
+    }
+  ]
+}

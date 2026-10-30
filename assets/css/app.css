@@ -207,3 +207,11 @@ button.hr-main:active{background:var(--rb-panel-raised)}
 .arrow-box .arrow-n{position:absolute;top:-6px;left:50%;transform:translateX(-50%);font-size:.65rem;font-weight:800;line-height:1;color:var(--rb-cream)}
 .map-legend[hidden]{display:none}
 @media(max-width:767px){body:has(#house-sheet[data-kind="prompt"]) #locate-button{display:none}}
+/* Printing the app (Print map button, Ctrl/Cmd+P, Share → Print) prints the paper sheet, never the dark app screen */
+.app-print{display:none}
+.map-print-help{position:absolute;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:30;margin:0;max-width:30rem}
+@media print{
+  html,body,body.app{height:auto!important;overflow:visible!important;display:block!important;background:var(--rb-paper)!important;color:var(--rb-ink)}
+  body.app > *:not(.app-print){display:none!important}
+  body.app > .app-print{display:block!important;margin:0;padding:0;max-width:none}
+}

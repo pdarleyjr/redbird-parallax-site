@@ -79,6 +79,12 @@
       "file": "assets/img/markers/fluent-castle.webp"
     },
     {
+      "key": "fluent-coffin",
+      "label": "Coffin",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-coffin.webp"
+    },
+    {
       "key": "fluent-cup-with-straw",
       "label": "Cup with straw",
       "source": "fluent-emoji",
@@ -101,6 +107,12 @@
       "label": "Headstone",
       "source": "fluent-emoji",
       "file": "assets/img/markers/fluent-headstone.webp"
+    },
+    {
+      "key": "fluent-house",
+      "label": "House",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-house.webp"
     },
     {
       "key": "fluent-jack-o-lantern",
@@ -133,6 +145,12 @@
       "file": "assets/img/markers/fluent-smiling-face-with-horns.webp"
     },
     {
+      "key": "fluent-snake",
+      "label": "Snake",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-snake.webp"
+    },
+    {
       "key": "fluent-spider-web",
       "label": "Spider web",
       "source": "fluent-emoji",
@@ -143,6 +161,12 @@
       "label": "Spider",
       "source": "fluent-emoji",
       "file": "assets/img/markers/fluent-spider.webp"
+    },
+    {
+      "key": "fluent-test-tube",
+      "label": "Test tube",
+      "source": "fluent-emoji",
+      "file": "assets/img/markers/fluent-test-tube.webp"
     },
     {
       "key": "fountain",

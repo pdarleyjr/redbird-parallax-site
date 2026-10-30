@@ -12,6 +12,7 @@ import { initInstallSection, isStandalone } from './install.js';
 import { initRouter } from './app/router.js';
 import { initDock } from './app/dock.js';
 import { createListStore, bindHouseList, bindListTools } from './app/hlist.js';
+import { initAppPrint } from './app/print-sheet.js';
 
 const $ = selector => document.querySelector(selector);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -32,6 +33,7 @@ async function main() {
   configureIcons(config.apiBase);
   const { bundled, livePromise } = await loadSnapshots({ snapshotPath: config.houses.path, apiBase: config.apiBase, eventId: 'halloween-2026', onLive: live => update(live) });
   let snapshot = bundled;
+  const appPrint = initAppPrint({ getSnapshot: () => snapshot });
   let view = null, viewPromise = null, ranking = [], offset = 0, position = null, compassOn = false, firstDistances = true;
   const root = siteRoot.href;
   const houseById = id => snapshot.houses.find(h => h.id === id);
@@ -151,7 +153,7 @@ async function main() {
     if (locator.start()) { $('#locate-button').setAttribute('aria-pressed', 'true'); document.documentElement.dataset.tracking = '1'; }
   }
   function update(next) {
-    snapshot = next; store.setHouses(next.houses); view?.setSnapshot(next);
+    snapshot = next; store.setHouses(next.houses); view?.setSnapshot(next); appPrint.refresh();
     progress();
     renderNearest();
   }

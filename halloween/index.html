@@ -28,14 +28,15 @@
   <link rel="manifest" href="../manifest.webmanifest?v=6b6f8b6feb">
 
   <link rel="preload" href="../assets/fonts/poppins-bold.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../assets/css/tokens.css?v=d43b1026">
-  <link rel="stylesheet" href="../assets/css/base.css?v=d43b1026">
-  <link rel="stylesheet" href="../assets/css/app.css?v=d43b1026">
-  <link rel="stylesheet" href="../assets/css/map.css?v=d43b1026">
+  <link rel="stylesheet" href="../assets/css/tokens.css?v=aa4158f9">
+  <link rel="stylesheet" href="../assets/css/base.css?v=aa4158f9">
+  <link rel="stylesheet" href="../assets/css/app.css?v=aa4158f9">
+  <link rel="stylesheet" href="../assets/css/map.css?v=aa4158f9">
+  <link rel="stylesheet" href="../assets/css/print.css?v=aa4158f9">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <noscript><style>html,body{height:auto;overflow:auto}.app{display:block;height:auto}.view{position:static!important;display:block!important;overflow:visible!important;padding-bottom:2rem}.dock,.tabbar,.map-stage,.view-map{display:none!important}.appbar{position:sticky;top:0}.hr-check,.list-tools{display:none}</style></noscript>
-  <script type="module" src="../assets/js/halloween.js?v=d43b1026"></script>
+  <script type="module" src="../assets/js/halloween.js?v=aa4158f9"></script>
 </head>
 <body class="app" data-view="map">
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -57,9 +58,9 @@
   <header class="appbar">
     <a class="appbar-home" href="../?home" aria-label="Red Bird home"><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><svg class="appbar-logo" aria-hidden="true" width="30" height="26"><use href="#rb-cardinal"/></svg><span class="appbar-name">Red Bird</span></a>
     <span class="chip event-chip"><time datetime="2026-10-31">Sat Oct 31 · 6–9 PM</time></span>
-    <a class="ring" id="progress-ring" href="#houses" aria-label="0/52 houses visited">
+    <a class="ring" id="progress-ring" href="#houses" aria-label="0/56 houses visited">
       <svg viewBox="0 0 44 44" aria-hidden="true"><circle class="ring-track" cx="22" cy="22" r="18"/><circle class="ring-fill" id="ring-fill" cx="22" cy="22" r="18" pathLength="100" stroke-dasharray="0 100"/></svg>
-      <span class="ring-text" id="ring-text" aria-hidden="true">0/52</span>
+      <span class="ring-text" id="ring-text" aria-hidden="true">0/56</span>
     </a>
   </header>
   <div id="offline-banner" class="banner" role="status" hidden></div>
@@ -75,9 +76,11 @@
           <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
           <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
           <button type="button" id="show-all">Show whole trail</button>
+          <button type="button" id="print-map">Print map</button>
         </div>
         <p class="map-legend" id="map-legend">Tap a pumpkin pin for the house · +N = nearby houses, tap to zoom</p>
         <p class="map-status" id="map-status" role="status" aria-live="polite"></p>
+        <div class="print-help map-print-help" id="app-print-help" role="status" hidden></div>
       </div>
     </section>
     <aside id="dock" class="dock" data-state="peek" aria-label="Nearby houses">
@@ -98,7 +101,7 @@
     <section id="houses" class="view view-houses" aria-labelledby="houses-title" data-title="Houses" tabindex="0" hidden>
       <div class="view-head">
         <h1 id="houses-title">Houses</h1>
-        <p id="house-count" class="house-count">52 houses on the trail</p>
+        <p id="house-count" class="house-count">56 houses on the trail</p>
       </div>
       <p id="house-status" class="muted" role="status"></p>
       <div class="list-tools" id="house-controls" data-list-tools hidden>
@@ -166,6 +169,10 @@
         <li class="hrow house-card" id="house-stop-50" data-id="stop-50" data-n="50"><div class="hr-main"><span class="hr-art"><img src="../assets/img/markers/rb-little-boo-house.webp" alt="" width="40" height="40" loading="lazy" decoding="async"><span class="hr-n"><span class="sr-only">Stop </span>50</span></span><span class="hr-t"><b>The Little Boo House</b><small>5740 SW 39th Street</small></span></div></li>
         <li class="hrow house-card" id="house-stop-51" data-id="stop-51" data-n="51"><div class="hr-main"><span class="hr-art"><img src="../assets/img/markers/fluent-smiling-face-with-horns.webp" alt="" width="40" height="40" loading="lazy" decoding="async"><span class="hr-n"><span class="sr-only">Stop </span>51</span></span><span class="hr-t"><b>CARME-NAUGHTY OR NICE?!</b><small>6285 SW 38th Street</small></span></div></li>
         <li class="hrow house-card" id="house-stop-52" data-id="stop-52" data-n="52"><div class="hr-main"><span class="hr-art"><img src="../assets/img/markers/rb-button-eye-parlour.webp" alt="" width="40" height="40" loading="lazy" decoding="async"><span class="hr-n"><span class="sr-only">Stop </span>52</span></span><span class="hr-t"><b>Coraline’s Button-Eye Parlour</b><small>3610 SW 58th Court</small></span></div></li>
+        <li class="hrow house-card" id="house-stop-53" data-id="stop-53" data-n="53"><div class="hr-main"><span class="hr-art"><img src="../assets/img/markers/fluent-snake.webp" alt="" width="40" height="40" loading="lazy" decoding="async"><span class="hr-n"><span class="sr-only">Stop </span>53</span></span><span class="hr-t"><b>Sand snake Haunt</b><small>3930 SW 60th Avenue</small></span></div></li>
+        <li class="hrow house-card" id="house-stop-54" data-id="stop-54" data-n="54"><div class="hr-main"><span class="hr-art"><img src="../assets/img/markers/fluent-coffin.webp" alt="" width="40" height="40" loading="lazy" decoding="async"><span class="hr-n"><span class="sr-only">Stop </span>54</span></span><span class="hr-t"><b>Cancela’s Crypt</b><small>3715 SW 60th Place</small></span></div></li>
+        <li class="hrow house-card" id="house-stop-55" data-id="stop-55" data-n="55"><div class="hr-main"><span class="hr-art"><img src="../assets/img/markers/fluent-test-tube.webp" alt="" width="40" height="40" loading="lazy" decoding="async"><span class="hr-n"><span class="sr-only">Stop </span>55</span></span><span class="hr-t"><b>Halloween Lab</b><small>3801 SW 60th Avenue</small></span></div></li>
+        <li class="hrow house-card" id="house-stop-56" data-id="stop-56" data-n="56"><div class="hr-main"><span class="hr-art"><img src="../assets/img/markers/fluent-house.webp" alt="" width="40" height="40" loading="lazy" decoding="async"><span class="hr-n"><span class="sr-only">Stop </span>56</span></span><span class="hr-t"><b>No Name House</b><small>3800 SW 59th Avenue</small></span></div></li>
       </ol>
       <p id="house-empty" class="empty-search" hidden>No stops match. Try a house name, street, or map number.</p>
     </section>
@@ -289,6 +296,16 @@
     <a href="#more" id="tab-more" data-tab="more"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.600"/><circle cx="12" cy="12" r="1.600"/><circle cx="19" cy="12" r="1.600"/></svg><span>More</span></a>
   </nav>
   <p id="announce" class="sr-only" role="status" aria-live="polite"></p>
+  <article class="sheet-page app-print" id="app-print" aria-hidden="true">
+    <h2 class="sheet-title">Red Bird Trick-or-Treat Trail</h2>
+    <p class="when">Saturday, October 31, 2026 · 6 PM–9 PM</p>
+    <div class="map-block" id="ap-block">
+      <img id="ap-base" alt="" decoding="async">
+      <svg id="ap-overlay" viewBox="0 0 1000 827" preserveAspectRatio="none" aria-hidden="true"></svg>
+    </div>
+    <div class="legend" id="ap-legend"><ol id="ap-legend-list"></ol></div>
+    <div class="sheet-foot"><p id="ap-version"></p><p>Map data © OpenStreetMap contributors · Protomaps · https://redbird.iplcmiami.com/halloween/</p></div>
+  </article>
   <script id="event-config" type="application/json">{"name":"Red Bird Trick-or-Treat Trail","year":2026,"date":"2026-10-31","timeZone":"America/New_York","hours":{"status":"confirmed","start":"18:00","end":"21:00","source":"Confirmed by the organizer on October 9, 2026"},"location":"Red Bird neighborhood, Miami","registration":{"status":"pending","url":null},"houses":{"status":"approved","path":"data/halloween-2026.public.json"},"updated":"2026-10-09","canonical":"https://pdarleyjr.github.io/redbird-parallax-site/","apiBase":"https://redbird-public.pdarleyjr.workers.dev"}</script>
 </body>
 </html>

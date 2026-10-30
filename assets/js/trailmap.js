@@ -1,11 +1,12 @@
 // Trail map flyer page: download (cached for offline), print, and a hint when the live list is newer than the flyer.
 import { loadSnapshots, siteRoot } from './data.js';
 import { initPwa } from './pwa.js';
+import { printPage } from './print/print-action.js';
 
 initPwa();
 const $ = selector => document.querySelector(selector);
 
-$('#tm-print').addEventListener('click', () => window.print());
+$('#tm-print').addEventListener('click', () => printPage({ help: $('#tm-print-help'), pdfUrl: $('#tm-pdf').href }));
 
 // Fetch the PDF through the page (so the service worker caches it for offline) and save it; fall back to the plain link.
 $('#tm-pdf').addEventListener('click', async event => {
