@@ -2,7 +2,7 @@
   "schema": 1,
   "eventId": "halloween-2026",
   "version": 1,
-  "publishedAt": "2026-10-28T12:00:00Z",
+  "publishedAt": "2026-10-30T12:00:00Z",
   "event": {
     "name": "Red Bird Trick-or-Treat Trail",
     "year": 2026,
@@ -617,6 +617,50 @@
       "icon": "rb-button-eye-parlour",
       "lat": 25.7370017,
       "lng": -80.2901682,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-53",
+      "mapNumber": 53,
+      "name": "Sand snake Haunt",
+      "address": "3930 SW 60th Avenue",
+      "description": null,
+      "icon": "fluent-snake",
+      "lat": 25.734832645454546,
+      "lng": -80.29169068181818,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-54",
+      "mapNumber": 54,
+      "name": "Cancela’s Crypt",
+      "address": "3715 SW 60th Place",
+      "description": null,
+      "icon": "fluent-coffin",
+      "lat": 25.73648731818182,
+      "lng": -80.29292733636363,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-55",
+      "mapNumber": 55,
+      "name": "Wuhan lab",
+      "address": "3801 SW 60th Avenue",
+      "description": null,
+      "icon": "fluent-test-tube",
+      "lat": 25.73590377777778,
+      "lng": -80.29123465555556,
+      "location": "approximate"
+    },
+    {
+      "id": "stop-56",
+      "mapNumber": 56,
+      "name": "No Name House",
+      "address": "3800 SW 59th Avenue",
+      "description": null,
+      "icon": "fluent-house",
+      "lat": 25.735925394117647,
+      "lng": -80.29098590000001,
       "location": "approximate"
     }
   ]

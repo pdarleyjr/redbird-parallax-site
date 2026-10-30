@@ -96,7 +96,7 @@ export async function buildHalloween(inputs, hash, rootPrefix = '../') {
   const base = pageBase(inputs, {
     root: rootPrefix, hash, path: 'halloween/', title: `${event.name} ${event.year}`,
     description: `Halloween with your neighbors. Join the Red Bird Trick-or-Treat Trail on ${labels.fullDate}. Find your stops on the interactive map, see the nearest house, or print the trail map.`,
-    css: ['tokens', 'base', 'app', 'map'],
+    css: ['tokens', 'base', 'app', 'map', 'print'],
     nav: [['', 'Holiday Trails'], ['#what-to-expect', 'Event details'], ['#featured-houses', 'Participating houses'], ['halloween/print/', 'Print the map']],
     footerNote: 'Map data © OpenStreetMap contributors · Protomaps. Icons: Microsoft Fluent Emoji (MIT license) and Red Bird artwork. Original organizer map: Miami-Dade County GIS.'
   });

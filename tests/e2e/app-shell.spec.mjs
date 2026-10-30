@@ -62,14 +62,19 @@ test.describe('phone: the dock', () => {
     await expect(dock).toHaveAttribute('data-state', 'peek');
     expect(await page.locator('#dock-body').evaluate(e => e.inert)).toBe(true);
     await expect(handle).toHaveAttribute('aria-expanded', 'false');
+    // the height animates, so wait until the rendered height reaches the dock's target (--dock-h) instead of sleeping
+    const settled = async () => {
+      await expect.poll(() => dock.evaluate(d => Math.abs(d.getBoundingClientRect().height - parseFloat(d.style.getPropertyValue('--dock-h')))), { timeout: 5000 }).toBeLessThan(1);
+      return (await dock.boundingBox()).height;
+    };
     const heights = {};
-    heights.peek = (await dock.boundingBox()).height;
-    await handle.click(); await expect(dock).toHaveAttribute('data-state', 'half'); await page.waitForTimeout(400);
-    heights.half = (await dock.boundingBox()).height;
+    heights.peek = await settled();
+    await handle.click(); await expect(dock).toHaveAttribute('data-state', 'half');
+    heights.half = await settled();
     expect(await page.locator('#dock-body').evaluate(e => e.inert)).toBe(false);
     await expect(handle).toHaveAttribute('aria-expanded', 'true');
-    await handle.click(); await expect(dock).toHaveAttribute('data-state', 'full'); await page.waitForTimeout(400);
-    heights.full = (await dock.boundingBox()).height;
+    await handle.click(); await expect(dock).toHaveAttribute('data-state', 'full');
+    heights.full = await settled();
     expect(heights.peek).toBeLessThan(heights.half); expect(heights.half).toBeLessThan(heights.full);
     expect(heights.peek).toBeLessThanOrEqual(844 * 0.42);
     await handle.click(); await expect(dock).toHaveAttribute('data-state', 'peek');

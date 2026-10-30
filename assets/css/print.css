@@ -6,7 +6,7 @@ body.print-page{background:var(--rb-paper);color:var(--rb-ink)}
 .print-controls select{min-height:44px;padding:.3rem .6rem;border-radius:.5rem}
 .print-hint{font-size:.85rem;color:var(--rb-muted)}
 .sheet-page{max-width:8.5in;margin:1rem auto;padding:.4in;background:var(--rb-paper);color:var(--rb-ink)}
-.sheet-page h1{font-size:1.6rem;letter-spacing:.02em;color:var(--rb-ink)}
+.sheet-page h1,.sheet-page .sheet-title{font-size:1.6rem;letter-spacing:.02em;color:var(--rb-ink)}
 .sheet-page .when{font-weight:700;margin-bottom:.4rem}
 .map-block{position:relative;width:7.5in;max-width:100%;aspect-ratio:var(--map-aspect,7.5/6.2);border:1px solid var(--rb-ink);overflow:hidden}
 .map-block img{position:absolute;inset:0;width:100%;height:100%}
@@ -31,6 +31,7 @@ body.print-page{background:var(--rb-paper);color:var(--rb-ink)}
 .sheet-foot{margin-top:.15in;font-size:7.5pt;color:var(--rb-muted);display:flex;justify-content:space-between;gap:1rem;border-top:1px solid var(--rb-ink);padding-top:.08in}
 .sheet-foot p{max-width:none;color:var(--rb-ink)}
 .print-msg{padding:2rem;text-align:center}
+.print-controls .print-help{flex-basis:100%}
 @media print{
   @page{size:letter;margin:.4in}
   .no-print,.site-header,.site-footer,.print-controls,.banner,.toast,.skip-link{display:none!important}

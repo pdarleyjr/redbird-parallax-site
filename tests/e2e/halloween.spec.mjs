@@ -18,7 +18,7 @@ test('public content: date and hours in Info, the Houses list equals the snapsho
   expect(await page.locator('#house-list .hrow').count()).toBe(snapshot.houses.length);
   expect(await page.locator('iframe,video,a[href*="jotform"]').count()).toBe(0);
   const ids = await page.locator('#house-list .hrow').evaluateAll(rows => rows.map(r => r.dataset.id));
-  for (let n = 1; n <= 52; n++) expect(ids).toContain(`stop-${String(n).padStart(2, '0')}`);
+  for (let n = 1; n <= 56; n++) expect(ids).toContain(`stop-${String(n).padStart(2, '0')}`);
   const actual = await page.locator('#house-list .hrow').evaluateAll(rows => rows.map(r => ({ name: r.querySelector('.hr-t b').textContent, address: r.querySelector('.hr-t small').textContent })));
   expect(actual).toEqual(snapshot.houses.map(h => ({ name: h.name, address: h.address })));
   expect(problems.external).toEqual([]);
@@ -136,7 +136,7 @@ test('visited: persists across reloads, drives the progress ring and the live an
   await expect(page.locator('#ring-text')).toHaveText(`1/${snapshot.houses.length}`);
   await expect(page.locator('#progress-ring')).toHaveAttribute('aria-label', `1/${snapshot.houses.length} houses visited`);
   await expect(page.locator('#announce')).toContainText(`1 of ${snapshot.houses.length}`);
-  expect(await page.locator('#ring-fill').getAttribute('stroke-dasharray')).toMatch(/^1\.9 100$/);
+  expect(await page.locator('#ring-fill').getAttribute('stroke-dasharray')).toBe(`${Math.round((1 / snapshot.houses.length) * 1000) / 10} 100`);
   await page.reload(); await page.locator('#house-list .hrow').first().waitFor({ state: 'attached' });
   await expect(page.locator('#house-list .hrow').first().locator('[data-visited]')).toBeChecked();
   await page.locator('#tabbar a[data-tab="more"]').click();

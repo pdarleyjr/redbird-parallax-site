@@ -10,14 +10,14 @@ const created = async over => (await api('/api/houses', { method: 'POST', body: 
 describe('houses', () => {
   it('lists the seeded 31 published houses', async () => {
     const res = await api('/api/houses');
-    expect(res.body.data.houses).toHaveLength(52);
-    expect(res.body.data.counts.published).toBe(52);
+    expect(res.body.data.houses).toHaveLength(56);
+    expect(res.body.data.counts.published).toBe(56);
     expect(res.body.data.snapshotVersion).toBe(2);
   });
   it('creates a draft with the next number, without changing the public snapshot', async () => {
     const before = await snapshotVersion();
     const house = await created();
-    expect(house).toMatchObject({ id: 'stop-53', mapNumber: 53, status: 'draft', address: '3700 SW 61st Avenue', locationStatus: 'suggested' });
+    expect(house).toMatchObject({ id: 'stop-57', mapNumber: 57, status: 'draft', address: '3700 SW 61st Avenue', locationStatus: 'suggested' });
     expect(await snapshotVersion()).toBe(before);
   });
   it('rejects a duplicate address with 409 and an out-of-boundary pin with 422', async () => {
@@ -33,11 +33,11 @@ describe('houses', () => {
     expect(pub.body.data.snapshotVersion).toBe(3);
     let latest = (await (await publicGet('/v1/events/halloween-2026/public')).json()).data;
     expect(latest.version).toBe(3);
-    expect(latest.houses).toHaveLength(53);
+    expect(latest.houses).toHaveLength(57);
     const un = await api(`/api/houses/${house.id}/unpublish`, { method: 'POST', body: {} });
     expect(un.body.data.snapshotVersion).toBe(4);
     latest = (await (await publicGet('/v1/events/halloween-2026/public')).json()).data;
-    expect(latest.houses).toHaveLength(52);
+    expect(latest.houses).toHaveLength(56);
   });
   it('If-Match conflicts return 409 and missing If-Match returns 428', async () => {
     const house = await created();
@@ -51,12 +51,12 @@ describe('houses', () => {
     const res = await api('/api/houses/stop-01', { method: 'PATCH', body: { name: 'Skeleton Dog Deluxe' }, headers: { 'If-Match': '1' } });
     expect(res.status).toBe(200);
     expect(await snapshotVersion()).toBe(3);
-    const arch = await api('/api/houses/stop-52/archive', { method: 'POST', body: {} });
+    const arch = await api('/api/houses/stop-56/archive', { method: 'POST', body: {} });
     expect(arch.status).toBe(200);
     const next = await created();
-    expect(next.mapNumber).toBe(53);
-    const back = await api('/api/houses/stop-52/restore', { method: 'POST', body: {} });
-    expect(back.body.data.house.mapNumber).toBe(52);
+    expect(next.mapNumber).toBe(57);
+    const back = await api('/api/houses/stop-56/restore', { method: 'POST', body: {} });
+    expect(back.body.data.house.mapNumber).toBe(56);
   });
   it('renumber assigns contiguous numbers in the requested order and keeps ids', async () => {
     const list = (await api('/api/houses')).body.data.houses.map(h => h.id);
@@ -95,7 +95,7 @@ describe('imports', () => {
     const applied = await api(`/api/imports/${p.body.data.batchId}/apply`, { method: 'POST', body: { decisions: [{ rowIndex: 0, decision: 'accepted' }, { rowIndex: 2, decision: 'rejected' }] } });
     expect(applied.status).toBe(200);
     const list = (await api('/api/houses')).body.data.houses;
-    expect(list.find(h => h.id === 'stop-53')).toMatchObject({ status: 'review', name: 'Brand New Boo' });
+    expect(list.find(h => h.id === 'stop-57')).toMatchObject({ status: 'review', name: 'Brand New Boo' });
     expect(await snapshotVersion()).toBe(2);
     const again = await api('/api/imports/preview', { method: 'POST', body: { eventId: 'halloween-2026', fileSha256: sha, rows } });
     expect(again.body.data.alreadyImportedOn).toBeTruthy();
@@ -112,7 +112,7 @@ describe('imports', () => {
     expect((await api('/api/houses')).body.data.houses.some(h => h.name === 'Brand New Boo')).toBe(false);
     const again = await api('/api/imports/preview', { method: 'POST', body: { eventId: 'halloween-2026', fileSha256: 'b'.repeat(64), rows: [rows[0]] } });
     await api(`/api/imports/${again.body.data.batchId}/apply`, { method: 'POST', body: { decisions: [{ rowIndex: 0, decision: 'accepted' }] } });
-    await api('/api/houses/stop-53', { method: 'PATCH', body: { name: 'Edited after import' }, headers: { 'If-Match': '1' } });
+    await api('/api/houses/stop-57', { method: 'PATCH', body: { name: 'Edited after import' }, headers: { 'If-Match': '1' } });
     const refused = await api(`/api/imports/${again.body.data.batchId}/rollback`, { method: 'POST', body: {} });
     expect(refused.status).toBe(409);
   });
@@ -130,7 +130,7 @@ describe('snapshots and events', () => {
     expect(res.status).toBe(200);
     expect(res.body.data).toMatchObject({ version: 4, restoredFrom: 2 });
     const latest = (await (await publicGet('/v1/events/halloween-2026/public')).json()).data;
-    expect(latest.houses).toHaveLength(52);
+    expect(latest.houses).toHaveLength(56);
     expect((await api('/api/houses/stop-01')).body.data.status).toBe('published');
     const versions = (await api('/api/snapshots')).body.data.map(v => v.version);
     expect(versions).toEqual([4, 3, 2]);
@@ -175,7 +175,7 @@ describe('public worker', () => {
     expect(res.headers.get('Access-Control-Allow-Origin')).toBe('*');
     const etag = res.headers.get('ETag');
     const body = await res.json();
-    expect(body.data.houses).toHaveLength(52);
+    expect(body.data.houses).toHaveLength(56);
     expect(await (await publicGet('/v1/events/halloween-2026/public', { 'If-None-Match': etag })).status).toBe(304);
   });
   it('only exposes schema fields (no emails or phones can leak)', async () => {

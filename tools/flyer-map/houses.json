@@ -414,5 +414,37 @@
   "lat": 25.7370017,
   "lng": -80.2901682,
   "source": "osm-building (tagged 3680, probable OSM typo for 3610; verify)"
+ },
+ {
+  "n": 53,
+  "name": "Sand snake Haunt",
+  "address": "3930 SW 60th Avenue",
+  "lat": 25.734832645454546,
+  "lng": -80.29169068181818,
+  "source": "osm-building"
+ },
+ {
+  "n": 54,
+  "name": "Cancela’s Crypt",
+  "address": "3715 SW 60th Place",
+  "lat": 25.73648731818182,
+  "lng": -80.29292733636363,
+  "source": "osm-building"
+ },
+ {
+  "n": 55,
+  "name": "Wuhan lab",
+  "address": "3801 SW 60th Avenue",
+  "lat": 25.73590377777778,
+  "lng": -80.29123465555556,
+  "source": "osm-building"
+ },
+ {
+  "n": 56,
+  "name": "No Name House",
+  "address": "3800 SW 59th Avenue",
+  "lat": 25.735925394117647,
+  "lng": -80.29098590000001,
+  "source": "osm-building"
  }
 ]

@@ -8,7 +8,7 @@ import { normalizeAddress } from '../shared/address.mjs';
 import { assertSnapshot } from '../shared/snapshot-schema.mjs';
 
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const DECISION_FILES = ['2026-10-16.decisions.json', '2026-10-23.decisions.json'];
+export const DECISION_FILES = ['2026-10-16.decisions.json', '2026-10-23.decisions.json', '2026-10-30.decisions.json'];
 const readJSON = async rel => JSON.parse(await readFile(path.join(root, rel), 'utf8'));
 
 /** Building-snapped positions from the flyer generator (OSM address import); owner GPS pins are marked manual-owner. */

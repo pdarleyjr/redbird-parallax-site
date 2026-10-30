@@ -31,9 +31,11 @@
           <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
           <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
           <button type="button" id="show-all">Show whole trail</button>
+          <button type="button" id="print-map">Print map</button>
         </div>
         <p class="map-legend" id="map-legend">Tap a pumpkin pin for the house · +N = nearby houses, tap to zoom</p>
         <p class="map-status" id="map-status" role="status" aria-live="polite"></p>
+        <div class="print-help map-print-help" id="app-print-help" role="status" hidden></div>
       </div>
     </section>
     <aside id="dock" class="dock" data-state="peek" aria-label="Nearby houses">
@@ -128,6 +130,16 @@
     <a href="#more" id="tab-more" data-tab="more"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.600"/><circle cx="12" cy="12" r="1.600"/><circle cx="19" cy="12" r="1.600"/></svg><span>More</span></a>
   </nav>
   <p id="announce" class="sr-only" role="status" aria-live="polite"></p>
+  <article class="sheet-page app-print" id="app-print" aria-hidden="true">
+    <h2 class="sheet-title">Red Bird Trick-or-Treat Trail</h2>
+    <p class="when">{{fullDate}} · {{hours}}</p>
+    <div class="map-block" id="ap-block">
+      <img id="ap-base" alt="" decoding="async">
+      <svg id="ap-overlay" viewBox="0 0 1000 827" preserveAspectRatio="none" aria-hidden="true"></svg>
+    </div>
+    <div class="legend" id="ap-legend"><ol id="ap-legend-list"></ol></div>
+    <div class="sheet-foot"><p id="ap-version"></p><p>Map data © OpenStreetMap contributors · Protomaps · {{canonical}}</p></div>
+  </article>
   <script id="event-config" type="application/json">{{eventJSON}}</script>
 </body>
 </html>
